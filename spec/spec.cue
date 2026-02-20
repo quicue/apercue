@@ -1,0 +1,682 @@
+// ReSpec HTML specification — generated entirely from CUE values.
+//
+// The specification document is a projection of:
+//   - vocab/specs-registry.cue  → W3C coverage tables
+//   - vocab/resource.cue        → Core type definitions
+//   - vocab/context.cue         → Namespace declarations
+//   - patterns/                 → Pattern descriptions
+//   - charter/                  → Charter model
+//
+// Export:
+//   cue export ./spec/ -e spec_html --out text > site/spec/index.html
+
+package spec
+
+import (
+	"strings"
+	"apercue.ca/vocab@v0"
+)
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SPEC METADATA
+// ═══════════════════════════════════════════════════════════════════════════
+
+_meta: {
+	title:      "apercue: Compile-Time W3C Linked Data from Typed Dependency Graphs"
+	shortName:  "apercue"
+	edDraftURI: "https://apercue.ca/spec/"
+	latestURI:  "https://apercue.ca/spec/"
+	github:     "https://github.com/quicue/apercue"
+	editors: [{
+		name: "quicue"
+		url:  "https://quicue.ca"
+	}]
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// STRUCTURED DATA (drives generated sections)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Pattern catalog — each entry drives the Patterns section
+_patterns: {
+	graph: {
+		label:       "#Graph / #GraphLite"
+		module:      "patterns"
+		file:        "patterns/graph.cue"
+		description: "Dependency graph engine. Accepts a set of typed resources with <code>depends_on</code> edges and computes topology, roots, leaves, depth, ancestors, and dependents. <code>#GraphLite</code> accepts precomputed topology for graphs exceeding 20 nodes."
+		w3c:         "Produces the base graph that all W3C projections operate on. Resource <code>@type</code> and <code>depends_on</code> fields map directly to JSON-LD properties via the <code>@context</code>."
+	}
+	critical_path: {
+		label:       "#CriticalPath"
+		module:      "patterns"
+		file:        "patterns/analysis.cue"
+		description: "Critical Path Method (CPM) scheduling with weighted durations. Computes earliest start, latest start, slack, and critical sequence for each resource."
+		w3c:         "Produces <a href=\"https://www.w3.org/TR/owl-time/\">OWL-Time</a> <code>time:Interval</code> reports with <code>time:hasBeginning</code>, <code>time:hasEnd</code>, and <code>time:hasDuration</code>."
+	}
+	compliance: {
+		label:       "#ComplianceCheck"
+		module:      "patterns"
+		file:        "patterns/validation.cue"
+		description: "Structural validation of graph integrity. Checks reference integrity, required fields, dependency validity, type constraints, and orphan detection."
+		w3c:         "Produces <a href=\"https://www.w3.org/TR/shacl/\">SHACL</a> <code>sh:ValidationReport</code> with <code>sh:ValidationResult</code> entries for each violation."
+	}
+	charter: {
+		label:       "#Charter / #GapAnalysis"
+		module:      "charter"
+		file:        "charter/charter.cue"
+		description: "Constraint-first project planning. A charter declares scope (required resources, types, phase gates). Gap analysis computes the delta between the charter and the current graph."
+		w3c:         "Gap analysis produces <a href=\"https://www.w3.org/TR/shacl/\">SHACL</a> <code>sh:ValidationReport</code>. Missing resources become <code>sh:ValidationResult</code> entries with <code>sh:Violation</code> severity."
+	}
+	type_vocab: {
+		label:       "#TypeVocabulary"
+		module:      "views"
+		file:        "views/skos.cue"
+		description: "Projects a domain type registry as a controlled vocabulary. Each type becomes a concept with definition and hierarchical relations."
+		w3c:         "Produces <a href=\"https://www.w3.org/TR/skos-reference/\">SKOS</a> <code>skos:ConceptScheme</code> with <code>skos:Concept</code> entries."
+	}
+	lifecycle: {
+		label:       "#SmokeTest"
+		module:      "patterns"
+		file:        "patterns/lifecycle.cue"
+		description: "Declarative smoke test plans. Each test declares a target resource, a check type, and expected outcome."
+		w3c:         "Produces <a href=\"https://www.w3.org/TR/EARL10-Schema/\">EARL</a> <code>earl:Assertion</code> reports for automated test results."
+	}
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HTML HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Spec table rows grouped by status
+_specRows: {
+	for status in ["Implemented", "Namespace", "Downstream"] {
+		(status): strings.Join([for name, s in vocab.Specs if s.status == status {
+			"        <tr>\n" +
+			"          <td><a href=\"" + s.url + "\">" + s.name + "</a></td>\n" +
+			"          <td>" + s.coverage + "</td>\n" +
+			"          <td><code>" + s.status + "</code></td>\n" +
+			"        </tr>"
+		}], "\n")
+	}
+}
+
+// Namespace prefix table rows from @context
+_nsRows: strings.Join([
+	for prefix, iri in vocab.context["@context"]
+	if (iri & string) != _|_ && prefix != "@base" {
+		"        <tr>\n" +
+		"          <td><code>" + prefix + ":</code></td>\n" +
+		"          <td><code>" + (iri & string) + "</code></td>\n" +
+		"        </tr>"
+	},
+], "\n")
+
+// Pattern subsections
+_patternSections: strings.Join([for key, p in _patterns {
+	"      <section id=\"pattern-" + key + "\">\n" +
+	"        <h3>" + p.label + "</h3>\n" +
+	"        <p>" + p.description + "</p>\n" +
+	"        <p><strong>W3C mapping:</strong> " + p.w3c + "</p>\n" +
+	"        <p><em>Source:</em> <code>" + p.file + "</code></p>\n" +
+	"      </section>"
+}], "\n\n")
+
+_implCount: len([for _, s in vocab.Specs if s.status == "Implemented" {s}])
+_nsCount:   len([for _, s in vocab.Specs if s.status == "Namespace" {s}])
+_dsCount:   len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HTML DOCUMENT
+// ═══════════════════════════════════════════════════════════════════════════
+
+spec_html: """
+	<!DOCTYPE html>
+	<html>
+	<head>
+	  <meta charset="utf-8">
+	  <title>\(_meta.title)</title>
+	  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+	  <script class="remove">
+	    var respecConfig = {
+	      specStatus: "unofficial",
+	      shortName: "\(_meta.shortName)",
+	      edDraftURI: "\(_meta.edDraftURI)",
+	      editors: [{ name: "\(_meta.editors[0].name)", url: "\(_meta.editors[0].url)" }],
+	      github: "\(_meta.github)",
+	      latestVersion: "\(_meta.latestURI)",
+	      noRecTrack: true,
+	      localBiblio: {
+	        "CUE": {
+	          title: "The CUE Data Constraint Language",
+	          href: "https://cuelang.org/docs/reference/spec/",
+	          publisher: "CUE Authors"
+	        }
+	      }
+	    };
+	  </script>
+	  <style>
+	    table.def { border-collapse: collapse; width: 100%; margin: 1em 0; }
+	    table.def th, table.def td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+	    table.def th { background: #f5f5f5; font-size: 0.9em; }
+	    dt code { font-size: 1.05em; color: #005a9c; }
+	    dd { margin-bottom: 1em; }
+	    .count { display: inline-block; background: #005a9c; color: white;
+	      border-radius: 3px; padding: 1px 6px; font-size: 0.85em; margin-left: 4px; }
+	    pre.json { background: #f8f8f8; border: 1px solid #ddd; border-radius: 3px;
+	      padding: 12px 16px; overflow-x: auto; font-size: 0.85em; line-height: 1.5; }
+	    .note-box { background: #e8f4fd; border-left: 4px solid #005a9c;
+	      padding: 12px 16px; margin: 1em 0; font-size: 0.9em; }
+	  </style>
+	</head>
+	<body>
+
+	  <!-- ═══ ABSTRACT ════════════════════════════════════════════ -->
+	  <section id="abstract">
+	    <p>This specification defines apercue, a framework for producing
+	    W3C-conformant linked data artifacts from typed dependency graphs
+	    expressed in the CUE data constraint language [[CUE]]. A single
+	    graph definition yields JSON-LD [[json-ld11]], SHACL [[shacl]]
+	    validation reports, SKOS [[skos-reference]] concept schemes,
+	    EARL [[EARL10-Schema]] test reports, and OWL-Time [[owl-time]]
+	    interval schedules as compile-time projections.</p>
+	  </section>
+
+	  <!-- ═══ STATUS OF THIS DOCUMENT ═════════════════════════════ -->
+	  <section id="sotd">
+	    <p>This is an unofficial specification produced by the
+	    <a href="\(_meta.github)">apercue.ca</a> project. It documents
+	    the data model, W3C specification mappings, and conformance
+	    requirements for CUE modules that use the apercue patterns.</p>
+	    <p>This document is itself generated from CUE source via
+	    <code>cue export ./spec/ -e spec_html --out text</code>. The
+	    W3C specification tables are projected from a structured registry;
+	    the pattern catalog is projected from definition metadata. The
+	    specification is a projection of the system it describes.</p>
+	  </section>
+
+	  <!-- ═══ INTRODUCTION ══════════════════════════════════════════ -->
+	  <section id="introduction">
+	    <h2>Introduction</h2>
+	    <p>Linked data systems typically require multiple runtime components
+	    to produce standards-conformant output: an RDF store for persistence,
+	    a SPARQL engine for queries, a SHACL processor for validation, and
+	    a serialization layer for JSON-LD output. Each component introduces
+	    deployment complexity and a potential point of failure.</p>
+
+	    <p>apercue provides an alternative implementation path. Typed
+	    dependency graphs are expressed as CUE [[CUE]] values. CUE
+	    comprehensions compute graph analysis (topology, critical path,
+	    gap analysis) at evaluation time. CUE unification enforces
+	    structural constraints at constraint resolution time. W3C artifacts
+	    are exported as expressions of the same graph — each projection
+	    is a different view of the same underlying data, produced by
+	    <code>cue export -e &lt;expression&gt; --out json</code>.</p>
+
+	    <p>The output of each projection conforms to the referenced W3C
+	    specification. A SHACL validation report produced by apercue uses
+	    the same <code>sh:ValidationReport</code> vocabulary as any SHACL
+	    processor. A JSON-LD context produced by apercue is consumable by
+	    any JSON-LD-aware client. The implementation mechanism differs;
+	    the output is interoperable.</p>
+
+	    <p>This specification defines the data model for typed dependency
+	    graphs, the patterns that analyze them, the mappings to W3C
+	    specifications, and the conformance requirements for modules
+	    that use these patterns.</p>
+	  </section>
+
+	  <!-- ═══ TERMINOLOGY ═══════════════════════════════════════════ -->
+	  <section id="terminology">
+	    <h2>Terminology</h2>
+	    <p>The following terms are used throughout this specification:</p>
+	    <dl>
+	      <dt><dfn>Resource</dfn></dt>
+	      <dd>A typed node in a dependency graph. Each resource has a name,
+	      one or more semantic types, and optional dependency edges to other
+	      resources. Resources correspond to nodes in an RDF graph, with
+	      <code>@id</code>, <code>@type</code>, and relationship properties.</dd>
+
+	      <dt><dfn>Dependency Graph</dfn></dt>
+	      <dd>A directed acyclic graph (DAG) of resources connected by
+	      <code>depends_on</code> edges. The graph is the primary data
+	      structure from which all W3C artifacts are projected.</dd>
+
+	      <dt><dfn>Projection</dfn></dt>
+	      <dd>A W3C-conformant output derived from the dependency graph
+	      via a CUE expression. Each projection maps graph data to a
+	      specific W3C vocabulary (SHACL, SKOS, OWL-Time, etc.) without
+	      transformation — the mapping is defined declaratively.</dd>
+
+	      <dt><dfn>Pattern</dfn></dt>
+	      <dd>A reusable CUE definition that accepts a dependency graph
+	      and produces structured output. Patterns perform graph analysis
+	      (topology, critical path), validation (compliance checks), or
+	      project planning (charter, gap analysis).</dd>
+
+	      <dt><dfn>Charter</dfn></dt>
+	      <dd>A constraint declaration that defines what "done" looks like
+	      for a dependency graph. Charters specify required resources,
+	      required types, and phase gates. The gap between a charter and
+	      a graph is the remaining work.</dd>
+	    </dl>
+	  </section>
+
+	  <!-- ═══ NAMESPACE DECLARATIONS ════════════════════════════════ -->
+	  <section id="namespaces">
+	    <h2>Namespace Declarations</h2>
+	    <p>apercue uses the following namespace prefixes, registered in
+	    the JSON-LD <code>@context</code> (<code>vocab/context.cue</code>).
+	    These prefixes are standard W3C namespace bindings; any JSON-LD
+	    processor can resolve them.</p>
+	    <table class="def">
+	      <thead><tr><th>Prefix</th><th>Namespace IRI</th></tr></thead>
+	      <tbody>
+	\(_nsRows)
+	      </tbody>
+	    </table>
+	    <p>The <code>apercue:</code> namespace (<code>https://apercue.ca/vocab#</code>)
+	    is used for properties specific to apercue that do not have
+	    existing W3C equivalents, such as <code>apercue:slack</code>
+	    and <code>apercue:isCritical</code> in OWL-Time interval reports.</p>
+	  </section>
+
+	  <!-- ═══ DATA MODEL ════════════════════════════════════════════ -->
+	  <section id="data-model">
+	    <h2>Data Model</h2>
+
+	    <section id="resource-model">
+	      <h3>Resource</h3>
+	      <p>A <a>resource</a> is the fundamental unit of the data model.
+	      It is defined as a CUE struct conforming to <code>#Resource</code>:</p>
+	      <pre class="example" title="Resource definition (CUE)">
+	#Resource: {
+	  name:        #SafeID              // Unique identifier
+	  "@id"?:      string               // JSON-LD node identifier
+	  "@type":     {[#SafeLabel]: true}  // Semantic types (struct-as-set)
+	  depends_on?: {[#SafeID]: true}     // Dependency edges (struct-as-set)
+	  description?: string
+	  tags?:       {[#SafeLabel]: true}
+	  ...                                // Domain-specific extensions
+	}</pre>
+	      <p>When exported as JSON-LD, a resource maps to an RDF node:</p>
+	      <ul>
+	        <li><code>name</code> maps to <code>apercue:name</code></li>
+	        <li><code>@id</code> defaults to <code>urn:resource:{name}</code></li>
+	        <li><code>@type</code> maps to <code>rdf:type</code> via JSON-LD</li>
+	        <li><code>depends_on</code> maps to <code>dcterms:requires</code></li>
+	      </ul>
+
+	      <div class="note-box">
+	        <strong>Design note:</strong> Dependencies use struct-as-set
+	        (<code>{key: true}</code>) rather than arrays for O(1) membership
+	        testing. CUE unification merges struct keys; this enables
+	        constraint composition where multiple patterns can contribute
+	        dependencies that are automatically deduplicated.
+	      </div>
+
+	      <p>The following is a resource from the course prerequisites
+	      example, shown as CUE input and its JSON export:</p>
+	      <pre class="example" title="Resource instance (CUE input)">
+	"data-structures": {
+	  name:        "data-structures"
+	  "@type":     {CoreCourse: true}
+	  description: "Data Structures and Algorithms"
+	  depends_on:  {"intro-cs": true, "intro-math": true}
+	  credits:     3
+	}</pre>
+	      <pre class="example" title="Resource instance (JSON export)">
+	{
+	  "name": "data-structures",
+	  "@type": {"CoreCourse": true},
+	  "description": "Data Structures and Algorithms",
+	  "depends_on": {"intro-cs": true, "intro-math": true},
+	  "credits": 3
+	}</pre>
+	    </section>
+
+	    <section id="graph-model">
+	      <h3>Dependency Graph</h3>
+	      <p>A <a>dependency graph</a> is a directed acyclic graph (DAG)
+	      composed of resources connected by <code>depends_on</code> edges.
+	      The <code>#Graph</code> pattern accepts a set of resources and
+	      computes:</p>
+	      <ul>
+	        <li><strong>Topology:</strong> Resources grouped by dependency
+	        depth (layer 0 = roots, layer N = deepest dependents).</li>
+	        <li><strong>Roots:</strong> Resources with no dependencies.</li>
+	        <li><strong>Leaves:</strong> Resources that no other resource
+	        depends on.</li>
+	        <li><strong>Ancestors:</strong> Transitive closure of
+	        <code>depends_on</code> edges.</li>
+	        <li><strong>Dependents:</strong> Inverse of ancestors — all
+	        resources that transitively depend on a given resource.</li>
+	      </ul>
+	      <p>Graph validity requires that all <code>depends_on</code>
+	      references resolve to existing resources and that the graph
+	      contains no cycles.</p>
+	    </section>
+	  </section>
+
+	  <!-- ═══ PATTERNS ══════════════════════════════════════════════ -->
+	  <section id="patterns">
+	    <h2>Patterns</h2>
+	    <p>Patterns are reusable CUE definitions that accept a
+	    <a>dependency graph</a> and produce structured output. Each
+	    pattern maps to one or more W3C specifications.</p>
+
+	\(_patternSections)
+	  </section>
+
+	  <!-- ═══ W3C MAPPINGS ══════════════════════════════════════════ -->
+	  <section id="w3c-mappings">
+	    <h2>W3C Specification Mappings</h2>
+	    <p>apercue maps dependency graph data to \(_implCount) W3C
+	    specifications with complete implementations, \(_nsCount) with
+	    namespace registrations, and \(_dsCount) in downstream modules.
+	    Each mapping produces output that conforms to the referenced
+	    specification and is consumable by any compliant processor.</p>
+
+	    <section id="w3c-implemented">
+	      <h3>Implemented <span class="count">\(_implCount)</span></h3>
+	      <p>These specifications have CUE pattern implementations that
+	      produce conformant output via <code>cue export</code>.</p>
+	      <table class="def">
+	        <thead><tr><th>Specification</th><th>Coverage</th><th>Status</th></tr></thead>
+	        <tbody>
+	\(_specRows.Implemented)
+	        </tbody>
+	      </table>
+	    </section>
+
+	    <section id="w3c-namespace">
+	      <h3>Namespace <span class="count">\(_nsCount)</span></h3>
+	      <p>These specifications have namespace prefixes registered in the
+	      JSON-LD <code>@context</code>. Properties from these vocabularies
+	      are used in resource metadata and projection output.</p>
+	      <table class="def">
+	        <thead><tr><th>Specification</th><th>Coverage</th><th>Status</th></tr></thead>
+	        <tbody>
+	\(_specRows.Namespace)
+	        </tbody>
+	      </table>
+	    </section>
+
+	    <section id="w3c-downstream">
+	      <h3>Downstream <span class="count">\(_dsCount)</span></h3>
+	      <p>These specifications are implemented in modules that import
+	      apercue.ca as a dependency.</p>
+	      <table class="def">
+	        <thead><tr><th>Specification</th><th>Coverage</th><th>Status</th></tr></thead>
+	        <tbody>
+	\(_specRows.Downstream)
+	        </tbody>
+	      </table>
+	    </section>
+	  </section>
+
+	  <!-- ═══ EXAMPLES ══════════════════════════════════════════════ -->
+	  <section id="examples" class="informative">
+	    <h2>Examples</h2>
+	    <p>The following examples demonstrate W3C projection output from
+	    actual apercue graphs. All output is produced by
+	    <code>cue export</code> with no post-processing.</p>
+
+	    <section id="example-shacl">
+	      <h3>SHACL Validation Report</h3>
+	      <p>A charter gap analysis produces a
+	      <code>sh:ValidationReport</code> [[shacl]]. When all chartered
+	      resources are present, the report conforms:</p>
+	      <pre class="json">{
+	  "@type": "sh:ValidationReport",
+	  "sh:conforms": true,
+	  "dcterms:conformsTo": {"@id": "charter:bsc-computer-science"},
+	  "sh:result": []
+	}</pre>
+	      <p>When resources are missing, each gap becomes a
+	      <code>sh:ValidationResult</code> with <code>sh:Violation</code>
+	      severity:</p>
+	      <pre class="json">{
+	  "@type": "sh:ValidationReport",
+	  "sh:conforms": false,
+	  "dcterms:conformsTo": {"@id": "charter:v1.0-release"},
+	  "sh:result": [
+	    {
+	      "@type": "sh:ValidationResult",
+	      "sh:focusNode": {"@id": "design-api"},
+	      "sh:resultSeverity": {"@id": "sh:Violation"},
+	      "sh:resultMessage": "Required resource 'design-api' not present in graph",
+	      "sh:sourceConstraintComponent": {"@id": "apercue:RequiredResource"}
+	    }
+	  ]
+	}</pre>
+	      <p>Export command: <code>cue export ./examples/project-tracker/ -e gaps.shacl_report --out json</code></p>
+	    </section>
+
+	    <section id="example-owl-time">
+	      <h3>OWL-Time Interval Schedule</h3>
+	      <p>Critical path analysis produces <code>time:Interval</code>
+	      [[owl-time]] reports. Each resource receives a scheduling
+	      interval with beginning, end, duration, and slack:</p>
+	      <pre class="json">{
+	  "intro-cs": {
+	    "@type": "time:Interval",
+	    "time:hasBeginning": 0,
+	    "time:hasEnd": 3,
+	    "time:hasDuration": {
+	      "@type": "time:Duration",
+	      "time:numericDuration": 3
+	    },
+	    "apercue:slack": 0,
+	    "apercue:isCritical": true
+	  },
+	  "data-structures": {
+	    "@type": "time:Interval",
+	    "time:hasBeginning": 3,
+	    "time:hasEnd": 6,
+	    "time:hasDuration": {
+	      "@type": "time:Duration",
+	      "time:numericDuration": 3
+	    },
+	    "apercue:slack": 1,
+	    "apercue:isCritical": false
+	  }
+	}</pre>
+	      <p>Resources with <code>apercue:slack</code> of 0 are on the
+	      critical path. The <code>apercue:</code> namespace is used for
+	      scheduling properties that extend OWL-Time with CPM-specific
+	      semantics.</p>
+	      <p>Export command: <code>cue export ./examples/course-prereqs/ -e cpm.time_report --out json</code></p>
+	    </section>
+
+	    <section id="example-jsonld">
+	      <h3>JSON-LD Context</h3>
+	      <p>The JSON-LD <code>@context</code> [[json-ld11]] maps CUE
+	      field names to semantic IRIs. This context is the federation
+	      mechanism — any graph that uses it produces output interpretable
+	      by standard JSON-LD processors:</p>
+	      <pre class="json">{
+	  "@context": {
+	    "@base": "urn:resource:",
+	    "dcterms": "http://purl.org/dc/terms/",
+	    "sh": "http://www.w3.org/ns/shacl#",
+	    "skos": "http://www.w3.org/2004/02/skos/core#",
+	    "time": "http://www.w3.org/2006/time#",
+	    "earl": "http://www.w3.org/ns/earl#",
+	    "apercue": "https://apercue.ca/vocab#",
+	    "depends_on": {
+	      "@id": "dcterms:requires",
+	      "@type": "@id"
+	    },
+	    "status": {
+	      "@id": "schema:actionStatus",
+	      "@type": "@id"
+	    }
+	  }
+	}</pre>
+	      <p>The <code>depends_on</code> property maps to
+	      <code>dcterms:requires</code> from Dublin Core Terms. The
+	      <code>@type: "@id"</code> annotation ensures dependency values
+	      are treated as node references, not literal strings.</p>
+	      <p>Export command: <code>cue export ./vocab/ -e context --out json</code></p>
+	    </section>
+	  </section>
+
+	  <!-- ═══ CONFORMANCE ═══════════════════════════════════════════ -->
+	  <section id="conformance">
+	    <h2>Conformance</h2>
+	    <p>As well as sections marked as non-normative, all authoring
+	    guidelines, diagrams, examples, and notes in this specification
+	    are non-normative. Everything else in this specification is
+	    normative.</p>
+
+	    <p>The key words "MUST", "MUST NOT", "SHOULD", and "MAY" in this
+	    document are to be interpreted as described in
+	    <a href="https://www.rfc-editor.org/rfc/rfc2119">BCP 14</a>
+	    [[RFC2119]] when they appear in ALL CAPS.</p>
+
+	    <section id="conforming-graph">
+	      <h3>Conforming Graph</h3>
+	      <p>A <dfn>conforming apercue graph</dfn> is a CUE value that
+	      satisfies the following requirements:</p>
+	      <ol>
+	        <li>All resources MUST satisfy <code>#Resource</code> as
+	        defined in <a href="#resource-model"></a>.</li>
+	        <li>All resource names and <code>depends_on</code> keys MUST
+	        conform to <code>#SafeID</code> (see
+	        <a href="#security"></a>).</li>
+	        <li>All <code>@type</code> keys MUST conform to
+	        <code>#SafeLabel</code> (see <a href="#security"></a>).</li>
+	        <li>All <code>depends_on</code> references MUST resolve to
+	        resources present in the same graph.</li>
+	        <li>The graph MUST be acyclic (a directed acyclic graph).</li>
+	      </ol>
+	    </section>
+
+	    <section id="conforming-module">
+	      <h3>Conforming Module</h3>
+	      <p>A <dfn>conforming apercue module</dfn> is a CUE module that:</p>
+	      <ol>
+	        <li>Contains at least one <a>conforming apercue graph</a>.</li>
+	        <li>Passes <code>cue vet ./...</code> with exit code 0.</li>
+	        <li>Produces valid output for each W3C projection expression
+	        it exposes (e.g., <code>gaps.shacl_report</code>,
+	        <code>cpm.time_report</code>).</li>
+	      </ol>
+	      <p>Modules SHOULD include a <code>#Charter</code> that declares
+	      the expected scope of the graph. Modules MAY use
+	      <code>#GraphLite</code> with precomputed topology for graphs
+	      exceeding 20 nodes.</p>
+	    </section>
+
+	    <section id="conforming-output">
+	      <h3>Conforming Output</h3>
+	      <p>W3C projection output from a <a>conforming apercue module</a>
+	      MUST be valid according to the referenced specification:</p>
+	      <ul>
+	        <li>SHACL reports MUST conform to the
+	        <code>sh:ValidationReport</code> shape defined in [[shacl]]
+	        §3.6.1.</li>
+	        <li>OWL-Time output MUST use <code>time:Interval</code> and
+	        <code>time:Duration</code> as defined in [[owl-time]].</li>
+	        <li>JSON-LD context MUST be processable by any conforming
+	        JSON-LD 1.1 processor [[json-ld11]].</li>
+	        <li>SKOS output MUST conform to the SKOS data model
+	        [[skos-reference]].</li>
+	        <li>EARL output MUST use <code>earl:Assertion</code> as
+	        defined in [[EARL10-Schema]].</li>
+	      </ul>
+	    </section>
+	  </section>
+
+	  <!-- ═══ SECURITY ══════════════════════════════════════════════ -->
+	  <section id="security">
+	    <h2>Security Considerations</h2>
+
+	    <section id="identifier-constraints">
+	      <h3>Identifier Constraints</h3>
+	      <p>Graph identifiers are constrained to the ASCII subset via
+	      two regex patterns:</p>
+	      <pre class="example" title="Identifier constraints">
+	#SafeID:    =~"^[a-zA-Z][a-zA-Z0-9_.-]*$"
+	#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"</pre>
+	      <p><code>#SafeID</code> applies to resource names and
+	      <code>depends_on</code> keys. <code>#SafeLabel</code> applies
+	      to <code>@type</code> keys and tag keys. These constraints
+	      are enforced at CUE evaluation time; <code>cue vet</code>
+	      rejects non-conforming identifiers before any output is
+	      produced.</p>
+	      <p>These constraints mitigate the following classes of attack:</p>
+	      <ul>
+	        <li><strong>Homoglyph substitution:</strong> Cyrillic "a"
+	        (U+0430) and Latin "a" (U+0061) are visually identical but
+	        would create distinct graph nodes. ASCII-only identifiers
+	        prevent this confusion.</li>
+	        <li><strong>Zero-width character injection:</strong> Characters
+	        such as U+200B (zero-width space) and U+FEFF (byte order mark)
+	        are invisible but would create distinct keys in CUE struct
+	        unification, causing silent data corruption.</li>
+	        <li><strong>Bidirectional text override:</strong> U+202E
+	        (right-to-left override) and related control characters can
+	        alter the visual presentation of identifiers without changing
+	        their semantic value.</li>
+	      </ul>
+	      <p>Description fields are intentionally unconstrained to support
+	      internationalized content.</p>
+	    </section>
+
+	    <section id="eval-resource-consumption">
+	      <h3>Evaluation Resource Consumption</h3>
+	      <p>CUE evaluation of recursive graph patterns can consume
+	      significant CPU and memory on large graphs with diamond
+	      topologies. Implementations SHOULD use <code>#GraphLite</code>
+	      with precomputed topology data for graphs exceeding 20 nodes
+	      to avoid exponential evaluation time.</p>
+	    </section>
+	  </section>
+
+	  <!-- ═══ PRIVACY ═══════════════════════════════════════════════ -->
+	  <section id="privacy">
+	    <h2>Privacy Considerations</h2>
+	    <p>apercue graphs may contain resource descriptions that include
+	    personally identifiable information (PII) in description fields
+	    or domain-specific extensions. Implementations that export graph
+	    data as JSON-LD SHOULD review exported content for unintended
+	    disclosure of sensitive information.</p>
+	    <p>The <code>@id</code> field defaults to
+	    <code>urn:resource:{name}</code>. Implementations that publish
+	    graph data publicly SHOULD assign non-guessable <code>@id</code>
+	    values or use opaque identifiers if resource names contain
+	    sensitive information.</p>
+	  </section>
+
+	  <!-- ═══ REFERENCES ════════════════════════════════════════════ -->
+	  <section id="references" class="informative">
+	    <h2>References</h2>
+	    <section id="normative-references">
+	      <h3>Normative References</h3>
+	      <p>The following specifications are referenced normatively:</p>
+	      <ul>
+	        <li>[[json-ld11]] — JSON-LD 1.1, W3C Recommendation</li>
+	        <li>[[shacl]] — Shapes Constraint Language, W3C Recommendation</li>
+	        <li>[[skos-reference]] — SKOS Simple Knowledge Organization System, W3C Recommendation</li>
+	        <li>[[owl-time]] — Time Ontology in OWL, W3C Recommendation</li>
+	        <li>[[EARL10-Schema]] — Evaluation and Report Language 1.0, W3C Note</li>
+	        <li>[[RFC2119]] — Key words for use in RFCs, BCP 14</li>
+	        <li>[[CUE]] — The CUE Data Constraint Language</li>
+	      </ul>
+	    </section>
+	    <section id="informative-references">
+	      <h3>Informative References</h3>
+	      <ul>
+	        <li><a href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/">Dublin Core Terms</a> — DCMI Metadata Terms</li>
+	        <li><a href="https://www.w3.org/TR/prov-o/">PROV-O</a> — Provenance Ontology, W3C Recommendation</li>
+	        <li><a href="https://schema.org/">schema.org</a> — Structured data vocabulary</li>
+	        <li><a href="https://www.w3.org/TR/vocab-dcat-3/">DCAT 3</a> — Data Catalog Vocabulary, W3C Recommendation</li>
+	        <li><a href="https://www.hydra-cg.com/spec/latest/core/">Hydra Core</a> — Hypermedia-Driven Web APIs, W3C Community Group</li>
+	      </ul>
+	    </section>
+	  </section>
+
+	</body>
+	</html>
+	"""

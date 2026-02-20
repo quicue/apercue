@@ -1,0 +1,661 @@
+{
+    "nodes": [
+        {
+            "id": "repo-scaffold",
+            "name": "repo-scaffold",
+            "types": [
+                "CI"
+            ],
+            "depth": 0,
+            "description": "cue mod init apercue.ca@v0, directory structure",
+            "phase": 1,
+            "gate": "vocab-ready"
+        },
+        {
+            "id": "resource-schema",
+            "name": "resource-schema",
+            "types": [
+                "Schema"
+            ],
+            "depth": 1,
+            "description": "Generic #Resource definition (no infra fields)",
+            "phase": 1,
+            "gate": "vocab-ready"
+        },
+        {
+            "id": "type-registry",
+            "name": "type-registry",
+            "types": [
+                "Schema"
+            ],
+            "depth": 1,
+            "description": "Empty #TypeRegistry pattern (domain-extensible)",
+            "phase": 1,
+            "gate": "vocab-ready"
+        },
+        {
+            "id": "jsonld-context",
+            "name": "jsonld-context",
+            "types": [
+                "Schema",
+                "Projection"
+            ],
+            "depth": 1,
+            "description": "JSON-LD @context with W3C namespace prefixes",
+            "phase": 1,
+            "gate": "vocab-ready"
+        },
+        {
+            "id": "viz-contract",
+            "name": "viz-contract",
+            "types": [
+                "Schema"
+            ],
+            "depth": 1,
+            "description": "#VizData, #VizNode, #VizEdge for visualization",
+            "phase": 1,
+            "gate": "vocab-ready"
+        },
+        {
+            "id": "graph-engine",
+            "name": "graph-engine",
+            "types": [
+                "Pattern"
+            ],
+            "depth": 2,
+            "description": "#Graph (renamed from #InfraGraph) — universal dependency graph",
+            "phase": 2,
+            "gate": "patterns-ready"
+        },
+        {
+            "id": "analysis-patterns",
+            "name": "analysis-patterns",
+            "types": [
+                "Pattern"
+            ],
+            "depth": 3,
+            "description": "#CycleDetector, #ConnectedComponents, #Subgraph, #GraphDiff, #CriticalPath",
+            "phase": 2,
+            "gate": "patterns-ready"
+        },
+        {
+            "id": "validation-patterns",
+            "name": "validation-patterns",
+            "types": [
+                "Pattern"
+            ],
+            "depth": 3,
+            "description": "#ComplianceCheck with SHACL ValidationReport projection",
+            "phase": 2,
+            "gate": "patterns-ready"
+        },
+        {
+            "id": "lifecycle-patterns",
+            "name": "lifecycle-patterns",
+            "types": [
+                "Pattern"
+            ],
+            "depth": 3,
+            "description": "#BootstrapPlan, #DriftReport, #SmokeTest with SKOS + EARL",
+            "phase": 2,
+            "gate": "patterns-ready"
+        },
+        {
+            "id": "charter-module",
+            "name": "charter-module",
+            "types": [
+                "Pattern"
+            ],
+            "depth": 3,
+            "description": "#Charter, #GapAnalysis, #Milestone with SHACL report",
+            "phase": 2,
+            "gate": "patterns-ready"
+        },
+        {
+            "id": "shacl-projection",
+            "name": "shacl-projection",
+            "types": [
+                "Projection"
+            ],
+            "depth": 4,
+            "description": "sh:ValidationReport from #ComplianceCheck and #GapAnalysis",
+            "phase": 3,
+            "gate": "projections-ready"
+        },
+        {
+            "id": "skos-projection",
+            "name": "skos-projection",
+            "types": [
+                "Projection"
+            ],
+            "depth": 4,
+            "description": "skos:ConceptScheme from #TypeVocabulary and lifecycle phases",
+            "phase": 3,
+            "gate": "projections-ready"
+        },
+        {
+            "id": "owl-time-projection",
+            "name": "owl-time-projection",
+            "types": [
+                "Projection"
+            ],
+            "depth": 4,
+            "description": "time:Interval from #CriticalPath scheduling",
+            "phase": 3,
+            "gate": "projections-ready"
+        },
+        {
+            "id": "earl-projection",
+            "name": "earl-projection",
+            "types": [
+                "Projection"
+            ],
+            "depth": 4,
+            "description": "earl:Assertion from #SmokeTest test plans",
+            "phase": 3,
+            "gate": "projections-ready"
+        },
+        {
+            "id": "example-course-prereqs",
+            "name": "example-course-prereqs",
+            "types": [
+                "Example"
+            ],
+            "depth": 4,
+            "description": "University course prerequisites (12 courses, 3 charter gates)",
+            "phase": 4,
+            "gate": "examples-ready"
+        },
+        {
+            "id": "example-recipe",
+            "name": "example-recipe",
+            "types": [
+                "Example"
+            ],
+            "depth": 4,
+            "description": "Beef bourguignon recipe (17 steps, critical path)",
+            "phase": 4,
+            "gate": "examples-ready"
+        },
+        {
+            "id": "example-project-tracker",
+            "name": "example-project-tracker",
+            "types": [
+                "Example"
+            ],
+            "depth": 4,
+            "description": "Software release tasks (10 tasks, status tracking)",
+            "phase": 4,
+            "gate": "examples-ready"
+        },
+        {
+            "id": "example-supply-chain",
+            "name": "example-supply-chain",
+            "types": [
+                "Example"
+            ],
+            "depth": 4,
+            "description": "Laptop assembly supply chain (15 parts, 5 tiers)",
+            "phase": 4,
+            "gate": "examples-ready"
+        },
+        {
+            "id": "docs-readme",
+            "name": "docs-readme",
+            "types": [
+                "Documentation"
+            ],
+            "depth": 5,
+            "description": "Project README with quick start and module structure",
+            "phase": 5,
+            "gate": "ship"
+        },
+        {
+            "id": "docs-w3c-index",
+            "name": "docs-w3c-index",
+            "types": [
+                "Documentation"
+            ],
+            "depth": 5,
+            "description": "W3C spec coverage index (w3c/README.md)",
+            "phase": 5,
+            "gate": "ship"
+        },
+        {
+            "id": "docs-novelty",
+            "name": "docs-novelty",
+            "types": [
+                "Documentation"
+            ],
+            "depth": 5,
+            "description": "Novelty document in 3 tones (academic, practitioner, executive)",
+            "phase": 5,
+            "gate": "ship"
+        },
+        {
+            "id": "kb-setup",
+            "name": "kb-setup",
+            "types": [
+                "CI"
+            ],
+            "depth": 3,
+            "description": "Knowledge base (.kb/) with decisions, insights, patterns",
+            "phase": 5,
+            "gate": "ship"
+        },
+        {
+            "id": "github-repo",
+            "name": "github-repo",
+            "types": [
+                "CI"
+            ],
+            "depth": 6,
+            "description": "GitHub repo created, initial commit pushed",
+            "phase": 5,
+            "gate": "ship"
+        },
+        {
+            "id": "cf-pages",
+            "name": "cf-pages",
+            "types": [
+                "CI"
+            ],
+            "depth": 7,
+            "description": "CF Pages project with custom domain apercue.ca",
+            "phase": 5,
+            "gate": "ship"
+        },
+        {
+            "id": "safeid-constraints",
+            "name": "safeid-constraints",
+            "types": [
+                "Schema"
+            ],
+            "depth": 2,
+            "description": "#SafeID and #SafeLabel ASCII-safe identifier constraints",
+            "phase": 6,
+            "gate": "projections-complete"
+        },
+        {
+            "id": "ci-workflow",
+            "name": "ci-workflow",
+            "types": [
+                "CI"
+            ],
+            "depth": 7,
+            "description": "GitHub Actions validate.yml with unicode rejection tests",
+            "phase": 6,
+            "gate": "projections-complete"
+        },
+        {
+            "id": "specs-registry",
+            "name": "specs-registry",
+            "types": [
+                "Schema",
+                "Projection"
+            ],
+            "depth": 5,
+            "description": "W3C spec coverage as structured CUE data (single source of truth)",
+            "phase": 6,
+            "gate": "projections-complete"
+        },
+        {
+            "id": "respec-projection",
+            "name": "respec-projection",
+            "types": [
+                "Projection",
+                "Documentation"
+            ],
+            "depth": 6,
+            "description": "ReSpec HTML spec generated from CUE via cue export -e spec_html",
+            "phase": 6,
+            "gate": "projections-complete"
+        },
+        {
+            "id": "site-build",
+            "name": "site-build",
+            "types": [
+                "CI",
+                "Projection"
+            ],
+            "depth": 8,
+            "description": "Build pipeline replacing hardcoded site data with CUE projections",
+            "phase": 6,
+            "gate": "projections-complete"
+        },
+        {
+            "id": "ci-regen-check",
+            "name": "ci-regen-check",
+            "types": [
+                "CI"
+            ],
+            "depth": 9,
+            "description": "CI step verifying generated artifacts match CUE exports",
+            "phase": 6,
+            "gate": "projections-complete"
+        }
+    ],
+    "edges": [
+        {
+            "source": "repo-scaffold",
+            "target": "resource-schema"
+        },
+        {
+            "source": "repo-scaffold",
+            "target": "type-registry"
+        },
+        {
+            "source": "repo-scaffold",
+            "target": "jsonld-context"
+        },
+        {
+            "source": "repo-scaffold",
+            "target": "viz-contract"
+        },
+        {
+            "source": "resource-schema",
+            "target": "graph-engine"
+        },
+        {
+            "source": "graph-engine",
+            "target": "analysis-patterns"
+        },
+        {
+            "source": "graph-engine",
+            "target": "validation-patterns"
+        },
+        {
+            "source": "graph-engine",
+            "target": "lifecycle-patterns"
+        },
+        {
+            "source": "graph-engine",
+            "target": "charter-module"
+        },
+        {
+            "source": "validation-patterns",
+            "target": "shacl-projection"
+        },
+        {
+            "source": "charter-module",
+            "target": "shacl-projection"
+        },
+        {
+            "source": "lifecycle-patterns",
+            "target": "skos-projection"
+        },
+        {
+            "source": "type-registry",
+            "target": "skos-projection"
+        },
+        {
+            "source": "analysis-patterns",
+            "target": "owl-time-projection"
+        },
+        {
+            "source": "lifecycle-patterns",
+            "target": "earl-projection"
+        },
+        {
+            "source": "charter-module",
+            "target": "example-course-prereqs"
+        },
+        {
+            "source": "validation-patterns",
+            "target": "example-course-prereqs"
+        },
+        {
+            "source": "analysis-patterns",
+            "target": "example-course-prereqs"
+        },
+        {
+            "source": "graph-engine",
+            "target": "example-recipe"
+        },
+        {
+            "source": "analysis-patterns",
+            "target": "example-recipe"
+        },
+        {
+            "source": "charter-module",
+            "target": "example-project-tracker"
+        },
+        {
+            "source": "analysis-patterns",
+            "target": "example-project-tracker"
+        },
+        {
+            "source": "charter-module",
+            "target": "example-supply-chain"
+        },
+        {
+            "source": "validation-patterns",
+            "target": "example-supply-chain"
+        },
+        {
+            "source": "analysis-patterns",
+            "target": "example-supply-chain"
+        },
+        {
+            "source": "example-course-prereqs",
+            "target": "docs-readme"
+        },
+        {
+            "source": "shacl-projection",
+            "target": "docs-w3c-index"
+        },
+        {
+            "source": "skos-projection",
+            "target": "docs-w3c-index"
+        },
+        {
+            "source": "owl-time-projection",
+            "target": "docs-w3c-index"
+        },
+        {
+            "source": "example-course-prereqs",
+            "target": "docs-novelty"
+        },
+        {
+            "source": "graph-engine",
+            "target": "kb-setup"
+        },
+        {
+            "source": "docs-readme",
+            "target": "github-repo"
+        },
+        {
+            "source": "kb-setup",
+            "target": "github-repo"
+        },
+        {
+            "source": "github-repo",
+            "target": "cf-pages"
+        },
+        {
+            "source": "resource-schema",
+            "target": "safeid-constraints"
+        },
+        {
+            "source": "safeid-constraints",
+            "target": "ci-workflow"
+        },
+        {
+            "source": "github-repo",
+            "target": "ci-workflow"
+        },
+        {
+            "source": "shacl-projection",
+            "target": "specs-registry"
+        },
+        {
+            "source": "skos-projection",
+            "target": "specs-registry"
+        },
+        {
+            "source": "owl-time-projection",
+            "target": "specs-registry"
+        },
+        {
+            "source": "earl-projection",
+            "target": "specs-registry"
+        },
+        {
+            "source": "specs-registry",
+            "target": "respec-projection"
+        },
+        {
+            "source": "safeid-constraints",
+            "target": "respec-projection"
+        },
+        {
+            "source": "specs-registry",
+            "target": "site-build"
+        },
+        {
+            "source": "cf-pages",
+            "target": "site-build"
+        },
+        {
+            "source": "ci-workflow",
+            "target": "ci-regen-check"
+        },
+        {
+            "source": "site-build",
+            "target": "ci-regen-check"
+        }
+    ],
+    "gates": {
+        "vocab-ready": {
+            "phase": 1,
+            "description": "Core schemas defined",
+            "satisfied": true,
+            "resources": [
+                "repo-scaffold",
+                "resource-schema",
+                "type-registry",
+                "jsonld-context",
+                "viz-contract"
+            ]
+        },
+        "patterns-ready": {
+            "phase": 2,
+            "description": "All graph patterns extracted and validated",
+            "satisfied": true,
+            "resources": [
+                "graph-engine",
+                "analysis-patterns",
+                "validation-patterns",
+                "lifecycle-patterns",
+                "charter-module"
+            ]
+        },
+        "projections-ready": {
+            "phase": 3,
+            "description": "All W3C projection layers working",
+            "satisfied": true,
+            "resources": [
+                "shacl-projection",
+                "skos-projection",
+                "owl-time-projection",
+                "earl-projection"
+            ]
+        },
+        "examples-ready": {
+            "phase": 4,
+            "description": "All four non-infra examples validate",
+            "satisfied": true,
+            "resources": [
+                "example-course-prereqs",
+                "example-recipe",
+                "example-project-tracker",
+                "example-supply-chain"
+            ]
+        },
+        "ship": {
+            "phase": 5,
+            "description": "Docs, .kb, GitHub, CF Pages — ready to share",
+            "satisfied": true,
+            "resources": [
+                "docs-readme",
+                "docs-w3c-index",
+                "docs-novelty",
+                "kb-setup",
+                "github-repo",
+                "cf-pages"
+            ]
+        },
+        "projections-complete": {
+            "phase": 6,
+            "description": "All artifacts are CUE projections — spec, site data, CI validation",
+            "satisfied": true,
+            "resources": [
+                "safeid-constraints",
+                "ci-workflow",
+                "specs-registry",
+                "respec-projection",
+                "site-build",
+                "ci-regen-check"
+            ]
+        }
+    },
+    "charter_summary": {
+        "project": "apercue-build",
+        "deliverables": 30,
+        "complete": true,
+        "missing": 0,
+        "next_gate": ""
+    },
+    "topology": {
+        "layer_0": {
+            "repo-scaffold": true
+        },
+        "layer_1": {
+            "resource-schema": true,
+            "type-registry": true,
+            "jsonld-context": true,
+            "viz-contract": true
+        },
+        "layer_2": {
+            "graph-engine": true,
+            "safeid-constraints": true
+        },
+        "layer_3": {
+            "analysis-patterns": true,
+            "validation-patterns": true,
+            "lifecycle-patterns": true,
+            "charter-module": true,
+            "kb-setup": true
+        },
+        "layer_4": {
+            "shacl-projection": true,
+            "skos-projection": true,
+            "owl-time-projection": true,
+            "earl-projection": true,
+            "example-course-prereqs": true,
+            "example-recipe": true,
+            "example-project-tracker": true,
+            "example-supply-chain": true
+        },
+        "layer_5": {
+            "docs-readme": true,
+            "docs-w3c-index": true,
+            "docs-novelty": true,
+            "specs-registry": true
+        },
+        "layer_6": {
+            "github-repo": true,
+            "respec-projection": true
+        },
+        "layer_7": {
+            "cf-pages": true,
+            "ci-workflow": true
+        },
+        "layer_8": {
+            "site-build": true
+        },
+        "layer_9": {
+            "ci-regen-check": true
+        }
+    }
+}

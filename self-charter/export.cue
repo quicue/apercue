@@ -19,6 +19,57 @@ _depth_map: {
 	}
 }
 
+// Build charter depth map from GraphLite topology
+_charter_depth_map: {
+	for layerName, members in graph.topology {
+		let _n = strconv.Atoi(strings.TrimPrefix(layerName, "layer_"))
+		for rname, _ in members {
+			(rname): _n
+		}
+	}
+}
+
+// Export-friendly charter data for D3 visualization
+charter_viz: {
+	nodes: [
+		for rname, raw in _tasks {
+			id:          rname
+			name:        rname
+			types:       [for t, _ in raw["@type"] {t}]
+			depth:       _charter_depth_map[rname]
+			description: raw.description
+			// Determine phase from charter gates
+			phase: [
+				for gname, gate in _charter.gates
+				if gate.requires[rname] != _|_ {gate.phase},
+				0,
+			][0]
+			gate: [
+				for gname, gate in _charter.gates
+				if gate.requires[rname] != _|_ {gname},
+				"",
+			][0]
+		},
+	]
+	edges: list.FlattenN([
+		for rname, raw in _tasks if raw.depends_on != _|_ {
+			[for dep, _ in raw.depends_on {{source: dep, target: rname}}]
+		},
+	], 1)
+	gates: {
+		for gname, gate in _charter.gates {
+			(gname): {
+				phase:       gate.phase
+				description: gate.description
+				satisfied:   gaps.gate_status[gname].satisfied
+				resources:   [for r, _ in gate.requires {r}]
+			}
+		}
+	}
+	charter_summary: summary
+	topology:        graph.topology
+}
+
 // Export-friendly ecosystem data for D3 visualization
 // Iterate over _ecosystem (raw input) to get concrete keys.
 // Depth comes from the computed graph topology, not dependency count.
