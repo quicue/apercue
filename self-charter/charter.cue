@@ -223,7 +223,6 @@ _tasks: {
 		"@type":     {Projection: true, CI: true}
 		description: "Deploy @context.jsonld at apercue.ca/vocab/context.jsonld"
 		depends_on:  {"w3c-namespace-cleanup": true, "cf-pages": true}
-		_planned:    true
 	}
 	"charter-status-tracking": {
 		name:        "charter-status-tracking"

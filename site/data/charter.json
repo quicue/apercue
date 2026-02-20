@@ -385,7 +385,7 @@
             ],
             "depth": 8,
             "description": "Deploy @context.jsonld at apercue.ca/vocab/context.jsonld",
-            "planned": true,
+            "planned": false,
             "phase": 7,
             "gate": "semantic-integrity"
         },

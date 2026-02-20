@@ -1,0 +1,920 @@
+{
+    "shacl": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "sh:ValidationReport",
+        "sh:conforms": false,
+        "dcterms:conformsTo": {
+            "@id": "charter:apercue-build"
+        },
+        "sh:result": []
+    },
+    "owl_time": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "repo-scaffold": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 0
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "resource-schema": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "type-registry": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "jsonld-context": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "viz-contract": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 9,
+            "apercue:isCritical": false
+        },
+        "graph-engine": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "analysis-patterns": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "validation-patterns": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "lifecycle-patterns": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "charter-module": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "shacl-projection": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "skos-projection": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "owl-time-projection": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "earl-projection": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "example-course-prereqs": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "example-recipe": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 6,
+            "apercue:isCritical": false
+        },
+        "example-project-tracker": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 6,
+            "apercue:isCritical": false
+        },
+        "example-supply-chain": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 6,
+            "apercue:isCritical": false
+        },
+        "docs-readme": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "docs-w3c-index": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 5,
+            "apercue:isCritical": false
+        },
+        "docs-novelty": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 5,
+            "apercue:isCritical": false
+        },
+        "kb-setup": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "github-repo": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "cf-pages": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "safeid-constraints": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 6,
+            "apercue:isCritical": false
+        },
+        "ci-workflow": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "specs-registry": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "respec-projection": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "site-build": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "ci-regen-check": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "w3c-namespace-cleanup": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "context-canonical-url": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "charter-status-tracking": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "charter-live-viz": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 11
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "quicue-semantic-sync": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "ci-auto-deploy": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "kb-charter-bridge": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 11
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "grdn-mirror": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        }
+    },
+    "scheduling": {
+        "summary": {
+            "total_duration": 11,
+            "critical_count": 14,
+            "total_resources": 38,
+            "max_slack": 9
+        },
+        "critical_sequence": [
+            {
+                "resource": "repo-scaffold",
+                "start": 0,
+                "finish": 1,
+                "duration": 1
+            },
+            {
+                "resource": "resource-schema",
+                "start": 1,
+                "finish": 2,
+                "duration": 1
+            },
+            {
+                "resource": "graph-engine",
+                "start": 2,
+                "finish": 3,
+                "duration": 1
+            },
+            {
+                "resource": "analysis-patterns",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "validation-patterns",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "charter-module",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "example-course-prereqs",
+                "start": 4,
+                "finish": 5,
+                "duration": 1
+            },
+            {
+                "resource": "docs-readme",
+                "start": 5,
+                "finish": 6,
+                "duration": 1
+            },
+            {
+                "resource": "github-repo",
+                "start": 6,
+                "finish": 7,
+                "duration": 1
+            },
+            {
+                "resource": "cf-pages",
+                "start": 7,
+                "finish": 8,
+                "duration": 1
+            },
+            {
+                "resource": "site-build",
+                "start": 8,
+                "finish": 9,
+                "duration": 1
+            },
+            {
+                "resource": "charter-status-tracking",
+                "start": 9,
+                "finish": 10,
+                "duration": 1
+            },
+            {
+                "resource": "charter-live-viz",
+                "start": 10,
+                "finish": 11,
+                "duration": 1
+            },
+            {
+                "resource": "kb-charter-bridge",
+                "start": 10,
+                "finish": 11,
+                "duration": 1
+            }
+        ]
+    }
+}
