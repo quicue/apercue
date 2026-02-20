@@ -26,10 +26,7 @@
 
 package charter
 
-import (
-	"list"
-	"apercue.ca/patterns@v0"
-)
+import "list"
 
 // #Charter — what "done" looks like.
 //
@@ -80,9 +77,16 @@ import (
 //   // gaps.missing_types     — types required but not represented
 //   // gaps.gate_status       — per-gate satisfaction with missing lists
 //   // gaps.next_gate         — nearest unsatisfied gate (by phase)
+// #GapAnalysis accepts any graph with resources + roots + topology.
+// Works with both #Graph (small) and #GraphLite (large, precomputed).
 #GapAnalysis: {
 	Charter: #Charter
-	Graph:   patterns.#Graph
+	Graph: {
+		resources: {[string]: {name: string, "@type": {[string]: true}, ...}}
+		roots: {[string]: true}
+		topology: {...}
+		...
+	}
 
 	// ── Present state ────────────────────────────────────────────
 	_present: {for name, _ in Graph.resources {(name): true}}
@@ -245,7 +249,10 @@ import (
 #Milestone: {
 	Charter: #Charter
 	Gate:    string
-	Graph:   patterns.#Graph
+	Graph: {
+		resources: {[string]: {name: string, "@type": {[string]: true}, ...}}
+		...
+	}
 
 	_gate: Charter.gates[Gate]
 	_present: {for name, _ in Graph.resources {(name): true}}

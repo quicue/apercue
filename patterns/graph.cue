@@ -64,10 +64,13 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 		...
 	}
 
-	// Optional: pre-computed depth values from Python (for large graphs)
-	// When provided, skips expensive CUE depth recursion
+	// Optional: pre-computed graph analysis from Python toposort.
+	// When provided, skips expensive CUE recursive computation.
+	// Generate with: python3 tools/toposort.py <cue-dir> <expr> > precomputed.json
 	Precomputed?: {
-		depth: [_#SafeID]: int
+		depth:      [_#SafeID]: int
+		ancestors?: [_#SafeID]: {[_#SafeID]: true}
+		dependents?: [_#SafeID]: {[_#SafeID]: true}
 	}
 
 	// Validation: all dependency references must exist in Input
@@ -94,8 +97,6 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 
 			(rname): r & {
 				// Depth: use pre-computed if available, else compute
-				// Pre-computed: O(1) lookup from Python topological sort
-				// Computed: O(n) recursive access (expensive for large graphs)
 				_depth: [
 					if Precomputed != _|_ && Precomputed.depth[rname] != _|_ {
 						Precomputed.depth[rname]
@@ -105,8 +106,10 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 				][0]
 
 				// Ancestors: transitive closure of all dependencies.
-				// Uses CUE unification for fixpoint computation (rogpeppe pattern).
-				// [_]: true declares shape, then direct unification merges ancestors.
+				// When Precomputed.ancestors is provided, uses O(1) lookup.
+				// Otherwise, uses recursive struct merge (expensive on diamond DAGs, #4).
+				// NOTE: CUE if-guards are NOT short-circuit — both branches are
+				// evaluated. Use #GraphLite for large graphs with precomputed values.
 				_ancestors: {
 					[_]: true
 					if _hasDeps {
@@ -118,7 +121,6 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 				}
 
 				// Path: route to root via FIRST parent only
-				// NOTE: For multi-parent DAGs, use _ancestors for complete closure
 				_path: [
 					if _hasDeps {list.Concat([[rname], resources[_depsList[0]]._path])},
 					[rname],
@@ -146,12 +148,81 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 	leaves: {for rname, _ in resources if _hasDependents[rname] == _|_ {(rname): true}}
 
 	// Pre-computed dependents: inverse of _ancestors for O(1) impact lookups
-	// Instead of computing via pattern instantiation (O(n³)), pre-compute once (O(n²))
 	dependents: {
 		for t, _ in resources {
 			(t): {for n, r in resources if r._ancestors[t] != _|_ {(n): true}}
 		}
 	}
+}
+
+// #GraphLite — fast graph for large DAGs with Python-precomputed topology.
+//
+// Skips the expensive recursive _ancestors, _path, and O(n²) dependents.
+// Requires Precomputed with ancestors + dependents from tools/toposort.py.
+// CUE still validates all schemas, types, and structural constraints.
+//
+// PERFORMANCE: _path was removed because CUE's recursive struct references
+// don't memoize — resources[dep]._path re-evaluates the entire chain from
+// scratch on each access, causing O(n^depth) evaluation on diamond DAGs.
+// Pre-compute paths in Python if needed (tools/toposort.py --paths).
+//
+// Usage:
+//   python3 tools/toposort.py charter.cue --cue > precomputed.cue
+//   graph: patterns.#GraphLite & {Input: _tasks, Precomputed: _precomputed}
+//
+#GraphLite: {
+	Input: [_#SafeID]: {
+		name: _#SafeID
+		"@type": {[_#SafeLabel]: true}
+		depends_on?: {[_#SafeID]: true}
+		...
+	}
+
+	// Required: pre-computed from Python toposort
+	Precomputed: {
+		depth:      [_#SafeID]: int
+		ancestors:  [_#SafeID]: {[_#SafeID]: true}
+		dependents: [_#SafeID]: {[_#SafeID]: true}
+	}
+
+	// Validation: all dependency references must exist
+	_inputNames: {for n, _ in Input {(n): true}}
+	_missingDepsNested: [
+		for rname, r in Input if r.depends_on != _|_ {
+			[for dep, _ in r.depends_on if _inputNames[dep] == _|_ {
+				{resource: rname, missing: dep}
+			}]
+		},
+	]
+	_missingDeps: list.FlattenN(_missingDepsNested, 1)
+	valid:        len(_missingDeps) == 0
+
+	// Resources with precomputed graph properties — no recursion
+	resources: {
+		for rname, r in Input {
+			(rname): r & {
+				_depth:     Precomputed.depth[rname]
+				_ancestors: Precomputed.ancestors[rname]
+			}
+		}
+	}
+
+	topology: {
+		for rname, r in resources {
+			"layer_\(r._depth)": (rname): true
+		}
+	}
+
+	roots:  {for rname, r in resources if r._depth == 0 {(rname): true}}
+	_hasDependents: {
+		for _, r in resources if r.depends_on != _|_ {
+			for d, _ in r.depends_on {(d): true}
+		}
+	}
+	leaves: {for rname, _ in resources if _hasDependents[rname] == _|_ {(rname): true}}
+
+	// Dependents from Python — no O(n²) CUE scan
+	dependents: Precomputed.dependents
 }
 
 // #ImpactQuery — Find all resources affected if target goes down
