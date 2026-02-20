@@ -292,7 +292,6 @@ _tasks: {
 		"@type":     {Documentation: true}
 		description: "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge"
 		depends_on:  {"specs-registry": true}
-		_planned:    true
 	}
 }
 

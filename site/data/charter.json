@@ -835,7 +835,7 @@
             ],
             "depth": 6,
             "description": "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge",
-            "planned": true,
+            "planned": false,
             "kb": [],
             "earliest": 6,
             "latest": 11,
@@ -1198,7 +1198,7 @@
         "local-hardening": {
             "phase": 8,
             "description": "Real data local on grdn, public site clean, projections dashboard live",
-            "satisfied": false,
+            "satisfied": true,
             "resources": [
                 "site-data-locality",
                 "grdn-site-deploy",
