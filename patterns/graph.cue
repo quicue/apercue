@@ -13,17 +13,22 @@ package patterns
 
 import "list"
 
+// ASCII charset constraints (mirrored from vocab package).
+// Prevents zero-width unicode injection in graph identifiers.
+_#SafeID:    =~"^[a-zA-Z][a-zA-Z0-9_.-]*$"
+_#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
+
 // #GraphResource — Schema for resources with computed graph properties.
 // Use this when you want automatic depth, ancestors, etc.
 #GraphResource: {
-	name: string
-	"@type": {[string]: true}
+	name: _#SafeID
+	"@type": {[_#SafeLabel]: true}
 
 	// Dependencies — set membership (clean unification)
-	depends_on?: {[string]: true}
+	depends_on?: {[_#SafeID]: true}
 
 	// Metadata
-	tags?:        {[string]: true}
+	tags?:        {[_#SafeLabel]: true}
 	description?: string
 
 	// Computed: depth in dependency graph (0 = root)
@@ -51,17 +56,18 @@ import "list"
 //
 #Graph: {
 	// Input: string-based resources (portable, can come from JSON)
-	Input: [string]: {
-		name: string
-		"@type": {[string]: true}
-		depends_on?: {[string]: true}
+	// Keys and identifiers are ASCII-constrained to prevent injection.
+	Input: [_#SafeID]: {
+		name: _#SafeID
+		"@type": {[_#SafeLabel]: true}
+		depends_on?: {[_#SafeID]: true}
 		...
 	}
 
 	// Optional: pre-computed depth values from Python (for large graphs)
 	// When provided, skips expensive CUE depth recursion
 	Precomputed?: {
-		depth: [string]: int
+		depth: [_#SafeID]: int
 	}
 
 	// Validation: all dependency references must exist in Input
