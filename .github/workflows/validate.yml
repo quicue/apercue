@@ -1,0 +1,57 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CUE
+        uses: cue-lang/setup-cue@v1
+        with:
+          version: v0.15.4
+
+      - name: Validate core packages
+        run: |
+          cue vet ./vocab/
+          cue vet ./patterns/
+          cue vet ./charter/
+          cue vet ./views/
+
+      - name: Validate examples
+        run: |
+          for d in examples/*/; do
+            echo "Validating $d..."
+            cue vet "./$d"
+          done
+
+      - name: Validate self-charter
+        run: cue vet ./self-charter/
+
+      - name: Unicode rejection tests
+        run: |
+          # These files contain intentional unicode violations.
+          # cue vet MUST reject each one (exit code 1).
+          PASS=0
+          FAIL=0
+          for f in tests/unicode-rejection/*.cue; do
+            if cue vet "$f" 2>/dev/null; then
+              echo "FAIL: $f should have been rejected but passed"
+              FAIL=$((FAIL + 1))
+            else
+              echo "PASS: $f correctly rejected"
+              PASS=$((PASS + 1))
+            fi
+          done
+          echo ""
+          echo "Unicode rejection: $PASS passed, $FAIL failed"
+          if [ "$FAIL" -gt 0 ]; then
+            echo "ERROR: Some unicode injection tests were not caught!"
+            exit 1
+          fi
