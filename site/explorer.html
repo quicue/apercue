@@ -96,7 +96,8 @@ svg defs marker path {
   to { stroke-dashoffset: -9; }
 }
 
-.node-group { cursor: pointer; }
+.node-group { cursor: grab; }
+.node-group.has-domain { cursor: pointer; }
 .node-group:hover .node-ring { opacity: 1; }
 .node-group:hover .node-label { fill: var(--text-bright); }
 
@@ -159,6 +160,12 @@ svg defs marker path {
   font-weight: 600;
   color: var(--accent);
   letter-spacing: 0.05em;
+}
+.header .header-desc {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  pointer-events: auto;
 }
 .header .status-pill {
   font-family: 'IBM Plex Mono', monospace;
@@ -379,12 +386,30 @@ svg defs marker path {
   font-size: 11px;
   color: var(--accent);
 }
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
+}
+.nav-links a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>apercue ecosystem</h1>
+  <span class="header-desc">This graph IS an apercue graph &mdash; typed resources with dcterms:requires edges, modeled in CUE</span>
   <span class="status-pill complete" id="header-status"></span>
 </div>
 
@@ -419,6 +444,14 @@ svg defs marker path {
     <div class="panel">
       <div class="panel-label">Types</div>
       <ul class="legend-list" id="legend"></ul>
+    </div>
+    <div class="panel" style="margin-top: auto;">
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="charter.html">Charter</a>
+        <a href="spec/index.html">Spec</a>
+        <a href="https://github.com/quicue/apercue">GitHub</a>
+      </div>
     </div>
   </div>
 </div>
@@ -616,7 +649,7 @@ function renderGraph(data) {
   const nodeEls = nodeGroup.selectAll('.node-group')
     .data(nodes)
     .join('g')
-    .attr('class', d => `node-group status-${d.status}`)
+    .attr('class', d => `node-group status-${d.status}${d.domain ? ' has-domain' : ''}`)
     .call(d3.drag()
       .on('start', dragStart)
       .on('drag', dragging)
@@ -672,7 +705,7 @@ function renderGraph(data) {
       `<span class="tooltip-type" style="background:${TYPE_COLORS[t] || '#5b9cf6'}22;color:${TYPE_COLORS[t] || '#5b9cf6'}">${t}</span>`
     ).join('');
     ttDesc.textContent = d.description;
-    ttDomain.textContent = d.domain ? d.domain : '';
+    ttDomain.textContent = d.domain ? d.domain : 'depth ' + d.depth + ' · ' + d.status;
 
     // Highlight connected edges
     edgeEls.attr('opacity', e => {
@@ -700,9 +733,15 @@ function renderGraph(data) {
     nodeEls.attr('opacity', 1);
   });
 
-  // Click to open domain
+  // Click: open domain if available, otherwise toggle pin
   nodeEls.on('click', (event, d) => {
-    if (d.domain) window.open('https://' + d.domain, '_blank');
+    if (d.domain) {
+      window.open('https://' + d.domain, '_blank');
+    } else {
+      // Pin/unpin node position
+      if (d.fx != null) { d.fx = null; d.fy = null; }
+      else { d.fx = d.x; d.fy = d.y; }
+    }
   });
 
   // Topo chip hover → highlight node

@@ -20,15 +20,19 @@ import "apercue.ca/vocab@v0"
 	BaseIRI:  string | *"https://apercue.ca/vocab#"
 
 	concept_scheme: {
+		"@context":       vocab.context["@context"]
 		"@type":          "skos:ConceptScheme"
 		"@id":            BaseIRI + "TypeVocabulary"
 		"skos:prefLabel": "Type Vocabulary"
+		"dcterms:title":  "Type Vocabulary"
 		"skos:hasTopConcept": [
 			for name, entry in Registry {
-				"@type":           "skos:Concept"
-				"@id":             BaseIRI + name
-				"skos:prefLabel":  name
-				"skos:definition": entry.description
+				"@type":              "skos:Concept"
+				"@id":                BaseIRI + name
+				"skos:prefLabel":     name
+				"skos:definition":    entry.description
+				"skos:inScheme":      {"@id": BaseIRI + "TypeVocabulary"}
+				"skos:topConceptOf":  {"@id": BaseIRI + "TypeVocabulary"}
 			},
 		]
 	}

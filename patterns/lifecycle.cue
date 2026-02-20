@@ -12,6 +12,7 @@ package patterns
 import (
 	"list"
 	"strings"
+	"apercue.ca/vocab"
 )
 
 // #LifecyclePhase enumerates the ordered phases of a deployment lifecycle.
@@ -25,7 +26,9 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 //
 // Export: cue export ./patterns/ -e #LifecyclePhasesSKOS --out json
 #LifecyclePhasesSKOS: {
+	"@context":       vocab.context["@context"]
 	"@type":          "skos:OrderedCollection"
+	"@id":            "apercue:lifecycle/Phases"
 	"skos:prefLabel": "Deployment Lifecycle Phases"
 	"skos:memberList": {
 		"@list": [
@@ -172,7 +175,8 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 
 // #SmokeTest runs a list of checks and produces a pass/fail report.
 #SmokeTest: {
-	checks: [...#Check]
+	checks:   [...#Check]
+	Subject?: string // IRI of the system under test (earl:subject)
 
 	// Output: bash script that runs all checks
 	script: string | *strings.Join([
@@ -200,19 +204,25 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 	// from running the script). The test PLAN is the linked data.
 	//
 	// Export: cue export -e verify.earl_report --out json
-	earl_report: [
-		for c in checks {
-			"@type": "earl:Assertion"
-			"earl:test": {
-				"@type":         "earl:TestCriterion"
-				"dcterms:title": c.label
-				"earl:command":  c.command
-			}
-			"earl:result": {
-				"@type":         "earl:TestResult"
-				"earl:outcome":  {"@id": "earl:untested"}
-				"earl:expected": c.expected
-			}
-		},
-	]
+	earl_report: {
+		"@context": vocab.context["@context"]
+		"@graph": [
+			for c in checks {
+				"@type": "earl:Assertion"
+				if Subject != _|_ {
+					"earl:subject": {"@id": Subject}
+				}
+				"earl:test": {
+					"@type":            "earl:TestCriterion"
+					"dcterms:title":    c.label
+					"apercue:command":  c.command
+				}
+				"earl:result": {
+					"@type":         "earl:TestResult"
+					"earl:outcome":  {"@id": "earl:untested"}
+					"earl:expected": c.expected
+				}
+			},
+		]
+	}
 }
