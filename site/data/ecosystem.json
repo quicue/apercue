@@ -45,7 +45,7 @@
             ],
             "depth": 2,
             "status": "degraded",
-            "description": "Homelab infrastructure — Proxmox, ZFS, Docker, Tailscale",
+            "description": "Infrastructure instance — datacenter-as-code deployment",
             "domain": ""
         },
         {
@@ -61,15 +61,15 @@
             "domain": "cmhc-retrofit.quicue.ca"
         },
         {
-            "id": "maison-613",
-            "name": "maison-613",
+            "id": "property-tracker",
+            "name": "property-tracker",
             "types": [
                 "Instance",
                 "Standalone"
             ],
             "depth": 2,
             "status": "active",
-            "description": "Real estate transaction + compliance tracker",
+            "description": "Real estate transaction modeling with compliance rules",
             "domain": ""
         },
         {
@@ -105,19 +105,7 @@
             ],
             "depth": 3,
             "status": "active",
-            "description": "Self-hosted git on clover (CT 637)",
-            "domain": ""
-        },
-        {
-            "id": "gitlab",
-            "name": "gitlab",
-            "types": [
-                "Service",
-                "GitServer"
-            ],
-            "depth": 3,
-            "status": "dead",
-            "description": "GitLab on tulip (CT 614) — DEAD: tulip.fast pool gone",
+            "description": "Self-hosted Forgejo git server",
             "domain": ""
         },
         {
@@ -128,7 +116,7 @@
             ],
             "depth": 2,
             "status": "active",
-            "description": "Swamp extension model wrapping kg CLI",
+            "description": "CLI extension framework for knowledge graph operations",
             "domain": ""
         }
     ],
@@ -155,7 +143,7 @@
         },
         {
             "source": "quicue-patterns",
-            "target": "maison-613"
+            "target": "property-tracker"
         },
         {
             "source": "quicue-patterns",
@@ -174,17 +162,13 @@
             "target": "forgejo"
         },
         {
-            "source": "grdn",
-            "target": "gitlab"
-        },
-        {
             "source": "quicue-kg",
             "target": "quicue-swamp"
         }
     ],
     "charter": {
         "name": "quicue-ecosystem",
-        "total_modules": 11,
+        "total_modules": 10,
         "graph_valid": true,
         "complete": true,
         "missing": 0,
@@ -193,7 +177,7 @@
     "cpm": {
         "total_duration": 25,
         "critical_count": 4,
-        "total_resources": 11,
+        "total_resources": 10,
         "max_slack": 13
     },
     "critical_path": [
@@ -228,11 +212,10 @@
         "quicue-kg": "active",
         "grdn": "degraded",
         "cmhc-retrofit": "active",
-        "maison-613": "active",
+        "property-tracker": "active",
         "demo-site": "active",
         "static-api": "active",
         "forgejo": "active",
-        "gitlab": "dead",
         "quicue-swamp": "active"
     },
     "topology": {
@@ -246,14 +229,13 @@
         "layer_2": {
             "grdn": true,
             "cmhc-retrofit": true,
-            "maison-613": true,
+            "property-tracker": true,
             "demo-site": true,
             "quicue-swamp": true
         },
         "layer_3": {
             "static-api": true,
-            "forgejo": true,
-            "gitlab": true
+            "forgejo": true
         }
     }
 }

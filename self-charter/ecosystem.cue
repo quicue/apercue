@@ -52,9 +52,9 @@ _ecosystem: {
 	"grdn": {
 		name:        "grdn"
 		"@type":     {Instance: true, Homelab: true}
-		description: "Homelab infrastructure — Proxmox, ZFS, Docker, Tailscale"
+		description: "Infrastructure instance — datacenter-as-code deployment"
 		depends_on:  {"quicue-patterns": true, "quicue-kg": true}
-		status:      "degraded" // tulip.fast dead
+		status:      "degraded"
 	}
 	"cmhc-retrofit": {
 		name:        "cmhc-retrofit"
@@ -65,10 +65,10 @@ _ecosystem: {
 		repo:        "github:quicue/cmhc-retrofit"
 		domain:      "cmhc-retrofit.quicue.ca"
 	}
-	"maison-613": {
-		name:        "maison-613"
+	"property-tracker": {
+		name:        "property-tracker"
 		"@type":     {Instance: true, Standalone: true}
-		description: "Real estate transaction + compliance tracker"
+		description: "Real estate transaction modeling with compliance rules"
 		depends_on:  {"quicue-patterns": true}
 		status:      "active"
 	}
@@ -93,23 +93,16 @@ _ecosystem: {
 	"forgejo": {
 		name:        "forgejo"
 		"@type":     {Service: true, GitServer: true}
-		description: "Self-hosted git on clover (CT 637)"
+		description: "Self-hosted Forgejo git server"
 		depends_on:  {grdn: true}
 		status:      "active"
-	}
-	"gitlab": {
-		name:        "gitlab"
-		"@type":     {Service: true, GitServer: true}
-		description: "GitLab on tulip (CT 614) — DEAD: tulip.fast pool gone"
-		depends_on:  {grdn: true}
-		status:      "dead"
 	}
 
 	// ── Tool layer ───────────────────────────────────────────────
 	"quicue-swamp": {
 		name:        "quicue-swamp"
 		"@type":     {Tool: true}
-		description: "Swamp extension model wrapping kg CLI"
+		description: "CLI extension framework for knowledge graph operations"
 		depends_on:  {"quicue-kg": true}
 		status:      "active"
 	}
@@ -123,17 +116,16 @@ _eco_cpm: patterns.#CriticalPath & {
 	Graph: _eco_graph
 	// Weights: estimated effort in days
 	Weights: {
-		apercue:            5
-		"quicue-patterns":  10
-		"quicue-kg":        5
-		grdn:               8
-		"cmhc-retrofit":    3
-		"maison-613":       3
-		"demo-site":        2
-		"static-api":       2
-		forgejo:            1
-		gitlab:             0 // dead
-		"quicue-swamp":     2
+		apercue:              5
+		"quicue-patterns":    10
+		"quicue-kg":          5
+		grdn:                 8
+		"cmhc-retrofit":      3
+		"property-tracker":   3
+		"demo-site":          2
+		"static-api":         2
+		forgejo:              1
+		"quicue-swamp":       2
 	}
 }
 
@@ -142,7 +134,7 @@ _eco_charter: charter.#Charter & {
 	name: "quicue-ecosystem"
 
 	scope: {
-		total_resources: 11
+		total_resources: 10
 		root: {apercue: true}
 		required_types: {
 			Module:     true
@@ -182,11 +174,11 @@ _eco_charter: charter.#Charter & {
 			phase:       4
 			description: "Full ecosystem: services, tools, self-hosted git"
 			requires: {
-				"demo-site":      true
-				"static-api":     true
-				forgejo:          true
-				"quicue-swamp":   true
-				"maison-613":     true
+				"demo-site":         true
+				"static-api":        true
+				forgejo:             true
+				"quicue-swamp":      true
+				"property-tracker":  true
 			}
 			depends_on: {"instances-live": true}
 		}

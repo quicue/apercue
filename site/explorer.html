@@ -81,14 +81,14 @@ svg defs marker path {
 
 .edge {
   stroke: var(--border-bright);
-  stroke-width: 1.5;
+  stroke-width: 1.2;
   fill: none;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 .edge.critical {
   stroke: var(--accent);
-  stroke-width: 2;
-  opacity: 0.8;
+  stroke-width: 1.8;
+  opacity: 0.7;
   stroke-dasharray: 6 3;
   animation: dash-flow 1.5s linear infinite;
 }
@@ -237,58 +237,20 @@ svg defs marker path {
   margin-top: 4px;
 }
 
-/* Status indicators */
-.status-list { list-style: none; }
-.status-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 0;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-}
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.status-dot.active { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-.status-dot.degraded { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
-.status-dot.dead { background: var(--dead); box-shadow: 0 0 6px var(--dead); }
-.status-name { color: var(--text); flex: 1; }
-.status-label {
-  font-size: 10px;
-  color: var(--text-dim);
-}
 
-/* Critical path */
-.crit-sequence {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.crit-step {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 3px;
+/* Critical path — compact inline */
+.crit-inline {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-}
-.crit-step .crit-name { color: var(--accent); flex: 1; }
-.crit-step .crit-dur {
   color: var(--text-dim);
-  font-size: 10px;
+  line-height: 1.8;
 }
-.crit-arrow {
-  text-align: center;
+.crit-inline .crit-node {
+  color: var(--accent);
+}
+.crit-inline .crit-sep {
   color: var(--border-bright);
-  font-size: 10px;
-  line-height: 1;
+  margin: 0 4px;
 }
 
 /* Type legend */
@@ -430,12 +392,8 @@ svg defs marker path {
       <div class="metrics" id="metrics"></div>
     </div>
     <div class="panel">
-      <div class="panel-label">Health</div>
-      <ul class="status-list" id="status-list"></ul>
-    </div>
-    <div class="panel">
       <div class="panel-label">Critical Path</div>
-      <div class="crit-sequence" id="crit-path"></div>
+      <div class="crit-inline" id="crit-path"></div>
     </div>
     <div class="panel">
       <div class="panel-label">Topology</div>
@@ -517,39 +475,25 @@ function renderSidebar(data) {
 
   // Metrics
   const m = document.getElementById('metrics');
+  const activeCount = Object.values(data.status).filter(s => s === 'active').length;
+  const edgeCount = data.edges.length;
+  const layerCount = Object.keys(data.topology).length;
   const metrics = [
-    [data.charter.total_modules, 'Modules'],
-    [data.cpm.total_duration + 'd', 'Duration'],
-    [data.cpm.critical_count, 'Critical'],
-    [data.cpm.max_slack + 'd', 'Max Slack'],
+    [data.charter.total_modules, 'Resources'],
+    [edgeCount, 'Edges'],
+    [layerCount, 'Layers'],
+    [activeCount + '/' + data.charter.total_modules, 'Active'],
   ];
   m.innerHTML = metrics.map(([v, l]) =>
     `<div class="metric"><div class="metric-value">${v}</div><div class="metric-label">${l}</div></div>`
   ).join('');
 
-  // Status list
-  const sl = document.getElementById('status-list');
-  const sorted = Object.entries(data.status).sort((a, b) => {
-    const order = { dead: 0, degraded: 1, active: 2 };
-    return (order[a[1]] || 3) - (order[b[1]] || 3);
-  });
-  sl.innerHTML = sorted.map(([name, status]) =>
-    `<li class="status-item">
-      <span class="status-dot ${status}"></span>
-      <span class="status-name">${name}</span>
-      <span class="status-label">${status}</span>
-    </li>`
-  ).join('');
-
-  // Critical path
+  // Critical path — compact inline
   const cp = document.getElementById('crit-path');
   cp.innerHTML = data.critical_path.map((step, i) => {
-    const arrow = i < data.critical_path.length - 1 ? '<div class="crit-arrow">|</div>' : '';
-    return `<div class="crit-step">
-      <span class="crit-name">${step.resource}</span>
-      <span class="crit-dur">${step.duration}d (${step.start}-${step.finish})</span>
-    </div>${arrow}`;
-  }).join('');
+    const sep = i < data.critical_path.length - 1 ? '<span class="crit-sep">→</span>' : '';
+    return `<span class="crit-node">${step.resource}</span>${sep}`;
+  }).join('') + `<br><span style="font-size:10px">${data.cpm.total_duration}d total · ${data.cpm.critical_count} nodes</span>`;
 
   // Topology
   const topo = document.getElementById('topology');
@@ -584,57 +528,76 @@ function renderGraph(data) {
 
   svg.attr('viewBox', [0, 0, width, height]);
 
-  // Arrow marker
-  svg.append('defs').append('marker')
+  // Arrow markers
+  const defs = svg.append('defs');
+  defs.append('marker')
     .attr('id', 'arrow')
     .attr('viewBox', '0 -4 8 8')
-    .attr('refX', 20)
-    .attr('refY', 0)
-    .attr('markerWidth', 6)
-    .attr('markerHeight', 6)
+    .attr('refX', 20).attr('refY', 0)
+    .attr('markerWidth', 5).attr('markerHeight', 5)
     .attr('orient', 'auto')
-    .append('path')
-    .attr('d', 'M0,-3L7,0L0,3')
-    .attr('fill', '#2a3545');
-
-  svg.append('defs').append('marker')
+    .append('path').attr('d', 'M0,-3L7,0L0,3').attr('fill', '#2a3545');
+  defs.append('marker')
     .attr('id', 'arrow-crit')
     .attr('viewBox', '0 -4 8 8')
-    .attr('refX', 20)
-    .attr('refY', 0)
-    .attr('markerWidth', 6)
-    .attr('markerHeight', 6)
+    .attr('refX', 20).attr('refY', 0)
+    .attr('markerWidth', 5).attr('markerHeight', 5)
     .attr('orient', 'auto')
-    .append('path')
-    .attr('d', 'M0,-3L7,0L0,3')
-    .attr('fill', '#3ddc84');
+    .append('path').attr('d', 'M0,-3L7,0L0,3').attr('fill', '#3ddc84');
 
-  // Determine critical path edges
-  const critNodes = new Set(data.critical_path.map(s => s.resource));
+  // Critical path edge set
   const critEdgeSet = new Set();
   for (let i = 0; i < data.critical_path.length - 1; i++) {
-    // The edge goes from earlier to later in the path
-    // but edges are source→target (dependency direction)
-    // Critical path: apercue → quicue-patterns → ...
-    // Edge: source=apercue, target=quicue-patterns
     critEdgeSet.add(data.critical_path[i].resource + '→' + data.critical_path[i+1].resource);
   }
 
-  const nodes = data.nodes.map(d => ({...d}));
-  const edges = data.edges.map(d => ({...d}));
+  // Group nodes by layer for deterministic positioning
+  const layers = {};
+  const maxDepth = Math.max(...data.nodes.map(n => n.depth));
+  data.nodes.forEach(n => {
+    if (!layers[n.depth]) layers[n.depth] = [];
+    layers[n.depth].push(n);
+  });
 
-  const simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(edges).id(d => d.id).distance(100).strength(0.7))
-    .force('charge', d3.forceManyBody().strength(-400))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('y', d3.forceY().y(d => 80 + d.depth * (height - 160) / 3).strength(0.3))
-    .force('collision', d3.forceCollide().radius(d => nodeRadius(d) + 15));
+  // Compute fixed positions: even vertical spacing, centered horizontal
+  const padY = 100;
+  const layerSpacing = maxDepth > 0 ? (height - padY * 2) / maxDepth : 0;
+  const nodes = data.nodes.map(d => {
+    const layer = layers[d.depth];
+    const idx = layer.indexOf(d);
+    const count = layer.length;
+    const slotWidth = width / (count + 1);
+    return {
+      ...d,
+      x: slotWidth * (idx + 1),
+      y: padY + d.depth * layerSpacing,
+    };
+  });
 
-  // Edges
-  const edgeGroup = svg.append('g');
-  const edgeEls = edgeGroup.selectAll('.edge')
+  const nodeMap = {};
+  nodes.forEach(n => nodeMap[n.id] = n);
+
+  const edges = data.edges.map(d => ({
+    source: nodeMap[d.source] || nodeMap[d.source.id],
+    target: nodeMap[d.target] || nodeMap[d.target.id],
+  }));
+
+  const rootG = svg.append('g');
+
+  // Layer labels (subtle depth indicators)
+  for (let d = 0; d <= maxDepth; d++) {
+    rootG.append('text')
+      .attr('x', 14).attr('y', padY + d * layerSpacing + 4)
+      .attr('fill', '#1e2733')
+      .attr('font-family', 'IBM Plex Mono, monospace')
+      .attr('font-size', '10px')
+      .text('L' + d);
+  }
+
+  // Edges as curved paths
+  const edgeEls = rootG.selectAll('.edge')
     .data(edges)
-    .join('line')
+    .join('path')
     .attr('class', d => {
       const key = d.source.id + '→' + d.target.id;
       return critEdgeSet.has(key) ? 'edge critical' : 'edge';
@@ -642,20 +605,39 @@ function renderGraph(data) {
     .attr('marker-end', d => {
       const key = d.source.id + '→' + d.target.id;
       return critEdgeSet.has(key) ? 'url(#arrow-crit)' : 'url(#arrow)';
+    })
+    .attr('d', d => {
+      const dx = d.target.x - d.source.x;
+      const dy = d.target.y - d.source.y;
+      // Gentle vertical curve
+      const cx = d.source.x + dx * 0.5;
+      const cy1 = d.source.y + dy * 0.25;
+      const cy2 = d.source.y + dy * 0.75;
+      return `M${d.source.x},${d.source.y} C${cx},${cy1} ${cx},${cy2} ${d.target.x},${d.target.y}`;
     });
 
   // Nodes
-  const nodeGroup = svg.append('g');
-  const nodeEls = nodeGroup.selectAll('.node-group')
+  const nodeEls = rootG.selectAll('.node-group')
     .data(nodes)
     .join('g')
     .attr('class', d => `node-group status-${d.status}${d.domain ? ' has-domain' : ''}`)
+    .attr('transform', d => `translate(${d.x},${d.y})`)
     .call(d3.drag()
-      .on('start', dragStart)
-      .on('drag', dragging)
-      .on('end', dragEnd));
+      .on('start', (event, d) => { d._dragging = true; })
+      .on('drag', (event, d) => {
+        d.x = event.x; d.y = event.y;
+        d3.select(event.sourceEvent.target.closest('.node-group'))
+          .attr('transform', `translate(${d.x},${d.y})`);
+        edgeEls.attr('d', e => {
+          const cx = e.source.x + (e.target.x - e.source.x) * 0.5;
+          const cy1 = e.source.y + (e.target.y - e.source.y) * 0.25;
+          const cy2 = e.source.y + (e.target.y - e.source.y) * 0.75;
+          return `M${e.source.x},${e.source.y} C${cx},${cy1} ${cx},${cy2} ${e.target.x},${e.target.y}`;
+        });
+      })
+      .on('end', (event, d) => { d._dragging = false; }));
 
-  // Pulse ring (for degraded/dead)
+  // Pulse ring
   nodeEls.append('circle')
     .attr('class', 'node-pulse')
     .attr('r', d => nodeRadius(d) + 8)
@@ -673,10 +655,7 @@ function renderGraph(data) {
   nodeEls.append('circle')
     .attr('class', 'node-core')
     .attr('r', d => nodeRadius(d))
-    .attr('fill', d => {
-      if (d.status === 'dead') return '#1a1a1a';
-      return nodeColor(d);
-    })
+    .attr('fill', d => d.status === 'dead' ? '#1a1a1a' : nodeColor(d))
     .attr('fill-opacity', d => d.status === 'dead' ? 0.3 : 0.15)
     .attr('stroke', d => {
       if (d.status === 'dead') return STATUS_COLORS.dead;
@@ -705,20 +684,17 @@ function renderGraph(data) {
       `<span class="tooltip-type" style="background:${TYPE_COLORS[t] || '#5b9cf6'}22;color:${TYPE_COLORS[t] || '#5b9cf6'}">${t}</span>`
     ).join('');
     ttDesc.textContent = d.description;
-    ttDomain.textContent = d.domain ? d.domain : 'depth ' + d.depth + ' · ' + d.status;
+    ttDomain.textContent = d.domain ? d.domain : 'layer ' + d.depth + ' · ' + d.status;
 
-    // Highlight connected edges
-    edgeEls.attr('opacity', e => {
-      if (e.source.id === d.id || e.target.id === d.id) return 1;
-      return 0.15;
-    });
+    edgeEls.attr('opacity', e =>
+      (e.source.id === d.id || e.target.id === d.id) ? 1 : 0.08
+    );
     nodeEls.attr('opacity', n => {
       if (n.id === d.id) return 1;
-      const connected = edges.some(e =>
+      return edges.some(e =>
         (e.source.id === d.id && e.target.id === n.id) ||
         (e.target.id === d.id && e.source.id === n.id)
-      );
-      return connected ? 1 : 0.3;
+      ) ? 1 : 0.25;
     });
   });
 
@@ -733,24 +709,17 @@ function renderGraph(data) {
     nodeEls.attr('opacity', 1);
   });
 
-  // Click: open domain if available, otherwise toggle pin
   nodeEls.on('click', (event, d) => {
-    if (d.domain) {
-      window.open('https://' + d.domain, '_blank');
-    } else {
-      // Pin/unpin node position
-      if (d.fx != null) { d.fx = null; d.fy = null; }
-      else { d.fx = d.x; d.fy = d.y; }
-    }
+    if (d.domain) window.open('https://' + d.domain, '_blank');
   });
 
-  // Topo chip hover → highlight node
+  // Topo chip hover
   document.querySelectorAll('.topo-chip').forEach(chip => {
     chip.addEventListener('mouseenter', () => {
       const nodeId = chip.dataset.node;
-      nodeEls.attr('opacity', n => n.id === nodeId ? 1 : 0.3);
+      nodeEls.attr('opacity', n => n.id === nodeId ? 1 : 0.25);
       edgeEls.attr('opacity', e =>
-        e.source.id === nodeId || e.target.id === nodeId ? 1 : 0.15
+        e.source.id === nodeId || e.target.id === nodeId ? 1 : 0.08
       );
     });
     chip.addEventListener('mouseleave', () => {
@@ -759,45 +728,15 @@ function renderGraph(data) {
     });
   });
 
-  // Tick
-  simulation.on('tick', () => {
-    edgeEls
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
-
-    nodeEls.attr('transform', d => `translate(${d.x},${d.y})`);
-  });
-
-  // Drag handlers
-  function dragStart(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-  function dragging(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
-  function dragEnd(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
-
   // Zoom
   const zoom = d3.zoom()
     .scaleExtent([0.3, 4])
-    .on('zoom', (event) => {
-      edgeGroup.attr('transform', event.transform);
-      nodeGroup.attr('transform', event.transform);
-    });
+    .on('zoom', (event) => { rootG.attr('transform', event.transform); });
   svg.call(zoom);
 }
 
 // Inline data fallback (for local file:// usage)
-const INLINE_DATA = {"nodes":[{"id":"apercue","name":"apercue","types":["Module","Reference"],"depth":0,"status":"active","description":"Generic reference repo \u2014 domain-agnostic typed graphs + W3C projections","domain":"apercue.ca"},{"id":"quicue-patterns","name":"quicue-patterns","types":["Module","Patterns"],"depth":1,"status":"active","description":"Infrastructure-specific patterns \u2014 40+ types, 29 providers","domain":"quicue.ca"},{"id":"quicue-kg","name":"quicue-kg","types":["Module","Framework"],"depth":1,"status":"active","description":"Knowledge graph framework \u2014 core types, ext, aggregate, CLI","domain":"kg.quicue.ca"},{"id":"grdn","name":"grdn","types":["Instance","Homelab"],"depth":2,"status":"degraded","description":"Homelab infrastructure \u2014 Proxmox, ZFS, Docker, Tailscale","domain":""},{"id":"cmhc-retrofit","name":"cmhc-retrofit","types":["Instance","Standalone"],"depth":2,"status":"active","description":"CMHC housing retrofit \u2014 NHCF + Greener Homes graphs","domain":"cmhc-retrofit.quicue.ca"},{"id":"maison-613","name":"maison-613","types":["Instance","Standalone"],"depth":2,"status":"active","description":"Real estate transaction + compliance tracker","domain":""},{"id":"demo-site","name":"demo-site","types":["Service","Frontend"],"depth":2,"status":"active","description":"D3 graph explorer, planner, Hydra browser","domain":"demo.quicue.ca"},{"id":"static-api","name":"static-api","types":["Service","API"],"depth":3,"status":"active","description":"727 pre-computed JSON responses from cue export","domain":"api.quicue.ca"},{"id":"forgejo","name":"forgejo","types":["Service","GitServer"],"depth":3,"status":"active","description":"Self-hosted git on clover (CT 637)","domain":""},{"id":"gitlab","name":"gitlab","types":["Service","GitServer"],"depth":3,"status":"dead","description":"GitLab on tulip (CT 614) \u2014 DEAD: tulip.fast pool gone","domain":""},{"id":"quicue-swamp","name":"quicue-swamp","types":["Tool"],"depth":2,"status":"active","description":"Swamp extension model wrapping kg CLI","domain":""}],"edges":[{"source":"apercue","target":"quicue-patterns"},{"source":"apercue","target":"quicue-kg"},{"source":"quicue-patterns","target":"grdn"},{"source":"quicue-kg","target":"grdn"},{"source":"quicue-patterns","target":"cmhc-retrofit"},{"source":"quicue-patterns","target":"maison-613"},{"source":"quicue-patterns","target":"demo-site"},{"source":"quicue-patterns","target":"static-api"},{"source":"grdn","target":"static-api"},{"source":"grdn","target":"forgejo"},{"source":"grdn","target":"gitlab"},{"source":"quicue-kg","target":"quicue-swamp"}],"charter":{"name":"quicue-ecosystem","total_modules":11,"graph_valid":true,"complete":true,"missing":0,"next_gate":""},"cpm":{"total_duration":25,"critical_count":4,"total_resources":11,"max_slack":13},"critical_path":[{"resource":"apercue","start":0,"finish":5,"duration":5},{"resource":"quicue-patterns","start":5,"finish":15,"duration":10},{"resource":"grdn","start":15,"finish":23,"duration":8},{"resource":"static-api","start":23,"finish":25,"duration":2}],"status":{"apercue":"active","quicue-patterns":"active","quicue-kg":"active","grdn":"degraded","cmhc-retrofit":"active","maison-613":"active","demo-site":"active","static-api":"active","forgejo":"active","gitlab":"dead","quicue-swamp":"active"},"topology":{"layer_0":{"apercue":true},"layer_1":{"quicue-patterns":true,"quicue-kg":true},"layer_2":{"grdn":true,"cmhc-retrofit":true,"maison-613":true,"demo-site":true,"quicue-swamp":true},"layer_3":{"static-api":true,"forgejo":true,"gitlab":true}}};
+const INLINE_DATA = {"nodes":[{"id":"apercue","name":"apercue","types":["Module","Reference"],"depth":0,"status":"active","description":"Generic reference repo \u2014 domain-agnostic typed graphs + W3C projections","domain":"apercue.ca"},{"id":"quicue-patterns","name":"quicue-patterns","types":["Module","Patterns"],"depth":1,"status":"active","description":"Infrastructure-specific patterns \u2014 40+ types, 29 providers","domain":"quicue.ca"},{"id":"quicue-kg","name":"quicue-kg","types":["Module","Framework"],"depth":1,"status":"active","description":"Knowledge graph framework \u2014 core types, ext, aggregate, CLI","domain":"kg.quicue.ca"},{"id":"grdn","name":"grdn","types":["Instance","Homelab"],"depth":2,"status":"degraded","description":"Infrastructure instance \u2014 datacenter-as-code deployment","domain":""},{"id":"cmhc-retrofit","name":"cmhc-retrofit","types":["Instance","Standalone"],"depth":2,"status":"active","description":"CMHC housing retrofit \u2014 NHCF + Greener Homes graphs","domain":"cmhc-retrofit.quicue.ca"},{"id":"property-tracker","name":"property-tracker","types":["Instance","Standalone"],"depth":2,"status":"active","description":"Real estate transaction modeling with compliance rules","domain":""},{"id":"demo-site","name":"demo-site","types":["Service","Frontend"],"depth":2,"status":"active","description":"D3 graph explorer, planner, Hydra browser","domain":"demo.quicue.ca"},{"id":"static-api","name":"static-api","types":["Service","API"],"depth":3,"status":"active","description":"727 pre-computed JSON responses from cue export","domain":"api.quicue.ca"},{"id":"forgejo","name":"forgejo","types":["Service","GitServer"],"depth":3,"status":"active","description":"Self-hosted Forgejo git server","domain":""},{"id":"quicue-swamp","name":"quicue-swamp","types":["Tool"],"depth":2,"status":"active","description":"CLI extension framework for knowledge graph operations","domain":""}],"edges":[{"source":"apercue","target":"quicue-patterns"},{"source":"apercue","target":"quicue-kg"},{"source":"quicue-patterns","target":"grdn"},{"source":"quicue-kg","target":"grdn"},{"source":"quicue-patterns","target":"cmhc-retrofit"},{"source":"quicue-patterns","target":"property-tracker"},{"source":"quicue-patterns","target":"demo-site"},{"source":"quicue-patterns","target":"static-api"},{"source":"grdn","target":"static-api"},{"source":"grdn","target":"forgejo"},{"source":"quicue-kg","target":"quicue-swamp"}],"charter":{"name":"quicue-ecosystem","total_modules":10,"graph_valid":true,"complete":true,"missing":0,"next_gate":""},"cpm":{"total_duration":25,"critical_count":4,"total_resources":10,"max_slack":13},"critical_path":[{"resource":"apercue","start":0,"finish":5,"duration":5},{"resource":"quicue-patterns","start":5,"finish":15,"duration":10},{"resource":"grdn","start":15,"finish":23,"duration":8},{"resource":"static-api","start":23,"finish":25,"duration":2}],"status":{"apercue":"active","quicue-patterns":"active","quicue-kg":"active","grdn":"degraded","cmhc-retrofit":"active","property-tracker":"active","demo-site":"active","static-api":"active","forgejo":"active","quicue-swamp":"active"},"topology":{"layer_0":{"apercue":true},"layer_1":{"quicue-patterns":true,"quicue-kg":true},"layer_2":{"grdn":true,"cmhc-retrofit":true,"property-tracker":true,"demo-site":true,"quicue-swamp":true},"layer_3":{"static-api":true,"forgejo":true}}};
 
 init();
 </script>
