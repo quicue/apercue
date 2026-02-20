@@ -241,7 +241,6 @@ _tasks: {
 		"@type":     {Schema: true}
 		description: "Apply dcterms + W3C @context fixes to quicue.ca repo"
 		depends_on:  {"w3c-namespace-cleanup": true}
-		_planned:    true
 	}
 	"ci-auto-deploy": {
 		name:        "ci-auto-deploy"
