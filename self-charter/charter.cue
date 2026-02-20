@@ -261,6 +261,43 @@ _tasks: {
 		description: "Push to git.example.com as primary, GitHub as mirror"
 		depends_on:  {"github-repo": true}
 	}
+
+	// ── Phase 8: Local Hardening + Presentation ──────────────────
+	"site-data-locality": {
+		name:        "site-data-locality"
+		"@type":     {CI: true, Schema: true}
+		description: "Split build into public (landing, spec, examples) and private (charter, ecosystem, projections) targets"
+		depends_on:  {"site-build": true}
+		_planned:    true
+	}
+	"homelab-site-deploy": {
+		name:        "homelab-site-deploy"
+		"@type":     {CI: true}
+		description: "Deploy private site data to homelab network with Caddy static serve"
+		depends_on:  {"site-data-locality": true, "homelab-mirror": true}
+		_planned:    true
+	}
+	"charter-cpm-overlay": {
+		name:        "charter-cpm-overlay"
+		"@type":     {Projection: true}
+		description: "CPM critical path highlighting, earliest/latest/slack on charter nodes"
+		depends_on:  {"charter-live-viz": true}
+		_planned:    true
+	}
+	"projections-dashboard": {
+		name:        "projections-dashboard"
+		"@type":     {Projection: true, Documentation: true}
+		description: "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule"
+		depends_on:  {"site-data-locality": true}
+		_planned:    true
+	}
+	"spec-v2-update": {
+		name:        "spec-v2-update"
+		"@type":     {Documentation: true}
+		description: "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge"
+		depends_on:  {"specs-registry": true}
+		_planned:    true
+	}
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -385,6 +422,18 @@ _charter: charter.#Charter & {
 				"homelab-mirror":            true
 			}
 			depends_on: {"projections-complete": true}
+		}
+		"local-hardening": {
+			phase:       8
+			description: "Real data local on homelab, public site clean, projections dashboard live"
+			requires: {
+				"site-data-locality":      true
+				"homelab-site-deploy":        true
+				"charter-cpm-overlay":     true
+				"projections-dashboard":   true
+				"spec-v2-update":          true
+			}
+			depends_on: {"semantic-integrity": true}
 		}
 	}
 }
