@@ -9,6 +9,7 @@
             "depth": 0,
             "description": "cue mod init apercue.ca@v0, directory structure",
             "planned": false,
+            "kb": [],
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -21,6 +22,7 @@
             "depth": 1,
             "description": "Generic #Resource definition (no infra fields)",
             "planned": false,
+            "kb": [],
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -33,6 +35,7 @@
             "depth": 1,
             "description": "Empty #TypeRegistry pattern (domain-extensible)",
             "planned": false,
+            "kb": [],
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -46,6 +49,7 @@
             "depth": 1,
             "description": "JSON-LD @context with W3C namespace prefixes",
             "planned": false,
+            "kb": [],
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -58,6 +62,7 @@
             "depth": 1,
             "description": "#VizData, #VizNode, #VizEdge for visualization",
             "planned": false,
+            "kb": [],
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -70,6 +75,13 @@
             "depth": 2,
             "description": "#Graph (renamed from #InfraGraph) — universal dependency graph",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-001",
+                    "title": "Domain-agnostic graph engine"
+                }
+            ],
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -82,6 +94,7 @@
             "depth": 3,
             "description": "#CycleDetector, #ConnectedComponents, #Subgraph, #GraphDiff, #CriticalPath",
             "planned": false,
+            "kb": [],
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -94,6 +107,18 @@
             "depth": 3,
             "description": "#ComplianceCheck with SHACL ValidationReport projection",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-003",
+                    "title": "Comprehension-level filtering"
+                },
+                {
+                    "type": "pattern",
+                    "id": "P-003",
+                    "title": "comprehension-level-filtering"
+                }
+            ],
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -106,6 +131,7 @@
             "depth": 3,
             "description": "#BootstrapPlan, #DriftReport, #SmokeTest with SKOS + EARL",
             "planned": false,
+            "kb": [],
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -118,6 +144,18 @@
             "depth": 3,
             "description": "#Charter, #GapAnalysis, #Milestone with SHACL report",
             "planned": false,
+            "kb": [
+                {
+                    "type": "insight",
+                    "id": "INSIGHT-002",
+                    "title": "Charter makes completion a compile-time property"
+                },
+                {
+                    "type": "pattern",
+                    "id": "P-002",
+                    "title": "charter-as-constraint"
+                }
+            ],
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -130,6 +168,23 @@
             "depth": 4,
             "description": "sh:ValidationReport from #ComplianceCheck and #GapAnalysis",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-002",
+                    "title": "W3C artifacts as zero-cost projections"
+                },
+                {
+                    "type": "insight",
+                    "id": "INSIGHT-001",
+                    "title": "CUE unification subsumes SPARQL + SHACL"
+                },
+                {
+                    "type": "pattern",
+                    "id": "P-001",
+                    "title": "zero-cost-projection"
+                }
+            ],
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -142,6 +197,13 @@
             "depth": 4,
             "description": "skos:ConceptScheme from #TypeVocabulary and lifecycle phases",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-002",
+                    "title": "W3C artifacts as zero-cost projections"
+                }
+            ],
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -154,6 +216,13 @@
             "depth": 4,
             "description": "time:Interval from #CriticalPath scheduling",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-002",
+                    "title": "W3C artifacts as zero-cost projections"
+                }
+            ],
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -166,6 +235,13 @@
             "depth": 4,
             "description": "earl:Assertion from #SmokeTest test plans",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-002",
+                    "title": "W3C artifacts as zero-cost projections"
+                }
+            ],
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -178,6 +254,13 @@
             "depth": 4,
             "description": "University course prerequisites (12 courses, 3 charter gates)",
             "planned": false,
+            "kb": [
+                {
+                    "type": "insight",
+                    "id": "INSIGHT-003",
+                    "title": "Non-infra examples prove generality"
+                }
+            ],
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -190,6 +273,13 @@
             "depth": 4,
             "description": "Beef bourguignon recipe (17 steps, critical path)",
             "planned": false,
+            "kb": [
+                {
+                    "type": "insight",
+                    "id": "INSIGHT-003",
+                    "title": "Non-infra examples prove generality"
+                }
+            ],
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -202,6 +292,7 @@
             "depth": 4,
             "description": "Software release tasks (10 tasks, status tracking)",
             "planned": false,
+            "kb": [],
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -214,6 +305,13 @@
             "depth": 4,
             "description": "Laptop assembly supply chain (15 parts, 5 tiers)",
             "planned": false,
+            "kb": [
+                {
+                    "type": "insight",
+                    "id": "INSIGHT-003",
+                    "title": "Non-infra examples prove generality"
+                }
+            ],
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -226,6 +324,7 @@
             "depth": 5,
             "description": "Project README with quick start and module structure",
             "planned": false,
+            "kb": [],
             "phase": 5,
             "gate": "ship"
         },
@@ -238,6 +337,7 @@
             "depth": 5,
             "description": "W3C spec coverage index (w3c/README.md)",
             "planned": false,
+            "kb": [],
             "phase": 5,
             "gate": "ship"
         },
@@ -250,6 +350,7 @@
             "depth": 5,
             "description": "Novelty document in 3 tones (academic, practitioner, executive)",
             "planned": false,
+            "kb": [],
             "phase": 5,
             "gate": "ship"
         },
@@ -262,6 +363,7 @@
             "depth": 3,
             "description": "Knowledge base (.kb/) with decisions, insights, patterns",
             "planned": false,
+            "kb": [],
             "phase": 5,
             "gate": "ship"
         },
@@ -274,6 +376,7 @@
             "depth": 6,
             "description": "GitHub repo created, initial commit pushed",
             "planned": false,
+            "kb": [],
             "phase": 5,
             "gate": "ship"
         },
@@ -286,6 +389,7 @@
             "depth": 7,
             "description": "CF Pages project with custom domain apercue.ca",
             "planned": false,
+            "kb": [],
             "phase": 5,
             "gate": "ship"
         },
@@ -298,6 +402,13 @@
             "depth": 2,
             "description": "#SafeID and #SafeLabel ASCII-safe identifier constraints",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-004",
+                    "title": "ASCII-safe identifiers prevent injection"
+                }
+            ],
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -310,6 +421,7 @@
             "depth": 7,
             "description": "GitHub Actions validate.yml with unicode rejection tests",
             "planned": false,
+            "kb": [],
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -323,6 +435,7 @@
             "depth": 5,
             "description": "W3C spec coverage as structured CUE data (single source of truth)",
             "planned": false,
+            "kb": [],
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -336,6 +449,7 @@
             "depth": 6,
             "description": "ReSpec HTML spec generated from CUE via cue export -e spec_html",
             "planned": false,
+            "kb": [],
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -349,6 +463,7 @@
             "depth": 8,
             "description": "Build pipeline replacing hardcoded site data with CUE projections",
             "planned": false,
+            "kb": [],
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -361,6 +476,7 @@
             "depth": 9,
             "description": "CI step verifying generated artifacts match CUE exports",
             "planned": false,
+            "kb": [],
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -373,6 +489,13 @@
             "depth": 2,
             "description": "Remove dead ODRL/OA/AS/Hydra/DCAT prefixes from @context",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-005",
+                    "title": "Remove dead W3C namespace prefixes"
+                }
+            ],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -386,6 +509,7 @@
             "depth": 8,
             "description": "Deploy @context.jsonld at apercue.ca/vocab/context.jsonld",
             "planned": false,
+            "kb": [],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -399,6 +523,13 @@
             "depth": 9,
             "description": "Add _planned status to charter tasks, filter for gap analysis",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-006",
+                    "title": "_planned field for gap analysis filtering"
+                }
+            ],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -411,6 +542,13 @@
             "depth": 10,
             "description": "Charter page shows planned vs completed nodes with status coloring",
             "planned": false,
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-006",
+                    "title": "_planned field for gap analysis filtering"
+                }
+            ],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -423,6 +561,7 @@
             "depth": 3,
             "description": "Apply dcterms + W3C @context fixes to quicue.ca repo",
             "planned": true,
+            "kb": [],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -435,6 +574,7 @@
             "depth": 8,
             "description": "GitHub Actions triggers Cloudflare Pages deploy on push",
             "planned": false,
+            "kb": [],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -447,7 +587,8 @@
             ],
             "depth": 10,
             "description": "Design .kb entries as charter node annotations with provenance",
-            "planned": true,
+            "planned": false,
+            "kb": [],
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -460,6 +601,7 @@
             "depth": 7,
             "description": "Push to git.infra.grdn as primary, GitHub as mirror",
             "planned": false,
+            "kb": [],
             "phase": 7,
             "gate": "semantic-integrity"
         }

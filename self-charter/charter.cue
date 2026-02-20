@@ -254,7 +254,6 @@ _tasks: {
 		"@type":     {Pattern: true, Documentation: true}
 		description: "Design .kb entries as charter node annotations with provenance"
 		depends_on:  {"kb-setup": true, "charter-status-tracking": true}
-		_planned:    true
 	}
 	"grdn-mirror": {
 		name:        "grdn-mirror"
@@ -412,4 +411,40 @@ summary: {
 	complete:     gaps.complete
 	missing:      gaps.missing_resource_count
 	next_gate:    gaps.next_gate
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// KB ↔ CHARTER BRIDGE — link .kb entries to charter deliverables
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// Each charter task can reference KB decisions, insights, or patterns
+// that motivated or documented it. The viz shows these as tooltip context.
+// Format: task-id → [{type, id, title}]
+
+_kb_annotations: {
+	"graph-engine": [{type: "decision", id: "ADR-001", title: "Domain-agnostic graph engine"}]
+	"validation-patterns": [
+		{type: "decision", id: "ADR-003", title: "Comprehension-level filtering"},
+		{type: "pattern", id: "P-003", title: "comprehension-level-filtering"},
+	]
+	"shacl-projection": [
+		{type: "decision", id: "ADR-002", title: "W3C artifacts as zero-cost projections"},
+		{type: "insight", id: "INSIGHT-001", title: "CUE unification subsumes SPARQL + SHACL"},
+		{type: "pattern", id: "P-001", title: "zero-cost-projection"},
+	]
+	"skos-projection":     [{type: "decision", id: "ADR-002", title: "W3C artifacts as zero-cost projections"}]
+	"owl-time-projection": [{type: "decision", id: "ADR-002", title: "W3C artifacts as zero-cost projections"}]
+	"earl-projection":     [{type: "decision", id: "ADR-002", title: "W3C artifacts as zero-cost projections"}]
+	"charter-module": [
+		{type: "insight", id: "INSIGHT-002", title: "Charter makes completion a compile-time property"},
+		{type: "pattern", id: "P-002", title: "charter-as-constraint"},
+	]
+	"example-course-prereqs": [{type: "insight", id: "INSIGHT-003", title: "Non-infra examples prove generality"}]
+	"example-recipe":         [{type: "insight", id: "INSIGHT-003", title: "Non-infra examples prove generality"}]
+	"example-supply-chain":   [{type: "insight", id: "INSIGHT-003", title: "Non-infra examples prove generality"}]
+	// Phase 6-7 decisions documented in this session
+	"safeid-constraints":      [{type: "decision", id: "ADR-004", title: "ASCII-safe identifiers prevent injection"}]
+	"w3c-namespace-cleanup":   [{type: "decision", id: "ADR-005", title: "Remove dead W3C namespace prefixes"}]
+	"charter-status-tracking": [{type: "decision", id: "ADR-006", title: "_planned field for gap analysis filtering"}]
+	"charter-live-viz":        [{type: "decision", id: "ADR-006", title: "_planned field for gap analysis filtering"}]
 }

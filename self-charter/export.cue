@@ -39,6 +39,7 @@ charter_viz: {
 			depth:       _charter_depth_map[rname]
 			description: raw.description
 			planned:     raw._planned
+			kb: *_kb_annotations[rname] | []
 			// Determine phase from charter gates
 			phase: [
 				for gname, gate in _charter.gates
