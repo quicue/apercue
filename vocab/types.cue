@@ -17,8 +17,9 @@ package vocab
 
 // #TypeRegistry — Catalog of known semantic types.
 // Extend this with your domain vocabulary.
+// Keys must be ASCII-safe labels (prevents unicode injection in type names).
 #TypeRegistry: {
-	[string]: #TypeEntry
+	[#SafeLabel]: #TypeEntry
 
 	// Allow extension
 	...
@@ -35,4 +36,4 @@ package vocab
 // #TypeNames — Constraint for type name validation.
 // Override in your domain module after populating #TypeRegistry.
 // Example: #TypeNames: or([for k, _ in #TypeRegistry {k}])
-#TypeNames: string
+#TypeNames: #SafeLabel

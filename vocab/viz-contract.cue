@@ -10,19 +10,19 @@ package vocab
 
 // #VizNode — Minimal node for visualization tools.
 #VizNode: {
-	id:         string
-	name:       string
-	types:      [...string]   // Flattened from @type struct
+	id:         #SafeID
+	name:       #SafeID
+	types:      [...#SafeLabel]   // Flattened from @type struct
 	depth:      int
-	ancestors:  [...string]
-	dependents: int           // Count, not list
+	ancestors:  [...#SafeID]
+	dependents: int               // Count, not list
 	description?: string
 }
 
 // #VizEdge — Dependency edge.
 #VizEdge: {
-	source: string
-	target: string
+	source: #SafeID
+	target: #SafeID
 }
 
 // #VizData — Complete visualization payload.
