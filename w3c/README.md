@@ -21,14 +21,12 @@ the standards-compliant output.
 | **PROV-O** | prov:wasDerivedFrom | Namespace in @context | `vocab/context.cue` | N/A (namespace prefix) |
 | **schema.org** | schema:actionStatus | Lifecycle status values | `vocab/context.cue` | N/A (namespace prefix) |
 
-## Planned
+## Downstream (in quicue.ca)
 
-| W3C Spec | Planned Pattern | Description |
-|----------|----------------|-------------|
-| **DCAT 3** | `#DCATCatalog` | Generate dcat:Catalog + dcat:Dataset from graph metadata |
-| **ODRL 2.2** | `#ODRLPolicy` | Machine-readable access policies from resource constraints |
-| **Hydra Core** | `#HydraApiDoc` | hydra:ApiDocumentation from graph operations |
-| **SHACL** | `#SHACLShapes` | Generate sh:NodeShape definitions from `#Resource` schema |
+| W3C Spec | Pattern | Description |
+|----------|---------|-------------|
+| **Hydra Core** | `#HydraApiDoc` | hydra:ApiDocumentation in quicue.ca operator dashboard |
+| **DCAT 3** | `#DCATCatalog` | dcat:Catalog in quicue-kg aggregate module |
 
 ## How It Works
 
