@@ -28,7 +28,7 @@
             }
         },
         "@type": "sh:ValidationReport",
-        "sh:conforms": false,
+        "sh:conforms": true,
         "dcterms:conformsTo": {
             "@id": "charter:apercue-build"
         },

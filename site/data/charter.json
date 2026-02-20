@@ -696,7 +696,7 @@
             ],
             "depth": 3,
             "description": "Apply dcterms + W3C @context fixes to quicue.ca repo",
-            "planned": true,
+            "planned": false,
             "kb": [],
             "earliest": 3,
             "latest": 11,
@@ -1218,7 +1218,7 @@
         "semantic-integrity": {
             "phase": 7,
             "description": "Clean W3C usage, live charter tracking, cross-repo sync",
-            "satisfied": false,
+            "satisfied": true,
             "resources": [
                 "w3c-namespace-cleanup",
                 "context-canonical-url",
@@ -1246,9 +1246,9 @@
     "charter_summary": {
         "project": "apercue-build",
         "deliverables": 43,
-        "complete": false,
+        "complete": true,
         "missing": 0,
-        "next_gate": "semantic-integrity"
+        "next_gate": ""
     },
     "topology": {
         "layer_0": {
