@@ -81,6 +81,20 @@ _patterns: {
 		description: "Declarative smoke test plans. Each test declares a target resource, a check type, and expected outcome."
 		w3c:         "Produces <a href=\"https://www.w3.org/TR/EARL10-Schema/\">EARL</a> <code>earl:Assertion</code> reports for automated test results."
 	}
+	analyzable_graph: {
+		label:       "#AnalyzableGraph"
+		module:      "patterns"
+		file:        "patterns/graph.cue"
+		description: "Minimal graph interface that both <code>#Graph</code> and <code>#GraphLite</code> satisfy. Omits the <code>_path</code> transitive closure requirement, enabling analysis patterns to accept precomputed graphs without triggering O(n<sup>depth</sup>) evaluation. All analysis patterns (<code>#CriticalPath</code>, <code>#ComplianceCheck</code>, <code>#ConnectedComponents</code>, etc.) accept <code>#AnalyzableGraph</code>."
+		w3c:         "No direct W3C mapping. This is an architectural interface that enables the same analysis patterns to operate on both live CUE-computed graphs and precomputed graphs, producing identical W3C projection output from either source."
+	}
+	precomputed_cpm: {
+		label:       "#CriticalPathPrecomputed"
+		module:      "patterns"
+		file:        "patterns/analysis.cue"
+		description: "Accepts precomputed CPM scheduling data (earliest, latest, duration maps) produced by an external tool (e.g., Python <code>toposort.py</code>). Produces the same output as <code>#CriticalPath</code> — summary, critical sequence, and OWL-Time report — without recursive fixpoint evaluation. Required for graphs exceeding 20 nodes where CUE's recursive self-reference causes timeout."
+		w3c:         "Produces identical <a href=\"https://www.w3.org/TR/owl-time/\">OWL-Time</a> output to <code>#CriticalPath</code>. The precomputation is a performance optimization; the W3C projection semantics are unchanged."
+	}
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -577,7 +591,9 @@ spec_html: """
 	      <p>Modules SHOULD include a <code>#Charter</code> that declares
 	      the expected scope of the graph. Modules MAY use
 	      <code>#GraphLite</code> with precomputed topology for graphs
-	      exceeding 20 nodes.</p>
+	      exceeding 20 nodes. Modules with large graphs SHOULD use
+	      <code>#CriticalPathPrecomputed</code> with externally computed
+	      scheduling data to avoid evaluation timeout.</p>
 	    </section>
 
 	    <section id="conforming-output">
@@ -640,10 +656,46 @@ spec_html: """
 	      <h3>Evaluation Resource Consumption</h3>
 	      <p>CUE evaluation of recursive graph patterns can consume
 	      significant CPU and memory on large graphs with diamond
-	      topologies. Implementations SHOULD use <code>#GraphLite</code>
-	      with precomputed topology data for graphs exceeding 20 nodes
-	      to avoid exponential evaluation time.</p>
+	      topologies. Two mechanisms mitigate this:</p>
+	      <ul>
+	        <li><strong>Precomputed topology:</strong> <code>#GraphLite</code>
+	        accepts externally computed topology (layer assignments, ancestors,
+	        dependents) to avoid the transitive closure computation.</li>
+	        <li><strong>Precomputed scheduling:</strong>
+	        <code>#CriticalPathPrecomputed</code> accepts externally computed
+	        CPM data (earliest start, latest start, duration) to avoid
+	        recursive fixpoint evaluation. The forward and backward passes
+	        of CPM use self-referencing struct comprehensions that cause
+	        exponential evaluation on graphs with diamond dependencies.</li>
+	      </ul>
+	      <p>Both mechanisms produce identical W3C projection output.
+	      The <code>#AnalyzableGraph</code> interface enables all analysis
+	      patterns to accept either live or precomputed graphs without
+	      code changes. Implementations SHOULD precompute for graphs
+	      exceeding 20 nodes.</p>
 	    </section>
+	  </section>
+
+	  <!-- ═══ DEPLOYMENT ═══════════════════════════════════════════ -->
+	  <section id="deployment" class="informative">
+	    <h2>Deployment Architecture</h2>
+	    <p>apercue produces two categories of output from the same CUE
+	    source:</p>
+	    <ul>
+	      <li><strong>Public artifacts:</strong> The specification, JSON-LD
+	      context, W3C coverage tables, and example metadata. These are
+	      generic documentation with no operational data.</li>
+	      <li><strong>Private artifacts:</strong> Charter progress (task
+	      completion, CPM scheduling, gate status), ecosystem health
+	      (module status, dependency graphs), and unified projections
+	      (SHACL reports, OWL-Time intervals). These contain real
+	      operational intelligence.</li>
+	    </ul>
+	    <p>The build pipeline supports this split via compound targets:
+	    <code>build-site.sh public</code> produces only generic content
+	    for public deployment, while <code>build-site.sh local</code>
+	    produces operational dashboards for private infrastructure.
+	    CI/CD deploys only public content to the public site.</p>
 	  </section>
 
 	  <!-- ═══ PRIVACY ═══════════════════════════════════════════════ -->
