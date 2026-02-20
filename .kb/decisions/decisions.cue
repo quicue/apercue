@@ -117,3 +117,20 @@ d007: core.#Decision & {
 	]
 	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
 }
+
+d008: core.#Decision & {
+	id:        "ADR-008"
+	title:     "Public/private site split — operational data stays on grdn"
+	status:    "accepted"
+	date:      "2026-02-20"
+	context:   "Charter visualization and ecosystem graphs contain real operational data: task completion status, CPM scheduling, gate satisfaction. Publishing this to the public apercue.ca site exposes internal project tracking to the internet."
+	decision:  "Split build-site.sh into public (landing, spec, vocab, examples) and private (charter, ecosystem, projections) targets. CI deploys only public content to Cloudflare Pages. Private data is served from grdn network via deploy-local.sh."
+	rationale: "The spec and examples are the public interface — they demonstrate capability. Charter progress and scheduling data are operational intelligence that belongs on the infrastructure owner's own network."
+	consequences: [
+		"Cloudflare Pages serves only generic documentation",
+		"Charter, ecosystem, and projections dashboards are local-only",
+		"deploy-local.sh handles full build + optional rsync to grdn target",
+		"CI workflow simplified — no Python needed for public deploy",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}

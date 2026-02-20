@@ -767,7 +767,13 @@
             "depth": 9,
             "description": "Split build into public (landing, spec, examples) and private (charter, ecosystem, projections) targets",
             "planned": false,
-            "kb": [],
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-008",
+                    "title": "Public/private site split"
+                }
+            ],
             "earliest": 9,
             "latest": 10,
             "duration": 1,
@@ -784,7 +790,13 @@
             "depth": 10,
             "description": "Deploy private site data to grdn network with Caddy static serve",
             "planned": false,
-            "kb": [],
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-008",
+                    "title": "Public/private site split"
+                }
+            ],
             "earliest": 10,
             "latest": 11,
             "duration": 1,
@@ -801,7 +813,13 @@
             "depth": 11,
             "description": "CPM critical path highlighting, earliest/latest/slack on charter nodes",
             "planned": false,
-            "kb": [],
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-007",
+                    "title": "#AnalyzableGraph + precomputed CPM"
+                }
+            ],
             "earliest": 11,
             "latest": 11,
             "duration": 1,
@@ -819,7 +837,13 @@
             "depth": 10,
             "description": "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule",
             "planned": false,
-            "kb": [],
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-008",
+                    "title": "Public/private site split"
+                }
+            ],
             "earliest": 10,
             "latest": 11,
             "duration": 1,
@@ -836,7 +860,18 @@
             "depth": 6,
             "description": "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge",
             "planned": false,
-            "kb": [],
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-007",
+                    "title": "#AnalyzableGraph + precomputed CPM"
+                },
+                {
+                    "type": "decision",
+                    "id": "ADR-008",
+                    "title": "Public/private site split"
+                }
+            ],
             "earliest": 6,
             "latest": 11,
             "duration": 1,

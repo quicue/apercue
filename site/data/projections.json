@@ -139,7 +139,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 7,
+            "apercue:slack": 8,
             "apercue:isCritical": false
         },
         "viz-contract": {
@@ -159,7 +159,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 9,
+            "apercue:slack": 10,
             "apercue:isCritical": false
         },
         "graph-engine": {
@@ -379,7 +379,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 6,
+            "apercue:slack": 7,
             "apercue:isCritical": false
         },
         "example-project-tracker": {
@@ -399,7 +399,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 6,
+            "apercue:slack": 7,
             "apercue:isCritical": false
         },
         "example-supply-chain": {
@@ -419,7 +419,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 6,
+            "apercue:slack": 7,
             "apercue:isCritical": false
         },
         "docs-readme": {
@@ -459,7 +459,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 5,
+            "apercue:slack": 6,
             "apercue:isCritical": false
         },
         "docs-novelty": {
@@ -479,7 +479,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 5,
+            "apercue:slack": 6,
             "apercue:isCritical": false
         },
         "kb-setup": {
@@ -559,7 +559,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 6,
+            "apercue:slack": 7,
             "apercue:isCritical": false
         },
         "ci-workflow": {
@@ -579,7 +579,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 2,
+            "apercue:slack": 3,
             "apercue:isCritical": false
         },
         "specs-registry": {
@@ -619,7 +619,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 4,
+            "apercue:slack": 5,
             "apercue:isCritical": false
         },
         "site-build": {
@@ -659,7 +659,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 1,
+            "apercue:slack": 2,
             "apercue:isCritical": false
         },
         "w3c-namespace-cleanup": {
@@ -679,7 +679,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 7,
+            "apercue:slack": 8,
             "apercue:isCritical": false
         },
         "context-canonical-url": {
@@ -699,7 +699,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 2,
+            "apercue:slack": 3,
             "apercue:isCritical": false
         },
         "charter-status-tracking": {
@@ -759,7 +759,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 7,
+            "apercue:slack": 8,
             "apercue:isCritical": false
         },
         "ci-auto-deploy": {
@@ -779,7 +779,7 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 2,
+            "apercue:slack": 3,
             "apercue:isCritical": false
         },
         "kb-charter-bridge": {
@@ -799,8 +799,8 @@
                     "@id": "time:unitDay"
                 }
             },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
+            "apercue:slack": 1,
+            "apercue:isCritical": false
         },
         "grdn-mirror": {
             "@type": "time:Interval",
@@ -821,14 +821,114 @@
             },
             "apercue:slack": 3,
             "apercue:isCritical": false
+        },
+        "site-data-locality": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "grdn-site-deploy": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 11
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "charter-cpm-overlay": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 11
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 12
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "projections-dashboard": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 11
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "spec-v2-update": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 5,
+            "apercue:isCritical": false
         }
     },
     "scheduling": {
         "summary": {
-            "total_duration": 11,
+            "total_duration": 12,
             "critical_count": 14,
-            "total_resources": 38,
-            "max_slack": 9
+            "total_resources": 43,
+            "max_slack": 10
         },
         "critical_sequence": [
             {
@@ -910,9 +1010,9 @@
                 "duration": 1
             },
             {
-                "resource": "kb-charter-bridge",
-                "start": 10,
-                "finish": 11,
+                "resource": "charter-cpm-overlay",
+                "start": 11,
+                "finish": 12,
                 "duration": 1
             }
         ]

@@ -491,4 +491,13 @@ _kb_annotations: {
 	"w3c-namespace-cleanup":   [{type: "decision", id: "ADR-005", title: "Remove dead W3C namespace prefixes"}]
 	"charter-status-tracking": [{type: "decision", id: "ADR-006", title: "_planned field for gap analysis filtering"}]
 	"charter-live-viz":        [{type: "decision", id: "ADR-006", title: "_planned field for gap analysis filtering"}]
+	// Phase 8 annotations
+	"site-data-locality":      [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
+	"grdn-site-deploy":        [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
+	"charter-cpm-overlay":     [{type: "decision", id: "ADR-007", title: "#AnalyzableGraph + precomputed CPM"}]
+	"projections-dashboard":   [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
+	"spec-v2-update": [
+		{type: "decision", id: "ADR-007", title: "#AnalyzableGraph + precomputed CPM"},
+		{type: "decision", id: "ADR-008", title: "Public/private site split"},
+	]
 }
