@@ -1,0 +1,72 @@
+{
+    "JSON-LD 1.1": {
+        "spec_name": "JSON-LD 1.1",
+        "url": "https://www.w3.org/TR/json-ld11/",
+        "status": "Implemented",
+        "coverage": "@context, @type, @id on all resources",
+        "prefix": "jsonld"
+    },
+    "SHACL": {
+        "spec_name": "SHACL",
+        "url": "https://www.w3.org/TR/shacl/",
+        "status": "Implemented",
+        "coverage": "sh:ValidationReport from compliance checks and gap analysis",
+        "prefix": "sh"
+    },
+    "SKOS": {
+        "spec_name": "SKOS",
+        "url": "https://www.w3.org/TR/skos-reference/",
+        "status": "Implemented",
+        "coverage": "skos:ConceptScheme from type vocabularies and lifecycle phases",
+        "prefix": "skos"
+    },
+    "EARL": {
+        "spec_name": "EARL",
+        "url": "https://www.w3.org/TR/EARL10-Schema/",
+        "status": "Implemented",
+        "coverage": "earl:Assertion from smoke test plans",
+        "prefix": "earl"
+    },
+    "OWL-Time": {
+        "spec_name": "OWL-Time",
+        "url": "https://www.w3.org/TR/owl-time/",
+        "status": "Implemented",
+        "coverage": "time:Interval from critical path scheduling",
+        "prefix": "time"
+    },
+    "Dublin Core": {
+        "spec_name": "Dublin Core",
+        "url": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/",
+        "status": "Namespace",
+        "coverage": "dcterms:requires maps depends_on relationships",
+        "prefix": "dcterms"
+    },
+    "PROV-O": {
+        "spec_name": "PROV-O",
+        "url": "https://www.w3.org/TR/prov-o/",
+        "status": "Namespace",
+        "coverage": "prov:wasDerivedFrom namespace registered",
+        "prefix": "prov"
+    },
+    "schema.org": {
+        "spec_name": "schema.org",
+        "url": "https://schema.org/",
+        "status": "Namespace",
+        "coverage": "schema:actionStatus for lifecycle status values",
+        "prefix": "schema"
+    },
+    "Hydra Core": {
+        "spec_name": "Hydra Core",
+        "url": "https://www.hydra-cg.com/spec/latest/core/",
+        "status": "Downstream",
+        "coverage": "hydra:ApiDocumentation in quicue.ca operator dashboard",
+        "prefix": "hydra"
+    },
+    "DCAT 3": {
+        "spec_name": "DCAT 3",
+        "url": "https://www.w3.org/TR/vocab-dcat-3/",
+        "status": "Downstream",
+        "coverage": "dcat:Catalog in quicue-kg aggregate module",
+        "prefix": "dcat"
+    }
+}

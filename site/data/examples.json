@@ -1,0 +1,100 @@
+{
+  "course-prereqs": {
+    "degree": "bsc-computer-science",
+    "total_courses": 12,
+    "graph_valid": true,
+    "degree_complete": true,
+    "gap": {
+        "missing_courses": 0,
+        "missing_types": 0,
+        "next_gate": ""
+    },
+    "scheduling": {
+        "total_duration": 14,
+        "critical_count": 4,
+        "total_resources": 12,
+        "max_slack": 5
+    },
+    "compliance": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "critical_failures": 0
+    }
+}
+,
+  "project-tracker": {
+    "release": "v1.0-release",
+    "total_tasks": 10,
+    "gap": {
+        "complete": false,
+        "missing_count": 10,
+        "next_gate": "design-complete"
+    },
+    "scheduling": {
+        "total": 33,
+        "completed": 0,
+        "remaining": 33,
+        "percentage": 0
+    },
+    "graph": {
+        "resources": 10,
+        "max_depth": 4,
+        "edges": 8,
+        "root_count": 2,
+        "leaf_count": 1
+    }
+}
+,
+  "recipe-ingredients": {
+    "recipe": "beef-bourguignon",
+    "total_steps": 17,
+    "gap": {
+        "complete": true,
+        "missing_resources": 0,
+        "missing_types": 0,
+        "next_gate": "",
+        "unsatisfied_gates": 0
+    },
+    "scheduling": {
+        "total_duration": 205,
+        "critical_count": 5,
+        "total_resources": 17,
+        "max_slack": 172
+    },
+    "graph": {
+        "total_resources": 17,
+        "max_depth": 5,
+        "roots": 8,
+        "leaves": 1,
+        "total_edges": 9
+    }
+}
+,
+  "supply-chain": {
+    "product": "laptop-bom",
+    "total_parts": 14,
+    "supply_tiers": 5,
+    "graph_valid": true,
+    "gap": {
+        "complete": true,
+        "missing": 0,
+        "next_gate": ""
+    },
+    "scheduling": {
+        "total_lead_days": 56,
+        "critical_path_parts": 5,
+        "max_slack": 37
+    },
+    "supply_chain_risks": {
+        "spof_count": 1,
+        "total_with_deps": 13
+    },
+    "compliance": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "critical_failures": 0
+    }
+}
+}
