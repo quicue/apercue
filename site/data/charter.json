@@ -604,6 +604,73 @@
             "kb": [],
             "phase": 7,
             "gate": "semantic-integrity"
+        },
+        {
+            "id": "site-data-locality",
+            "name": "site-data-locality",
+            "types": [
+                "CI",
+                "Schema"
+            ],
+            "depth": 9,
+            "description": "Split build into public (landing, spec, examples) and private (charter, ecosystem, projections) targets",
+            "planned": true,
+            "kb": [],
+            "phase": 8,
+            "gate": "local-hardening"
+        },
+        {
+            "id": "grdn-site-deploy",
+            "name": "grdn-site-deploy",
+            "types": [
+                "CI"
+            ],
+            "depth": 10,
+            "description": "Deploy private site data to grdn network with Caddy static serve",
+            "planned": true,
+            "kb": [],
+            "phase": 8,
+            "gate": "local-hardening"
+        },
+        {
+            "id": "charter-cpm-overlay",
+            "name": "charter-cpm-overlay",
+            "types": [
+                "Projection"
+            ],
+            "depth": 11,
+            "description": "CPM critical path highlighting, earliest/latest/slack on charter nodes",
+            "planned": true,
+            "kb": [],
+            "phase": 8,
+            "gate": "local-hardening"
+        },
+        {
+            "id": "projections-dashboard",
+            "name": "projections-dashboard",
+            "types": [
+                "Projection",
+                "Documentation"
+            ],
+            "depth": 10,
+            "description": "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule",
+            "planned": true,
+            "kb": [],
+            "phase": 8,
+            "gate": "local-hardening"
+        },
+        {
+            "id": "spec-v2-update",
+            "name": "spec-v2-update",
+            "types": [
+                "Documentation"
+            ],
+            "depth": 6,
+            "description": "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge",
+            "planned": true,
+            "kb": [],
+            "phase": 8,
+            "gate": "local-hardening"
         }
     ],
     "edges": [
@@ -842,6 +909,30 @@
         {
             "source": "github-repo",
             "target": "grdn-mirror"
+        },
+        {
+            "source": "site-build",
+            "target": "site-data-locality"
+        },
+        {
+            "source": "site-data-locality",
+            "target": "grdn-site-deploy"
+        },
+        {
+            "source": "grdn-mirror",
+            "target": "grdn-site-deploy"
+        },
+        {
+            "source": "charter-live-viz",
+            "target": "charter-cpm-overlay"
+        },
+        {
+            "source": "site-data-locality",
+            "target": "projections-dashboard"
+        },
+        {
+            "source": "specs-registry",
+            "target": "spec-v2-update"
         }
     ],
     "gates": {
@@ -931,11 +1022,23 @@
                 "kb-charter-bridge",
                 "grdn-mirror"
             ]
+        },
+        "local-hardening": {
+            "phase": 8,
+            "description": "Real data local on grdn, public site clean, projections dashboard live",
+            "satisfied": false,
+            "resources": [
+                "site-data-locality",
+                "grdn-site-deploy",
+                "charter-cpm-overlay",
+                "projections-dashboard",
+                "spec-v2-update"
+            ]
         }
     },
     "charter_summary": {
         "project": "apercue-build",
-        "deliverables": 38,
+        "deliverables": 43,
         "complete": false,
         "missing": 0,
         "next_gate": "semantic-integrity"
@@ -981,7 +1084,8 @@
         },
         "layer_6": {
             "github-repo": true,
-            "respec-projection": true
+            "respec-projection": true,
+            "spec-v2-update": true
         },
         "layer_7": {
             "cf-pages": true,
@@ -995,11 +1099,17 @@
         },
         "layer_9": {
             "ci-regen-check": true,
-            "charter-status-tracking": true
+            "charter-status-tracking": true,
+            "site-data-locality": true
         },
         "layer_10": {
             "charter-live-viz": true,
-            "kb-charter-bridge": true
+            "kb-charter-bridge": true,
+            "grdn-site-deploy": true,
+            "projections-dashboard": true
+        },
+        "layer_11": {
+            "charter-cpm-overlay": true
         }
     }
 }
