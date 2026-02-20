@@ -331,6 +331,22 @@ body::before {
 
 .edge.faded { opacity: 0.08; }
 
+.edge.critical {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0.7;
+  stroke-dasharray: 6 3;
+  animation: dash-flow 1.5s linear infinite;
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -18; }
+}
+
+.node.critical circle {
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+
 /* Nodes */
 .node { cursor: pointer; }
 
@@ -519,6 +535,12 @@ async function init() {
   window.nodeMap = {};
   data.nodes.forEach(n => { nodeMap[n.id] = n; });
 
+  // Build critical path set from scheduling data
+  window.criticalSet = new Set();
+  if (data.scheduling && data.scheduling.critical_sequence) {
+    data.scheduling.critical_sequence.forEach(s => criticalSet.add(s.resource));
+  }
+
   renderSidebar(data, specs);
   renderGraph(data);
 }
@@ -538,12 +560,18 @@ function renderSidebar(data, specs) {
   const maxDepth = Math.max(...data.nodes.map(n => n.depth));
   const totalGates = Object.keys(data.gates).length;
   const satisfiedGates = Object.values(data.gates).filter(g => g.satisfied).length;
-  m.innerHTML = [
+  const cpmSummary = data.scheduling && data.scheduling.summary;
+  const metrics = [
     [data.charter_summary.deliverables, 'Resources'],
     [totalEdges, 'Edges'],
-    [maxDepth, 'Max Depth'],
     [`${satisfiedGates}/${totalGates}`, 'Gates'],
-  ].map(([v,l]) =>
+  ];
+  if (cpmSummary) {
+    metrics.push([cpmSummary.critical_count, 'Critical Path']);
+  } else {
+    metrics.push([maxDepth, 'Max Depth']);
+  }
+  m.innerHTML = metrics.map(([v,l]) =>
     `<div class="metric"><div class="metric-value">${v}</div><div class="metric-label">${l}</div></div>`
   ).join('');
 
@@ -701,7 +729,11 @@ function renderGraph(data) {
     .selectAll('path')
     .data(data.edges)
     .join('path')
-    .attr('class', 'edge')
+    .attr('class', d => {
+      const s = d.source.id || d.source;
+      const t = d.target.id || d.target;
+      return 'edge' + (criticalSet.has(s) && criticalSet.has(t) ? ' critical' : '');
+    })
     .attr('marker-end', 'url(#arrow)')
     .attr('d', d => {
       const dx = d.target.x - d.source.x;
@@ -717,7 +749,7 @@ function renderGraph(data) {
     .selectAll('g')
     .data(data.nodes)
     .join('g')
-    .attr('class', d => 'node' + (d.planned ? ' planned' : ''));
+    .attr('class', d => 'node' + (d.planned ? ' planned' : '') + (criticalSet.has(d.id) ? ' critical' : ''));
 
   nodeElements.append('circle')
     .attr('r', d => d.depth === 0 ? 14 : d.types.length > 1 ? 11 : 9)
@@ -744,12 +776,19 @@ function renderGraph(data) {
       ? `<div class="tooltip-meta">${d.kb.map(k => `<span style="opacity:0.7">${k.type.toUpperCase()}</span> ${k.title}`).join('<br>')}</div>`
       : '';
 
+    const slackLabel = d.slack === 0
+      ? '<span style="color:var(--accent)">CRITICAL</span>'
+      : `Slack ${d.slack}`;
+
     tooltip.innerHTML = `
       <div class="tooltip-name">${d.name}</div>
       <div class="tooltip-type">${typeSpans}</div>
       <div class="tooltip-desc">${d.description}</div>
       <div class="tooltip-meta">
         Phase ${d.phase} · ${d.gate} · Depth ${d.depth}${d.planned ? ' · PLANNED' : ''}
+      </div>
+      <div class="tooltip-meta">
+        ES ${d.earliest} → EF ${d.earliest + d.duration} · LS ${d.latest} → LF ${d.latest + d.duration} · ${slackLabel}
       </div>${kbHtml}`;
     tooltip.classList.add('visible');
 

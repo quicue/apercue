@@ -10,6 +10,10 @@
             "description": "cue mod init apercue.ca@v0, directory structure",
             "planned": false,
             "kb": [],
+            "earliest": 0,
+            "latest": 0,
+            "duration": 1,
+            "slack": 0,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -23,6 +27,10 @@
             "description": "Generic #Resource definition (no infra fields)",
             "planned": false,
             "kb": [],
+            "earliest": 1,
+            "latest": 1,
+            "duration": 1,
+            "slack": 0,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -36,6 +44,10 @@
             "description": "Empty #TypeRegistry pattern (domain-extensible)",
             "planned": false,
             "kb": [],
+            "earliest": 1,
+            "latest": 5,
+            "duration": 1,
+            "slack": 4,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -50,6 +62,10 @@
             "description": "JSON-LD @context with W3C namespace prefixes",
             "planned": false,
             "kb": [],
+            "earliest": 1,
+            "latest": 9,
+            "duration": 1,
+            "slack": 8,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -63,6 +79,10 @@
             "description": "#VizData, #VizNode, #VizEdge for visualization",
             "planned": false,
             "kb": [],
+            "earliest": 1,
+            "latest": 11,
+            "duration": 1,
+            "slack": 10,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -82,6 +102,10 @@
                     "title": "Domain-agnostic graph engine"
                 }
             ],
+            "earliest": 2,
+            "latest": 2,
+            "duration": 1,
+            "slack": 0,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -95,6 +119,10 @@
             "description": "#CycleDetector, #ConnectedComponents, #Subgraph, #GraphDiff, #CriticalPath",
             "planned": false,
             "kb": [],
+            "earliest": 3,
+            "latest": 3,
+            "duration": 1,
+            "slack": 0,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -119,6 +147,10 @@
                     "title": "comprehension-level-filtering"
                 }
             ],
+            "earliest": 3,
+            "latest": 3,
+            "duration": 1,
+            "slack": 0,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -132,6 +164,10 @@
             "description": "#BootstrapPlan, #DriftReport, #SmokeTest with SKOS + EARL",
             "planned": false,
             "kb": [],
+            "earliest": 3,
+            "latest": 5,
+            "duration": 1,
+            "slack": 2,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -156,6 +192,10 @@
                     "title": "charter-as-constraint"
                 }
             ],
+            "earliest": 3,
+            "latest": 3,
+            "duration": 1,
+            "slack": 0,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -185,6 +225,10 @@
                     "title": "zero-cost-projection"
                 }
             ],
+            "earliest": 4,
+            "latest": 6,
+            "duration": 1,
+            "slack": 2,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -204,6 +248,10 @@
                     "title": "W3C artifacts as zero-cost projections"
                 }
             ],
+            "earliest": 4,
+            "latest": 6,
+            "duration": 1,
+            "slack": 2,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -223,6 +271,10 @@
                     "title": "W3C artifacts as zero-cost projections"
                 }
             ],
+            "earliest": 4,
+            "latest": 6,
+            "duration": 1,
+            "slack": 2,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -242,6 +294,10 @@
                     "title": "W3C artifacts as zero-cost projections"
                 }
             ],
+            "earliest": 4,
+            "latest": 6,
+            "duration": 1,
+            "slack": 2,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -261,6 +317,10 @@
                     "title": "Non-infra examples prove generality"
                 }
             ],
+            "earliest": 4,
+            "latest": 4,
+            "duration": 1,
+            "slack": 0,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -280,6 +340,10 @@
                     "title": "Non-infra examples prove generality"
                 }
             ],
+            "earliest": 4,
+            "latest": 11,
+            "duration": 1,
+            "slack": 7,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -293,6 +357,10 @@
             "description": "Software release tasks (10 tasks, status tracking)",
             "planned": false,
             "kb": [],
+            "earliest": 4,
+            "latest": 11,
+            "duration": 1,
+            "slack": 7,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -312,6 +380,10 @@
                     "title": "Non-infra examples prove generality"
                 }
             ],
+            "earliest": 4,
+            "latest": 11,
+            "duration": 1,
+            "slack": 7,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -325,6 +397,10 @@
             "description": "Project README with quick start and module structure",
             "planned": false,
             "kb": [],
+            "earliest": 5,
+            "latest": 5,
+            "duration": 1,
+            "slack": 0,
             "phase": 5,
             "gate": "ship"
         },
@@ -338,6 +414,10 @@
             "description": "W3C spec coverage index (w3c/README.md)",
             "planned": false,
             "kb": [],
+            "earliest": 5,
+            "latest": 11,
+            "duration": 1,
+            "slack": 6,
             "phase": 5,
             "gate": "ship"
         },
@@ -351,6 +431,10 @@
             "description": "Novelty document in 3 tones (academic, practitioner, executive)",
             "planned": false,
             "kb": [],
+            "earliest": 5,
+            "latest": 11,
+            "duration": 1,
+            "slack": 6,
             "phase": 5,
             "gate": "ship"
         },
@@ -364,6 +448,10 @@
             "description": "Knowledge base (.kb/) with decisions, insights, patterns",
             "planned": false,
             "kb": [],
+            "earliest": 3,
+            "latest": 5,
+            "duration": 1,
+            "slack": 2,
             "phase": 5,
             "gate": "ship"
         },
@@ -377,6 +465,10 @@
             "description": "GitHub repo created, initial commit pushed",
             "planned": false,
             "kb": [],
+            "earliest": 6,
+            "latest": 6,
+            "duration": 1,
+            "slack": 0,
             "phase": 5,
             "gate": "ship"
         },
@@ -390,6 +482,10 @@
             "description": "CF Pages project with custom domain apercue.ca",
             "planned": false,
             "kb": [],
+            "earliest": 7,
+            "latest": 7,
+            "duration": 1,
+            "slack": 0,
             "phase": 5,
             "gate": "ship"
         },
@@ -409,6 +505,10 @@
                     "title": "ASCII-safe identifiers prevent injection"
                 }
             ],
+            "earliest": 2,
+            "latest": 9,
+            "duration": 1,
+            "slack": 7,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -422,6 +522,10 @@
             "description": "GitHub Actions validate.yml with unicode rejection tests",
             "planned": false,
             "kb": [],
+            "earliest": 7,
+            "latest": 10,
+            "duration": 1,
+            "slack": 3,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -436,6 +540,10 @@
             "description": "W3C spec coverage as structured CUE data (single source of truth)",
             "planned": false,
             "kb": [],
+            "earliest": 5,
+            "latest": 7,
+            "duration": 1,
+            "slack": 2,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -450,6 +558,10 @@
             "description": "ReSpec HTML spec generated from CUE via cue export -e spec_html",
             "planned": false,
             "kb": [],
+            "earliest": 6,
+            "latest": 11,
+            "duration": 1,
+            "slack": 5,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -464,6 +576,10 @@
             "description": "Build pipeline replacing hardcoded site data with CUE projections",
             "planned": false,
             "kb": [],
+            "earliest": 8,
+            "latest": 8,
+            "duration": 1,
+            "slack": 0,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -477,6 +593,10 @@
             "description": "CI step verifying generated artifacts match CUE exports",
             "planned": false,
             "kb": [],
+            "earliest": 9,
+            "latest": 11,
+            "duration": 1,
+            "slack": 2,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -496,6 +616,10 @@
                     "title": "Remove dead W3C namespace prefixes"
                 }
             ],
+            "earliest": 2,
+            "latest": 10,
+            "duration": 1,
+            "slack": 8,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -510,6 +634,10 @@
             "description": "Deploy @context.jsonld at apercue.ca/vocab/context.jsonld",
             "planned": false,
             "kb": [],
+            "earliest": 8,
+            "latest": 11,
+            "duration": 1,
+            "slack": 3,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -530,6 +658,10 @@
                     "title": "_planned field for gap analysis filtering"
                 }
             ],
+            "earliest": 9,
+            "latest": 9,
+            "duration": 1,
+            "slack": 0,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -549,6 +681,10 @@
                     "title": "_planned field for gap analysis filtering"
                 }
             ],
+            "earliest": 10,
+            "latest": 10,
+            "duration": 1,
+            "slack": 0,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -562,6 +698,10 @@
             "description": "Apply dcterms + W3C @context fixes to quicue.ca repo",
             "planned": true,
             "kb": [],
+            "earliest": 3,
+            "latest": 11,
+            "duration": 1,
+            "slack": 8,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -575,6 +715,10 @@
             "description": "GitHub Actions triggers Cloudflare Pages deploy on push",
             "planned": false,
             "kb": [],
+            "earliest": 8,
+            "latest": 11,
+            "duration": 1,
+            "slack": 3,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -589,6 +733,10 @@
             "description": "Design .kb entries as charter node annotations with provenance",
             "planned": false,
             "kb": [],
+            "earliest": 10,
+            "latest": 11,
+            "duration": 1,
+            "slack": 1,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -602,6 +750,10 @@
             "description": "Push to git.infra.grdn as primary, GitHub as mirror",
             "planned": false,
             "kb": [],
+            "earliest": 7,
+            "latest": 10,
+            "duration": 1,
+            "slack": 3,
             "phase": 7,
             "gate": "semantic-integrity"
         },
@@ -616,6 +768,10 @@
             "description": "Split build into public (landing, spec, examples) and private (charter, ecosystem, projections) targets",
             "planned": false,
             "kb": [],
+            "earliest": 9,
+            "latest": 10,
+            "duration": 1,
+            "slack": 1,
             "phase": 8,
             "gate": "local-hardening"
         },
@@ -629,6 +785,10 @@
             "description": "Deploy private site data to grdn network with Caddy static serve",
             "planned": true,
             "kb": [],
+            "earliest": 10,
+            "latest": 11,
+            "duration": 1,
+            "slack": 1,
             "phase": 8,
             "gate": "local-hardening"
         },
@@ -640,8 +800,12 @@
             ],
             "depth": 11,
             "description": "CPM critical path highlighting, earliest/latest/slack on charter nodes",
-            "planned": true,
+            "planned": false,
             "kb": [],
+            "earliest": 11,
+            "latest": 11,
+            "duration": 1,
+            "slack": 0,
             "phase": 8,
             "gate": "local-hardening"
         },
@@ -656,6 +820,10 @@
             "description": "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule",
             "planned": true,
             "kb": [],
+            "earliest": 10,
+            "latest": 11,
+            "duration": 1,
+            "slack": 1,
             "phase": 8,
             "gate": "local-hardening"
         },
@@ -669,6 +837,10 @@
             "description": "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge",
             "planned": true,
             "kb": [],
+            "earliest": 6,
+            "latest": 11,
+            "duration": 1,
+            "slack": 5,
             "phase": 8,
             "gate": "local-hardening"
         }
@@ -1111,5 +1283,99 @@
         "layer_11": {
             "charter-cpm-overlay": true
         }
+    },
+    "scheduling": {
+        "summary": {
+            "total_duration": 12,
+            "critical_count": 14,
+            "total_resources": 43,
+            "max_slack": 10
+        },
+        "critical_sequence": [
+            {
+                "resource": "repo-scaffold",
+                "start": 0,
+                "finish": 1,
+                "duration": 1
+            },
+            {
+                "resource": "resource-schema",
+                "start": 1,
+                "finish": 2,
+                "duration": 1
+            },
+            {
+                "resource": "graph-engine",
+                "start": 2,
+                "finish": 3,
+                "duration": 1
+            },
+            {
+                "resource": "analysis-patterns",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "validation-patterns",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "charter-module",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "example-course-prereqs",
+                "start": 4,
+                "finish": 5,
+                "duration": 1
+            },
+            {
+                "resource": "docs-readme",
+                "start": 5,
+                "finish": 6,
+                "duration": 1
+            },
+            {
+                "resource": "github-repo",
+                "start": 6,
+                "finish": 7,
+                "duration": 1
+            },
+            {
+                "resource": "cf-pages",
+                "start": 7,
+                "finish": 8,
+                "duration": 1
+            },
+            {
+                "resource": "site-build",
+                "start": 8,
+                "finish": 9,
+                "duration": 1
+            },
+            {
+                "resource": "charter-status-tracking",
+                "start": 9,
+                "finish": 10,
+                "duration": 1
+            },
+            {
+                "resource": "charter-live-viz",
+                "start": 10,
+                "finish": 11,
+                "duration": 1
+            },
+            {
+                "resource": "charter-cpm-overlay",
+                "start": 11,
+                "finish": 12,
+                "duration": 1
+            }
+        ]
     }
 }

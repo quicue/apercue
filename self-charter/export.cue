@@ -40,6 +40,11 @@ charter_viz: {
 			description: raw.description
 			planned:     raw._planned
 			kb: *_kb_annotations[rname] | []
+			// CPM scheduling data
+			earliest: _precomputed_cpm.earliest[rname]
+			latest:   _precomputed_cpm.latest[rname]
+			duration: _precomputed_cpm.duration[rname]
+			slack:    _precomputed_cpm.latest[rname] - _precomputed_cpm.earliest[rname]
 			// Determine phase from charter gates
 			phase: [
 				for gname, gate in _charter.gates
@@ -70,6 +75,10 @@ charter_viz: {
 	}
 	charter_summary: summary
 	topology:        graph.topology
+	scheduling: {
+		summary:           cpm.summary
+		critical_sequence: cpm.critical_sequence
+	}
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
