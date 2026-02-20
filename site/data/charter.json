@@ -818,7 +818,7 @@
             ],
             "depth": 10,
             "description": "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule",
-            "planned": true,
+            "planned": false,
             "kb": [],
             "earliest": 10,
             "latest": 11,
