@@ -274,7 +274,6 @@ _tasks: {
 		"@type":     {CI: true}
 		description: "Deploy private site data to grdn network with Caddy static serve"
 		depends_on:  {"site-data-locality": true, "grdn-mirror": true}
-		_planned:    true
 	}
 	"charter-cpm-overlay": {
 		name:        "charter-cpm-overlay"

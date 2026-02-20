@@ -783,7 +783,7 @@
             ],
             "depth": 10,
             "description": "Deploy private site data to grdn network with Caddy static serve",
-            "planned": true,
+            "planned": false,
             "kb": [],
             "earliest": 10,
             "latest": 11,
