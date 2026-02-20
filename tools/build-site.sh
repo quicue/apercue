@@ -59,22 +59,39 @@ build_spec_html() {
     echo "  site/spec/index.html ($(wc -l < site/spec/index.html) lines)"
 }
 
+build_vocab() {
+    echo "Building JSON-LD context..."
+    mkdir -p site/vocab
+    cue export ./vocab/ -e context --out json > site/vocab/context.jsonld
+    echo "  site/vocab/context.jsonld"
+}
+
+build_projections() {
+    echo "Building unified projections..."
+    cue export ./self-charter/ -e projections --out json > site/data/projections.json
+    echo "  site/data/projections.json"
+}
+
 case "${1:-all}" in
     specs)     build_specs ;;
     examples)  build_examples ;;
     ecosystem) build_ecosystem ;;
     charter)   build_charter ;;
     spec-html) build_spec_html ;;
+    vocab)       build_vocab ;;
+    projections) build_projections ;;
     all)
         build_specs
         build_examples
         build_ecosystem
         build_charter
         build_spec_html
+        build_vocab
+        build_projections
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|specs|examples|ecosystem|charter|spec-html}"
+        echo "Usage: $0 {all|specs|examples|ecosystem|charter|spec-html|vocab|projections}"
         exit 1
         ;;
 esac
