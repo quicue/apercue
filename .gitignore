@@ -1,3 +1,4 @@
 .wrangler/
 __pycache__/
 **/cue.mod/pkg/
+_public/

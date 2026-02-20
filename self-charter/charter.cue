@@ -268,7 +268,6 @@ _tasks: {
 		"@type":     {CI: true, Schema: true}
 		description: "Split build into public (landing, spec, examples) and private (charter, ecosystem, projections) targets"
 		depends_on:  {"site-build": true}
-		_planned:    true
 	}
 	"homelab-site-deploy": {
 		name:        "homelab-site-deploy"
