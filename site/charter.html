@@ -738,13 +738,17 @@ function renderGraph(data) {
       return `<span style="background:${c}20;color:${c};border:1px solid ${c}40">${t}</span>`;
     }).join('');
 
+    const kbHtml = d.kb && d.kb.length > 0
+      ? `<div class="tooltip-meta">${d.kb.map(k => `<span style="opacity:0.7">${k.type.toUpperCase()}</span> ${k.title}`).join('<br>')}</div>`
+      : '';
+
     tooltip.innerHTML = `
       <div class="tooltip-name">${d.name}</div>
       <div class="tooltip-type">${typeSpans}</div>
       <div class="tooltip-desc">${d.description}</div>
       <div class="tooltip-meta">
         Phase ${d.phase} · ${d.gate} · Depth ${d.depth}${d.planned ? ' · PLANNED' : ''}
-      </div>`;
+      </div>${kbHtml}`;
     tooltip.classList.add('visible');
 
     // Highlight connected
