@@ -268,7 +268,7 @@ import (
 //   // compliance.results[0].violations — list of offending resources
 //
 #ComplianceCheck: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 	Rules: [...#ComplianceRule]
 
 	results: [

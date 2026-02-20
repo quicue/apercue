@@ -193,6 +193,45 @@ def compute_dependents(ancestors: dict) -> dict[str, dict[str, bool]]:
     return dependents
 
 
+def compute_cpm(resources: dict, order: list[str], weights: dict | None = None) -> dict:
+    """Compute Critical Path Method scheduling in O(V+E).
+
+    Returns {earliest, latest, duration} maps for each resource.
+    Forward pass (EST) in topological order, backward pass in reverse.
+    """
+    dur = {name: (weights or {}).get(name, 1) for name in resources}
+
+    # Forward pass: earliest start time
+    earliest = {}
+    for name in order:
+        deps = resources[name].get("depends_on", {})
+        if isinstance(deps, dict) and deps:
+            earliest[name] = max(earliest[dep] + dur[dep] for dep in deps if dep in earliest)
+        else:
+            earliest[name] = 0
+
+    # Total duration
+    total = max(earliest[n] + dur[n] for n in resources) if resources else 0
+
+    # Build immediate dependents (inverse of depends_on)
+    imm_deps = defaultdict(list)
+    for name, r in resources.items():
+        deps = r.get("depends_on", {})
+        if isinstance(deps, dict):
+            for dep in deps:
+                imm_deps[dep].append(name)
+
+    # Backward pass: latest start time (reverse topological order)
+    latest = {}
+    for name in reversed(order):
+        if imm_deps[name]:
+            latest[name] = min(latest[d] for d in imm_deps[name]) - dur[name]
+        else:
+            latest[name] = total - dur[name]
+
+    return {"earliest": earliest, "latest": latest, "duration": dur}
+
+
 def to_cue_struct(data: dict) -> str:
     """Format Python dict as CUE struct literal."""
     if not data:
@@ -214,6 +253,7 @@ def main():
     order, depth = toposort(resources)
     ancestors = compute_ancestors(resources, order)
     dependents = compute_dependents(ancestors)
+    cpm = compute_cpm(resources, order)
 
     if as_cue:
         print("package main\n")
@@ -230,19 +270,36 @@ def main():
         for name in order:
             print(f'\t\t"{name}": {to_cue_struct(dependents[name])}')
         print("\t}")
+        print("}\n")
+        print("_precomputed_cpm: {")
+        print("\tearliest: {")
+        for name in order:
+            print(f'\t\t"{name}": {cpm["earliest"][name]}')
+        print("\t}")
+        print("\tlatest: {")
+        for name in order:
+            print(f'\t\t"{name}": {cpm["latest"][name]}')
+        print("\t}")
+        print("\tduration: {")
+        for name in order:
+            print(f'\t\t"{name}": {cpm["duration"][name]}')
+        print("\t}")
         print("}")
     else:
         result = {
             "depth": depth,
             "ancestors": ancestors,
             "dependents": dependents,
+            "cpm": cpm,
         }
         json.dump(result, sys.stdout, indent=2)
         print()
 
     total_ancestors = sum(len(a) for a in ancestors.values())
+    critical = [n for n in order if cpm["latest"][n] - cpm["earliest"][n] == 0]
     sys.stderr.write(f"Toposort: {len(order)} nodes, {sum(depth.values())} total depth, "
-                     f"{total_ancestors} ancestor entries\n")
+                     f"{total_ancestors} ancestor entries, "
+                     f"{len(critical)} critical path nodes\n")
 
 
 if __name__ == "__main__":

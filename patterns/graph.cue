@@ -18,6 +18,31 @@ import "list"
 _#SafeID:    =~"^[a-zA-Z][a-zA-Z0-9_.-]*$"
 _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 
+// #AnalyzableGraph — Minimal interface for patterns that analyze a graph.
+//
+// Both #Graph and #GraphLite satisfy this. Use it as the Graph type
+// in analysis patterns (CPM, compliance, etc.) to avoid forcing the
+// expensive _path computation that #Graph requires.
+//
+// The key insight: once you have the transitive closure (precomputed
+// or computed), all projections are just cheap struct comprehensions
+// over the same data. One graph, many lenses.
+#AnalyzableGraph: {
+	resources: [_#SafeID]: {
+		name: _#SafeID
+		"@type": {[_#SafeLabel]: true}
+		depends_on?: {[_#SafeID]: true}
+		_depth:     int
+		_ancestors: {[string]: bool}
+		...
+	}
+	topology: {[string]: {[string]: true}}
+	roots:      {[string]: true}
+	leaves:     {[string]: true}
+	dependents: {[string]: {[string]: true}}
+	...
+}
+
 // #GraphResource — Schema for resources with computed graph properties.
 // Use this when you want automatic depth, ancestors, etc.
 #GraphResource: {
@@ -232,7 +257,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // impact.affected = {"web-app": true, "api": true, ...}
 //
 #ImpactQuery: {
-	Graph:  #Graph
+	Graph:  #AnalyzableGraph
 	Target: string
 
 	affected: {
@@ -244,6 +269,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 }
 
 // #DependencyChain — Get full dependency chain for a resource
+// NOTE: Requires #Graph (not #AnalyzableGraph) because it uses _path.
 //
 // Usage:
 //   chain: #DependencyChain & {Graph: g, Target: "frontend"}
@@ -265,7 +291,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // byType.groups.Database = ["postgres": true, "mongo": true]
 //
 #GroupByType: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	// Build groups using struct accumulation (avoids empty entries from nested for)
 	groups: {
@@ -290,7 +316,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // crit.ranked = [{name: "auth", dependents: 8}, ...]
 //
 #CriticalityRank: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	ranked: [
 		for rname, _ in Graph.resources {
@@ -313,7 +339,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // risk.ranked = [{name: "auth", score: 150, direct: 5, transitive: 29}, ...]
 //
 #RiskScore: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	// For each resource, compute risk score using O(1) dependents lookup
 	// direct = number of immediate dependents (from Graph.dependents)
@@ -340,7 +366,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // deps.dependents = {api: true, web: true} (only direct, not transitive)
 //
 #ImmediateDependents: {
-	Graph:  #Graph
+	Graph:  #AnalyzableGraph
 	Target: string
 
 	dependents: {
@@ -359,7 +385,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // metrics.total_resources, metrics.max_depth, etc.
 //
 #GraphMetrics: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	total_resources: len(Graph.resources)
 	root_count:      len(Graph.roots)
@@ -596,7 +622,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // health.propagated.web = "degraded" (depends on auth)
 //
 #HealthStatus: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 	Status: [string]: "healthy" | "degraded" | "down"
 
 	// Resources explicitly marked as down
@@ -639,7 +665,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // blast.safe_peers = {logging: true}  // same layer, not affected
 //
 #BlastRadius: {
-	Graph:  #Graph
+	Graph:  #AnalyzableGraph
 	Target: string
 
 	// All resources that depend on target (transitively)
@@ -691,7 +717,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   }
 //
 #ZoneAwareBlastRadius: {
-	Graph:  #Graph
+	Graph:  #AnalyzableGraph
 	Target: string
 	Zones: [string]: string // resource name → zone name
 
@@ -743,7 +769,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   }
 //
 #CompoundRiskAnalysis: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 	Targets: [...string]
 
 	// Compute blast radius per target
@@ -802,7 +828,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // ]
 //
 #DeploymentPlan: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	_metrics: #GraphMetrics & {"Graph": Graph}
 	_maxDepth: _metrics.max_depth
@@ -841,7 +867,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // rollback.sequence = ["web", "api", "proxy"]  // layer 2+ in reverse
 //
 #RollbackPlan: {
-	Graph:    #Graph
+	Graph:    #AnalyzableGraph
 	FailedAt: int // Layer number where failure occurred
 
 	_metrics: #GraphMetrics & {"Graph": Graph}
@@ -884,7 +910,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // spof.risks = [{name: "auth", dependents: 5, type: "AuthService"}, ...]
 //
 #SinglePointsOfFailure: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	_crit: #CriticalityRank & {"Graph": Graph}
 	_byType: #GroupByType & {"Graph": Graph}
@@ -935,7 +961,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   }
 //
 #SPOFWithRedundancy: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 	// Overlap threshold as percentage (0-100).
 	// 50 = resource is redundant if peer shares >=50% of its dependents.
 	OverlapThreshold: *50 | int
