@@ -236,7 +236,6 @@ _tasks: {
 		"@type":     {Projection: true}
 		description: "Charter page shows planned vs completed nodes with status coloring"
 		depends_on:  {"charter-status-tracking": true}
-		_planned:    true
 	}
 	"quicue-semantic-sync": {
 		name:        "quicue-semantic-sync"

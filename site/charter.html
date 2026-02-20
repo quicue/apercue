@@ -27,6 +27,7 @@
   --phase-4: #34d1bf;  /* Examples — proof teal */
   --phase-5: #f0c040;  /* Ship — deployment gold */
   --phase-6: #3ddc84;  /* Completeness — the accent green */
+  --phase-7: #f09070;  /* Semantic integrity — warm coral */
 
   /* Type indicators */
   --type-schema: #5b9cf6;
@@ -339,6 +340,8 @@ body::before {
 
 .node.faded circle { opacity: 0.15; }
 .node.faded text { opacity: 0.1; }
+.node.planned circle { stroke-dasharray: 4 3; opacity: 0.5; }
+.node.planned text { opacity: 0.4; }
 
 .node text {
   font-family: 'IBM Plex Mono', monospace;
@@ -478,12 +481,13 @@ const SPECS_URL = 'data/specs.json';
 
 const PHASE_COLORS = {
   1: '#5b9cf6', 2: '#7b6cf6', 3: '#c084fc',
-  4: '#34d1bf', 5: '#f0c040', 6: '#3ddc84'
+  4: '#34d1bf', 5: '#f0c040', 6: '#3ddc84', 7: '#f09070'
 };
 
 const PHASE_NAMES = {
   1: 'Scaffold + Vocab', 2: 'Core Patterns', 3: 'W3C Projections',
-  4: 'Examples', 5: 'Docs + Deploy', 6: 'Projection Completeness'
+  4: 'Examples', 5: 'Docs + Deploy', 6: 'Projection Completeness',
+  7: 'Semantic Integrity'
 };
 
 const TYPE_COLORS = {
@@ -509,6 +513,10 @@ async function init() {
     return;
   }
 
+  // Build lookup for planned status (used by sidebar + graph)
+  window.nodeMap = {};
+  data.nodes.forEach(n => { nodeMap[n.id] = n; });
+
   renderSidebar(data, specs);
   renderGraph(data);
 }
@@ -517,8 +525,9 @@ function renderSidebar(data, specs) {
   // Status badge
   const badge = document.getElementById('status-badge');
   const complete = data.charter_summary.complete;
+  const nextGate = data.charter_summary.next_gate;
   badge.innerHTML = `<span class="status-badge ${complete ? 'complete' : 'incomplete'}">${
-    complete ? 'ALL GATES SATISFIED' : `MISSING: ${data.charter_summary.missing}`
+    complete ? 'ALL GATES SATISFIED' : `NEXT: ${nextGate}`
   }</span>`;
 
   // Metrics
@@ -546,7 +555,10 @@ function renderSidebar(data, specs) {
       <div class="gate-phase" style="color: ${color}">Phase ${gate.phase}</div>
       <div class="gate-name">${name}</div>
       <div class="gate-desc">${gate.description}</div>
-      <div class="gate-count">${gate.resources.length} resources</div>
+      <div class="gate-count">${gate.resources.length} resources${gate.satisfied ? '' : (() => {
+        const planned = gate.resources.filter(r => nodeMap[r] && nodeMap[r].planned).length;
+        return planned > 0 ? ` · ${planned} planned` : '';
+      })()}</div>
     </li>`;
   }).join('');
 
@@ -625,26 +637,16 @@ function renderGraph(data) {
     .on('zoom', e => g.attr('transform', e.transform));
   svg.call(zoom);
 
-  // Layout: stratified by depth, force-spread horizontally
+  // Deterministic layered layout — depth on Y axis, siblings spread on X
   const maxDepth = Math.max(...data.nodes.map(n => n.depth));
   const marginY = 80;
   const layerH = (height - marginY * 2) / Math.max(maxDepth, 1);
 
-  // Assign initial positions
+  // Group by depth for layout
   const depthGroups = {};
   data.nodes.forEach(n => {
     if (!depthGroups[n.depth]) depthGroups[n.depth] = [];
     depthGroups[n.depth].push(n);
-  });
-
-  data.nodes.forEach(n => {
-    const group = depthGroups[n.depth];
-    const idx = group.indexOf(n);
-    const count = group.length;
-    const spacing = Math.min(width / (count + 1), 120);
-    const startX = (width - (count - 1) * spacing) / 2;
-    n.x = startX + idx * spacing;
-    n.y = marginY + n.depth * layerH;
   });
 
   // Phase lane backgrounds
@@ -673,34 +675,53 @@ function renderGraph(data) {
       .text(`Phase ${phase} — ${PHASE_NAMES[phase] || ''}`);
   });
 
-  // Force simulation (mainly for X spreading, Y locked to depth layers)
-  const sim = d3.forceSimulation(data.nodes)
-    .force('link', d3.forceLink(data.edges).id(d => d.id).distance(60).strength(0.3))
-    .force('charge', d3.forceManyBody().strength(-120))
-    .force('x', d3.forceX(width / 2).strength(0.05))
-    .force('y', d3.forceY(d => marginY + d.depth * layerH).strength(0.8))
-    .force('collide', d3.forceCollide(30));
+  // Deterministic layout — fixed positions, no simulation jitter
+  data.nodes.forEach(n => {
+    const group = depthGroups[n.depth];
+    const idx = group.indexOf(n);
+    const count = group.length;
+    const spacing = Math.min((width - 80) / (count + 1), 140);
+    const startX = (width - (count - 1) * spacing) / 2;
+    n.x = startX + idx * spacing;
+    n.y = marginY + n.depth * layerH;
+  });
 
-  // Edges
+  // Resolve edge endpoints to node objects
+  const nodeById = {};
+  data.nodes.forEach(n => { nodeById[n.id] = n; });
+  data.edges.forEach(e => {
+    if (typeof e.source === 'string') e.source = nodeById[e.source];
+    if (typeof e.target === 'string') e.target = nodeById[e.target];
+  });
+
+  // Edges — Bezier curves following dependency flow
   edgeElements = g.append('g')
-    .selectAll('line')
+    .selectAll('path')
     .data(data.edges)
-    .join('line')
+    .join('path')
     .attr('class', 'edge')
-    .attr('marker-end', 'url(#arrow)');
+    .attr('marker-end', 'url(#arrow)')
+    .attr('d', d => {
+      const dx = d.target.x - d.source.x;
+      const dy = d.target.y - d.source.y;
+      const cx = d.source.x + dx * 0.5;
+      const cy1 = d.source.y + dy * 0.3;
+      const cy2 = d.source.y + dy * 0.7;
+      return `M${d.source.x},${d.source.y} C${cx},${cy1} ${cx},${cy2} ${d.target.x},${d.target.y}`;
+    });
 
   // Nodes
   nodeElements = g.append('g')
     .selectAll('g')
     .data(data.nodes)
     .join('g')
-    .attr('class', 'node');
+    .attr('class', d => 'node' + (d.planned ? ' planned' : ''));
 
   nodeElements.append('circle')
     .attr('r', d => d.depth === 0 ? 14 : d.types.length > 1 ? 11 : 9)
     .attr('fill', d => {
       const color = PHASE_COLORS[d.phase] || '#5b9cf6';
-      return color + '20';
+      return d.planned ? 'transparent' : color + '20';
     })
     .attr('stroke', d => TYPE_COLORS[primaryType(d.types)] || '#5b9cf6')
     .style('color', d => TYPE_COLORS[primaryType(d.types)] || '#5b9cf6');
@@ -722,7 +743,7 @@ function renderGraph(data) {
       <div class="tooltip-type">${typeSpans}</div>
       <div class="tooltip-desc">${d.description}</div>
       <div class="tooltip-meta">
-        Phase ${d.phase} · ${d.gate} · Depth ${d.depth}
+        Phase ${d.phase} · ${d.gate} · Depth ${d.depth}${d.planned ? ' · PLANNED' : ''}
       </div>`;
     tooltip.classList.add('visible');
 
@@ -745,17 +766,8 @@ function renderGraph(data) {
     clearHighlight();
   });
 
-  // Tick
-  sim.on('tick', () => {
-    edgeElements
-      .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
-    nodeElements.attr('transform', d => `translate(${d.x},${d.y})`);
-  });
-
-  // Let simulation settle then stop
-  sim.alpha(0.8).restart();
-  setTimeout(() => sim.alphaTarget(0), 3000);
+  // Position nodes directly (deterministic — no simulation)
+  nodeElements.attr('transform', d => `translate(${d.x},${d.y})`);
 }
 
 init();
