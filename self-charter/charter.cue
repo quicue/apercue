@@ -214,7 +214,7 @@ _tasks: {
 // GRAPH + ANALYSIS
 // ═══════════════════════════════════════════════════════════════════════════
 
-graph: patterns.#Graph & {Input: _tasks}
+graph: patterns.#GraphLite & {Input: _tasks, Precomputed: _precomputed}
 
 // NOTE: #CriticalPath and #SinglePointsOfFailure removed from always-evaluated
 // summary. Both are O(n²) on 31 nodes. Use on-demand instead:
