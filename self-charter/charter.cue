@@ -281,7 +281,6 @@ _tasks: {
 		"@type":     {Projection: true}
 		description: "CPM critical path highlighting, earliest/latest/slack on charter nodes"
 		depends_on:  {"charter-live-viz": true}
-		_planned:    true
 	}
 	"projections-dashboard": {
 		name:        "projections-dashboard"
