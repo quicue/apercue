@@ -131,14 +131,15 @@ import (
 	}
 
 	// ── Depth check ──────────────────────────────────────────────
-	// Uses topology (public) instead of _depth (hidden/package-scoped)
-	_max_depth: len(Graph.topology) - 1
+	// Only accesses Graph.topology when min_depth is set, avoiding
+	// the O(n²) _ancestors transitive closure for charters that
+	// don't constrain depth.
 	depth_satisfied: bool
 	if Charter.scope.min_depth == _|_ {
 		depth_satisfied: true
 	}
 	if Charter.scope.min_depth != _|_ {
-		depth_satisfied: _max_depth >= Charter.scope.min_depth
+		depth_satisfied: len(Graph.topology) - 1 >= Charter.scope.min_depth
 	}
 
 	// ── Resource count check ─────────────────────────────────────

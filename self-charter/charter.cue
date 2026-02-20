@@ -170,6 +170,44 @@ _tasks: {
 		description: "CF Pages project with custom domain apercue.ca"
 		depends_on:  {"github-repo": true}
 	}
+
+	// ── Phase 6: Projection Completeness ──────────────────────────
+	"safeid-constraints": {
+		name:        "safeid-constraints"
+		"@type":     {Schema: true}
+		description: "#SafeID and #SafeLabel ASCII-safe identifier constraints"
+		depends_on:  {"resource-schema": true}
+	}
+	"ci-workflow": {
+		name:        "ci-workflow"
+		"@type":     {CI: true}
+		description: "GitHub Actions validate.yml with unicode rejection tests"
+		depends_on:  {"safeid-constraints": true, "github-repo": true}
+	}
+	"specs-registry": {
+		name:        "specs-registry"
+		"@type":     {Schema: true, Projection: true}
+		description: "W3C spec coverage as structured CUE data (single source of truth)"
+		depends_on:  {"shacl-projection": true, "skos-projection": true, "owl-time-projection": true, "earl-projection": true}
+	}
+	"respec-projection": {
+		name:        "respec-projection"
+		"@type":     {Projection: true, Documentation: true}
+		description: "ReSpec HTML spec generated from CUE via cue export -e spec_html"
+		depends_on:  {"specs-registry": true, "safeid-constraints": true}
+	}
+	"site-build": {
+		name:        "site-build"
+		"@type":     {CI: true, Projection: true}
+		description: "Build pipeline replacing hardcoded site data with CUE projections"
+		depends_on:  {"specs-registry": true, "cf-pages": true}
+	}
+	"ci-regen-check": {
+		name:        "ci-regen-check"
+		"@type":     {CI: true}
+		description: "CI step verifying generated artifacts match CUE exports"
+		depends_on:  {"ci-workflow": true, "site-build": true}
+	}
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -178,9 +216,13 @@ _tasks: {
 
 graph: patterns.#Graph & {Input: _tasks}
 
-cpm: patterns.#CriticalPath & {Graph: graph}
-
-spof: patterns.#SinglePointsOfFailure & {Graph: graph}
+// NOTE: #CriticalPath and #SinglePointsOfFailure removed from always-evaluated
+// summary. Both are O(n²) on 31 nodes. Use on-demand instead:
+//   cue eval ./self-charter/ -e cpm.summary
+//   cue eval ./self-charter/ -e spof.summary
+// Uncomment for ad-hoc analysis (not in the default summary):
+// cpm:  patterns.#CriticalPath & {Graph: graph}
+// spof: patterns.#SinglePointsOfFailure & {Graph: graph}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CHARTER — apercue build requirements
@@ -263,6 +305,19 @@ _charter: charter.#Charter & {
 			}
 			depends_on: {"examples-ready": true}
 		}
+		"projections-complete": {
+			phase:       6
+			description: "All artifacts are CUE projections — spec, site data, CI validation"
+			requires: {
+				"safeid-constraints": true
+				"ci-workflow":        true
+				"specs-registry":     true
+				"respec-projection":  true
+				"site-build":         true
+				"ci-regen-check":     true
+			}
+			depends_on: {"ship": true}
+		}
 	}
 }
 
@@ -272,11 +327,9 @@ gaps: charter.#GapAnalysis & {
 }
 
 summary: {
-	project:     _charter.name
+	project:      _charter.name
 	deliverables: len(_tasks)
-	complete:    gaps.complete
-	missing:     gaps.missing_resource_count
-	next_gate:   gaps.next_gate
-	scheduling:  cpm.summary
-	bottlenecks: spof.summary
+	complete:     gaps.complete
+	missing:      gaps.missing_resource_count
+	next_gate:    gaps.next_gate
 }
