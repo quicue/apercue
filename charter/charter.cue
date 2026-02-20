@@ -26,7 +26,10 @@
 
 package charter
 
-import "list"
+import (
+	"list"
+	"apercue.ca/vocab"
+)
 
 // #Charter — what "done" looks like.
 //
@@ -216,6 +219,7 @@ import "list"
 	//
 	// Export: cue export -e gaps.shacl_report --out json
 	shacl_report: {
+		"@context":           vocab.context["@context"]
 		"@type":              "sh:ValidationReport"
 		"sh:conforms":        complete
 		"dcterms:conformsTo": {"@id": "charter:" + Charter.name}
@@ -226,6 +230,7 @@ import "list"
 				"sh:resultSeverity":            {"@id": "sh:Violation"}
 				"sh:resultMessage":             "Required resource '" + name + "' not present in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredResource"}
+				"sh:sourceShape":               {"@id": "apercue:charter/" + Charter.name}
 			},
 		], [
 			for t, _ in missing_types {
@@ -234,6 +239,7 @@ import "list"
 				"sh:resultSeverity":            {"@id": "sh:Violation"}
 				"sh:resultMessage":             "Required type '" + t + "' not represented in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredType"}
+				"sh:sourceShape":               {"@id": "apercue:charter/" + Charter.name}
 			},
 		]])
 	}

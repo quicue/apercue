@@ -27,10 +27,11 @@ context: {
 		"oa":      "http://www.w3.org/ns/oa#"
 		"as":      "https://www.w3.org/ns/activitystreams#"
 		"apercue": "https://apercue.ca/vocab#"
+		"charter": "https://apercue.ca/charter#"
 
-		// Resource fields
-		"name":        "apercue:name"
-		"description": "apercue:description"
+		// Resource fields — use Dublin Core for universal interoperability
+		"name":        "dcterms:title"
+		"description": "dcterms:description"
 
 		// Relationships
 		"depends_on": {
@@ -46,7 +47,7 @@ context: {
 
 		// Set containers
 		"tags": {
-			"@id":        "apercue:tags"
+			"@id":        "dcterms:subject"
 			"@container": "@set"
 		}
 	}

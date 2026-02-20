@@ -383,6 +383,7 @@ import (
 	}
 
 	shacl_report: {
+		"@context":    vocab.context["@context"]
 		"@type":       "sh:ValidationReport"
 		"sh:conforms": summary.failed == 0
 		"sh:result": [

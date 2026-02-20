@@ -15,7 +15,10 @@
 
 package patterns
 
-import "list"
+import (
+	"list"
+	"apercue.ca/vocab"
+)
 
 // ═══════════════════════════════════════════════════════════════════════════
 // STRUCTURAL ANALYSIS
@@ -347,7 +350,8 @@ import "list"
 //
 #CriticalPath: {
 	Graph:    #Graph
-	Weights?: [string]: number
+	Weights?:  [string]: number
+	UnitType:  string | *"time:unitDay" // OWL-Time unit (e.g. time:unitDay, time:unitHour)
 
 	// Helper: duration for a resource (default 1)
 	_dur: {
@@ -458,14 +462,22 @@ import "list"
 	//
 	// Export: cue export -e cpm.time_report --out json
 	time_report: {
+		"@context": vocab.context["@context"]
 		for name, _ in Graph.resources {
 			(name): {
-				"@type":             "time:Interval"
-				"time:hasBeginning": _earliest[name]
-				"time:hasEnd":       _finish[name]
+				"@type": "time:Interval"
+				"time:hasBeginning": {
+					"@type":              "time:Instant"
+					"time:inXSDDecimal":  _earliest[name]
+				}
+				"time:hasEnd": {
+					"@type":              "time:Instant"
+					"time:inXSDDecimal":  _finish[name]
+				}
 				"time:hasDuration": {
 					"@type":                "time:Duration"
 					"time:numericDuration": _dur[name]
+					"time:unitType":        {"@id": UnitType}
 				}
 				"apercue:slack":      slack[name]
 				"apercue:isCritical": critical[name] != _|_
