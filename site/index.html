@@ -3,764 +3,773 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>apercue ecosystem</title>
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<title>apercue.ca — compile-time W3C linked data</title>
+<meta name="description" content="CUE comprehensions + unification = zero-infrastructure W3C compliance. No triplestore. No SPARQL. Just cue export.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0e14;
-  --bg-panel: #0f1319;
-  --bg-hover: #151b24;
+  --bg-raised: #0f1319;
+  --bg-code: #0d1117;
   --border: #1e2733;
   --border-bright: #2a3545;
-  --text: #c5cdd8;
+  --text: #b8c4d0;
   --text-dim: #5c6978;
   --text-bright: #e8ecf1;
   --accent: #3ddc84;
-  --accent-dim: rgba(61, 220, 132, 0.15);
-  --warn: #f0c040;
-  --warn-dim: rgba(240, 192, 64, 0.15);
-  --dead: #e05555;
-  --dead-dim: rgba(224, 85, 85, 0.15);
-  --link-active: #3ddc84;
-  --link-degraded: #f0c040;
-  --link-dead: #e05555;
-  --type-module: #5b9cf6;
-  --type-instance: #c084fc;
-  --type-service: #34d1bf;
-  --type-tool: #f09070;
+  --accent-dim: rgba(61, 220, 132, 0.12);
+  --accent-glow: rgba(61, 220, 132, 0.06);
+  --red: #e05555;
+  --red-dim: rgba(224, 85, 85, 0.12);
+  --blue: #5b9cf6;
+  --purple: #c084fc;
+  --orange: #f09070;
+  --teal: #34d1bf;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  overflow: hidden;
-  height: 100vh;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle grid background */
+/* Subtle dot grid */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(61, 220, 132, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(61, 220, 132, 0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image: radial-gradient(circle, rgba(61, 220, 132, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none;
   z-index: 0;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  height: 100vh;
-  position: relative;
-  z-index: 1;
+/* ── Layout ──────────────────────────────────── */
+.page { position: relative; z-index: 1; }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
 }
 
-/* ── Graph Canvas ──────────────────────────────── */
-.graph-area {
-  position: relative;
-  overflow: hidden;
-}
-
-.graph-area svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Arrow markers */
-svg defs marker path {
-  fill: var(--border-bright);
-}
-
-.edge {
-  stroke: var(--border-bright);
-  stroke-width: 1.5;
-  fill: none;
-  opacity: 0.6;
-}
-.edge.critical {
-  stroke: var(--accent);
-  stroke-width: 2;
-  opacity: 0.8;
-  stroke-dasharray: 6 3;
-  animation: dash-flow 1.5s linear infinite;
-}
-@keyframes dash-flow {
-  to { stroke-dashoffset: -9; }
-}
-
-.node-group { cursor: pointer; }
-.node-group:hover .node-ring { opacity: 1; }
-.node-group:hover .node-label { fill: var(--text-bright); }
-
-.node-core {
-  stroke-width: 2;
-  transition: r 0.2s ease;
-}
-.node-ring {
-  fill: none;
-  stroke-width: 1;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.node-pulse {
-  fill: none;
-  stroke-width: 1;
-  opacity: 0;
-}
-.node-group.status-degraded .node-pulse {
-  animation: pulse-warn 2s ease-in-out infinite;
-}
-.node-group.status-dead .node-pulse {
-  animation: pulse-dead 1.5s ease-in-out infinite;
-}
-@keyframes pulse-warn {
-  0%, 100% { opacity: 0; r: 20; }
-  50% { opacity: 0.3; r: 30; }
-}
-@keyframes pulse-dead {
-  0%, 100% { opacity: 0; r: 18; }
-  50% { opacity: 0.4; r: 28; }
-}
-
-.node-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  fill: var(--text-dim);
-  text-anchor: middle;
-  pointer-events: none;
-  transition: fill 0.2s ease;
-}
-
-/* ── Header overlay ────────────────────────────── */
-.header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 320px;
-  padding: 20px 24px;
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  pointer-events: none;
-  z-index: 10;
-}
-.header h1 {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.05em;
-}
-.header .status-pill {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 400;
-  padding: 3px 10px;
-  border-radius: 3px;
-  letter-spacing: 0.03em;
-}
-.header .status-pill.complete {
-  color: var(--accent);
-  background: var(--accent-dim);
-  border: 1px solid rgba(61, 220, 132, 0.25);
-}
-
-/* ── Sidebar ───────────────────────────────────── */
-.sidebar {
-  background: var(--bg-panel);
-  border-left: 1px solid var(--border);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-.sidebar::-webkit-scrollbar { width: 4px; }
-.sidebar::-webkit-scrollbar-track { background: transparent; }
-.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-.panel {
-  padding: 16px 18px;
+section {
+  padding: 80px 0;
   border-bottom: 1px solid var(--border);
 }
-.panel:last-child { border-bottom: none; }
 
-.panel-label {
+section:last-of-type { border-bottom: none; }
+
+/* ── Typography ──────────────────────────────── */
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.section-tag {
+  display: inline-block;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   font-weight: 500;
-  color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 10px;
-}
-
-/* Metrics row */
-.metrics {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.metric {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 10px 12px;
-}
-.metric-value {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--text-bright);
-  line-height: 1;
-}
-.metric-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-top: 4px;
-}
-
-/* Status indicators */
-.status-list { list-style: none; }
-.status-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 0;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-}
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.status-dot.active { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-.status-dot.degraded { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
-.status-dot.dead { background: var(--dead); box-shadow: 0 0 6px var(--dead); }
-.status-name { color: var(--text); flex: 1; }
-.status-label {
-  font-size: 10px;
-  color: var(--text-dim);
-}
-
-/* Critical path */
-.crit-sequence {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.crit-step {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-}
-.crit-step .crit-name { color: var(--accent); flex: 1; }
-.crit-step .crit-dur {
-  color: var(--text-dim);
-  font-size: 10px;
-}
-.crit-arrow {
-  text-align: center;
-  color: var(--border-bright);
-  font-size: 10px;
-  line-height: 1;
-}
-
-/* Type legend */
-.legend-list { list-style: none; }
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 3px 0;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-}
-.legend-swatch {
-  width: 10px;
-  height: 10px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  border: 1px solid rgba(61, 220, 132, 0.25);
+  background: var(--accent-dim);
+  padding: 3px 10px;
   border-radius: 2px;
-  flex-shrink: 0;
+  margin-bottom: 16px;
 }
 
-/* Topology layers */
-.topo-layer {
-  padding: 4px 0;
+p { max-width: 640px; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(61, 220, 132, 0.3);
+  transition: border-color 0.2s;
 }
-.topo-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-bottom: 3px;
+a:hover { border-color: var(--accent); }
+
+/* ── Hero ────────────────────────────────────── */
+.hero {
+  padding: 120px 0 80px;
+  position: relative;
 }
-.topo-nodes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+
+.hero-eyebrow {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--accent);
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
 }
-.topo-chip {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 2px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+
+.hero h1 { margin-bottom: 28px; }
+
+.hero h1 .accent { color: var(--accent); }
+
+.hero-sub {
+  font-size: 15px;
   color: var(--text);
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  margin-bottom: 40px;
+  max-width: 560px;
+  line-height: 1.8;
 }
-.topo-chip:hover {
+
+.hero-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-bottom: none;
+}
+.btn-primary:hover {
+  background: #4de894;
+  box-shadow: 0 0 20px rgba(61, 220, 132, 0.2);
+  border-bottom: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-bright);
+  border-bottom: 1px solid var(--border-bright);
+}
+.btn-ghost:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
 
-/* Detail tooltip */
-.tooltip {
-  position: fixed;
-  pointer-events: none;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-bright);
+/* ── Comparison ──────────────────────────────── */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .compare { grid-template-columns: 1fr; }
+}
+
+.compare-panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 12px 14px;
-  max-width: 280px;
-  z-index: 100;
-  opacity: 0;
-  transition: opacity 0.15s;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  padding: 24px;
+  position: relative;
 }
-.tooltip.visible { opacity: 1; }
-.tooltip-name {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-bright);
-  margin-bottom: 4px;
-}
-.tooltip-types {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 6px;
-}
-.tooltip-type {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 2px;
+
+.compare-panel.old { border-color: rgba(224, 85, 85, 0.25); }
+.compare-panel.new { border-color: rgba(61, 220, 132, 0.25); }
+
+.compare-label {
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
+  margin-bottom: 16px;
 }
-.tooltip-desc {
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.4;
-  margin-bottom: 6px;
+
+.compare-panel.old .compare-label { color: var(--red); }
+.compare-panel.new .compare-label { color: var(--accent); }
+
+.pipeline {
+  list-style: none;
+  font-size: 13px;
 }
-.tooltip-domain {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
+
+.pipeline li {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-dim);
+}
+
+.pipeline li .step-num {
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.compare-panel.old .step-num {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.compare-panel.new .step-num {
+  background: var(--accent-dim);
   color: var(--accent);
+}
+
+.pipeline li .step-text { color: var(--text); }
+
+.compare-verdict {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.compare-panel.old .compare-verdict { color: var(--text-dim); }
+.compare-panel.new .compare-verdict { color: var(--accent); }
+
+/* ── Code block ──────────────────────────────── */
+.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 24px 0;
+}
+
+.code-block .prompt { color: var(--text-dim); user-select: none; }
+.code-block .cmd { color: var(--accent); }
+.code-block .flag { color: var(--blue); }
+.code-block .comment { color: var(--text-dim); font-style: italic; }
+.code-block .output { color: var(--text-dim); }
+
+/* ── Examples grid ───────────────────────────── */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .examples-grid { grid-template-columns: 1fr; }
+}
+
+.example-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+.example-card:hover { border-color: var(--border-bright); }
+
+.example-domain {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.example-card:nth-child(1) .example-domain { color: var(--blue); }
+.example-card:nth-child(2) .example-domain { color: var(--orange); }
+.example-card:nth-child(3) .example-domain { color: var(--purple); }
+.example-card:nth-child(4) .example-domain { color: var(--teal); }
+
+.example-card h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.example-card p {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.example-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+}
+
+.example-stat {
+  color: var(--text-dim);
+}
+.example-stat strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── W3C spec table ──────────────────────────── */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 24px;
+}
+
+.spec-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.spec-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.spec-table tr:last-child td { border-bottom: none; }
+
+.spec-table .spec-name {
+  color: var(--text-bright);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.spec-table .spec-pattern { color: var(--text); }
+
+.spec-table .spec-status {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.spec-status.impl {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.spec-status.ns {
+  color: var(--text-dim);
+  background: rgba(92, 105, 120, 0.15);
+}
+
+/* ── How it works ────────────────────────────── */
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .how-steps { grid-template-columns: 1fr; }
+}
+
+.how-step {
+  padding: 24px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.how-step-num {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-dim);
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+.how-step h3 { font-size: 14px; }
+
+.how-step p {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+.how-step code {
+  font-size: 11px;
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 2px;
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+/* ── Footer ──────────────────────────────────── */
+.footer {
+  padding: 40px 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer a {
+  color: var(--text-dim);
+  border-bottom: 1px solid transparent;
+}
+.footer a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Animations ──────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow { animation: fade-up 0.6s ease both; }
+.hero h1 { animation: fade-up 0.6s ease 0.1s both; }
+.hero-sub { animation: fade-up 0.6s ease 0.2s both; }
+.hero-links { animation: fade-up 0.6s ease 0.3s both; }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
 <body>
+<div class="page">
 
-<div class="header">
-  <h1>apercue ecosystem</h1>
-  <span class="status-pill complete" id="header-status"></span>
-</div>
-
-<div class="tooltip" id="tooltip">
-  <div class="tooltip-name" id="tt-name"></div>
-  <div class="tooltip-types" id="tt-types"></div>
-  <div class="tooltip-desc" id="tt-desc"></div>
-  <div class="tooltip-domain" id="tt-domain"></div>
-</div>
-
-<div class="layout">
-  <div class="graph-area" id="graph-area">
-    <svg id="graph-svg"></svg>
-  </div>
-  <div class="sidebar">
-    <div class="panel">
-      <div class="panel-label">Overview</div>
-      <div class="metrics" id="metrics"></div>
-    </div>
-    <div class="panel">
-      <div class="panel-label">Health</div>
-      <ul class="status-list" id="status-list"></ul>
-    </div>
-    <div class="panel">
-      <div class="panel-label">Critical Path</div>
-      <div class="crit-sequence" id="crit-path"></div>
-    </div>
-    <div class="panel">
-      <div class="panel-label">Topology</div>
-      <div id="topology"></div>
-    </div>
-    <div class="panel">
-      <div class="panel-label">Types</div>
-      <ul class="legend-list" id="legend"></ul>
+<!-- ═══ HERO ═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">apercue.ca@v0 &mdash; CUE module</div>
+    <h1>Compile-time <span class="accent">W3C linked data</span><br>from typed dependency graphs</h1>
+    <p class="hero-sub">
+      CUE comprehensions precompute all queries. CUE unification enforces all shapes.
+      Every W3C artifact is a zero-cost projection of the same typed graph.
+      No triplestore. No SPARQL. No runtime validators. Just&nbsp;<code>cue&nbsp;export</code>.
+    </p>
+    <div class="hero-links">
+      <a href="explorer.html" class="btn btn-primary">Ecosystem Explorer</a>
+      <a href="https://github.com/quicue/apercue" class="btn btn-ghost">GitHub</a>
     </div>
   </div>
+</section>
+
+<!-- ═══ COMPARISON ═════════════════════════════════════════ -->
+<section id="compare">
+  <div class="container">
+    <div class="section-tag">The argument</div>
+    <h2>What it replaces</h2>
+    <div class="compare reveal">
+      <div class="compare-panel old">
+        <div class="compare-label">Traditional Semantic Web</div>
+        <ul class="pipeline">
+          <li><span class="step-num">1</span><span class="step-text">Model data in RDF triples</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Load into a triplestore (Blazegraph, Fuseki, ...)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Write SPARQL queries for each view</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Validate shapes with a SHACL engine</span></li>
+          <li><span class="step-num">5</span><span class="step-text">Serialize to JSON-LD for consumers</span></li>
+        </ul>
+        <div class="compare-verdict">5 runtime components. 5 failure points. 5 things to deploy and monitor.</div>
+      </div>
+      <div class="compare-panel new">
+        <div class="compare-label">apercue.ca</div>
+        <ul class="pipeline">
+          <li><span class="step-num">1</span><span class="step-text">Define typed resources in CUE</span></li>
+          <li><span class="step-num">2</span><span class="step-text">cue export -e &lt;projection&gt;</span></li>
+        </ul>
+        <div class="compare-verdict">1 binary. 0 servers. Compile-time guarantees. Every projection is free.</div>
+      </div>
+    </div>
+    <div class="code-block reveal" style="margin-top: 32px;">
+      <span class="comment"># SHACL validation report</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e compliance.shacl_report</span> <span class="flag">--out json</span><br><br>
+      <span class="comment"># SKOS concept scheme from type vocabulary</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e type_vocabulary.skos</span> <span class="flag">--out json</span><br><br>
+      <span class="comment"># OWL-Time intervals from critical path</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e cpm.time_report</span> <span class="flag">--out json</span><br><br>
+      <span class="comment"># Charter gap analysis as SHACL report</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e gaps.shacl_report</span> <span class="flag">--out json</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══════════════════════════════════════ -->
+<section id="how">
+  <div class="container">
+    <div class="section-tag">Mechanism</div>
+    <h2>How it works</h2>
+    <div class="how-steps reveal">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <h3>Define a typed graph</h3>
+        <p>Resources are structs with <code>@type</code>, <code>depends_on</code>, and metadata.
+           <code>#Graph</code> computes topology, ancestors, and critical path at eval time.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <h3>Declare constraints</h3>
+        <p><code>#Charter</code> declares what must exist. <code>#ComplianceCheck</code> validates structural rules.
+           Both produce <code>sh:ValidationReport</code> automatically.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <h3>Export projections</h3>
+        <p>Every W3C artifact &mdash; JSON-LD, SHACL, SKOS, EARL, OWL-Time &mdash; is a
+           <code>cue export -e</code> expression. No transformation layer. No serialization step.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXAMPLES ═══════════════════════════════════════════ -->
+<section id="examples">
+  <div class="container">
+    <div class="section-tag">Proof of generality</div>
+    <h2>Domain-agnostic by design</h2>
+    <p style="margin-bottom: 24px;">The same <code>#Graph</code>, <code>#Charter</code>, and W3C projection
+       patterns work across any domain. Not just infrastructure.</p>
+    <div class="examples-grid reveal">
+      <div class="example-card">
+        <div class="example-domain">Education</div>
+        <h3>Course Prerequisites</h3>
+        <p>University CS curriculum as a dependency graph.
+           Charter gates enforce degree requirements. CPM finds the optimal course schedule.</p>
+        <div class="example-stats">
+          <span class="example-stat"><strong>12</strong> courses</span>
+          <span class="example-stat"><strong>3</strong> gates</span>
+          <span class="example-stat"><strong>4</strong> layers</span>
+        </div>
+      </div>
+      <div class="example-card">
+        <div class="example-domain">Cooking</div>
+        <h3>Recipe Ingredients</h3>
+        <p>Beef bourguignon as a prep dependency graph.
+           Critical path analysis finds the minimum cooking timeline.</p>
+        <div class="example-stats">
+          <span class="example-stat"><strong>17</strong> steps</span>
+          <span class="example-stat"><strong>5</strong> types</span>
+          <span class="example-stat"><strong>6</strong> layers</span>
+        </div>
+      </div>
+      <div class="example-card">
+        <div class="example-domain">Project Management</div>
+        <h3>Release Tracker</h3>
+        <p>Software release pipeline with schema:actionStatus lifecycle.
+           Gap analysis surfaces what's blocking the next milestone.</p>
+        <div class="example-stats">
+          <span class="example-stat"><strong>10</strong> tasks</span>
+          <span class="example-stat"><strong>4</strong> gates</span>
+          <span class="example-stat"><strong>5</strong> layers</span>
+        </div>
+      </div>
+      <div class="example-card">
+        <div class="example-domain">Supply Chain</div>
+        <h3>Laptop Assembly</h3>
+        <p>Multi-tier supply chain from raw materials to finished product.
+           DCAT catalog, SHACL quality gates, CPM lead times.</p>
+        <div class="example-stats">
+          <span class="example-stat"><strong>15</strong> parts</span>
+          <span class="example-stat"><strong>5</strong> tiers</span>
+          <span class="example-stat"><strong>4</strong> types</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ W3C COVERAGE ═══════════════════════════════════════ -->
+<section id="w3c">
+  <div class="container">
+    <div class="section-tag">Standards</div>
+    <h2>W3C spec coverage</h2>
+    <p style="margin-bottom: 24px;">Each spec is a CUE expression that projects the same underlying graph.
+       No adapters. No converters. The data <em>is</em> the standard.</p>
+    <table class="spec-table reveal">
+      <thead>
+        <tr>
+          <th>Spec</th>
+          <th>CUE Pattern</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="spec-name">JSON-LD 1.1</td>
+          <td class="spec-pattern">vocab/context.cue &mdash; @context, @type, @id</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">SHACL</td>
+          <td class="spec-pattern">validation.cue, charter.cue &mdash; sh:ValidationReport</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">SKOS</td>
+          <td class="spec-pattern">views/skos.cue, lifecycle.cue &mdash; skos:ConceptScheme, OrderedCollection</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">EARL</td>
+          <td class="spec-pattern">lifecycle.cue &mdash; earl:Assertion test plans</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">OWL-Time</td>
+          <td class="spec-pattern">analysis.cue &mdash; time:Interval scheduling</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">Dublin Core</td>
+          <td class="spec-pattern">vocab/context.cue &mdash; dcterms:requires, dcterms:title</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">PROV-O</td>
+          <td class="spec-pattern">vocab/context.cue &mdash; prov:wasDerivedFrom</td>
+          <td><span class="spec-status ns">Namespace</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">schema.org</td>
+          <td class="spec-pattern">vocab/context.cue &mdash; schema:actionStatus lifecycle</td>
+          <td><span class="spec-status ns">Namespace</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">Hydra Core</td>
+          <td class="spec-pattern">Downstream: quicue.ca operator dashboard</td>
+          <td><span class="spec-status ns">Downstream</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ QUICKSTART ═════════════════════════════════════════ -->
+<section id="start">
+  <div class="container">
+    <div class="section-tag">Get started</div>
+    <h2>Try it</h2>
+    <div class="code-block reveal">
+      <span class="comment"># Clone the repo</span><br>
+      <span class="prompt">$ </span><span class="cmd">git clone</span> https://github.com/quicue/apercue<br>
+      <span class="prompt">$ </span><span class="cmd">cd</span> apercue<br><br>
+      <span class="comment"># Run any example</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue eval</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e summary</span><br>
+      <span class="output">{</span><br>
+      <span class="output">&nbsp;&nbsp;graph_valid: true</span><br>
+      <span class="output">&nbsp;&nbsp;charter_complete: true</span><br>
+      <span class="output">&nbsp;&nbsp;total_resources: 12</span><br>
+      <span class="output">&nbsp;&nbsp;missing_gates: 0</span><br>
+      <span class="output">}</span><br><br>
+      <span class="comment"># Export W3C projections</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e gaps.shacl_report</span> <span class="flag">--out json</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e type_vocabulary.skos</span> <span class="flag">--out json</span><br><br>
+      <span class="comment"># Use in your own project</span><br>
+      <span class="prompt">$ </span><span class="cmd">mkdir</span> myproject && <span class="cmd">cd</span> myproject<br>
+      <span class="prompt">$ </span><span class="cmd">cue mod init</span> example.com/myproject@v0<br>
+      <span class="prompt">$ </span><span class="cmd">mkdir -p</span> cue.mod/pkg<br>
+      <span class="prompt">$ </span><span class="cmd">ln -s</span> ~/apercue cue.mod/pkg/apercue.ca
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span>apercue.ca &mdash; Apache 2.0</span>
+      <div class="footer-links">
+        <a href="explorer.html">Explorer</a>
+        <a href="https://github.com/quicue/apercue">GitHub</a>
+        <a href="https://quicue.ca">quicue.ca</a>
+        <a href="https://kg.quicue.ca">kg.quicue.ca</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </div>
 
 <script>
-const DATA_URL = 'data/ecosystem.json';
-
-const TYPE_COLORS = {
-  Module:    '#5b9cf6',
-  Reference: '#5b9cf6',
-  Patterns:  '#5b9cf6',
-  Framework: '#5b9cf6',
-  Instance:  '#c084fc',
-  Homelab:   '#c084fc',
-  Enterprise:'#c084fc',
-  Standalone:'#c084fc',
-  Service:   '#34d1bf',
-  Frontend:  '#34d1bf',
-  API:       '#34d1bf',
-  GitServer: '#34d1bf',
-  Tool:      '#f09070',
-};
-
-const STATUS_COLORS = {
-  active:   '#3ddc84',
-  degraded: '#f0c040',
-  dead:     '#e05555',
-};
-
-function primaryType(types) {
-  const order = ['Module','Instance','Service','Tool'];
-  for (const t of order) if (types.includes(t)) return t;
-  return types[0] || 'Module';
-}
-
-function nodeColor(d) {
-  return TYPE_COLORS[primaryType(d.types)] || '#5b9cf6';
-}
-
-function nodeRadius(d) {
-  const base = d.depth === 0 ? 16 : d.depth <= 1 ? 12 : 9;
-  return base;
-}
-
-async function init() {
-  let data;
-  try {
-    const res = await fetch(DATA_URL);
-    data = await res.json();
-  } catch {
-    // Inline fallback
-    data = INLINE_DATA;
-  }
-
-  renderSidebar(data);
-  renderGraph(data);
-}
-
-function renderSidebar(data) {
-  // Header status
-  const hdr = document.getElementById('header-status');
-  hdr.textContent = data.charter.complete ? 'ALL GATES SATISFIED' : `MISSING: ${data.charter.missing}`;
-
-  // Metrics
-  const m = document.getElementById('metrics');
-  const metrics = [
-    [data.charter.total_modules, 'Modules'],
-    [data.cpm.total_duration + 'd', 'Duration'],
-    [data.cpm.critical_count, 'Critical'],
-    [data.cpm.max_slack + 'd', 'Max Slack'],
-  ];
-  m.innerHTML = metrics.map(([v, l]) =>
-    `<div class="metric"><div class="metric-value">${v}</div><div class="metric-label">${l}</div></div>`
-  ).join('');
-
-  // Status list
-  const sl = document.getElementById('status-list');
-  const sorted = Object.entries(data.status).sort((a, b) => {
-    const order = { dead: 0, degraded: 1, active: 2 };
-    return (order[a[1]] || 3) - (order[b[1]] || 3);
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
   });
-  sl.innerHTML = sorted.map(([name, status]) =>
-    `<li class="status-item">
-      <span class="status-dot ${status}"></span>
-      <span class="status-name">${name}</span>
-      <span class="status-label">${status}</span>
-    </li>`
-  ).join('');
+}, { threshold: 0.15 });
 
-  // Critical path
-  const cp = document.getElementById('crit-path');
-  cp.innerHTML = data.critical_path.map((step, i) => {
-    const arrow = i < data.critical_path.length - 1 ? '<div class="crit-arrow">|</div>' : '';
-    return `<div class="crit-step">
-      <span class="crit-name">${step.resource}</span>
-      <span class="crit-dur">${step.duration}d (${step.start}-${step.finish})</span>
-    </div>${arrow}`;
-  }).join('');
-
-  // Topology
-  const topo = document.getElementById('topology');
-  const layers = Object.entries(data.topology).sort();
-  topo.innerHTML = layers.map(([layer, members]) => {
-    const names = Object.keys(members);
-    const depth = layer.replace('layer_', '');
-    return `<div class="topo-layer">
-      <div class="topo-label">Layer ${depth}</div>
-      <div class="topo-nodes">${names.map(n =>
-        `<span class="topo-chip" data-node="${n}">${n}</span>`
-      ).join('')}</div>
-    </div>`;
-  }).join('');
-
-  // Legend
-  const lg = document.getElementById('legend');
-  const types = ['Module', 'Instance', 'Service', 'Tool'];
-  lg.innerHTML = types.map(t =>
-    `<li class="legend-item">
-      <span class="legend-swatch" style="background:${TYPE_COLORS[t]}"></span>
-      ${t}
-    </li>`
-  ).join('');
-}
-
-function renderGraph(data) {
-  const container = document.getElementById('graph-area');
-  const svg = d3.select('#graph-svg');
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-
-  svg.attr('viewBox', [0, 0, width, height]);
-
-  // Arrow marker
-  svg.append('defs').append('marker')
-    .attr('id', 'arrow')
-    .attr('viewBox', '0 -4 8 8')
-    .attr('refX', 20)
-    .attr('refY', 0)
-    .attr('markerWidth', 6)
-    .attr('markerHeight', 6)
-    .attr('orient', 'auto')
-    .append('path')
-    .attr('d', 'M0,-3L7,0L0,3')
-    .attr('fill', '#2a3545');
-
-  svg.append('defs').append('marker')
-    .attr('id', 'arrow-crit')
-    .attr('viewBox', '0 -4 8 8')
-    .attr('refX', 20)
-    .attr('refY', 0)
-    .attr('markerWidth', 6)
-    .attr('markerHeight', 6)
-    .attr('orient', 'auto')
-    .append('path')
-    .attr('d', 'M0,-3L7,0L0,3')
-    .attr('fill', '#3ddc84');
-
-  // Determine critical path edges
-  const critNodes = new Set(data.critical_path.map(s => s.resource));
-  const critEdgeSet = new Set();
-  for (let i = 0; i < data.critical_path.length - 1; i++) {
-    // The edge goes from earlier to later in the path
-    // but edges are source→target (dependency direction)
-    // Critical path: apercue → quicue-patterns → downstream
-    // Edge: source=apercue, target=quicue-patterns
-    critEdgeSet.add(data.critical_path[i].resource + '→' + data.critical_path[i+1].resource);
-  }
-
-  const nodes = data.nodes.map(d => ({...d}));
-  const edges = data.edges.map(d => ({...d}));
-
-  const simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(edges).id(d => d.id).distance(100).strength(0.7))
-    .force('charge', d3.forceManyBody().strength(-400))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('y', d3.forceY().y(d => 80 + d.depth * (height - 160) / 3).strength(0.3))
-    .force('collision', d3.forceCollide().radius(d => nodeRadius(d) + 15));
-
-  // Edges
-  const edgeGroup = svg.append('g');
-  const edgeEls = edgeGroup.selectAll('.edge')
-    .data(edges)
-    .join('line')
-    .attr('class', d => {
-      const key = d.source.id + '→' + d.target.id;
-      return critEdgeSet.has(key) ? 'edge critical' : 'edge';
-    })
-    .attr('marker-end', d => {
-      const key = d.source.id + '→' + d.target.id;
-      return critEdgeSet.has(key) ? 'url(#arrow-crit)' : 'url(#arrow)';
-    });
-
-  // Nodes
-  const nodeGroup = svg.append('g');
-  const nodeEls = nodeGroup.selectAll('.node-group')
-    .data(nodes)
-    .join('g')
-    .attr('class', d => `node-group status-${d.status}`)
-    .call(d3.drag()
-      .on('start', dragStart)
-      .on('drag', dragging)
-      .on('end', dragEnd));
-
-  // Pulse ring (for degraded/dead)
-  nodeEls.append('circle')
-    .attr('class', 'node-pulse')
-    .attr('r', d => nodeRadius(d) + 8)
-    .attr('stroke', d => STATUS_COLORS[d.status])
-    .attr('fill', 'none');
-
-  // Hover ring
-  nodeEls.append('circle')
-    .attr('class', 'node-ring')
-    .attr('r', d => nodeRadius(d) + 4)
-    .attr('stroke', d => nodeColor(d))
-    .attr('stroke-opacity', 0.4);
-
-  // Core circle
-  nodeEls.append('circle')
-    .attr('class', 'node-core')
-    .attr('r', d => nodeRadius(d))
-    .attr('fill', d => {
-      if (d.status === 'dead') return '#1a1a1a';
-      return nodeColor(d);
-    })
-    .attr('fill-opacity', d => d.status === 'dead' ? 0.3 : 0.15)
-    .attr('stroke', d => {
-      if (d.status === 'dead') return STATUS_COLORS.dead;
-      if (d.status === 'degraded') return STATUS_COLORS.degraded;
-      return nodeColor(d);
-    })
-    .attr('stroke-opacity', d => d.status === 'dead' ? 0.5 : 0.8);
-
-  // Labels
-  nodeEls.append('text')
-    .attr('class', 'node-label')
-    .attr('dy', d => nodeRadius(d) + 14)
-    .text(d => d.name);
-
-  // Tooltip
-  const tooltip = document.getElementById('tooltip');
-  const ttName = document.getElementById('tt-name');
-  const ttTypes = document.getElementById('tt-types');
-  const ttDesc = document.getElementById('tt-desc');
-  const ttDomain = document.getElementById('tt-domain');
-
-  nodeEls.on('mouseenter', (event, d) => {
-    tooltip.classList.add('visible');
-    ttName.textContent = d.name;
-    ttTypes.innerHTML = d.types.map(t =>
-      `<span class="tooltip-type" style="background:${TYPE_COLORS[t] || '#5b9cf6'}22;color:${TYPE_COLORS[t] || '#5b9cf6'}">${t}</span>`
-    ).join('');
-    ttDesc.textContent = d.description;
-    ttDomain.textContent = d.domain ? d.domain : '';
-
-    // Highlight connected edges
-    edgeEls.attr('opacity', e => {
-      if (e.source.id === d.id || e.target.id === d.id) return 1;
-      return 0.15;
-    });
-    nodeEls.attr('opacity', n => {
-      if (n.id === d.id) return 1;
-      const connected = edges.some(e =>
-        (e.source.id === d.id && e.target.id === n.id) ||
-        (e.target.id === d.id && e.source.id === n.id)
-      );
-      return connected ? 1 : 0.3;
-    });
-  });
-
-  nodeEls.on('mousemove', (event) => {
-    tooltip.style.left = (event.clientX + 16) + 'px';
-    tooltip.style.top = (event.clientY - 10) + 'px';
-  });
-
-  nodeEls.on('mouseleave', () => {
-    tooltip.classList.remove('visible');
-    edgeEls.attr('opacity', null);
-    nodeEls.attr('opacity', 1);
-  });
-
-  // Click to open domain
-  nodeEls.on('click', (event, d) => {
-    if (d.domain) window.open('https://' + d.domain, '_blank');
-  });
-
-  // Topo chip hover → highlight node
-  document.querySelectorAll('.topo-chip').forEach(chip => {
-    chip.addEventListener('mouseenter', () => {
-      const nodeId = chip.dataset.node;
-      nodeEls.attr('opacity', n => n.id === nodeId ? 1 : 0.3);
-      edgeEls.attr('opacity', e =>
-        e.source.id === nodeId || e.target.id === nodeId ? 1 : 0.15
-      );
-    });
-    chip.addEventListener('mouseleave', () => {
-      nodeEls.attr('opacity', 1);
-      edgeEls.attr('opacity', null);
-    });
-  });
-
-  // Tick
-  simulation.on('tick', () => {
-    edgeEls
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
-
-    nodeEls.attr('transform', d => `translate(${d.x},${d.y})`);
-  });
-
-  // Drag handlers
-  function dragStart(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
-  function dragging(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
-  function dragEnd(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
-
-  // Zoom
-  const zoom = d3.zoom()
-    .scaleExtent([0.3, 4])
-    .on('zoom', (event) => {
-      edgeGroup.attr('transform', event.transform);
-      nodeGroup.attr('transform', event.transform);
-    });
-  svg.call(zoom);
-}
-
-// Inline data fallback (for local file:// usage)
-const INLINE_DATA = {"nodes":[{"id":"apercue","name":"apercue","types":["Module","Reference"],"depth":0,"status":"active","description":"Generic reference repo \u2014 domain-agnostic typed graphs + W3C projections","domain":"apercue.ca"},{"id":"quicue-patterns","name":"quicue-patterns","types":["Module","Patterns"],"depth":1,"status":"active","description":"Infrastructure-specific patterns \u2014 40+ types, 29 providers","domain":"quicue.ca"},{"id":"quicue-kg","name":"quicue-kg","types":["Module","Framework"],"depth":1,"status":"active","description":"Knowledge graph framework \u2014 core types, ext, aggregate, CLI","domain":"kg.quicue.ca"},{"id":"grdn","name":"grdn","types":["Instance","Homelab"],"depth":2,"status":"degraded","description":"Homelab infrastructure \u2014 Proxmox, ZFS, Docker, Tailscale","domain":""},{"id":"removed","name":"removed","types":["Instance","Enterprise"],"depth":1,"status":"active","description":"Example Organization infrastructure instance","domain":""},{"id":"cmhc-retrofit","name":"cmhc-retrofit","types":["Instance","Standalone"],"depth":1,"status":"active","description":"CMHC housing retrofit \u2014 NHCF + Greener Homes graphs","domain":"cmhc-retrofit.quicue.ca"},{"id":"maison-613","name":"maison-613","types":["Instance","Standalone"],"depth":1,"status":"active","description":"Real estate transaction + compliance tracker","domain":""},{"id":"demo-site","name":"demo-site","types":["Service","Frontend"],"depth":1,"status":"active","description":"D3 graph explorer, planner, Hydra browser","domain":"demo.quicue.ca"},{"id":"static-api","name":"static-api","types":["Service","API"],"depth":2,"status":"active","description":"727 pre-computed JSON responses from cue export","domain":"api.quicue.ca"},{"id":"forgejo","name":"forgejo","types":["Service","GitServer"],"depth":1,"status":"active","description":"Self-hosted git on clover (CT 637)","domain":""},{"id":"gitlab","name":"gitlab","types":["Service","GitServer"],"depth":1,"status":"dead","description":"GitLab on tulip (CT 614) \u2014 DEAD: tulip.fast pool gone","domain":""},{"id":"quicue-swamp","name":"quicue-swamp","types":["Tool"],"depth":1,"status":"active","description":"Swamp extension model wrapping kg CLI","domain":""}],"edges":[{"source":"apercue","target":"quicue-patterns"},{"source":"apercue","target":"quicue-kg"},{"source":"quicue-patterns","target":"grdn"},{"source":"quicue-kg","target":"grdn"},{"source":"quicue-patterns","target":"removed"},{"source":"quicue-patterns","target":"cmhc-retrofit"},{"source":"quicue-patterns","target":"maison-613"},{"source":"quicue-patterns","target":"demo-site"},{"source":"quicue-patterns","target":"static-api"},{"source":"grdn","target":"static-api"},{"source":"grdn","target":"forgejo"},{"source":"grdn","target":"gitlab"},{"source":"quicue-kg","target":"quicue-swamp"}],"charter":{"name":"quicue-ecosystem","total_modules":12,"graph_valid":true,"complete":true,"missing":0,"next_gate":""},"cpm":{"total_duration":30,"critical_count":3,"total_resources":12,"max_slack":18},"critical_path":[{"resource":"apercue","start":0,"finish":5,"duration":5},{"resource":"quicue-patterns","start":5,"finish":15,"duration":10},{"resource":"removed","start":15,"finish":30,"duration":15}],"status":{"apercue":"active","quicue-patterns":"active","quicue-kg":"active","grdn":"degraded","removed":"active","cmhc-retrofit":"active","maison-613":"active","demo-site":"active","static-api":"active","forgejo":"active","gitlab":"dead","quicue-swamp":"active"},"topology":{"layer_0":{"apercue":true},"layer_1":{"quicue-patterns":true,"quicue-kg":true},"layer_2":{"grdn":true,"removed":true,"cmhc-retrofit":true,"maison-613":true,"demo-site":true,"quicue-swamp":true},"layer_3":{"static-api":true,"forgejo":true,"gitlab":true}}};
-
-init();
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>

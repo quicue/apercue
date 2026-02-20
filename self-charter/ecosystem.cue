@@ -56,13 +56,6 @@ _ecosystem: {
 		depends_on:  {"quicue-patterns": true, "quicue-kg": true}
 		status:      "degraded" // tulip.fast dead
 	}
-	"removed": {
-		name:        "removed"
-		"@type":     {Instance: true, Enterprise: true}
-		description: "Example Organization infrastructure instance"
-		depends_on:  {"quicue-patterns": true}
-		status:      "active"
-	}
 	"cmhc-retrofit": {
 		name:        "cmhc-retrofit"
 		"@type":     {Instance: true, Standalone: true}
@@ -134,7 +127,6 @@ _eco_cpm: patterns.#CriticalPath & {
 		"quicue-patterns":  10
 		"quicue-kg":        5
 		grdn:               8
-		downstream:               15
 		"cmhc-retrofit":    3
 		"maison-613":       3
 		"demo-site":        2
@@ -150,7 +142,7 @@ _eco_charter: charter.#Charter & {
 	name: "quicue-ecosystem"
 
 	scope: {
-		total_resources: 12
+		total_resources: 11
 		root: {apercue: true}
 		required_types: {
 			Module:     true
@@ -182,7 +174,6 @@ _eco_charter: charter.#Charter & {
 			description: "At least 2 production instances running"
 			requires: {
 				grdn:             true
-				downstream:             true
 				"cmhc-retrofit":  true
 			}
 			depends_on: {"patterns-published": true}

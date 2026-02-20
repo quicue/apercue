@@ -49,25 +49,13 @@
             "domain": ""
         },
         {
-            "id": "removed",
-            "name": "removed",
-            "types": [
-                "Instance",
-                "Enterprise"
-            ],
-            "depth": 1,
-            "status": "active",
-            "description": "Example Organization infrastructure instance",
-            "domain": ""
-        },
-        {
             "id": "cmhc-retrofit",
             "name": "cmhc-retrofit",
             "types": [
                 "Instance",
                 "Standalone"
             ],
-            "depth": 1,
+            "depth": 2,
             "status": "active",
             "description": "CMHC housing retrofit — NHCF + Greener Homes graphs",
             "domain": "cmhc-retrofit.quicue.ca"
@@ -79,7 +67,7 @@
                 "Instance",
                 "Standalone"
             ],
-            "depth": 1,
+            "depth": 2,
             "status": "active",
             "description": "Real estate transaction + compliance tracker",
             "domain": ""
@@ -91,7 +79,7 @@
                 "Service",
                 "Frontend"
             ],
-            "depth": 1,
+            "depth": 2,
             "status": "active",
             "description": "D3 graph explorer, planner, Hydra browser",
             "domain": "demo.quicue.ca"
@@ -103,7 +91,7 @@
                 "Service",
                 "API"
             ],
-            "depth": 2,
+            "depth": 3,
             "status": "active",
             "description": "727 pre-computed JSON responses from cue export",
             "domain": "api.quicue.ca"
@@ -115,7 +103,7 @@
                 "Service",
                 "GitServer"
             ],
-            "depth": 1,
+            "depth": 3,
             "status": "active",
             "description": "Self-hosted git on clover (CT 637)",
             "domain": ""
@@ -127,7 +115,7 @@
                 "Service",
                 "GitServer"
             ],
-            "depth": 1,
+            "depth": 3,
             "status": "dead",
             "description": "GitLab on tulip (CT 614) — DEAD: tulip.fast pool gone",
             "domain": ""
@@ -138,7 +126,7 @@
             "types": [
                 "Tool"
             ],
-            "depth": 1,
+            "depth": 2,
             "status": "active",
             "description": "Swamp extension model wrapping kg CLI",
             "domain": ""
@@ -160,10 +148,6 @@
         {
             "source": "quicue-kg",
             "target": "grdn"
-        },
-        {
-            "source": "quicue-patterns",
-            "target": "removed"
         },
         {
             "source": "quicue-patterns",
@@ -200,17 +184,17 @@
     ],
     "charter": {
         "name": "quicue-ecosystem",
-        "total_modules": 12,
+        "total_modules": 11,
         "graph_valid": true,
         "complete": true,
         "missing": 0,
         "next_gate": ""
     },
     "cpm": {
-        "total_duration": 30,
-        "critical_count": 3,
-        "total_resources": 12,
-        "max_slack": 18
+        "total_duration": 25,
+        "critical_count": 4,
+        "total_resources": 11,
+        "max_slack": 13
     },
     "critical_path": [
         {
@@ -226,10 +210,16 @@
             "duration": 10
         },
         {
-            "resource": "removed",
+            "resource": "grdn",
             "start": 15,
-            "finish": 30,
-            "duration": 15
+            "finish": 23,
+            "duration": 8
+        },
+        {
+            "resource": "static-api",
+            "start": 23,
+            "finish": 25,
+            "duration": 2
         }
     ],
     "status": {
@@ -237,7 +227,6 @@
         "quicue-patterns": "active",
         "quicue-kg": "active",
         "grdn": "degraded",
-        "removed": "active",
         "cmhc-retrofit": "active",
         "maison-613": "active",
         "demo-site": "active",
@@ -256,7 +245,6 @@
         },
         "layer_2": {
             "grdn": true,
-            "removed": true,
             "cmhc-retrofit": true,
             "maison-613": true,
             "demo-site": true,
