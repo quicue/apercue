@@ -54,7 +54,7 @@ _ecosystem: {
 		"@type":     {Instance: true, Homelab: true}
 		description: "Infrastructure instance — datacenter-as-code deployment"
 		depends_on:  {"quicue-patterns": true, "quicue-kg": true}
-		status:      "degraded"
+		status:      "active"
 	}
 	"cmhc-retrofit": {
 		name:        "cmhc-retrofit"

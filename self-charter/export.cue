@@ -38,6 +38,7 @@ charter_viz: {
 			types:       [for t, _ in raw["@type"] {t}]
 			depth:       _charter_depth_map[rname]
 			description: raw.description
+			planned:     raw._planned
 			// Determine phase from charter gates
 			phase: [
 				for gname, gate in _charter.gates

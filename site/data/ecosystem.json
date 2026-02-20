@@ -44,7 +44,7 @@
                 "Homelab"
             ],
             "depth": 2,
-            "status": "degraded",
+            "status": "active",
             "description": "Infrastructure instance — datacenter-as-code deployment",
             "domain": ""
         },
@@ -210,7 +210,7 @@
         "apercue": "active",
         "quicue-patterns": "active",
         "quicue-kg": "active",
-        "grdn": "degraded",
+        "grdn": "active",
         "cmhc-retrofit": "active",
         "property-tracker": "active",
         "demo-site": "active",

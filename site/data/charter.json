@@ -8,6 +8,7 @@
             ],
             "depth": 0,
             "description": "cue mod init apercue.ca@v0, directory structure",
+            "planned": false,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -19,6 +20,7 @@
             ],
             "depth": 1,
             "description": "Generic #Resource definition (no infra fields)",
+            "planned": false,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -30,6 +32,7 @@
             ],
             "depth": 1,
             "description": "Empty #TypeRegistry pattern (domain-extensible)",
+            "planned": false,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -42,6 +45,7 @@
             ],
             "depth": 1,
             "description": "JSON-LD @context with W3C namespace prefixes",
+            "planned": false,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -53,6 +57,7 @@
             ],
             "depth": 1,
             "description": "#VizData, #VizNode, #VizEdge for visualization",
+            "planned": false,
             "phase": 1,
             "gate": "vocab-ready"
         },
@@ -64,6 +69,7 @@
             ],
             "depth": 2,
             "description": "#Graph (renamed from #InfraGraph) — universal dependency graph",
+            "planned": false,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -75,6 +81,7 @@
             ],
             "depth": 3,
             "description": "#CycleDetector, #ConnectedComponents, #Subgraph, #GraphDiff, #CriticalPath",
+            "planned": false,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -86,6 +93,7 @@
             ],
             "depth": 3,
             "description": "#ComplianceCheck with SHACL ValidationReport projection",
+            "planned": false,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -97,6 +105,7 @@
             ],
             "depth": 3,
             "description": "#BootstrapPlan, #DriftReport, #SmokeTest with SKOS + EARL",
+            "planned": false,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -108,6 +117,7 @@
             ],
             "depth": 3,
             "description": "#Charter, #GapAnalysis, #Milestone with SHACL report",
+            "planned": false,
             "phase": 2,
             "gate": "patterns-ready"
         },
@@ -119,6 +129,7 @@
             ],
             "depth": 4,
             "description": "sh:ValidationReport from #ComplianceCheck and #GapAnalysis",
+            "planned": false,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -130,6 +141,7 @@
             ],
             "depth": 4,
             "description": "skos:ConceptScheme from #TypeVocabulary and lifecycle phases",
+            "planned": false,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -141,6 +153,7 @@
             ],
             "depth": 4,
             "description": "time:Interval from #CriticalPath scheduling",
+            "planned": false,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -152,6 +165,7 @@
             ],
             "depth": 4,
             "description": "earl:Assertion from #SmokeTest test plans",
+            "planned": false,
             "phase": 3,
             "gate": "projections-ready"
         },
@@ -163,6 +177,7 @@
             ],
             "depth": 4,
             "description": "University course prerequisites (12 courses, 3 charter gates)",
+            "planned": false,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -174,6 +189,7 @@
             ],
             "depth": 4,
             "description": "Beef bourguignon recipe (17 steps, critical path)",
+            "planned": false,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -185,6 +201,7 @@
             ],
             "depth": 4,
             "description": "Software release tasks (10 tasks, status tracking)",
+            "planned": false,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -196,6 +213,7 @@
             ],
             "depth": 4,
             "description": "Laptop assembly supply chain (15 parts, 5 tiers)",
+            "planned": false,
             "phase": 4,
             "gate": "examples-ready"
         },
@@ -207,6 +225,7 @@
             ],
             "depth": 5,
             "description": "Project README with quick start and module structure",
+            "planned": false,
             "phase": 5,
             "gate": "ship"
         },
@@ -218,6 +237,7 @@
             ],
             "depth": 5,
             "description": "W3C spec coverage index (w3c/README.md)",
+            "planned": false,
             "phase": 5,
             "gate": "ship"
         },
@@ -229,6 +249,7 @@
             ],
             "depth": 5,
             "description": "Novelty document in 3 tones (academic, practitioner, executive)",
+            "planned": false,
             "phase": 5,
             "gate": "ship"
         },
@@ -240,6 +261,7 @@
             ],
             "depth": 3,
             "description": "Knowledge base (.kb/) with decisions, insights, patterns",
+            "planned": false,
             "phase": 5,
             "gate": "ship"
         },
@@ -251,6 +273,7 @@
             ],
             "depth": 6,
             "description": "GitHub repo created, initial commit pushed",
+            "planned": false,
             "phase": 5,
             "gate": "ship"
         },
@@ -262,6 +285,7 @@
             ],
             "depth": 7,
             "description": "CF Pages project with custom domain apercue.ca",
+            "planned": false,
             "phase": 5,
             "gate": "ship"
         },
@@ -273,6 +297,7 @@
             ],
             "depth": 2,
             "description": "#SafeID and #SafeLabel ASCII-safe identifier constraints",
+            "planned": false,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -284,6 +309,7 @@
             ],
             "depth": 7,
             "description": "GitHub Actions validate.yml with unicode rejection tests",
+            "planned": false,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -296,6 +322,7 @@
             ],
             "depth": 5,
             "description": "W3C spec coverage as structured CUE data (single source of truth)",
+            "planned": false,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -308,6 +335,7 @@
             ],
             "depth": 6,
             "description": "ReSpec HTML spec generated from CUE via cue export -e spec_html",
+            "planned": false,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -320,6 +348,7 @@
             ],
             "depth": 8,
             "description": "Build pipeline replacing hardcoded site data with CUE projections",
+            "planned": false,
             "phase": 6,
             "gate": "projections-complete"
         },
@@ -331,8 +360,108 @@
             ],
             "depth": 9,
             "description": "CI step verifying generated artifacts match CUE exports",
+            "planned": false,
             "phase": 6,
             "gate": "projections-complete"
+        },
+        {
+            "id": "w3c-namespace-cleanup",
+            "name": "w3c-namespace-cleanup",
+            "types": [
+                "Schema"
+            ],
+            "depth": 2,
+            "description": "Remove dead ODRL/OA/AS/Hydra/DCAT prefixes from @context",
+            "planned": false,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "context-canonical-url",
+            "name": "context-canonical-url",
+            "types": [
+                "Projection",
+                "CI"
+            ],
+            "depth": 8,
+            "description": "Deploy @context.jsonld at apercue.ca/vocab/context.jsonld",
+            "planned": true,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "charter-status-tracking",
+            "name": "charter-status-tracking",
+            "types": [
+                "Pattern",
+                "Schema"
+            ],
+            "depth": 9,
+            "description": "Add _planned status to charter tasks, filter for gap analysis",
+            "planned": false,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "charter-live-viz",
+            "name": "charter-live-viz",
+            "types": [
+                "Projection"
+            ],
+            "depth": 10,
+            "description": "Charter page shows planned vs completed nodes with status coloring",
+            "planned": true,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "quicue-semantic-sync",
+            "name": "quicue-semantic-sync",
+            "types": [
+                "Schema"
+            ],
+            "depth": 3,
+            "description": "Apply dcterms + W3C @context fixes to quicue.ca repo",
+            "planned": true,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "ci-auto-deploy",
+            "name": "ci-auto-deploy",
+            "types": [
+                "CI"
+            ],
+            "depth": 8,
+            "description": "GitHub Actions triggers Cloudflare Pages deploy on push",
+            "planned": true,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "kb-charter-bridge",
+            "name": "kb-charter-bridge",
+            "types": [
+                "Pattern",
+                "Documentation"
+            ],
+            "depth": 10,
+            "description": "Design .kb entries as charter node annotations with provenance",
+            "planned": true,
+            "phase": 7,
+            "gate": "semantic-integrity"
+        },
+        {
+            "id": "grdn-mirror",
+            "name": "grdn-mirror",
+            "types": [
+                "CI"
+            ],
+            "depth": 7,
+            "description": "Push to git.infra.grdn as primary, GitHub as mirror",
+            "planned": false,
+            "phase": 7,
+            "gate": "semantic-integrity"
         }
     ],
     "edges": [
@@ -523,6 +652,54 @@
         {
             "source": "site-build",
             "target": "ci-regen-check"
+        },
+        {
+            "source": "jsonld-context",
+            "target": "w3c-namespace-cleanup"
+        },
+        {
+            "source": "w3c-namespace-cleanup",
+            "target": "context-canonical-url"
+        },
+        {
+            "source": "cf-pages",
+            "target": "context-canonical-url"
+        },
+        {
+            "source": "charter-module",
+            "target": "charter-status-tracking"
+        },
+        {
+            "source": "site-build",
+            "target": "charter-status-tracking"
+        },
+        {
+            "source": "charter-status-tracking",
+            "target": "charter-live-viz"
+        },
+        {
+            "source": "w3c-namespace-cleanup",
+            "target": "quicue-semantic-sync"
+        },
+        {
+            "source": "ci-workflow",
+            "target": "ci-auto-deploy"
+        },
+        {
+            "source": "cf-pages",
+            "target": "ci-auto-deploy"
+        },
+        {
+            "source": "kb-setup",
+            "target": "kb-charter-bridge"
+        },
+        {
+            "source": "charter-status-tracking",
+            "target": "kb-charter-bridge"
+        },
+        {
+            "source": "github-repo",
+            "target": "grdn-mirror"
         }
     ],
     "gates": {
@@ -597,14 +774,29 @@
                 "site-build",
                 "ci-regen-check"
             ]
+        },
+        "semantic-integrity": {
+            "phase": 7,
+            "description": "Clean W3C usage, live charter tracking, cross-repo sync",
+            "satisfied": false,
+            "resources": [
+                "w3c-namespace-cleanup",
+                "context-canonical-url",
+                "charter-status-tracking",
+                "charter-live-viz",
+                "quicue-semantic-sync",
+                "ci-auto-deploy",
+                "kb-charter-bridge",
+                "grdn-mirror"
+            ]
         }
     },
     "charter_summary": {
         "project": "apercue-build",
-        "deliverables": 30,
-        "complete": true,
+        "deliverables": 38,
+        "complete": false,
         "missing": 0,
-        "next_gate": ""
+        "next_gate": "semantic-integrity"
     },
     "topology": {
         "layer_0": {
@@ -618,14 +810,16 @@
         },
         "layer_2": {
             "graph-engine": true,
-            "safeid-constraints": true
+            "safeid-constraints": true,
+            "w3c-namespace-cleanup": true
         },
         "layer_3": {
             "analysis-patterns": true,
             "validation-patterns": true,
             "lifecycle-patterns": true,
             "charter-module": true,
-            "kb-setup": true
+            "kb-setup": true,
+            "quicue-semantic-sync": true
         },
         "layer_4": {
             "shacl-projection": true,
@@ -649,13 +843,21 @@
         },
         "layer_7": {
             "cf-pages": true,
-            "ci-workflow": true
+            "ci-workflow": true,
+            "grdn-mirror": true
         },
         "layer_8": {
-            "site-build": true
+            "site-build": true,
+            "context-canonical-url": true,
+            "ci-auto-deploy": true
         },
         "layer_9": {
-            "ci-regen-check": true
+            "ci-regen-check": true,
+            "charter-status-tracking": true
+        },
+        "layer_10": {
+            "charter-live-viz": true,
+            "kb-charter-bridge": true
         }
     }
 }

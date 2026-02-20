@@ -18,6 +18,8 @@ import (
 )
 
 _tasks: {
+	[_]: _planned: bool | *false
+
 	// ── Phase 1: Scaffold + Vocab ──────────────────────────────────
 	"repo-scaffold": {
 		name:        "repo-scaffold"
@@ -208,6 +210,61 @@ _tasks: {
 		description: "CI step verifying generated artifacts match CUE exports"
 		depends_on:  {"ci-workflow": true, "site-build": true}
 	}
+
+	// ── Phase 7: Semantic Integrity + Live Tracking ──────────────
+	"w3c-namespace-cleanup": {
+		name:        "w3c-namespace-cleanup"
+		"@type":     {Schema: true}
+		description: "Remove dead ODRL/OA/AS/Hydra/DCAT prefixes from @context"
+		depends_on:  {"jsonld-context": true}
+	}
+	"context-canonical-url": {
+		name:        "context-canonical-url"
+		"@type":     {Projection: true, CI: true}
+		description: "Deploy @context.jsonld at apercue.ca/vocab/context.jsonld"
+		depends_on:  {"w3c-namespace-cleanup": true, "cf-pages": true}
+		_planned:    true
+	}
+	"charter-status-tracking": {
+		name:        "charter-status-tracking"
+		"@type":     {Pattern: true, Schema: true}
+		description: "Add _planned status to charter tasks, filter for gap analysis"
+		depends_on:  {"charter-module": true, "site-build": true}
+	}
+	"charter-live-viz": {
+		name:        "charter-live-viz"
+		"@type":     {Projection: true}
+		description: "Charter page shows planned vs completed nodes with status coloring"
+		depends_on:  {"charter-status-tracking": true}
+		_planned:    true
+	}
+	"quicue-semantic-sync": {
+		name:        "quicue-semantic-sync"
+		"@type":     {Schema: true}
+		description: "Apply dcterms + W3C @context fixes to quicue.ca repo"
+		depends_on:  {"w3c-namespace-cleanup": true}
+		_planned:    true
+	}
+	"ci-auto-deploy": {
+		name:        "ci-auto-deploy"
+		"@type":     {CI: true}
+		description: "GitHub Actions triggers Cloudflare Pages deploy on push"
+		depends_on:  {"ci-workflow": true, "cf-pages": true}
+		_planned:    true
+	}
+	"kb-charter-bridge": {
+		name:        "kb-charter-bridge"
+		"@type":     {Pattern: true, Documentation: true}
+		description: "Design .kb entries as charter node annotations with provenance"
+		depends_on:  {"kb-setup": true, "charter-status-tracking": true}
+		_planned:    true
+	}
+	"grdn-mirror": {
+		name:        "grdn-mirror"
+		"@type":     {CI: true}
+		description: "Push to git.infra.grdn as primary, GitHub as mirror"
+		depends_on:  {"github-repo": true}
+	}
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -318,12 +375,38 @@ _charter: charter.#Charter & {
 			}
 			depends_on: {"ship": true}
 		}
+		"semantic-integrity": {
+			phase:       7
+			description: "Clean W3C usage, live charter tracking, cross-repo sync"
+			requires: {
+				"w3c-namespace-cleanup":  true
+				"context-canonical-url":  true
+				"charter-status-tracking": true
+				"charter-live-viz":       true
+				"quicue-semantic-sync":   true
+				"ci-auto-deploy":         true
+				"kb-charter-bridge":      true
+				"grdn-mirror":            true
+			}
+			depends_on: {"projections-complete": true}
+		}
+	}
+}
+
+// Gap analysis uses only completed tasks — planned tasks are "not yet present"
+_completed_resources: {
+	for name, t in graph.resources if !_tasks[name]._planned {
+		(name): t
 	}
 }
 
 gaps: charter.#GapAnalysis & {
 	Charter: _charter
-	Graph:   graph
+	Graph: {
+		resources: _completed_resources
+		roots:     graph.roots
+		topology:  graph.topology
+	}
 }
 
 summary: {
