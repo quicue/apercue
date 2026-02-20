@@ -286,7 +286,6 @@ _tasks: {
 		"@type":     {Projection: true, Documentation: true}
 		description: "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule"
 		depends_on:  {"site-data-locality": true}
-		_planned:    true
 	}
 	"spec-v2-update": {
 		name:        "spec-v2-update"
