@@ -614,7 +614,7 @@
             ],
             "depth": 9,
             "description": "Split build into public (landing, spec, examples) and private (charter, ecosystem, projections) targets",
-            "planned": true,
+            "planned": false,
             "kb": [],
             "phase": 8,
             "gate": "local-hardening"

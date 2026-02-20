@@ -71,24 +71,13 @@ jobs:
         with:
           version: v0.15.4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Regenerate site data
+      - name: Build public site
         run: |
-          python3 tools/toposort.py ./self-charter/charter.cue --cue 2>/dev/null > self-charter/precomputed.cue
           mkdir -p site/data site/vocab site/spec
-          cue export ./self-charter/ -e charter_viz --out json > site/data/charter.json
-          cue export ./self-charter/ -e eco_viz --out json > site/data/ecosystem.json
-          cue export ./self-charter/ -e projections --out json > site/data/projections.json
-          cue export ./vocab/ -e context --out json > site/vocab/context.jsonld
-          cue export ./site/ -e site_specs --out json > site/data/specs.json
-          cue export ./site/ -e site_spec_counts --out json > site/data/spec-counts.json
+          bash tools/build-site.sh stage _public
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy site --project-name=quicue-apercue
+          command: pages deploy _public --project-name=quicue-apercue
