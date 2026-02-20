@@ -71,6 +71,28 @@ charter_viz: {
 	topology:        graph.topology
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// PROJECTIONS — One graph, many lenses. One cue export, all W3C outputs.
+//
+// The precomputed closure (ancestors, dependents, depth, CPM) is computed
+// once in Python. Each projection is a cheap struct comprehension over
+// the same data. Export: cue export ./self-charter/ -e projections --out json
+// ═══════════════════════════════════════════════════════════════════════════
+
+projections: {
+	// SHACL — gap analysis as validation report
+	shacl: gaps.shacl_report
+
+	// OWL-Time — CPM scheduling as temporal intervals
+	owl_time: cpm.time_report
+
+	// CPM summary + critical sequence
+	scheduling: {
+		summary:          cpm.summary
+		critical_sequence: cpm.critical_sequence
+	}
+}
+
 // Export-friendly ecosystem data for D3 visualization
 // Iterate over _ecosystem (raw input) to get concrete keys.
 // Depth comes from the computed graph topology, not dependency count.

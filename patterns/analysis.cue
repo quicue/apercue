@@ -97,7 +97,7 @@ import (
 //   // cc.components — {canonical_label: {member: true, ...}, ...}
 //
 #ConnectedComponents: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	// Directed reach: self ∪ ancestors ∪ dependents
 	_reach: {
@@ -172,7 +172,7 @@ import (
 //   sub: #Subgraph & {Graph: g, Target: "web-app", Radius: 2, Mode: "both"}
 //
 #Subgraph: {
-	Graph: #Graph
+	Graph: #AnalyzableGraph
 
 	// Selection criteria (provide at least one)
 	Roots?:  {[string]: true}
@@ -257,8 +257,8 @@ import (
 //   // diff.added_edges, diff.removed_edges — dependency changes
 //
 #GraphDiff: {
-	Before: #Graph
-	After:  #Graph
+	Before: #AnalyzableGraph
+	After:  #AnalyzableGraph
 
 	// Added nodes (in After but not Before)
 	added_nodes: {
@@ -349,7 +349,7 @@ import (
 //   // cpm.slack — per-resource float time
 //
 #CriticalPath: {
-	Graph:    #Graph
+	Graph:    #AnalyzableGraph
 	Weights?:  [string]: number
 	UnitType:  string | *"time:unitDay" // OWL-Time unit (e.g. time:unitDay, time:unitHour)
 
@@ -391,19 +391,25 @@ import (
 		0,
 	][0]
 
+	// Precompute immediate dependents map: O(edges), not O(n²)
+	// Maps each resource to the set of resources that directly depend on it.
+	_immDeps: {
+		for name, _ in Graph.resources {(name): {}}
+		for rname, r in Graph.resources if r.depends_on != _|_ {
+			for dep, _ in r.depends_on {
+				(dep): (rname): true
+			}
+		}
+	}
+
 	// Backward pass: latest start time (recursive from leaves)
 	// LST[n] = min(LST[d]) - dur[n] for all immediate dependents d of n
 	_latest: {
 		for name, _ in Graph.resources {
-			let _immDeps = [
-				for other, or in Graph.resources
-				if or.depends_on != _|_ && or.depends_on[name] != _|_ {
-					_latest[other]
-				},
-			]
+			let _deps = [for d, _ in _immDeps[name] {_latest[d]}]
 			(name): [
-				if len(_immDeps) > 0 {
-					list.Min(_immDeps) - _dur[name]
+				if len(_deps) > 0 {
+					list.Min(_deps) - _dur[name]
 				},
 				total_duration - _dur[name],
 			][0]
@@ -477,6 +483,96 @@ import (
 				"time:hasDuration": {
 					"@type":                "time:Duration"
 					"time:numericDuration": _dur[name]
+					"time:unitType":        {"@id": UnitType}
+				}
+				"apercue:slack":      slack[name]
+				"apercue:isCritical": critical[name] != _|_
+			}
+		}
+	}
+}
+
+// #CriticalPathPrecomputed — CPM with Python-precomputed scheduling data.
+//
+// CUE's recursive fixpoint evaluation is too slow for forward/backward
+// passes on graphs >20 nodes. This pattern takes precomputed earliest,
+// latest, and duration values from Python and produces the same outputs
+// (summary, critical path, OWL-Time projection).
+//
+// Usage:
+//   python3 tools/toposort.py ./dir/ --cue --cpm > precomputed.cue
+//   cpm: patterns.#CriticalPathPrecomputed & {
+//     Graph: graph
+//     Precomputed: _precomputed_cpm
+//   }
+//
+#CriticalPathPrecomputed: {
+	Graph:    #AnalyzableGraph
+	UnitType: string | *"time:unitDay"
+
+	Precomputed: {
+		earliest: [string]: number
+		latest:   [string]: number
+		duration: [string]: number
+	}
+
+	// Derived from precomputed values
+	_finish: {for name, _ in Graph.resources {(name): Precomputed.earliest[name] + Precomputed.duration[name]}}
+
+	slack: {for name, _ in Graph.resources {(name): Precomputed.latest[name] - Precomputed.earliest[name]}}
+
+	_allFinish: [for _, f in _finish {f}]
+	total_duration: [
+		if len(_allFinish) > 0 {list.Max(_allFinish)},
+		0,
+	][0]
+
+	critical: {
+		for name, s in slack if s == 0 {
+			(name): {
+				start:    Precomputed.earliest[name]
+				finish:   _finish[name]
+				duration: Precomputed.duration[name]
+			}
+		}
+	}
+
+	critical_sequence: list.Sort([
+		for name, c in critical {{resource: name} & c},
+	], {x: {}, y: {}, less: x.start < y.start})
+
+	_total_dur:  total_duration
+	_crit_count: len([for c, _ in critical {c}])
+	_res_count:  len(Graph.resources)
+	_max_slack: [
+		if len([for _, s in slack {s}]) > 0 {list.Max([for _, s in slack {s}])},
+		0,
+	][0]
+
+	summary: {
+		total_duration:  _total_dur
+		critical_count:  _crit_count
+		total_resources: _res_count
+		max_slack:       _max_slack
+	}
+
+	// OWL-Time projection — same output shape as #CriticalPath
+	time_report: {
+		"@context": vocab.context["@context"]
+		for name, _ in Graph.resources {
+			(name): {
+				"@type": "time:Interval"
+				"time:hasBeginning": {
+					"@type":              "time:Instant"
+					"time:inXSDDecimal":  Precomputed.earliest[name]
+				}
+				"time:hasEnd": {
+					"@type":              "time:Instant"
+					"time:inXSDDecimal":  _finish[name]
+				}
+				"time:hasDuration": {
+					"@type":                "time:Duration"
+					"time:numericDuration": Precomputed.duration[name]
 					"time:unitType":        {"@id": UnitType}
 				}
 				"apercue:slack":      slack[name]

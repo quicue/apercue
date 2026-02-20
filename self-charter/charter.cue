@@ -272,13 +272,13 @@ _tasks: {
 
 graph: patterns.#GraphLite & {Input: _tasks, Precomputed: _precomputed}
 
-// NOTE: #CriticalPath and #SinglePointsOfFailure removed from always-evaluated
-// summary. Both are O(n²) on 31 nodes. Use on-demand instead:
-//   cue eval ./self-charter/ -e cpm.summary
-//   cue eval ./self-charter/ -e spof.summary
-// Uncomment for ad-hoc analysis (not in the default summary):
-// cpm:  patterns.#CriticalPath & {Graph: graph}
-// spof: patterns.#SinglePointsOfFailure & {Graph: graph}
+// CPM: precomputed in Python (CUE's recursive fixpoint is too slow
+// for 38 nodes). Forward/backward passes + slack computed by toposort.py.
+// cue eval ./self-charter/ -e cpm.summary
+cpm: patterns.#CriticalPathPrecomputed & {
+	Graph:       graph
+	Precomputed: _precomputed_cpm
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CHARTER — apercue build requirements
