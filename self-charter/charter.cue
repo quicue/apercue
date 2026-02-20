@@ -248,7 +248,6 @@ _tasks: {
 		"@type":     {CI: true}
 		description: "GitHub Actions triggers Cloudflare Pages deploy on push"
 		depends_on:  {"ci-workflow": true, "cf-pages": true}
-		_planned:    true
 	}
 	"kb-charter-bridge": {
 		name:        "kb-charter-bridge"

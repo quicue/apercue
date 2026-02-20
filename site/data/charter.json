@@ -434,7 +434,7 @@
             ],
             "depth": 8,
             "description": "GitHub Actions triggers Cloudflare Pages deploy on push",
-            "planned": true,
+            "planned": false,
             "phase": 7,
             "gate": "semantic-integrity"
         },
