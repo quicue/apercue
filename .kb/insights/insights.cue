@@ -118,3 +118,32 @@ i008: core.#Insight & {
 	discovered: "2026-02-20"
 	implication: "The projection architecture scales to new W3C specs without structural changes. Adding a projection is adding a file, not modifying a framework."
 }
+
+i009: core.#Insight & {
+	id:         "INSIGHT-009"
+	statement:  "Font consistency is a maintenance surface in multi-page static sites without shared CSS"
+	evidence: [
+		"4 of 5 HTML pages drifted to IBM Plex Mono + DM Sans while index.html used Fraunces",
+		"Each page is self-contained (no shared stylesheet) — font changes require touching every file",
+		"D3 SVG text requires hardcoded font-family strings, creating a second maintenance surface",
+	]
+	method:     "observation"
+	confidence: "high"
+	discovered: "2026-02-20"
+	implication: "CSS variables (--body, --mono) reduce the surface to one place per file. But shared stylesheets or a build step that injects common CSS would be better for sites with >3 pages."
+}
+
+i010: core.#Insight & {
+	id:         "INSIGHT-010"
+	statement:  "The specs-registry.cue is the single source of truth for all W3C coverage surfaces"
+	evidence: [
+		"site/build.cue projects registry into specs.json and spec-counts.json",
+		"ReSpec spec consumes the same data",
+		"Landing page W3C table must manually mirror the registry (no dynamic rendering)",
+		"Adding a 13th spec: write pattern, add registry entry, rebuild — everything updates",
+	]
+	method:     "cross_reference"
+	confidence: "high"
+	discovered: "2026-02-20"
+	implication: "The landing page HTML table is the only surface that requires manual sync with the registry. A build step that generates the table from specs.json would eliminate the last manual dependency."
+}

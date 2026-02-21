@@ -198,3 +198,37 @@ d012: core.#Decision & {
 	]
 	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
 }
+
+d013: core.#Decision & {
+	id:        "ADR-013"
+	title:     "Atkinson Hyperlegible Next/Mono as standard site font"
+	status:    "accepted"
+	date:      "2026-02-20"
+	context:   "The site used IBM Plex Mono + DM Sans (some pages) and Fraunces (index.html). Four different font stacks across 5 HTML pages created visual inconsistency. The tour page on quique.ca had already adopted Atkinson Hyperlegible."
+	decision:  "Standardize all site pages on Atkinson Hyperlegible Next (body) and Atkinson Hyperlegible Mono (code/data). Use CSS variables --body and --mono for all font-family declarations. Google Fonts only."
+	rationale: "Atkinson Hyperlegible was designed for maximum legibility across vision abilities. Variable font (200-800 weights) with a distinctive personality that avoids both generic AI slop and inaccessible display choices. Mono variant provides code/data consistency."
+	consequences: [
+		"All 5 site pages use identical font stack via --body/--mono CSS vars",
+		"Future font changes require updating one Google Fonts URL + two CSS var values",
+		"D3 SVG text attributes must use full font name (can't reference CSS vars)",
+		"spec/index.html remains on IBM Plex Mono (ReSpec-generated, separate build)",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}
+
+d014: core.#Decision & {
+	id:        "ADR-014"
+	title:     "Landing page rewrite: hero stats, novel section, interactive demos"
+	status:    "accepted"
+	date:      "2026-02-20"
+	context:   "The landing page was outdated — hero mentioned 5 specs (actually 12), W3C table showed 9 rows (actually 14), no links to playground/explorer/charter, and no articulation of what's novel about the approach."
+	decision:  "Rewrite index.html with: stat bar (12 specs, 4 examples, 0 dependencies, 1 binary), interactive demos section (4 cards), What's Novel section (5 contributions), grouped W3C table (Core/Extended/Downstream), Atkinson Hyperlegible fonts."
+	rationale: "The landing page is the primary shareable artifact. It must accurately reflect the project's scope and articulate its contribution. The 12-spec count is the hero metric — compile-time W3C compliance from one typed graph."
+	consequences: [
+		"Landing page is now accurate and shareable",
+		"Interactive demos section drives traffic to playground/explorer/charter",
+		"What's Novel section articulates the thesis for reviewers and peers",
+		"W3C table grouped as Core (original 6) + Extended (new 6) + Downstream (2)",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}

@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>apercue build charter</title>
+<title>Build Charter — apercue.ca</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0e14;
@@ -30,6 +30,9 @@
   --phase-7: #f09070;  /* Semantic integrity — warm coral */
   --phase-8: #e8b84d;  /* Local hardening — electric amber */
 
+  --body: 'Atkinson Hyperlegible Next', sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono', monospace;
+
   /* Type indicators */
   --type-schema: #5b9cf6;
   --type-pattern: #7b6cf6;
@@ -44,7 +47,7 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--body);
   overflow: hidden;
   height: 100vh;
 }
@@ -85,7 +88,7 @@ body::before {
 }
 
 .sidebar-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-bright);
@@ -93,7 +96,7 @@ body::before {
 }
 
 .sidebar-subtitle {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   margin-top: 4px;
@@ -103,7 +106,7 @@ body::before {
 
 .status-badge {
   display: inline-block;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   font-weight: 500;
   padding: 3px 8px;
@@ -140,7 +143,7 @@ body::before {
 }
 
 .metric-value {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 20px;
   font-weight: 600;
   color: var(--text-bright);
@@ -156,7 +159,7 @@ body::before {
 
 /* Gate timeline */
 .section-label {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   font-weight: 500;
   color: var(--text-dim);
@@ -203,7 +206,7 @@ body::before {
 }
 
 .gate-item .gate-phase {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   letter-spacing: 0.05em;
@@ -223,7 +226,7 @@ body::before {
 }
 
 .gate-item .gate-count {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   margin-top: 4px;
@@ -256,7 +259,7 @@ body::before {
 
 .spec-name { color: var(--text); }
 .spec-prefix {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
 }
@@ -300,7 +303,7 @@ body::before {
 
 /* Phase lane labels */
 .phase-label {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   fill: var(--text-dim);
   text-transform: uppercase;
@@ -361,7 +364,7 @@ body::before {
 .node.planned text { opacity: 0.4; }
 
 .node text {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 9px;
   fill: var(--text);
   text-anchor: middle;
@@ -393,14 +396,14 @@ body::before {
 .tooltip.visible { opacity: 1; }
 
 .tooltip-name {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-weight: 600;
   color: var(--text-bright);
   font-size: 13px;
 }
 
 .tooltip-type {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   margin-top: 4px;
 }
@@ -419,7 +422,7 @@ body::before {
 }
 
 .tooltip-meta {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   margin-top: 6px;
@@ -436,7 +439,7 @@ body::before {
 }
 
 .nav-links a {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 11px;
   color: var(--text-dim);
   text-decoration: none;
