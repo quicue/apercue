@@ -184,6 +184,22 @@
           <td><code>http://www.w3.org/ns/earl#</code></td>
         </tr>
         <tr>
+          <td><code>odrl:</code></td>
+          <td><code>http://www.w3.org/ns/odrl/2/</code></td>
+        </tr>
+        <tr>
+          <td><code>org:</code></td>
+          <td><code>http://www.w3.org/ns/org#</code></td>
+        </tr>
+        <tr>
+          <td><code>cred:</code></td>
+          <td><code>https://www.w3.org/2018/credentials#</code></td>
+        </tr>
+        <tr>
+          <td><code>as:</code></td>
+          <td><code>https://www.w3.org/ns/activitystreams#</code></td>
+        </tr>
+        <tr>
           <td><code>apercue:</code></td>
           <td><code>https://apercue.ca/vocab#</code></td>
         </tr>
@@ -346,56 +362,14 @@
         <p><strong>W3C mapping:</strong> Produces identical <a href="https://www.w3.org/TR/owl-time/">OWL-Time</a> output to <code>#CriticalPath</code>. The precomputation is a performance optimization; the W3C projection semantics are unchanged.</p>
         <p><em>Source:</em> <code>patterns/analysis.cue</code></p>
       </section>
-
-      <section id="pattern-provenance">
-        <h3>#ProvenanceTrace</h3>
-        <p>Projects a dependency graph as a PROV-O provenance record. Each resource becomes a <code>prov:Entity</code>, each <code>depends_on</code> edge becomes <code>prov:wasDerivedFrom</code>, and the graph construction is modelled as a <code>prov:Activity</code>.</p>
-        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/prov-o/">PROV-O</a> <code>prov:Entity</code>, <code>prov:Activity</code>, and <code>prov:Agent</code> conformant output.</p>
-        <p><em>Source:</em> <code>patterns/provenance.cue</code></p>
-      </section>
-
-      <section id="pattern-policy">
-        <h3>#ODRLPolicy</h3>
-        <p>Projects resource access rules as an ODRL 2.2 Policy. Permissions and prohibitions are declared by resource type or name; the projection maps each rule to matching resources in the graph.</p>
-        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/odrl-model/">ODRL 2.2</a> <code>odrl:Set</code> with <code>odrl:permission</code> and <code>odrl:prohibition</code> entries.</p>
-        <p><em>Source:</em> <code>patterns/policy.cue</code></p>
-      </section>
-
-      <section id="pattern-org">
-        <h3>#OrgStructure</h3>
-        <p>Groups resources by <code>@type</code> into organizational units. The graph becomes an <code>org:Organization</code>; each unique type becomes an <code>org:OrganizationalUnit</code> with member resources.</p>
-        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/vocab-org/">W3C ORG</a> <code>org:Organization</code> with <code>org:hasUnit</code> hierarchy.</p>
-        <p><em>Source:</em> <code>views/org.cue</code></p>
-      </section>
-
-      <section id="pattern-schema-alignment">
-        <h3>#SchemaOrgAlignment</h3>
-        <p>Maps graph resource types to schema.org vocabulary via a configurable TypeMap. Each resource receives <code>schema:additionalType</code> annotations for consumption by search engines and schema.org processors.</p>
-        <p><strong>W3C mapping:</strong> Produces <a href="https://schema.org/">schema.org</a> annotations in JSON-LD, consumable by Google Rich Results and other structured data processors.</p>
-        <p><em>Source:</em> <code>patterns/schema_alignment.cue</code></p>
-      </section>
-
-      <section id="pattern-credentials">
-        <h3>#ValidationCredential</h3>
-        <p>Wraps a SHACL validation report in a Verifiable Credential 2.0. Produces a credential attesting that a graph passed (or failed) validation at a specific point in time.</p>
-        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/vc-data-model-2.0/">VC 2.0</a> <code>VerifiableCredential</code> with the SHACL report as <code>credentialSubject</code>. Cryptographic proof is a deployment concern, not a projection concern.</p>
-        <p><em>Source:</em> <code>patterns/credentials.cue</code></p>
-      </section>
-
-      <section id="pattern-activity">
-        <h3>#ActivityStream</h3>
-        <p>Projects graph construction as an Activity Streams 2.0 collection. Resources are modelled as <code>Create</code> activities ordered by dependency depth — layer 0 first.</p>
-        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/activitystreams-core/">Activity Streams 2.0</a> <code>OrderedCollection</code> with <code>Create</code> activity items.</p>
-        <p><em>Source:</em> <code>patterns/activity.cue</code></p>
-      </section>
   </section>
 
   <!-- ═══ W3C MAPPINGS ══════════════════════════════════════════ -->
   <section id="w3c-mappings">
     <h2>W3C Specification Mappings</h2>
     <p>apercue maps dependency graph data to 12 W3C
-    specifications with complete implementations, and 1 in
-    downstream modules.
+    specifications with complete implementations, 0 with
+    namespace registrations, and 2 in downstream modules.
     Each mapping produces output that conforms to the referenced
     specification and is consumable by any compliant processor.</p>
 
@@ -433,39 +407,52 @@
         </tr>
         <tr>
           <td><a href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/">Dublin Core</a></td>
-          <td>dcterms:requires maps every depends_on edge; dcterms:title maps names; dcterms:conformsTo in SHACL/EARL reports</td>
+          <td>dcterms:title, dcterms:description, dcterms:requires on all resources</td>
           <td><code>Implemented</code></td>
         </tr>
         <tr>
           <td><a href="https://www.w3.org/TR/prov-o/">PROV-O</a></td>
-          <td>prov:Entity, prov:wasDerivedFrom — resource derivation chains and provenance audit trails</td>
-          <td><code>Implemented</code></td>
-        </tr>
-        <tr>
-          <td><a href="https://www.w3.org/TR/odrl-model/">ODRL 2.2</a></td>
-          <td>odrl:Set with odrl:permission and odrl:prohibition — type-based access policies on graph resources</td>
-          <td><code>Implemented</code></td>
-        </tr>
-        <tr>
-          <td><a href="https://www.w3.org/TR/vocab-org/">W3C ORG</a></td>
-          <td>org:Organization with org:OrganizationalUnit — resources grouped by @type into organizational hierarchy</td>
+          <td>prov:Entity + prov:wasDerivedFrom from dependency edges</td>
           <td><code>Implemented</code></td>
         </tr>
         <tr>
           <td><a href="https://schema.org/">schema.org</a></td>
-          <td>schema:additionalType mapping via configurable TypeMap; schema:actionStatus for lifecycle</td>
+          <td>schema:additionalType annotations via configurable type mapping</td>
           <td><code>Implemented</code></td>
         </tr>
         <tr>
-          <td><a href="https://www.w3.org/TR/vc-data-model-2.0/">Verifiable Credentials 2.0</a></td>
-          <td>VerifiableCredential wrapping SHACL validation reports — attestation of graph conformance</td>
+          <td><a href="https://www.w3.org/TR/odrl-model/">ODRL 2.2</a></td>
+          <td>odrl:Set policies with permissions/prohibitions by resource type</td>
           <td><code>Implemented</code></td>
         </tr>
         <tr>
           <td><a href="https://www.w3.org/TR/activitystreams-core/">Activity Streams 2.0</a></td>
-          <td>as:OrderedCollection — graph construction modelled as timeline of Create activities by layer</td>
+          <td>as:OrderedCollection of Create activities from topology layers</td>
           <td><code>Implemented</code></td>
         </tr>
+        <tr>
+          <td><a href="https://www.w3.org/TR/vc-data-model-2.0/">Verifiable Credentials 2.0</a></td>
+          <td>VerifiableCredential wrapping SHACL validation attestation</td>
+          <td><code>Implemented</code></td>
+        </tr>
+        <tr>
+          <td><a href="https://www.w3.org/TR/vocab-org/">W3C Org</a></td>
+          <td>org:Organization with type-based OrganizationalUnits</td>
+          <td><code>Implemented</code></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="w3c-namespace">
+      <h3>Namespace <span class="count">0</span></h3>
+      <p>These specifications have namespace prefixes registered in the
+      JSON-LD <code>@context</code>. Properties from these vocabularies
+      are used in resource metadata and projection output.</p>
+      <table class="def">
+        <thead><tr><th>Specification</th><th>Coverage</th><th>Status</th></tr></thead>
+        <tbody>
+
         </tbody>
       </table>
     </section>
@@ -484,7 +471,7 @@
         </tr>
         <tr>
           <td><a href="https://www.w3.org/TR/vocab-dcat-3/">DCAT 3</a></td>
-          <td>dcat:Catalog, dcat:Dataset — full #DCAT3Catalog and #DCATKnowledgeBase projections in quicue.ca</td>
+          <td>dcat:Catalog in quicue-kg aggregate module</td>
           <td><code>Downstream</code></td>
         </tr>
         </tbody>
@@ -497,31 +484,13 @@
     <h2>Examples</h2>
     <p>The following examples demonstrate W3C projection output from
     actual apercue graphs. All output is produced by
-    <code>cue export</code> with no post-processing. Each example
-    shows the CUE input alongside the W3C JSON output it produces.</p>
-
-    <div class="note-box">
-      <strong>Meta-example:</strong> apercue models its own development
-      as a dependency graph with 12 resources and 4 phase gates. The
-      <a href="../charter.html">self-charter visualization</a> is itself
-      a projection of the same patterns described here.
-    </div>
+    <code>cue export</code> with no post-processing.</p>
 
     <section id="example-shacl">
       <h3>SHACL Validation Report</h3>
-      <p>A charter declares required resources and gates. Gap analysis
-      computes the delta and projects it as a <code>sh:ValidationReport</code>
-      [[shacl]]. Given this charter and graph:</p>
-      <pre class="example" title="Charter input (CUE)">
-charter: #Charter & {
-  scope: {
-    total_resources: 10
-    required_resources: {"design-api": true, "implement-api": true, "write-tests": true}
-    gates: [{name: "v1.0-release", requires: {"implement-api": true, "write-tests": true}}]
-  }
-}
-gaps: #GapAnalysis & {Charter: charter, Graph: graph}</pre>
-      <p>When all chartered resources are present, the report conforms:</p>
+      <p>A charter gap analysis produces a
+      <code>sh:ValidationReport</code> [[shacl]]. When all chartered
+      resources are present, the report conforms:</p>
       <pre class="json">{
   "@type": "sh:ValidationReport",
   "sh:conforms": true,
@@ -550,18 +519,7 @@ gaps: #GapAnalysis & {Charter: charter, Graph: graph}</pre>
 
     <section id="example-owl-time">
       <h3>OWL-Time Interval Schedule</h3>
-      <p>Critical path analysis accepts a graph with weighted durations
-      and computes CPM scheduling. Given course resources with credit weights:</p>
-      <pre class="example" title="Resources with durations (CUE)">
-"intro-cs": {name: "intro-cs", "@type": {CoreCourse: true}, credits: 3}
-"intro-math": {name: "intro-math", "@type": {CoreCourse: true}, credits: 3}
-"data-structures": {
-  name: "data-structures", "@type": {CoreCourse: true},
-  depends_on: {"intro-cs": true, "intro-math": true}, credits: 3
-}
-
-cpm: #CriticalPath & {Graph: graph, Durations: {for k, r in _resources {(k): r.credits}}}</pre>
-      <p>The projection produces <code>time:Interval</code>
+      <p>Critical path analysis produces <code>time:Interval</code>
       [[owl-time]] reports. Each resource receives a scheduling
       interval with beginning, end, duration, and slack:</p>
       <pre class="json">{
@@ -593,94 +551,6 @@ cpm: #CriticalPath & {Graph: graph, Durations: {for k, r in _resources {(k): r.c
       scheduling properties that extend OWL-Time with CPM-specific
       semantics.</p>
       <p>Export command: <code>cue export ./examples/course-prereqs/ -e cpm.time_report --out json</code></p>
-    </section>
-
-    <section id="example-skos">
-      <h3>SKOS Concept Scheme</h3>
-      <p>A type vocabulary projects as a <code>skos:ConceptScheme</code>
-      [[skos-reference]]. Given a type registry with definitions:</p>
-      <pre class="example" title="Type registry input (CUE)">
-types: vocab.#TypeRegistry & {
-  CoreCourse:     {description: "Required course for degree completion"}
-  ElectiveCourse: {description: "Optional course chosen by student"}
-  Capstone:       {description: "Final integrative project"}
-}
-type_vocab: views.#TypeVocabulary & {Registry: types}</pre>
-      <p>Each type becomes a <code>skos:Concept</code> in the scheme:</p>
-      <pre class="json">{
-  "@type": "skos:ConceptScheme",
-  "@id": "https://apercue.ca/vocab#TypeVocabulary",
-  "skos:prefLabel": "Type Vocabulary",
-  "dcterms:title": "Type Vocabulary",
-  "skos:hasTopConcept": [
-    {
-      "@type": "skos:Concept",
-      "@id": "https://apercue.ca/vocab#CoreCourse",
-      "skos:prefLabel": "CoreCourse",
-      "skos:definition": "Required course for degree completion",
-      "skos:inScheme": {"@id": "https://apercue.ca/vocab#TypeVocabulary"}
-    },
-    {
-      "@type": "skos:Concept",
-      "@id": "https://apercue.ca/vocab#ElectiveCourse",
-      "skos:prefLabel": "ElectiveCourse",
-      "skos:definition": "Optional course chosen by student"
-    }
-  ]
-}</pre>
-      <p>Export command: <code>cue export ./views/ -e type_vocab.concept_scheme --out json</code></p>
-    </section>
-
-    <section id="example-earl">
-      <h3>EARL Test Assertions</h3>
-      <p>Smoke test plans project as <code>earl:Assertion</code>
-      [[EARL10-Schema]] reports. Given a set of checks:</p>
-      <pre class="example" title="Smoke test input (CUE)">
-verify: patterns.#SmokeTest & {
-  Subject: "https://example.org/api"
-  checks: [
-    {label: "dns-resolves", command: "dig +short api.example.org", expected: "198.51.100.10"},
-    {label: "https-200",    command: "curl -so /dev/null -w '%{http_code}' https://api.example.org", expected: "200"},
-  ]
-}</pre>
-      <p>Each check becomes an <code>earl:Assertion</code> with
-      <code>earl:untested</code> outcome at CUE eval time:</p>
-      <pre class="json">{
-  "@graph": [
-    {
-      "@type": "earl:Assertion",
-      "earl:subject": {"@id": "https://example.org/api"},
-      "earl:test": {
-        "@type": "earl:TestCriterion",
-        "dcterms:title": "dns-resolves",
-        "apercue:command": "dig +short api.example.org"
-      },
-      "earl:result": {
-        "@type": "earl:TestResult",
-        "earl:outcome": {"@id": "earl:untested"},
-        "earl:expected": "198.51.100.10"
-      }
-    },
-    {
-      "@type": "earl:Assertion",
-      "earl:subject": {"@id": "https://example.org/api"},
-      "earl:test": {
-        "@type": "earl:TestCriterion",
-        "dcterms:title": "https-200"
-      },
-      "earl:result": {
-        "@type": "earl:TestResult",
-        "earl:outcome": {"@id": "earl:untested"},
-        "earl:expected": "200"
-      }
-    }
-  ]
-}</pre>
-      <p>The outcome is <code>earl:untested</code> because CUE computes
-      the test plan, not the test execution. Running the generated script
-      and feeding results back would update outcomes to
-      <code>earl:passed</code> or <code>earl:failed</code>.</p>
-      <p>Export command: <code>cue export -e verify.earl_report --out json</code></p>
     </section>
 
     <section id="example-jsonld">

@@ -37,23 +37,51 @@
     "Dublin Core": {
         "spec_name": "Dublin Core",
         "url": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/",
-        "status": "Namespace",
-        "coverage": "dcterms:requires maps depends_on relationships",
+        "status": "Implemented",
+        "coverage": "dcterms:title, dcterms:description, dcterms:requires on all resources",
         "prefix": "dcterms"
     },
     "PROV-O": {
         "spec_name": "PROV-O",
         "url": "https://www.w3.org/TR/prov-o/",
-        "status": "Namespace",
-        "coverage": "prov:wasDerivedFrom namespace registered",
+        "status": "Implemented",
+        "coverage": "prov:Entity + prov:wasDerivedFrom from dependency edges",
         "prefix": "prov"
     },
     "schema.org": {
         "spec_name": "schema.org",
         "url": "https://schema.org/",
-        "status": "Namespace",
-        "coverage": "schema:actionStatus for lifecycle status values",
+        "status": "Implemented",
+        "coverage": "schema:additionalType annotations via configurable type mapping",
         "prefix": "schema"
+    },
+    "ODRL 2.2": {
+        "spec_name": "ODRL 2.2",
+        "url": "https://www.w3.org/TR/odrl-model/",
+        "status": "Implemented",
+        "coverage": "odrl:Set policies with permissions/prohibitions by resource type",
+        "prefix": "odrl"
+    },
+    "Activity Streams 2.0": {
+        "spec_name": "Activity Streams 2.0",
+        "url": "https://www.w3.org/TR/activitystreams-core/",
+        "status": "Implemented",
+        "coverage": "as:OrderedCollection of Create activities from topology layers",
+        "prefix": "as"
+    },
+    "Verifiable Credentials 2.0": {
+        "spec_name": "Verifiable Credentials 2.0",
+        "url": "https://www.w3.org/TR/vc-data-model-2.0/",
+        "status": "Implemented",
+        "coverage": "VerifiableCredential wrapping SHACL validation attestation",
+        "prefix": "cred"
+    },
+    "W3C Org": {
+        "spec_name": "W3C Org",
+        "url": "https://www.w3.org/TR/vocab-org/",
+        "status": "Implemented",
+        "coverage": "org:Organization with type-based OrganizationalUnits",
+        "prefix": "org"
     },
     "Hydra Core": {
         "spec_name": "Hydra Core",
