@@ -32,3 +32,23 @@ p003: core.#Pattern & {
 	example:  "[for x in list if cond { field: x }] filters; [for x in list { if cond { field: x } }] does not"
 	used_in: {"apercue.ca": true, "quicue.ca": true}
 }
+
+p004: core.#Pattern & {
+	name:     "input-output-pair-documentation"
+	category: "methodology"
+	problem:  "Documentation shows CUE input and W3C output in separate places, so readers cannot trace the full pipeline in any single document"
+	solution: "Always document projections as paired examples: the CUE resource definition alongside the W3C output it produces via a specific cue export expression. Show the command, the input, and the output together."
+	context:  "Any CUE module that produces W3C projections and needs to be understood by new readers"
+	example:  "Show a 3-resource graph, then the SHACL report it produces, in the same README section"
+	used_in: {"apercue.ca": true}
+}
+
+p005: core.#Pattern & {
+	name:     "w3c-coverage-table-as-projection"
+	category: "architecture"
+	problem:  "W3C coverage tables in README, spec, and w3c/README.md drift out of sync as new projections are added"
+	solution: "Define W3C spec coverage as structured CUE data (vocab/specs-registry.cue). Generate README tables, spec tables, and w3c/README.md from the same source via cue export."
+	context:  "Any project with multiple documentation surfaces that report the same W3C compliance data"
+	example:  "cue export ./vocab/ -e specs_table --out text produces the Markdown table for README insertion"
+	used_in: {"apercue.ca": true}
+}

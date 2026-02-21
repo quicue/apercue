@@ -134,3 +134,50 @@ d008: core.#Decision & {
 	]
 	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
 }
+
+d009: core.#Decision & {
+	id:        "ADR-009"
+	title:     "README must link to spec and show input/output pairs"
+	status:    "proposed"
+	date:      "2026-02-20"
+	context:   "Fresh-eyes review revealed that the README never links to the spec, and no single document shows the full CUE input → W3C output journey. A new reader can run examples but cannot see what comes out without running them."
+	decision:  "Add spec link to README. Add at least one inline output example (e.g., SHACL report snippet) in the README Quick Start. Spec examples should show the CUE source alongside the JSON output."
+	rationale: "The 'aha moment' for apercue is seeing that one cue export command produces a valid W3C artifact. This should be visible in the first 30 seconds of reading, not after cloning and running commands."
+	consequences: [
+		"README gains a spec link and output preview",
+		"Spec examples gain CUE input alongside JSON output",
+		"New readers can evaluate the project without installing CUE",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}
+
+d010: core.#Decision & {
+	id:        "ADR-010"
+	title:     "Upgrade Dublin Core from Namespace to Implemented in W3C coverage"
+	status:    "proposed"
+	date:      "2026-02-20"
+	context:   "Dublin Core is listed as 'Namespace' in the W3C coverage table, but dcterms:requires maps every depends_on edge, dcterms:title maps every name, dcterms:description maps descriptions, and dcterms:conformsTo appears in SHACL reports, EARL reports, and DCAT catalogs."
+	decision:  "Upgrade Dublin Core to 'Implemented' status in the README, spec, and w3c/README.md. It is not just a namespace prefix — it provides the semantic backbone for the entire dependency model."
+	rationale: "A vocabulary whose terms appear in every graph and every projection output is Implemented, not merely registered as a namespace."
+	consequences: [
+		"W3C coverage tables show 6 Implemented specs (was 5)",
+		"Dublin Core's role in the dependency model is explicit",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}
+
+d011: core.#Decision & {
+	id:        "ADR-011"
+	title:     "Feature the self-charter as a first-class example"
+	status:    "proposed"
+	date:      "2026-02-20"
+	context:   "The self-charter (apercue modelling its own development as a dependency graph with 12 resources, 4 gates, CPM scheduling) is listed in the module structure tree but never described in the README or spec. A framework that models itself is inherently credible."
+	decision:  "Add a self-charter description to the README Examples section. Link to the charter.html visualization. Mention it in the spec's Examples section as the meta-example."
+	rationale: "Dogfooding is the strongest proof of viability. If the patterns are good enough for the project's own planning, they are good enough for any domain."
+	consequences: [
+		"Self-charter becomes visible to new readers",
+		"charter.html and explorer.html get traffic from README links",
+		"The 'project models itself' narrative strengthens the generality claim",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}
