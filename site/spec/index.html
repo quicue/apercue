@@ -351,14 +351,14 @@
   <!-- ═══ W3C MAPPINGS ══════════════════════════════════════════ -->
   <section id="w3c-mappings">
     <h2>W3C Specification Mappings</h2>
-    <p>apercue maps dependency graph data to 5 W3C
-    specifications with complete implementations, 3 with
+    <p>apercue maps dependency graph data to 6 W3C
+    specifications with complete implementations, 2 with
     namespace registrations, and 2 in downstream modules.
     Each mapping produces output that conforms to the referenced
     specification and is consumable by any compliant processor.</p>
 
     <section id="w3c-implemented">
-      <h3>Implemented <span class="count">5</span></h3>
+      <h3>Implemented <span class="count">6</span></h3>
       <p>These specifications have CUE pattern implementations that
       produce conformant output via <code>cue export</code>.</p>
       <table class="def">
@@ -389,12 +389,17 @@
           <td>time:Interval from critical path scheduling</td>
           <td><code>Implemented</code></td>
         </tr>
+        <tr>
+          <td><a href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/">Dublin Core</a></td>
+          <td>dcterms:requires maps every depends_on edge; dcterms:title maps names; dcterms:conformsTo in SHACL/EARL reports</td>
+          <td><code>Implemented</code></td>
+        </tr>
         </tbody>
       </table>
     </section>
 
     <section id="w3c-namespace">
-      <h3>Namespace <span class="count">3</span></h3>
+      <h3>Namespace <span class="count">2</span></h3>
       <p>These specifications have namespace prefixes registered in the
       JSON-LD <code>@context</code>. Properties from these vocabularies
       are used in resource metadata and projection output.</p>
@@ -402,13 +407,8 @@
         <thead><tr><th>Specification</th><th>Coverage</th><th>Status</th></tr></thead>
         <tbody>
         <tr>
-          <td><a href="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/">Dublin Core</a></td>
-          <td>dcterms:requires maps depends_on relationships</td>
-          <td><code>Namespace</code></td>
-        </tr>
-        <tr>
           <td><a href="https://www.w3.org/TR/prov-o/">PROV-O</a></td>
-          <td>prov:wasDerivedFrom namespace registered</td>
+          <td>prov:wasDerivedFrom namespace; full prov_report projections in quicue.ca (#BootstrapPlan, #DriftReport)</td>
           <td><code>Namespace</code></td>
         </tr>
         <tr>
@@ -434,7 +434,7 @@
         </tr>
         <tr>
           <td><a href="https://www.w3.org/TR/vocab-dcat-3/">DCAT 3</a></td>
-          <td>dcat:Catalog in quicue-kg aggregate module</td>
+          <td>dcat:Catalog, dcat:Dataset — full #DCAT3Catalog and #DCATKnowledgeBase projections in quicue.ca</td>
           <td><code>Downstream</code></td>
         </tr>
         </tbody>
@@ -447,13 +447,31 @@
     <h2>Examples</h2>
     <p>The following examples demonstrate W3C projection output from
     actual apercue graphs. All output is produced by
-    <code>cue export</code> with no post-processing.</p>
+    <code>cue export</code> with no post-processing. Each example
+    shows the CUE input alongside the W3C JSON output it produces.</p>
+
+    <div class="note-box">
+      <strong>Meta-example:</strong> apercue models its own development
+      as a dependency graph with 12 resources and 4 phase gates. The
+      <a href="../charter.html">self-charter visualization</a> is itself
+      a projection of the same patterns described here.
+    </div>
 
     <section id="example-shacl">
       <h3>SHACL Validation Report</h3>
-      <p>A charter gap analysis produces a
-      <code>sh:ValidationReport</code> [[shacl]]. When all chartered
-      resources are present, the report conforms:</p>
+      <p>A charter declares required resources and gates. Gap analysis
+      computes the delta and projects it as a <code>sh:ValidationReport</code>
+      [[shacl]]. Given this charter and graph:</p>
+      <pre class="example" title="Charter input (CUE)">
+charter: #Charter & {
+  scope: {
+    total_resources: 10
+    required_resources: {"design-api": true, "implement-api": true, "write-tests": true}
+    gates: [{name: "v1.0-release", requires: {"implement-api": true, "write-tests": true}}]
+  }
+}
+gaps: #GapAnalysis & {Charter: charter, Graph: graph}</pre>
+      <p>When all chartered resources are present, the report conforms:</p>
       <pre class="json">{
   "@type": "sh:ValidationReport",
   "sh:conforms": true,
@@ -482,7 +500,18 @@
 
     <section id="example-owl-time">
       <h3>OWL-Time Interval Schedule</h3>
-      <p>Critical path analysis produces <code>time:Interval</code>
+      <p>Critical path analysis accepts a graph with weighted durations
+      and computes CPM scheduling. Given course resources with credit weights:</p>
+      <pre class="example" title="Resources with durations (CUE)">
+"intro-cs": {name: "intro-cs", "@type": {CoreCourse: true}, credits: 3}
+"intro-math": {name: "intro-math", "@type": {CoreCourse: true}, credits: 3}
+"data-structures": {
+  name: "data-structures", "@type": {CoreCourse: true},
+  depends_on: {"intro-cs": true, "intro-math": true}, credits: 3
+}
+
+cpm: #CriticalPath & {Graph: graph, Durations: {for k, r in _resources {(k): r.credits}}}</pre>
+      <p>The projection produces <code>time:Interval</code>
       [[owl-time]] reports. Each resource receives a scheduling
       interval with beginning, end, duration, and slack:</p>
       <pre class="json">{
@@ -514,6 +543,94 @@
       scheduling properties that extend OWL-Time with CPM-specific
       semantics.</p>
       <p>Export command: <code>cue export ./examples/course-prereqs/ -e cpm.time_report --out json</code></p>
+    </section>
+
+    <section id="example-skos">
+      <h3>SKOS Concept Scheme</h3>
+      <p>A type vocabulary projects as a <code>skos:ConceptScheme</code>
+      [[skos-reference]]. Given a type registry with definitions:</p>
+      <pre class="example" title="Type registry input (CUE)">
+types: vocab.#TypeRegistry & {
+  CoreCourse:     {description: "Required course for degree completion"}
+  ElectiveCourse: {description: "Optional course chosen by student"}
+  Capstone:       {description: "Final integrative project"}
+}
+type_vocab: views.#TypeVocabulary & {Registry: types}</pre>
+      <p>Each type becomes a <code>skos:Concept</code> in the scheme:</p>
+      <pre class="json">{
+  "@type": "skos:ConceptScheme",
+  "@id": "https://apercue.ca/vocab#TypeVocabulary",
+  "skos:prefLabel": "Type Vocabulary",
+  "dcterms:title": "Type Vocabulary",
+  "skos:hasTopConcept": [
+    {
+      "@type": "skos:Concept",
+      "@id": "https://apercue.ca/vocab#CoreCourse",
+      "skos:prefLabel": "CoreCourse",
+      "skos:definition": "Required course for degree completion",
+      "skos:inScheme": {"@id": "https://apercue.ca/vocab#TypeVocabulary"}
+    },
+    {
+      "@type": "skos:Concept",
+      "@id": "https://apercue.ca/vocab#ElectiveCourse",
+      "skos:prefLabel": "ElectiveCourse",
+      "skos:definition": "Optional course chosen by student"
+    }
+  ]
+}</pre>
+      <p>Export command: <code>cue export ./views/ -e type_vocab.concept_scheme --out json</code></p>
+    </section>
+
+    <section id="example-earl">
+      <h3>EARL Test Assertions</h3>
+      <p>Smoke test plans project as <code>earl:Assertion</code>
+      [[EARL10-Schema]] reports. Given a set of checks:</p>
+      <pre class="example" title="Smoke test input (CUE)">
+verify: patterns.#SmokeTest & {
+  Subject: "https://example.org/api"
+  checks: [
+    {label: "dns-resolves", command: "dig +short api.example.org", expected: "198.51.100.10"},
+    {label: "https-200",    command: "curl -so /dev/null -w '%{http_code}' https://api.example.org", expected: "200"},
+  ]
+}</pre>
+      <p>Each check becomes an <code>earl:Assertion</code> with
+      <code>earl:untested</code> outcome at CUE eval time:</p>
+      <pre class="json">{
+  "@graph": [
+    {
+      "@type": "earl:Assertion",
+      "earl:subject": {"@id": "https://example.org/api"},
+      "earl:test": {
+        "@type": "earl:TestCriterion",
+        "dcterms:title": "dns-resolves",
+        "apercue:command": "dig +short api.example.org"
+      },
+      "earl:result": {
+        "@type": "earl:TestResult",
+        "earl:outcome": {"@id": "earl:untested"},
+        "earl:expected": "198.51.100.10"
+      }
+    },
+    {
+      "@type": "earl:Assertion",
+      "earl:subject": {"@id": "https://example.org/api"},
+      "earl:test": {
+        "@type": "earl:TestCriterion",
+        "dcterms:title": "https-200"
+      },
+      "earl:result": {
+        "@type": "earl:TestResult",
+        "earl:outcome": {"@id": "earl:untested"},
+        "earl:expected": "200"
+      }
+    }
+  ]
+}</pre>
+      <p>The outcome is <code>earl:untested</code> because CUE computes
+      the test plan, not the test execution. Running the generated script
+      and feeding results back would update outcomes to
+      <code>earl:passed</code> or <code>earl:failed</code>.</p>
+      <p>Export command: <code>cue export -e verify.earl_report --out json</code></p>
     </section>
 
     <section id="example-jsonld">

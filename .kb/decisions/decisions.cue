@@ -138,7 +138,7 @@ d008: core.#Decision & {
 d009: core.#Decision & {
 	id:        "ADR-009"
 	title:     "README must link to spec and show input/output pairs"
-	status:    "proposed"
+	status:    "accepted"
 	date:      "2026-02-20"
 	context:   "Fresh-eyes review revealed that the README never links to the spec, and no single document shows the full CUE input → W3C output journey. A new reader can run examples but cannot see what comes out without running them."
 	decision:  "Add spec link to README. Add at least one inline output example (e.g., SHACL report snippet) in the README Quick Start. Spec examples should show the CUE source alongside the JSON output."
@@ -154,7 +154,7 @@ d009: core.#Decision & {
 d010: core.#Decision & {
 	id:        "ADR-010"
 	title:     "Upgrade Dublin Core from Namespace to Implemented in W3C coverage"
-	status:    "proposed"
+	status:    "accepted"
 	date:      "2026-02-20"
 	context:   "Dublin Core is listed as 'Namespace' in the W3C coverage table, but dcterms:requires maps every depends_on edge, dcterms:title maps every name, dcterms:description maps descriptions, and dcterms:conformsTo appears in SHACL reports, EARL reports, and DCAT catalogs."
 	decision:  "Upgrade Dublin Core to 'Implemented' status in the README, spec, and w3c/README.md. It is not just a namespace prefix — it provides the semantic backbone for the entire dependency model."
@@ -169,7 +169,7 @@ d010: core.#Decision & {
 d011: core.#Decision & {
 	id:        "ADR-011"
 	title:     "Feature the self-charter as a first-class example"
-	status:    "proposed"
+	status:    "accepted"
 	date:      "2026-02-20"
 	context:   "The self-charter (apercue modelling its own development as a dependency graph with 12 resources, 4 gates, CPM scheduling) is listed in the module structure tree but never described in the README or spec. A framework that models itself is inherently credible."
 	decision:  "Add a self-charter description to the README Examples section. Link to the charter.html visualization. Mention it in the spec's Examples section as the meta-example."

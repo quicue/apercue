@@ -7,7 +7,7 @@ Every W3C artifact --- JSON-LD, SHACL, SKOS, OWL-Time --- is a zero-cost
 projection of the same typed graph. No triplestore. No SPARQL. No runtime validators.
 Just `cue export`.
 
-**Live:** [apercue.ca](https://apercue.ca) | [Ecosystem Explorer](https://apercue.ca/explorer.html) | [GitHub](https://github.com/quicue/apercue)
+**Live:** [apercue.ca](https://apercue.ca) | [Spec](https://apercue.ca/spec/) | [Ecosystem Explorer](https://apercue.ca/explorer.html) | [GitHub](https://github.com/quicue/apercue)
 
 ## Quick Start
 
@@ -27,6 +27,26 @@ cue mod init example.com/myproject@v0
 mkdir -p cue.mod/pkg
 ln -s ~/apercue cue.mod/pkg/apercue.ca
 ```
+
+**What comes out** --- a SHACL validation report from one `cue export`:
+
+```json
+{
+  "@type": "sh:ValidationReport",
+  "sh:conforms": false,
+  "dcterms:conformsTo": {"@id": "charter:v1.0-release"},
+  "sh:result": [
+    {
+      "@type": "sh:ValidationResult",
+      "sh:focusNode": {"@id": "design-api"},
+      "sh:resultSeverity": {"@id": "sh:Violation"},
+      "sh:resultMessage": "Required resource 'design-api' not present in graph"
+    }
+  ]
+}
+```
+
+See the [full specification](https://apercue.ca/spec/) for all W3C projection examples.
 
 ## Module Structure
 
@@ -76,8 +96,8 @@ apercue.ca@v0
 | SKOS | `views/skos.cue`, `lifecycle.cue` --- skos:ConceptScheme | Implemented |
 | EARL | `lifecycle.cue` --- earl:Assertion test plans | Implemented |
 | OWL-Time | `analysis.cue` --- time:Interval scheduling | Implemented |
-| Dublin Core | `vocab/context.cue` --- dcterms:requires, dcterms:title | Implemented |
-| PROV-O | `vocab/context.cue` --- prov:wasDerivedFrom | Namespace |
+| Dublin Core | `vocab/context.cue` --- dcterms:requires (every edge), dcterms:title, dcterms:conformsTo | Implemented |
+| PROV-O | `vocab/context.cue` --- prov:wasDerivedFrom (full projections in quicue.ca) | Namespace |
 | schema.org | `vocab/context.cue` --- schema:actionStatus | Namespace |
 | Hydra Core | Downstream: quicue.ca operator dashboard | Downstream |
 
@@ -93,6 +113,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 15 parts | 5-tier dependency depth, compliance checks |
+| [self-charter](self-charter/) | Meta — apercue itself | 12 modules | The project models its own development: 4 gates, CPM scheduling, [live visualization](https://apercue.ca/charter.html) |
 
 ```bash
 # SHACL validation report
