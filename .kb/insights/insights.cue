@@ -104,3 +104,17 @@ i007: core.#Insight & {
 	discovered: "2026-02-20"
 	implication: "A framework that models its own development is inherently trustworthy — if the patterns are good enough for the project itself, they are good enough for users. This should be a featured example, not a tree-listing footnote."
 }
+
+i008: core.#Insight & {
+	id:         "INSIGHT-008"
+	statement:  "12 W3C specs projected from one typed graph proves the model is not cherry-picked — it spans validation (SHACL), scheduling (OWL-Time), vocabulary (SKOS), testing (EARL), provenance (PROV-O), policy (ODRL), organization (ORG), alignment (schema.org), attestation (VC 2.0), and activity logging (AS 2.0)"
+	evidence: [
+		"Each projection follows the identical architecture: accept graph, comprehend over resources, produce JSON-LD",
+		"The 6 new projections (PROV-O, ODRL, ORG, schema.org, VC 2.0, AS 2.0) were added in one session without modifying any existing pattern",
+		"VC 2.0 wraps SHACL output — projections compose with each other, not just with the graph",
+	]
+	method:     "experiment"
+	confidence: "high"
+	discovered: "2026-02-20"
+	implication: "The projection architecture scales to new W3C specs without structural changes. Adding a projection is adding a file, not modifying a framework."
+}

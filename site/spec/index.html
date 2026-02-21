@@ -346,19 +346,61 @@
         <p><strong>W3C mapping:</strong> Produces identical <a href="https://www.w3.org/TR/owl-time/">OWL-Time</a> output to <code>#CriticalPath</code>. The precomputation is a performance optimization; the W3C projection semantics are unchanged.</p>
         <p><em>Source:</em> <code>patterns/analysis.cue</code></p>
       </section>
+
+      <section id="pattern-provenance">
+        <h3>#ProvenanceTrace</h3>
+        <p>Projects a dependency graph as a PROV-O provenance record. Each resource becomes a <code>prov:Entity</code>, each <code>depends_on</code> edge becomes <code>prov:wasDerivedFrom</code>, and the graph construction is modelled as a <code>prov:Activity</code>.</p>
+        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/prov-o/">PROV-O</a> <code>prov:Entity</code>, <code>prov:Activity</code>, and <code>prov:Agent</code> conformant output.</p>
+        <p><em>Source:</em> <code>patterns/provenance.cue</code></p>
+      </section>
+
+      <section id="pattern-policy">
+        <h3>#ODRLPolicy</h3>
+        <p>Projects resource access rules as an ODRL 2.2 Policy. Permissions and prohibitions are declared by resource type or name; the projection maps each rule to matching resources in the graph.</p>
+        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/odrl-model/">ODRL 2.2</a> <code>odrl:Set</code> with <code>odrl:permission</code> and <code>odrl:prohibition</code> entries.</p>
+        <p><em>Source:</em> <code>patterns/policy.cue</code></p>
+      </section>
+
+      <section id="pattern-org">
+        <h3>#OrgStructure</h3>
+        <p>Groups resources by <code>@type</code> into organizational units. The graph becomes an <code>org:Organization</code>; each unique type becomes an <code>org:OrganizationalUnit</code> with member resources.</p>
+        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/vocab-org/">W3C ORG</a> <code>org:Organization</code> with <code>org:hasUnit</code> hierarchy.</p>
+        <p><em>Source:</em> <code>views/org.cue</code></p>
+      </section>
+
+      <section id="pattern-schema-alignment">
+        <h3>#SchemaOrgAlignment</h3>
+        <p>Maps graph resource types to schema.org vocabulary via a configurable TypeMap. Each resource receives <code>schema:additionalType</code> annotations for consumption by search engines and schema.org processors.</p>
+        <p><strong>W3C mapping:</strong> Produces <a href="https://schema.org/">schema.org</a> annotations in JSON-LD, consumable by Google Rich Results and other structured data processors.</p>
+        <p><em>Source:</em> <code>patterns/schema_alignment.cue</code></p>
+      </section>
+
+      <section id="pattern-credentials">
+        <h3>#ValidationCredential</h3>
+        <p>Wraps a SHACL validation report in a Verifiable Credential 2.0. Produces a credential attesting that a graph passed (or failed) validation at a specific point in time.</p>
+        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/vc-data-model-2.0/">VC 2.0</a> <code>VerifiableCredential</code> with the SHACL report as <code>credentialSubject</code>. Cryptographic proof is a deployment concern, not a projection concern.</p>
+        <p><em>Source:</em> <code>patterns/credentials.cue</code></p>
+      </section>
+
+      <section id="pattern-activity">
+        <h3>#ActivityStream</h3>
+        <p>Projects graph construction as an Activity Streams 2.0 collection. Resources are modelled as <code>Create</code> activities ordered by dependency depth — layer 0 first.</p>
+        <p><strong>W3C mapping:</strong> Produces <a href="https://www.w3.org/TR/activitystreams-core/">Activity Streams 2.0</a> <code>OrderedCollection</code> with <code>Create</code> activity items.</p>
+        <p><em>Source:</em> <code>patterns/activity.cue</code></p>
+      </section>
   </section>
 
   <!-- ═══ W3C MAPPINGS ══════════════════════════════════════════ -->
   <section id="w3c-mappings">
     <h2>W3C Specification Mappings</h2>
-    <p>apercue maps dependency graph data to 6 W3C
-    specifications with complete implementations, 2 with
-    namespace registrations, and 2 in downstream modules.
+    <p>apercue maps dependency graph data to 12 W3C
+    specifications with complete implementations, and 1 in
+    downstream modules.
     Each mapping produces output that conforms to the referenced
     specification and is consumable by any compliant processor.</p>
 
     <section id="w3c-implemented">
-      <h3>Implemented <span class="count">6</span></h3>
+      <h3>Implemented <span class="count">12</span></h3>
       <p>These specifications have CUE pattern implementations that
       produce conformant output via <code>cue export</code>.</p>
       <table class="def">
@@ -394,27 +436,35 @@
           <td>dcterms:requires maps every depends_on edge; dcterms:title maps names; dcterms:conformsTo in SHACL/EARL reports</td>
           <td><code>Implemented</code></td>
         </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section id="w3c-namespace">
-      <h3>Namespace <span class="count">2</span></h3>
-      <p>These specifications have namespace prefixes registered in the
-      JSON-LD <code>@context</code>. Properties from these vocabularies
-      are used in resource metadata and projection output.</p>
-      <table class="def">
-        <thead><tr><th>Specification</th><th>Coverage</th><th>Status</th></tr></thead>
-        <tbody>
         <tr>
           <td><a href="https://www.w3.org/TR/prov-o/">PROV-O</a></td>
-          <td>prov:wasDerivedFrom namespace; full prov_report projections in quicue.ca (#BootstrapPlan, #DriftReport)</td>
-          <td><code>Namespace</code></td>
+          <td>prov:Entity, prov:wasDerivedFrom — resource derivation chains and provenance audit trails</td>
+          <td><code>Implemented</code></td>
+        </tr>
+        <tr>
+          <td><a href="https://www.w3.org/TR/odrl-model/">ODRL 2.2</a></td>
+          <td>odrl:Set with odrl:permission and odrl:prohibition — type-based access policies on graph resources</td>
+          <td><code>Implemented</code></td>
+        </tr>
+        <tr>
+          <td><a href="https://www.w3.org/TR/vocab-org/">W3C ORG</a></td>
+          <td>org:Organization with org:OrganizationalUnit — resources grouped by @type into organizational hierarchy</td>
+          <td><code>Implemented</code></td>
         </tr>
         <tr>
           <td><a href="https://schema.org/">schema.org</a></td>
-          <td>schema:actionStatus for lifecycle status values</td>
-          <td><code>Namespace</code></td>
+          <td>schema:additionalType mapping via configurable TypeMap; schema:actionStatus for lifecycle</td>
+          <td><code>Implemented</code></td>
+        </tr>
+        <tr>
+          <td><a href="https://www.w3.org/TR/vc-data-model-2.0/">Verifiable Credentials 2.0</a></td>
+          <td>VerifiableCredential wrapping SHACL validation reports — attestation of graph conformance</td>
+          <td><code>Implemented</code></td>
+        </tr>
+        <tr>
+          <td><a href="https://www.w3.org/TR/activitystreams-core/">Activity Streams 2.0</a></td>
+          <td>as:OrderedCollection — graph construction modelled as timeline of Create activities by layer</td>
+          <td><code>Implemented</code></td>
         </tr>
         </tbody>
       </table>

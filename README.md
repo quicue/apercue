@@ -57,11 +57,16 @@ apercue.ca@v0
 │   ├── types.cue           #   #TypeRegistry — extensible type system
 │   ├── context.cue         #   JSON-LD @context (13 W3C namespaces)
 │   └── viz-contract.cue    #   #VizData for D3/visualization
-├── patterns/               # Graph analysis
+├── patterns/               # Graph analysis + W3C projections
 │   ├── graph.cue           #   #Graph — dependency graph engine (30+ patterns)
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
 │   ├── lifecycle.cue       #   #BootstrapPlan, #DriftReport, #SmokeTest → SKOS, EARL
+│   ├── provenance.cue      #   #ProvenanceTrace → prov:Entity, prov:wasDerivedFrom
+│   ├── policy.cue          #   #ODRLPolicy → odrl:Set, odrl:Permission
+│   ├── credentials.cue     #   #ValidationCredential → VerifiableCredential
+│   ├── activity.cue        #   #ActivityStream → as:OrderedCollection
+│   ├── schema_alignment.cue #  #SchemaOrgAlignment → schema:additionalType
 │   ├── type-contracts.cue  #   #ApplyTypeContracts, #ValidateTypes
 │   └── visualization.cue   #   Graphviz DOT, Mermaid, dependency matrix
 ├── charter/                # Constraint-first planning
@@ -82,6 +87,7 @@ apercue.ca@v0
 ├── site/                   # Static site (deployed to apercue.ca via CF Pages)
 │   ├── index.html          #   Landing page
 │   ├── explorer.html       #   D3 ecosystem graph explorer
+│   ├── playground.html     #   Interactive W3C projection playground (6 projections)
 │   └── data/               #   Pre-computed JSON from cue export
 └── docs/
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
@@ -97,8 +103,12 @@ apercue.ca@v0
 | EARL | `lifecycle.cue` --- earl:Assertion test plans | Implemented |
 | OWL-Time | `analysis.cue` --- time:Interval scheduling | Implemented |
 | Dublin Core | `vocab/context.cue` --- dcterms:requires (every edge), dcterms:title, dcterms:conformsTo | Implemented |
-| PROV-O | `vocab/context.cue` --- prov:wasDerivedFrom (full projections in quicue.ca) | Namespace |
-| schema.org | `vocab/context.cue` --- schema:actionStatus | Namespace |
+| PROV-O | `provenance.cue` --- prov:Entity, prov:wasDerivedFrom derivation chains | Implemented |
+| ODRL 2.2 | `policy.cue` --- odrl:Policy, odrl:Permission, odrl:Prohibition | Implemented |
+| ORG | `views/org.cue` --- org:Organization, org:OrganizationalUnit by @type | Implemented |
+| schema.org | `schema_alignment.cue` --- schema:additionalType mapping | Implemented |
+| VC 2.0 | `credentials.cue` --- VerifiableCredential wrapping SHACL reports | Implemented |
+| Activity Streams 2.0 | `activity.cue` --- as:OrderedCollection of graph construction | Implemented |
 | Hydra Core | Downstream: quicue.ca operator dashboard | Downstream |
 
 See [w3c/README.md](w3c/README.md) for full mapping details.
