@@ -77,9 +77,12 @@ stage_public() {
     local staging="${1:-_public}"
     rm -rf "$staging"
     mkdir -p "$staging/data" "$staging/spec" "$staging/vocab"
-    # Public HTML — landing page + spec only
+    # Public HTML — landing page, spec, and interactive demos
     cp site/index.html "$staging/"
     [ -f site/spec/index.html ] && cp site/spec/index.html "$staging/spec/"
+    for html in explorer.html charter.html playground.html; do
+        [ -f "site/$html" ] && cp "site/$html" "$staging/"
+    done
     # Public data — W3C coverage + examples (no operational data)
     [ -f site/data/specs.json ] && cp site/data/specs.json "$staging/data/"
     [ -f site/data/spec-counts.json ] && cp site/data/spec-counts.json "$staging/data/"
