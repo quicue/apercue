@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>W3C Projection Playground - apercue.ca</title>
+<title>W3C Projection Playground — apercue.ca</title>
 <meta name="description" content="Interactive playground: one typed dependency graph, six W3C projections computed client-side.">
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0e14;
@@ -29,6 +29,8 @@
   --coral: #f09070;
   --red: #e05555;
   --cyan: #56d4e8;
+  --body: 'Atkinson Hyperlegible Next', sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +43,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--body);
   font-size: 13px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -82,7 +84,7 @@ body::before {
 }
 
 .site-nav a {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 11px;
   color: var(--text-dim);
   text-decoration: none;
@@ -112,7 +114,7 @@ body::before {
 }
 
 .page-header h1 {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 16px;
   font-weight: 600;
   color: var(--text-bright);
@@ -124,7 +126,7 @@ body::before {
 }
 
 .page-header .subtitle {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 11px;
   color: var(--text-dim);
   margin-top: 4px;
@@ -192,7 +194,7 @@ body::before {
 .graph-node.selected .node-ring { opacity: 1; }
 
 .node-label {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   font-weight: 500;
   fill: var(--text-dim);
@@ -225,7 +227,7 @@ body::before {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
 }
@@ -255,7 +257,7 @@ body::before {
 .tooltip.visible { opacity: 1; }
 
 .tooltip-name {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-bright);
@@ -270,7 +272,7 @@ body::before {
 }
 
 .tooltip-type-badge {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 9px;
   font-weight: 500;
   padding: 2px 7px;
@@ -287,7 +289,7 @@ body::before {
 }
 
 .tooltip-meta {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   display: flex;
@@ -319,7 +321,7 @@ body::before {
 .tab-bar::-webkit-scrollbar { display: none; }
 
 .tab-btn {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   font-weight: 500;
   color: var(--text-dim);
@@ -364,7 +366,7 @@ body::before {
 }
 
 .json-toolbar-left {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   letter-spacing: 0.04em;
@@ -382,7 +384,7 @@ body::before {
 }
 
 .copy-btn {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   font-weight: 500;
   color: var(--text-dim);
@@ -415,7 +417,7 @@ body::before {
 
 .json-output {
   background: var(--bg-code);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 12px;
   line-height: 1.65;
   padding: 16px 20px;
@@ -447,7 +449,7 @@ body::before {
   padding: 10px 24px;
   background: var(--bg-panel);
   border-top: 1px solid var(--border);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 10px;
   color: var(--text-dim);
   letter-spacing: 0.02em;
@@ -1256,7 +1258,7 @@ function renderGraph() {
     rootG.append('text')
       .attr('x', 12).attr('y', y + 4)
       .attr('fill', '#1e2733')
-      .attr('font-family', 'IBM Plex Mono, monospace')
+      .attr('font-family', 'Atkinson Hyperlegible Mono, monospace')
       .attr('font-size', '9px')
       .text('L' + d);
   }
