@@ -83,18 +83,32 @@ apercue.ca@v0
 
 See [w3c/README.md](w3c/README.md) for full mapping details.
 
-## Security: ASCII-Safe Identifiers
+## Examples
 
-All graph identifiers are constrained to ASCII via `#SafeID` and `#SafeLabel`:
+Each example is a complete, working graph. Run any of them with `cue export`.
 
-```cue
-#SafeID:    =~"^[a-zA-Z][a-zA-Z0-9_.-]*$"   // resource names, depends_on keys
-#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"     // @type keys, tag keys, type registry
+| Example | Domain | Nodes | Demonstrates |
+|---------|--------|-------|-------------|
+| [course-prereqs](examples/course-prereqs/) | University curriculum | 12 courses | Charter with 3 gates, SHACL gap analysis, OWL-Time scheduling |
+| [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
+| [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
+| [supply-chain](examples/supply-chain/) | Manufacturing | 15 parts | 5-tier dependency depth, compliance checks |
+
+```bash
+# SHACL validation report
+cue export ./examples/course-prereqs/ -e gaps.shacl_report --out json
+
+# OWL-Time critical path schedule
+cue export ./examples/course-prereqs/ -e cpm.time_report --out json
+
+# Charter gap analysis
+cue export ./examples/project-tracker/ -e gaps --out json
+
+# Graphviz DOT visualization
+cue export ./examples/supply-chain/ -e dot --out text
 ```
 
-This prevents zero-width unicode injection, homoglyph attacks (Cyrillic "a" vs Latin "a"),
-and invisible characters that would break CUE unification silently. `cue vet` catches
-violations at compile time. Descriptions are left unconstrained for i18n.
+All output is valid W3C linked data — feed it to any JSON-LD processor.
 
 ## How Is This Different?
 
