@@ -106,39 +106,81 @@ Specs: {[string]: #SpecEntry} & {
 		coverage: "time:Interval from critical path scheduling"
 	}
 
-	// ── Namespace (prefix registered, used in @context) ──────────────
-
 	"Dublin Core": {
 		name:     "Dublin Core"
 		url:      "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
-		status:   "Namespace"
+		status:   "Implemented"
 		prefix:   "dcterms"
-		patterns: {}
+		patterns: {"context": true}
 		files:    {"vocab/context.cue": true}
-		exports:  {}
-		coverage: "dcterms:requires maps depends_on relationships"
+		exports:  {"context": true}
+		coverage: "dcterms:title, dcterms:description, dcterms:requires on all resources"
 	}
 
 	"PROV-O": {
 		name:     "PROV-O"
 		url:      "https://www.w3.org/TR/prov-o/"
-		status:   "Namespace"
+		status:   "Implemented"
 		prefix:   "prov"
-		patterns: {}
-		files:    {"vocab/context.cue": true}
-		exports:  {}
-		coverage: "prov:wasDerivedFrom namespace registered"
+		patterns: {"#ProvenanceTrace": true}
+		files:    {"patterns/provenance.cue": true}
+		exports:  {"provenance.prov_report": true}
+		coverage: "prov:Entity + prov:wasDerivedFrom from dependency edges"
 	}
 
 	"schema.org": {
 		name:     "schema.org"
 		url:      "https://schema.org/"
-		status:   "Namespace"
+		status:   "Implemented"
 		prefix:   "schema"
-		patterns: {}
-		files:    {"vocab/context.cue": true}
-		exports:  {}
-		coverage: "schema:actionStatus for lifecycle status values"
+		patterns: {"#SchemaOrgAlignment": true}
+		files:    {"patterns/schema_alignment.cue": true}
+		exports:  {"schema_view.schema_graph": true}
+		coverage: "schema:additionalType annotations via configurable type mapping"
+	}
+
+	"ODRL 2.2": {
+		name:     "ODRL 2.2"
+		url:      "https://www.w3.org/TR/odrl-model/"
+		status:   "Implemented"
+		prefix:   "odrl"
+		patterns: {"#ODRLPolicy": true}
+		files:    {"patterns/policy.cue": true}
+		exports:  {"access_policy.odrl_policy": true}
+		coverage: "odrl:Set policies with permissions/prohibitions by resource type"
+	}
+
+	"Activity Streams 2.0": {
+		name:     "Activity Streams 2.0"
+		url:      "https://www.w3.org/TR/activitystreams-core/"
+		status:   "Implemented"
+		prefix:   "as"
+		patterns: {"#ActivityStream": true}
+		files:    {"patterns/activity.cue": true}
+		exports:  {"activity_stream.stream": true}
+		coverage: "as:OrderedCollection of Create activities from topology layers"
+	}
+
+	"Verifiable Credentials 2.0": {
+		name:     "Verifiable Credentials 2.0"
+		url:      "https://www.w3.org/TR/vc-data-model-2.0/"
+		status:   "Implemented"
+		prefix:   "cred"
+		patterns: {"#ValidationCredential": true}
+		files:    {"patterns/credentials.cue": true}
+		exports:  {"validation_credential.vc": true}
+		coverage: "VerifiableCredential wrapping SHACL validation attestation"
+	}
+
+	"W3C Org": {
+		name:     "W3C Org"
+		url:      "https://www.w3.org/TR/vocab-org/"
+		status:   "Implemented"
+		prefix:   "org"
+		patterns: {"#OrgStructure": true}
+		files:    {"views/org.cue": true}
+		exports:  {"structure.org_report": true}
+		coverage: "org:Organization with type-based OrganizationalUnits"
 	}
 
 	// ── Downstream (implemented in quicue.ca) ────────────────────────

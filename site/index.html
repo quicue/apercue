@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>apercue.ca — compile-time W3C linked data</title>
-<meta name="description" content="CUE comprehensions + unification = zero-infrastructure W3C compliance. No triplestore. No SPARQL. Just cue export.">
+<meta name="description" content="One typed dependency graph. 12 W3C standards. Zero servers. CUE comprehensions replace the entire traditional semantic web stack.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0e14;
@@ -26,6 +26,9 @@
   --purple: #c084fc;
   --orange: #f09070;
   --teal: #34d1bf;
+  --amber: #f0c040;
+  --body: 'Atkinson Hyperlegible Next', sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,18 +42,18 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px;
+  font-family: var(--body);
+  font-size: 15px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle dot grid */
+/* Dot grid — faint structural rhythm */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(61, 220, 132, 0.04) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(61, 220, 132, 0.035) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
   z-index: 0;
@@ -60,7 +63,7 @@ body::before {
 .page { position: relative; z-index: 1; }
 
 .container {
-  max-width: 960px;
+  max-width: 940px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -69,41 +72,40 @@ section {
   padding: 80px 0;
   border-bottom: 1px solid var(--border);
 }
-
 section:last-of-type { border-bottom: none; }
 
 /* ── Typography ──────────────────────────────── */
 h1, h2, h3 {
-  font-family: 'Fraunces', serif;
+  font-family: var(--body);
   color: var(--text-bright);
-  font-weight: 600;
-}
-
-h1 {
-  font-size: clamp(32px, 5vw, 48px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
   font-weight: 700;
 }
 
+h1 {
+  font-size: clamp(30px, 4.5vw, 44px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+
 h2 {
-  font-size: 24px;
-  margin-bottom: 32px;
+  font-size: 22px;
+  margin-bottom: 28px;
   letter-spacing: -0.01em;
 }
 
 h3 {
   font-size: 16px;
-  margin-bottom: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
-.section-tag {
+.tag {
   display: inline-block;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   color: var(--accent);
   border: 1px solid rgba(61, 220, 132, 0.25);
   background: var(--accent-dim);
@@ -122,35 +124,45 @@ a {
 }
 a:hover { border-color: var(--accent); }
 
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 2px;
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
 /* ── Hero ────────────────────────────────────── */
 .hero {
-  padding: 120px 0 80px;
+  padding: 100px 0 72px;
   position: relative;
 }
 
 .hero-eyebrow {
+  font-family: var(--mono);
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--accent);
   margin-bottom: 20px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
-.hero h1 { margin-bottom: 28px; }
-
+.hero h1 { margin-bottom: 24px; }
 .hero h1 .accent { color: var(--accent); }
 
 .hero-sub {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text);
-  margin-bottom: 40px;
-  max-width: 560px;
-  line-height: 1.8;
+  margin-bottom: 36px;
+  max-width: 580px;
+  line-height: 1.75;
 }
 
 .hero-links {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -158,10 +170,10 @@ a:hover { border-color: var(--accent); }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--mono);
   font-size: 13px;
-  font-weight: 500;
-  padding: 10px 20px;
+  font-weight: 600;
+  padding: 10px 18px;
   border-radius: 3px;
   border: none;
   cursor: pointer;
@@ -191,11 +203,34 @@ a:hover { border-color: var(--accent); }
   color: var(--accent);
 }
 
+/* ── Stat bar (hero) ─────────────────────────── */
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.hero-stat {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.hero-stat strong {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
 /* ── Comparison ──────────────────────────────── */
 .compare {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 20px;
   margin-top: 24px;
 }
 
@@ -208,15 +243,15 @@ a:hover { border-color: var(--accent); }
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 24px;
-  position: relative;
 }
 
 .compare-panel.old { border-color: rgba(224, 85, 85, 0.25); }
 .compare-panel.new { border-color: rgba(61, 220, 132, 0.25); }
 
 .compare-label {
+  font-family: var(--mono);
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 16px;
@@ -227,11 +262,11 @@ a:hover { border-color: var(--accent); }
 
 .pipeline {
   list-style: none;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .pipeline li {
-  padding: 8px 0;
+  padding: 7px 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -239,6 +274,7 @@ a:hover { border-color: var(--accent); }
 }
 
 .pipeline li .step-num {
+  font-family: var(--mono);
   font-size: 10px;
   width: 20px;
   height: 20px;
@@ -253,7 +289,6 @@ a:hover { border-color: var(--accent); }
   background: var(--red-dim);
   color: var(--red);
 }
-
 .compare-panel.new .step-num {
   background: var(--accent-dim);
   color: var(--accent);
@@ -263,9 +298,10 @@ a:hover { border-color: var(--accent); }
 
 .compare-verdict {
   margin-top: 16px;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid var(--border);
-  font-size: 12px;
+  font-size: 13px;
+  font-family: var(--mono);
 }
 
 .compare-panel.old .compare-verdict { color: var(--text-dim); }
@@ -278,8 +314,9 @@ a:hover { border-color: var(--accent); }
   border-radius: 4px;
   padding: 20px 24px;
   overflow-x: auto;
+  font-family: var(--mono);
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.75;
   margin: 24px 0;
 }
 
@@ -288,6 +325,102 @@ a:hover { border-color: var(--accent); }
 .code-block .flag { color: var(--blue); }
 .code-block .comment { color: var(--text-dim); font-style: italic; }
 .code-block .output { color: var(--text-dim); }
+
+/* ── How it works ────────────────────────────── */
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .how-steps { grid-template-columns: 1fr; }
+}
+
+.how-step {
+  padding: 24px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.how-step-num {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+.how-step h3 { font-size: 14px; }
+
+.how-step p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-top: 8px;
+}
+
+/* ── Interactive demos ───────────────────────── */
+.demos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .demos-grid { grid-template-columns: 1fr; }
+}
+
+.demo-card {
+  display: block;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.demo-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 24px rgba(61, 220, 132, 0.06);
+}
+
+.demo-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.demo-card:nth-child(1) .demo-label { color: var(--blue); }
+.demo-card:nth-child(2) .demo-label { color: var(--teal); }
+.demo-card:nth-child(3) .demo-label { color: var(--amber); }
+.demo-card:nth-child(4) .demo-label { color: var(--purple); }
+
+.demo-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: var(--text-bright);
+}
+
+.demo-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
 
 /* ── Examples grid ───────────────────────────── */
 .examples-grid {
@@ -311,8 +444,9 @@ a:hover { border-color: var(--accent); }
 .example-card:hover { border-color: var(--border-bright); }
 
 .example-domain {
+  font-family: var(--mono);
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 8px;
@@ -329,7 +463,7 @@ a:hover { border-color: var(--accent); }
 }
 
 .example-card p {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-dim);
   line-height: 1.6;
   margin-bottom: 12px;
@@ -338,15 +472,14 @@ a:hover { border-color: var(--accent); }
 .example-stats {
   display: flex;
   gap: 16px;
+  font-family: var(--mono);
   font-size: 11px;
 }
 
-.example-stat {
-  color: var(--text-dim);
-}
+.example-stat { color: var(--text-dim); }
 .example-stat strong {
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* ── W3C spec table ──────────────────────────── */
@@ -359,13 +492,14 @@ a:hover { border-color: var(--accent); }
 
 .spec-table th {
   text-align: left;
+  font-family: var(--mono);
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-dim);
   padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-bright);
 }
 
 .spec-table td {
@@ -378,16 +512,23 @@ a:hover { border-color: var(--accent); }
 
 .spec-table .spec-name {
   color: var(--text-bright);
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
-.spec-table .spec-pattern { color: var(--text); }
+.spec-table .spec-pattern {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+}
 
 .spec-table .spec-status {
+  font-family: var(--mono);
   font-size: 11px;
+  font-weight: 600;
   padding: 2px 8px;
   border-radius: 2px;
+  white-space: nowrap;
 }
 
 .spec-status.impl {
@@ -395,66 +536,57 @@ a:hover { border-color: var(--accent); }
   background: var(--accent-dim);
 }
 
-.spec-status.ns {
-  color: var(--text-dim);
-  background: rgba(92, 105, 120, 0.15);
+.spec-status.downstream {
+  color: var(--blue);
+  background: rgba(91, 156, 246, 0.12);
 }
 
-/* ── How it works ────────────────────────────── */
-.how-steps {
+.spec-group-label td {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  padding: 16px 12px 6px;
+  border-bottom: none;
+}
+
+/* ── Novel section ───────────────────────────── */
+.novel-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   margin-top: 24px;
 }
 
 @media (max-width: 700px) {
-  .how-steps { grid-template-columns: 1fr; }
+  .novel-grid { grid-template-columns: 1fr; }
 }
 
-.how-step {
-  padding: 24px;
+.novel-item {
+  padding: 20px 24px;
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: 4px;
+  border-left: 3px solid var(--accent);
 }
 
-.how-step-num {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: var(--accent-dim);
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
-  text-align: center;
-  border-radius: 3px;
-  margin-bottom: 12px;
+.novel-item h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
-.how-step h3 { font-size: 14px; }
-
-.how-step p {
-  font-size: 12px;
+.novel-item p {
+  font-size: 13px;
   color: var(--text-dim);
   line-height: 1.6;
-  margin-top: 8px;
-}
-
-.how-step code {
-  font-size: 11px;
-  background: var(--bg-code);
-  padding: 2px 6px;
-  border-radius: 2px;
-  color: var(--accent);
-  border: 1px solid var(--border);
 }
 
 /* ── Footer ──────────────────────────────────── */
 .footer {
   padding: 40px 0;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-dim);
 }
 
@@ -468,7 +600,8 @@ a:hover { border-color: var(--accent); }
 
 .footer-links {
   display: flex;
-  gap: 24px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .footer a {
@@ -482,24 +615,32 @@ a:hover { border-color: var(--accent); }
 
 /* ── Animations ──────────────────────────────── */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.hero-eyebrow { animation: fade-up 0.6s ease both; }
-.hero h1 { animation: fade-up 0.6s ease 0.1s both; }
-.hero-sub { animation: fade-up 0.6s ease 0.2s both; }
-.hero-links { animation: fade-up 0.6s ease 0.3s both; }
+.hero-eyebrow { animation: fade-up 0.5s ease both; }
+.hero h1 { animation: fade-up 0.5s ease 0.08s both; }
+.hero-sub { animation: fade-up 0.5s ease 0.16s both; }
+.hero-links { animation: fade-up 0.5s ease 0.24s both; }
+.hero-stats { animation: fade-up 0.5s ease 0.32s both; }
 
-/* Scroll reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 520px) {
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+  .hero-stat strong { font-size: 22px; }
+  .container { padding: 0 20px; }
+  section { padding: 56px 0; }
 }
 </style>
 </head>
@@ -509,16 +650,25 @@ a:hover { border-color: var(--accent); }
 <!-- ═══ HERO ═══════════════════════════════════════════════ -->
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow">apercue.ca@v0 &mdash; CUE module</div>
-    <h1>Compile-time <span class="accent">W3C linked data</span><br>from typed dependency graphs</h1>
+    <div class="hero-eyebrow">apercue.ca@v0</div>
+    <h1>One typed graph.<br><span class="accent">12 W3C standards.</span><br>Zero servers.</h1>
     <p class="hero-sub">
-      CUE comprehensions precompute all queries. CUE unification enforces all shapes.
-      Every W3C artifact is a zero-cost projection of the same typed graph.
-      No triplestore. No SPARQL. No runtime validators. Just&nbsp;<code>cue&nbsp;export</code>.
+      CUE comprehensions precompute every query. CUE unification enforces every shape.
+      12 W3C specifications&mdash;from JSON-LD to Verifiable Credentials&mdash;as
+      zero-cost projections of the same typed dependency graph.
+      No triplestore. No SPARQL. Just&nbsp;<code>cue&nbsp;export</code>.
     </p>
     <div class="hero-links">
-      <a href="spec/index.html" class="btn btn-primary">Read the Spec</a>
+      <a href="playground.html" class="btn btn-primary">Playground</a>
+      <a href="explorer.html" class="btn btn-ghost">Explorer</a>
+      <a href="spec/" class="btn btn-ghost">Spec</a>
       <a href="https://github.com/quicue/apercue" class="btn btn-ghost">GitHub</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>12</strong>W3C specs implemented</div>
+      <div class="hero-stat"><strong>4</strong>domain examples</div>
+      <div class="hero-stat"><strong>0</strong>runtime dependencies</div>
+      <div class="hero-stat"><strong>1</strong>binary: cue</div>
     </div>
   </div>
 </section>
@@ -526,38 +676,37 @@ a:hover { border-color: var(--accent); }
 <!-- ═══ COMPARISON ═════════════════════════════════════════ -->
 <section id="compare">
   <div class="container">
-    <div class="section-tag">The argument</div>
+    <div class="tag">The argument</div>
     <h2>What it replaces</h2>
     <div class="compare reveal">
       <div class="compare-panel old">
-        <div class="compare-label">Traditional Semantic Web</div>
+        <div class="compare-label">Traditional semantic web</div>
         <ul class="pipeline">
           <li><span class="step-num">1</span><span class="step-text">Model data in RDF triples</span></li>
-          <li><span class="step-num">2</span><span class="step-text">Load into a triplestore (Blazegraph, Fuseki, ...)</span></li>
-          <li><span class="step-num">3</span><span class="step-text">Write SPARQL queries for each view</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Load into a triplestore</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Write SPARQL queries per view</span></li>
           <li><span class="step-num">4</span><span class="step-text">Validate shapes with a SHACL engine</span></li>
-          <li><span class="step-num">5</span><span class="step-text">Serialize to JSON-LD for consumers</span></li>
+          <li><span class="step-num">5</span><span class="step-text">Serialize to JSON-LD</span></li>
         </ul>
-        <div class="compare-verdict">5 runtime components. 5 failure points. 5 things to deploy and monitor.</div>
+        <div class="compare-verdict">5 runtime components. 5 failure points.</div>
       </div>
       <div class="compare-panel new">
         <div class="compare-label">apercue.ca</div>
         <ul class="pipeline">
           <li><span class="step-num">1</span><span class="step-text">Define typed resources in CUE</span></li>
-          <li><span class="step-num">2</span><span class="step-text">cue export -e &lt;projection&gt;</span></li>
+          <li><span class="step-num">2</span><span class="step-text"><code>cue export -e &lt;projection&gt;</code></span></li>
         </ul>
-        <div class="compare-verdict">1 binary. 0 servers. Compile-time guarantees. Every projection is free.</div>
+        <div class="compare-verdict">1 binary. 0 servers. 12 projections.</div>
       </div>
     </div>
-    <div class="code-block reveal" style="margin-top: 32px;">
-      <span class="comment"># SHACL validation report</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e compliance.shacl_report</span> <span class="flag">--out json</span><br><br>
-      <span class="comment"># SKOS concept scheme from type vocabulary</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e type_vocabulary.skos</span> <span class="flag">--out json</span><br><br>
-      <span class="comment"># OWL-Time intervals from critical path</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e cpm.time_report</span> <span class="flag">--out json</span><br><br>
-      <span class="comment"># Charter gap analysis as SHACL report</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e gaps.shacl_report</span> <span class="flag">--out json</span>
+    <div class="code-block reveal" style="margin-top: 28px;">
+      <span class="comment"># Every spec is one export expression</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e compliance.shacl_report</span> <span class="flag">--out json</span>  <span class="comment"># SHACL</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e type_vocabulary.skos</span> <span class="flag">--out json</span>   <span class="comment"># SKOS</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e cpm.time_report</span> <span class="flag">--out json</span>       <span class="comment"># OWL-Time</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e provenance.prov_report</span> <span class="flag">--out json</span> <span class="comment"># PROV-O</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e access_policy.odrl_policy</span> <span class="flag">--out json</span>  <span class="comment"># ODRL</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e validation_credential.vc</span> <span class="flag">--out json</span>  <span class="comment"># VC 2.0</span>
     </div>
   </div>
 </section>
@@ -565,27 +714,63 @@ a:hover { border-color: var(--accent); }
 <!-- ═══ HOW IT WORKS ═══════════════════════════════════════ -->
 <section id="how">
   <div class="container">
-    <div class="section-tag">Mechanism</div>
+    <div class="tag">Mechanism</div>
     <h2>How it works</h2>
     <div class="how-steps reveal">
       <div class="how-step">
         <div class="how-step-num">1</div>
         <h3>Define a typed graph</h3>
         <p>Resources are structs with <code>@type</code>, <code>depends_on</code>, and metadata.
-           <code>#Graph</code> computes topology, ancestors, and critical path at eval time.</p>
+           <code>#Graph</code> computes topology, depth, and critical path at eval time.</p>
       </div>
       <div class="how-step">
         <div class="how-step-num">2</div>
         <h3>Declare constraints</h3>
         <p><code>#Charter</code> declares what must exist. <code>#ComplianceCheck</code> validates structural rules.
-           Both produce <code>sh:ValidationReport</code> automatically.</p>
+           Both emit <code>sh:ValidationReport</code> automatically.</p>
       </div>
       <div class="how-step">
         <div class="how-step-num">3</div>
-        <h3>Export projections</h3>
-        <p>Every W3C artifact &mdash; JSON-LD, SHACL, SKOS, EARL, OWL-Time &mdash; is a
-           <code>cue export -e</code> expression. No transformation layer. No serialization step.</p>
+        <h3>Export 12 projections</h3>
+        <p>JSON-LD, SHACL, SKOS, EARL, OWL-Time, Dublin Core, PROV-O, schema.org, ODRL,
+           Activity Streams, Verifiable Credentials, W3C Org. Each is a
+           <code>cue export -e</code> expression. No transformation layer.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INTERACTIVE DEMOS ═════════════════════════════════ -->
+<section id="demos">
+  <div class="container">
+    <div class="tag">Interactive</div>
+    <h2>Try it in the browser</h2>
+    <p style="margin-bottom: 24px;">No installation required. These run entirely client-side.</p>
+    <div class="demos-grid reveal">
+      <a href="playground.html" class="demo-card">
+        <div class="demo-label">Playground</div>
+        <h3>W3C Projection Playground</h3>
+        <p>Click nodes in a live graph. See 6 W3C projections computed instantly&mdash;SHACL,
+           SKOS, EARL, OWL-Time, PROV-O, and JSON-LD&mdash;from the same data.</p>
+      </a>
+      <a href="explorer.html" class="demo-card">
+        <div class="demo-label">Explorer</div>
+        <h3>Ecosystem Graph</h3>
+        <p>D3 force-directed visualization of the apercue.ca project itself.
+           Modules, patterns, views, and their dependencies as a live graph.</p>
+      </a>
+      <a href="charter.html" class="demo-card">
+        <div class="demo-label">Charter</div>
+        <h3>Build Progress</h3>
+        <p>Live gate-by-gate tracking of the apercue.ca build.
+           The project tracks its own progress using the system it defines.</p>
+      </a>
+      <a href="projections.html" class="demo-card">
+        <div class="demo-label">Matrix</div>
+        <h3>Projection Coverage</h3>
+        <p>Which W3C specs cover which patterns. A coverage matrix
+           showing the full mapping from graph features to standard outputs.</p>
+      </a>
     </div>
   </div>
 </section>
@@ -593,7 +778,7 @@ a:hover { border-color: var(--accent); }
 <!-- ═══ EXAMPLES ═══════════════════════════════════════════ -->
 <section id="examples">
   <div class="container">
-    <div class="section-tag">Proof of generality</div>
+    <div class="tag">Proof of generality</div>
     <h2>Domain-agnostic by design</h2>
     <p style="margin-bottom: 24px;">The same <code>#Graph</code>, <code>#Charter</code>, and W3C projection
        patterns work across any domain. Not just infrastructure.</p>
@@ -602,7 +787,7 @@ a:hover { border-color: var(--accent); }
         <div class="example-domain">Education</div>
         <h3>Course Prerequisites</h3>
         <p>University CS curriculum as a dependency graph.
-           Charter gates enforce degree requirements. CPM finds the optimal course schedule.</p>
+           Charter gates enforce degree requirements. CPM finds the optimal schedule.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>12</strong> courses</span>
           <span class="example-stat"><strong>3</strong> gates</span>
@@ -613,7 +798,7 @@ a:hover { border-color: var(--accent); }
         <div class="example-domain">Cooking</div>
         <h3>Recipe Ingredients</h3>
         <p>Beef bourguignon as a prep dependency graph.
-           Critical path analysis finds the minimum cooking timeline.</p>
+           Critical path finds the minimum cooking timeline.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>17</strong> steps</span>
           <span class="example-stat"><strong>5</strong> types</span>
@@ -624,7 +809,7 @@ a:hover { border-color: var(--accent); }
         <div class="example-domain">Project Management</div>
         <h3>Release Tracker</h3>
         <p>Software release pipeline with schema:actionStatus lifecycle.
-           Gap analysis surfaces what's blocking the next milestone.</p>
+           Gap analysis surfaces what's blocking each milestone.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>10</strong> tasks</span>
           <span class="example-stat"><strong>4</strong> gates</span>
@@ -634,7 +819,7 @@ a:hover { border-color: var(--accent); }
       <div class="example-card">
         <div class="example-domain">Supply Chain</div>
         <h3>Laptop Assembly</h3>
-        <p>Multi-tier supply chain from raw materials to finished product.
+        <p>Multi-tier supply chain from raw materials to product.
            DCAT catalog, SHACL quality gates, CPM lead times.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>15</strong> parts</span>
@@ -649,9 +834,9 @@ a:hover { border-color: var(--accent); }
 <!-- ═══ W3C COVERAGE ═══════════════════════════════════════ -->
 <section id="w3c">
   <div class="container">
-    <div class="section-tag">Standards</div>
+    <div class="tag">Standards</div>
     <h2>W3C spec coverage</h2>
-    <p style="margin-bottom: 24px;">Each spec is a CUE expression that projects the same underlying graph.
+    <p style="margin-bottom: 24px;">Each spec is a CUE comprehension that projects the same underlying graph.
        No adapters. No converters. The data <em>is</em> the standard.</p>
     <table class="spec-table reveal">
       <thead>
@@ -662,81 +847,142 @@ a:hover { border-color: var(--accent); }
         </tr>
       </thead>
       <tbody>
+        <tr class="spec-group-label"><td colspan="3">Core projections</td></tr>
         <tr>
           <td class="spec-name">JSON-LD 1.1</td>
-          <td class="spec-pattern">vocab/context.cue &mdash; @context, @type, @id</td>
+          <td class="spec-pattern">vocab/context.cue</td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">SHACL</td>
-          <td class="spec-pattern">validation.cue, charter.cue &mdash; sh:ValidationReport</td>
+          <td class="spec-pattern">validation.cue, charter.cue</td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">SKOS</td>
-          <td class="spec-pattern">views/skos.cue, lifecycle.cue &mdash; skos:ConceptScheme, OrderedCollection</td>
+          <td class="spec-pattern">views/skos.cue, lifecycle.cue</td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">EARL</td>
-          <td class="spec-pattern">lifecycle.cue &mdash; earl:Assertion test plans</td>
+          <td class="spec-pattern">lifecycle.cue</td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">OWL-Time</td>
-          <td class="spec-pattern">analysis.cue &mdash; time:Interval scheduling</td>
+          <td class="spec-pattern">analysis.cue</td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">Dublin Core</td>
-          <td class="spec-pattern">vocab/context.cue &mdash; dcterms:title, dcterms:description, dcterms:requires</td>
+          <td class="spec-pattern">vocab/context.cue</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr class="spec-group-label"><td colspan="3">Extended projections</td></tr>
+        <tr>
+          <td class="spec-name">PROV-O</td>
+          <td class="spec-pattern">provenance.cue</td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
-          <td class="spec-name">PROV-O</td>
-          <td class="spec-pattern">vocab/context.cue &mdash; prov:wasDerivedFrom</td>
-          <td><span class="spec-status ns">Namespace</span></td>
+          <td class="spec-name">schema.org</td>
+          <td class="spec-pattern">schema_alignment.cue</td>
+          <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
-          <td class="spec-name">schema.org</td>
-          <td class="spec-pattern">vocab/context.cue &mdash; schema:actionStatus lifecycle</td>
-          <td><span class="spec-status ns">Namespace</span></td>
+          <td class="spec-name">ODRL 2.2</td>
+          <td class="spec-pattern">policy.cue</td>
+          <td><span class="spec-status impl">Implemented</span></td>
         </tr>
+        <tr>
+          <td class="spec-name">Activity Streams 2.0</td>
+          <td class="spec-pattern">activity.cue</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">Verifiable Credentials 2.0</td>
+          <td class="spec-pattern">credentials.cue</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">W3C Org</td>
+          <td class="spec-pattern">views/org.cue</td>
+          <td><span class="spec-status impl">Implemented</span></td>
+        </tr>
+        <tr class="spec-group-label"><td colspan="3">Downstream (in quicue.ca)</td></tr>
         <tr>
           <td class="spec-name">Hydra Core</td>
-          <td class="spec-pattern">Downstream: quicue.ca operator dashboard</td>
-          <td><span class="spec-status ns">Downstream</span></td>
+          <td class="spec-pattern">quicue.ca operator</td>
+          <td><span class="spec-status downstream">Downstream</span></td>
+        </tr>
+        <tr>
+          <td class="spec-name">DCAT 3</td>
+          <td class="spec-pattern">quicue-kg aggregate</td>
+          <td><span class="spec-status downstream">Downstream</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 </section>
 
+<!-- ═══ WHAT'S NOVEL ═══════════════════════════════════════ -->
+<section id="novel">
+  <div class="container">
+    <div class="tag">What's new here</div>
+    <h2>Why this approach didn't exist before</h2>
+    <div class="novel-grid reveal">
+      <div class="novel-item">
+        <h3>Comprehensions replace SPARQL</h3>
+        <p>Every query that would traditionally require a SPARQL endpoint is precomputed
+           as a CUE comprehension at eval time. No query language. No query engine.
+           The answers are structural.</p>
+      </div>
+      <div class="novel-item">
+        <h3>Unification replaces SHACL engines</h3>
+        <p>Shape validation isn't a separate runtime step. CUE's type system <em>is</em>
+           the SHACL engine. If a graph compiles, its shapes are valid. Constraint
+           violations are compile errors, not runtime exceptions.</p>
+      </div>
+      <div class="novel-item">
+        <h3>One file per standard</h3>
+        <p>Adding PROV-O support meant writing <code>provenance.cue</code>. Adding ODRL
+           meant writing <code>policy.cue</code>. Each W3C projection is a single file
+           that projects the same graph. No framework changes needed.</p>
+      </div>
+      <div class="novel-item">
+        <h3>Self-referential build tracking</h3>
+        <p>The project's own build charter is tracked using <code>#Charter</code> and
+           <code>#GapAnalysis</code>&mdash;the same patterns it defines.
+           The <a href="charter.html">charter page</a> shows live gate progress.</p>
+      </div>
+      <div class="novel-item" style="grid-column: 1 / -1;">
+        <h3>Domain-agnostic, not infrastructure-specific</h3>
+        <p>The typed dependency graph pattern works for course prerequisites, cooking
+           recipes, supply chains, housing retrofits, real estate transactions, and
+           infrastructure. The W3C projections don't know or care what domain they're
+           projecting. That generality is the point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ QUICKSTART ═════════════════════════════════════════ -->
 <section id="start">
   <div class="container">
-    <div class="section-tag">Get started</div>
-    <h2>Try it</h2>
+    <div class="tag">Get started</div>
+    <h2>Try it locally</h2>
     <div class="code-block reveal">
-      <span class="comment"># Clone the repo</span><br>
-      <span class="prompt">$ </span><span class="cmd">git clone</span> https://github.com/quicue/apercue<br>
-      <span class="prompt">$ </span><span class="cmd">cd</span> apercue<br><br>
-      <span class="comment"># Run any example</span><br>
+      <span class="prompt">$ </span><span class="cmd">git clone</span> https://github.com/quicue/apercue && <span class="cmd">cd</span> apercue<br><br>
+      <span class="comment"># Run an example</span><br>
       <span class="prompt">$ </span><span class="cmd">cue eval</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e summary</span><br>
       <span class="output">{</span><br>
       <span class="output">&nbsp;&nbsp;graph_valid: true</span><br>
       <span class="output">&nbsp;&nbsp;charter_complete: true</span><br>
       <span class="output">&nbsp;&nbsp;total_resources: 12</span><br>
-      <span class="output">&nbsp;&nbsp;missing_gates: 0</span><br>
       <span class="output">}</span><br><br>
-      <span class="comment"># Export W3C projections</span><br>
+      <span class="comment"># Export any W3C projection</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e gaps.shacl_report</span> <span class="flag">--out json</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e type_vocabulary.skos</span> <span class="flag">--out json</span><br><br>
-      <span class="comment"># Use in your own project</span><br>
-      <span class="prompt">$ </span><span class="cmd">mkdir</span> myproject && <span class="cmd">cd</span> myproject<br>
-      <span class="prompt">$ </span><span class="cmd">cue mod init</span> example.com/myproject@v0<br>
-      <span class="prompt">$ </span><span class="cmd">mkdir -p</span> cue.mod/pkg<br>
-      <span class="prompt">$ </span><span class="cmd">ln -s</span> ~/apercue cue.mod/pkg/apercue.ca
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e provenance.prov_report</span> <span class="flag">--out json</span>
     </div>
   </div>
 </section>
@@ -747,7 +993,10 @@ a:hover { border-color: var(--accent); }
     <div class="footer-inner">
       <span>apercue.ca &mdash; Apache 2.0</span>
       <div class="footer-links">
-        <a href="spec/index.html">Spec</a>
+        <a href="playground.html">Playground</a>
+        <a href="explorer.html">Explorer</a>
+        <a href="charter.html">Charter</a>
+        <a href="spec/">Spec</a>
         <a href="https://github.com/quicue/apercue">GitHub</a>
         <a href="https://quicue.ca">quicue.ca</a>
       </div>
@@ -758,7 +1007,6 @@ a:hover { border-color: var(--accent); }
 </div>
 
 <script>
-// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -766,7 +1014,7 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
