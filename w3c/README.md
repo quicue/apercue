@@ -17,8 +17,8 @@ the standards-compliant output.
 | **SKOS** | skos:ConceptScheme | `#TypeVocabulary` | `views/skos.cue` | `cue export -e type_vocab` |
 | **EARL** | earl:Assertion | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
 | **OWL-Time** | time:Interval | `#CriticalPath.time_report` | `patterns/analysis.cue` | `cue export -e cpm.time_report` |
-| **Dublin Core** | dcterms:requires | Namespace in @context | `vocab/context.cue` | N/A (namespace prefix) |
-| **PROV-O** | prov:wasDerivedFrom | Namespace in @context | `vocab/context.cue` | N/A (namespace prefix) |
+| **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural — present in all JSON-LD output |
+| **PROV-O** | prov:wasDerivedFrom | Namespace in @context; full prov_report projections in quicue.ca | `vocab/context.cue` | N/A (namespace prefix) |
 | **schema.org** | schema:actionStatus | Lifecycle status values | `vocab/context.cue` | N/A (namespace prefix) |
 
 ## Downstream (in quicue.ca)
@@ -26,7 +26,7 @@ the standards-compliant output.
 | W3C Spec | Pattern | Description |
 |----------|---------|-------------|
 | **Hydra Core** | `#HydraApiDoc` | hydra:ApiDocumentation in quicue.ca operator dashboard |
-| **DCAT 3** | `#DCATCatalog` | dcat:Catalog in quicue-kg aggregate module |
+| **DCAT 3** | `#DCAT3Catalog`, `#DCATKnowledgeBase` | dcat:Catalog, dcat:Dataset — full catalog and .kb/ projections in quicue.ca |
 
 ## How It Works
 
