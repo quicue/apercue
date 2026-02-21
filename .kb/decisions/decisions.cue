@@ -232,3 +232,25 @@ d014: core.#Decision & {
 	]
 	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
 }
+
+d015: core.#Decision & {
+	id:        "ADR-015"
+	title:     "GC LLM governance as constraint-first dependency graph"
+	status:    "accepted"
+	date:      "2026-02-21"
+	context:   "Federal LLM deployments must comply with the Directive on Automated Decision-Making (deadline June 24, 2026), Privacy Act, Official Languages Act, and CCCS security guidance. Traditional compliance approaches treat these as separate checklists. LLMs commonly hallucinate governance rules (AIDA status, AIA requirements, PII handling)."
+	decision:  "Model GC LLM governance as a 52-resource dependency graph using apercue patterns. Three interlocking layers: obligation graph (statutes/directives/controls/rules), knowledge grounding (quicue-kg typed facts with authoritative sources), operational enforcement (ODRL policies, provider binding, domain scoping). All projecting to 8 W3C vocabularies (SHACL, PROV-O, ODRL, EARL, VC 2.0, DCAT, OWL-Time, SKOS) at compile time."
+	rationale: "Governance IS a dependency graph. Statutes produce directives, directives produce controls, controls produce rules, rules constrain deployments. The critical path through the graph IS the compliance timeline. apercue's projection model means one typed graph produces every W3C artifact an auditor needs — SHACL for validation, PROV-O for provenance, ODRL for access policies, VC for attestation, DCAT for the AI Register."
+	consequences: [
+		"52 governance resources across 8 phases with 8 gates",
+		"Critical path: 14 nodes through Privacy Act -> PII blocking -> classification -> ODRL -> provider -> deployment -> audit -> SHACL -> VC",
+		"Knowledge grounding: 12 verified policy facts, 8 authoritative sources, 2 domain scopes prevent hallucination",
+		"ODRL policies per data classification (Unclassified/Protected A/Protected B) are machine-readable",
+		"VC 2.0 credential wraps SHACL report for auditor-ready compliance attestation",
+		"Uses #GraphLite + Python precomputation (52 nodes exceeds CUE recursive fixpoint limits)",
+	]
+	appliesTo: [
+		{"@id": "https://apercue.ca/project/apercue"},
+		{"@id": "https://apercue.ca/example/gc-llm-governance"},
+	]
+}

@@ -1,0 +1,86 @@
+[
+    {
+        "resource": "gc-llm-governance-framework",
+        "start": 0,
+        "finish": 1,
+        "duration": 1
+    },
+    {
+        "resource": "privacy-act",
+        "start": 1,
+        "finish": 2,
+        "duration": 1
+    },
+    {
+        "resource": "pii-prompt-blocking",
+        "start": 2,
+        "finish": 3,
+        "duration": 1
+    },
+    {
+        "resource": "vendor-data-classification",
+        "start": 2,
+        "finish": 3,
+        "duration": 1
+    },
+    {
+        "resource": "rule-pii-blocking",
+        "start": 3,
+        "finish": 4,
+        "duration": 1
+    },
+    {
+        "resource": "rule-classification-enforcement",
+        "start": 3,
+        "finish": 4,
+        "duration": 1
+    },
+    {
+        "resource": "odrl-protected-b",
+        "start": 4,
+        "finish": 5,
+        "duration": 1
+    },
+    {
+        "resource": "provider-gc-cloud",
+        "start": 5,
+        "finish": 6,
+        "duration": 1
+    },
+    {
+        "resource": "deployment-procurement-assistant",
+        "start": 6,
+        "finish": 7,
+        "duration": 1
+    },
+    {
+        "resource": "deployment-hr-assistant",
+        "start": 6,
+        "finish": 7,
+        "duration": 1
+    },
+    {
+        "resource": "audit-sink-prov-o",
+        "start": 7,
+        "finish": 8,
+        "duration": 1
+    },
+    {
+        "resource": "shacl-compliance-report",
+        "start": 8,
+        "finish": 9,
+        "duration": 1
+    },
+    {
+        "resource": "vc-compliance-credential",
+        "start": 9,
+        "finish": 10,
+        "duration": 1
+    },
+    {
+        "resource": "owl-time-compliance-schedule",
+        "start": 9,
+        "finish": 10,
+        "duration": 1
+    }
+]

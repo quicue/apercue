@@ -72,6 +72,22 @@ build_projections() {
     echo "  site/data/projections.json"
 }
 
+build_gc_governance() {
+    echo "Building GC LLM governance data..."
+    # Viz data for D3 charter viewer
+    cue export ./examples/gc-llm-governance/ -e viz --out json > site/data/gc-llm-governance.json
+    echo "  site/data/gc-llm-governance.json ($(wc -l < site/data/gc-llm-governance.json) lines)"
+    # SHACL compliance report
+    cue export ./examples/gc-llm-governance/ -e compliance.shacl_report --out json > site/data/gc-llm-governance-shacl.json
+    echo "  site/data/gc-llm-governance-shacl.json"
+    # CPM critical path sequence
+    cue export ./examples/gc-llm-governance/ -e cpm.critical_sequence --out json > site/data/gc-llm-governance-cpm.json
+    echo "  site/data/gc-llm-governance-cpm.json"
+    # W3C projections bundle
+    cue export ./examples/gc-llm-governance/ -e projections --out json > site/data/gc-llm-governance-projections.json
+    echo "  site/data/gc-llm-governance-projections.json"
+}
+
 stage_public() {
     echo "Staging public site for deploy..."
     local staging="${1:-_public}"
@@ -93,13 +109,14 @@ stage_public() {
 }
 
 case "${1:-all}" in
-    specs)       build_specs ;;
-    examples)    build_examples ;;
-    ecosystem)   build_ecosystem ;;
-    charter)     build_charter ;;
-    spec-html)   build_spec_html ;;
-    vocab)       build_vocab ;;
-    projections) build_projections ;;
+    specs)          build_specs ;;
+    examples)       build_examples ;;
+    ecosystem)      build_ecosystem ;;
+    charter)        build_charter ;;
+    spec-html)      build_spec_html ;;
+    vocab)          build_vocab ;;
+    projections)    build_projections ;;
+    gc-governance)  build_gc_governance ;;
     public)
         build_specs
         build_examples
@@ -111,6 +128,7 @@ case "${1:-all}" in
         build_ecosystem
         build_charter
         build_projections
+        build_gc_governance
         echo "Done. Local/private site data regenerated."
         ;;
     stage)
@@ -129,10 +147,11 @@ case "${1:-all}" in
         build_spec_html
         build_vocab
         build_projections
+        build_gc_governance
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|spec-html|vocab|projections}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|spec-html|vocab|projections|gc-governance}"
         exit 1
         ;;
 esac

@@ -1,0 +1,1118 @@
+{
+    "nodes": [
+        {
+            "id": "gc-llm-governance-framework",
+            "name": "gc-llm-governance-framework",
+            "types": [
+                "Framework"
+            ],
+            "depth": 0,
+            "description": "Root: constraint-first LLM governance using apercue/quicue/quicue-kg",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "directive-on-adm",
+            "name": "directive-on-adm",
+            "types": [
+                "Directive"
+            ],
+            "depth": 1,
+            "description": "TBS Directive on Automated Decision-Making (compliance deadline: 2026-06-24)",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "privacy-act",
+            "name": "privacy-act",
+            "types": [
+                "Statute"
+            ],
+            "depth": 1,
+            "description": "Privacy Act — s.7 use limitation, s.8 disclosure limitation",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "official-languages-act",
+            "name": "official-languages-act",
+            "types": [
+                "Statute"
+            ],
+            "depth": 1,
+            "description": "Official Languages Act — simultaneous bilingual output, equal quality",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "cccs-itsap-00-041",
+            "name": "cccs-itsap-00-041",
+            "types": [
+                "SecurityGuidance"
+            ],
+            "depth": 1,
+            "description": "CCCS Generative AI guidance — 8 threat categories",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "genai-guide-v2",
+            "name": "genai-guide-v2",
+            "types": [
+                "Guide"
+            ],
+            "depth": 2,
+            "description": "TBS Guide on the Use of Generative AI (v2) — FASTER principles",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "faster-principles",
+            "name": "faster-principles",
+            "types": [
+                "Principle"
+            ],
+            "depth": 3,
+            "description": "FASTER: Fair, Accountable, Secure, Transparent, Educated, Relevant",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "aia-requirement",
+            "name": "aia-requirement",
+            "types": [
+                "Directive"
+            ],
+            "depth": 2,
+            "description": "Algorithmic Impact Assessment — mandatory risk assessment before deployment",
+            "phase": 1,
+            "gate": "obligations-mapped"
+        },
+        {
+            "id": "aia-level-i",
+            "name": "aia-level-i",
+            "types": [
+                "ImpactLevel"
+            ],
+            "depth": 3,
+            "description": "AIA Level I — little/no impact, easily reversible",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "aia-level-ii",
+            "name": "aia-level-ii",
+            "types": [
+                "ImpactLevel"
+            ],
+            "depth": 4,
+            "description": "AIA Level II — moderate impact, likely reversible (peer review required)",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "aia-level-iii",
+            "name": "aia-level-iii",
+            "types": [
+                "ImpactLevel"
+            ],
+            "depth": 5,
+            "description": "AIA Level III — high impact, difficult to reverse (human-in-the-loop required)",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "aia-level-iv",
+            "name": "aia-level-iv",
+            "types": [
+                "ImpactLevel"
+            ],
+            "depth": 6,
+            "description": "AIA Level IV — very high, irreversible (TB approval required)",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "pii-prompt-blocking",
+            "name": "pii-prompt-blocking",
+            "types": [
+                "ControlObjective"
+            ],
+            "depth": 2,
+            "description": "Block PII from entering LLM prompts — Privacy Act s.8 compliance",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "vendor-data-classification",
+            "name": "vendor-data-classification",
+            "types": [
+                "ControlObjective"
+            ],
+            "depth": 2,
+            "description": "Enforce data classification for LLM vendor selection",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "bilingual-quality-parity",
+            "name": "bilingual-quality-parity",
+            "types": [
+                "ControlObjective"
+            ],
+            "depth": 2,
+            "description": "EN/FR output quality parity — OLA compliance",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "human-in-loop-gate",
+            "name": "human-in-loop-gate",
+            "types": [
+                "ControlObjective"
+            ],
+            "depth": 6,
+            "description": "Human review required for AIA Level III+ decisions",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "peer-review-mechanism",
+            "name": "peer-review-mechanism",
+            "types": [
+                "ControlObjective"
+            ],
+            "depth": 5,
+            "description": "Qualified peer review for AIA Level II+ systems",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "bias-testing-framework",
+            "name": "bias-testing-framework",
+            "types": [
+                "ControlObjective"
+            ],
+            "depth": 2,
+            "description": "Demographic bias testing per Directive Appendix C",
+            "phase": 2,
+            "gate": "controls-defined"
+        },
+        {
+            "id": "rule-pii-blocking",
+            "name": "rule-pii-blocking",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 3,
+            "description": "Block Protected B+ data from commercial LLM prompts",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-classification-enforcement",
+            "name": "rule-classification-enforcement",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 3,
+            "description": "Enforce Unclassified/Protected A/B classification on provider selection",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-bilingual-output",
+            "name": "rule-bilingual-output",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 3,
+            "description": "All public-facing LLM outputs must be available in both EN and FR",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-human-review-level-iii",
+            "name": "rule-human-review-level-iii",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 7,
+            "description": "AIA Level III+ decisions require documented human review",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-peer-review-level-ii",
+            "name": "rule-peer-review-level-ii",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 6,
+            "description": "AIA Level II+ systems require qualified peer review",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-bias-demographic",
+            "name": "rule-bias-demographic",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 3,
+            "description": "Test for unintended demographic biases in LLM outputs",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-cccs-threat-coverage",
+            "name": "rule-cccs-threat-coverage",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 2,
+            "description": "Address all 8 CCCS generative AI threat categories",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "rule-faster-coverage",
+            "name": "rule-faster-coverage",
+            "types": [
+                "ComplianceRule"
+            ],
+            "depth": 4,
+            "description": "Demonstrate coverage of all 6 FASTER principles",
+            "phase": 3,
+            "gate": "rules-compilable"
+        },
+        {
+            "id": "knowledge-graph-schema",
+            "name": "knowledge-graph-schema",
+            "types": [
+                "DomainScope"
+            ],
+            "depth": 1,
+            "description": "quicue-kg schema for authoritative knowledge grounding",
+            "phase": 4,
+            "gate": "knowledge-grounded"
+        },
+        {
+            "id": "policy-fact-registry",
+            "name": "policy-fact-registry",
+            "types": [
+                "PolicyFact"
+            ],
+            "depth": 2,
+            "description": "Verified facts from statutes, directives, and guides",
+            "phase": 4,
+            "gate": "knowledge-grounded"
+        },
+        {
+            "id": "authoritative-source-index",
+            "name": "authoritative-source-index",
+            "types": [
+                "AuthoritativeSource"
+            ],
+            "depth": 2,
+            "description": "Source documents with SHA256 integrity and freshness dates",
+            "phase": 4,
+            "gate": "knowledge-grounded"
+        },
+        {
+            "id": "term-definitions-registry",
+            "name": "term-definitions-registry",
+            "types": [
+                "TermDefinition"
+            ],
+            "depth": 2,
+            "description": "Authoritative term definitions (prevents LLM-invented definitions)",
+            "phase": 4,
+            "gate": "knowledge-grounded"
+        },
+        {
+            "id": "domain-scope-procurement",
+            "name": "domain-scope-procurement",
+            "types": [
+                "DomainScope"
+            ],
+            "depth": 2,
+            "description": "Knowledge boundary for procurement-domain LLM deployments",
+            "phase": 4,
+            "gate": "knowledge-grounded"
+        },
+        {
+            "id": "domain-scope-hr",
+            "name": "domain-scope-hr",
+            "types": [
+                "DomainScope"
+            ],
+            "depth": 2,
+            "description": "Knowledge boundary for HR-domain LLM deployments",
+            "phase": 4,
+            "gate": "knowledge-grounded"
+        },
+        {
+            "id": "odrl-unclassified",
+            "name": "odrl-unclassified",
+            "types": [
+                "PolicyConstraint"
+            ],
+            "depth": 4,
+            "description": "ODRL policy for Unclassified data — commercial LLMs permitted",
+            "phase": 5,
+            "gate": "policies-bound"
+        },
+        {
+            "id": "odrl-protected-a",
+            "name": "odrl-protected-a",
+            "types": [
+                "PolicyConstraint"
+            ],
+            "depth": 4,
+            "description": "ODRL policy for Protected A — GC-controlled infrastructure only",
+            "phase": 5,
+            "gate": "policies-bound"
+        },
+        {
+            "id": "odrl-protected-b",
+            "name": "odrl-protected-b",
+            "types": [
+                "PolicyConstraint"
+            ],
+            "depth": 4,
+            "description": "ODRL policy for Protected B — GC cloud provider with PII blocking",
+            "phase": 5,
+            "gate": "policies-bound"
+        },
+        {
+            "id": "provider-gc-cloud",
+            "name": "provider-gc-cloud",
+            "types": [
+                "LLMProvider"
+            ],
+            "depth": 5,
+            "description": "GC cloud provider — GC-tenant, Protected B capable",
+            "phase": 5,
+            "gate": "policies-bound"
+        },
+        {
+            "id": "provider-bedrock",
+            "name": "provider-bedrock",
+            "types": [
+                "LLMProvider"
+            ],
+            "depth": 5,
+            "description": "AWS Bedrock — GC region, Protected A capable",
+            "phase": 5,
+            "gate": "policies-bound"
+        },
+        {
+            "id": "provider-self-hosted",
+            "name": "provider-self-hosted",
+            "types": [
+                "LLMProvider"
+            ],
+            "depth": 5,
+            "description": "Self-hosted LLM (Ollama/vLLM) — air-gapped, any classification",
+            "phase": 5,
+            "gate": "policies-bound"
+        },
+        {
+            "id": "deployment-procurement-assistant",
+            "name": "deployment-procurement-assistant",
+            "types": [
+                "LLMDeployment"
+            ],
+            "depth": 6,
+            "description": "Procurement assistant — GC cloud provider, bilingual, scope-bounded",
+            "phase": 6,
+            "gate": "deployments-modeled"
+        },
+        {
+            "id": "deployment-hr-assistant",
+            "name": "deployment-hr-assistant",
+            "types": [
+                "LLMDeployment"
+            ],
+            "depth": 6,
+            "description": "HR assistant — GC cloud provider, bilingual, PII-gated",
+            "phase": 6,
+            "gate": "deployments-modeled"
+        },
+        {
+            "id": "deployment-internal-search",
+            "name": "deployment-internal-search",
+            "types": [
+                "LLMDeployment"
+            ],
+            "depth": 6,
+            "description": "Internal knowledge search — self-hosted, knowledge-grounded",
+            "phase": 6,
+            "gate": "deployments-modeled"
+        },
+        {
+            "id": "classification-gate",
+            "name": "classification-gate",
+            "types": [
+                "ClassificationGate"
+            ],
+            "depth": 4,
+            "description": "Runtime data classification checkpoint before LLM invocation",
+            "phase": 6,
+            "gate": "deployments-modeled"
+        },
+        {
+            "id": "bilingual-gate",
+            "name": "bilingual-gate",
+            "types": [
+                "BilingualGate"
+            ],
+            "depth": 4,
+            "description": "Runtime EN/FR quality validation checkpoint",
+            "phase": 6,
+            "gate": "deployments-modeled"
+        },
+        {
+            "id": "human-review-gate",
+            "name": "human-review-gate",
+            "types": [
+                "HumanReviewGate"
+            ],
+            "depth": 8,
+            "description": "Human review checkpoint for AIA Level III+ decisions",
+            "phase": 6,
+            "gate": "deployments-modeled"
+        },
+        {
+            "id": "audit-sink-prov-o",
+            "name": "audit-sink-prov-o",
+            "types": [
+                "AuditSink"
+            ],
+            "depth": 7,
+            "description": "PROV-O audit trail — every LLM response traced to source knowledge",
+            "phase": 7,
+            "gate": "audit-operational"
+        },
+        {
+            "id": "smoke-test-bilingual",
+            "name": "smoke-test-bilingual",
+            "types": [
+                "SmokeTest"
+            ],
+            "depth": 5,
+            "description": "EARL smoke test — EN/FR quality parity validation",
+            "phase": 7,
+            "gate": "audit-operational"
+        },
+        {
+            "id": "smoke-test-pii-blocking",
+            "name": "smoke-test-pii-blocking",
+            "types": [
+                "SmokeTest"
+            ],
+            "depth": 5,
+            "description": "EARL smoke test — PII blocked from commercial LLM prompts",
+            "phase": 7,
+            "gate": "audit-operational"
+        },
+        {
+            "id": "smoke-test-scope-enforcement",
+            "name": "smoke-test-scope-enforcement",
+            "types": [
+                "SmokeTest"
+            ],
+            "depth": 7,
+            "description": "EARL smoke test — LLM stays within domain scope boundaries",
+            "phase": 7,
+            "gate": "audit-operational"
+        },
+        {
+            "id": "shacl-compliance-report",
+            "name": "shacl-compliance-report",
+            "types": [
+                "ComplianceReport"
+            ],
+            "depth": 8,
+            "description": "sh:ValidationReport — per-rule conformance for TBS/OAG auditors",
+            "phase": 8,
+            "gate": "compliance-demonstrable"
+        },
+        {
+            "id": "vc-compliance-credential",
+            "name": "vc-compliance-credential",
+            "types": [
+                "VerifiableCredential"
+            ],
+            "depth": 9,
+            "description": "VC 2.0 credential attesting compliance (wraps SHACL report)",
+            "phase": 8,
+            "gate": "compliance-demonstrable"
+        },
+        {
+            "id": "dcat-ai-register-entry",
+            "name": "dcat-ai-register-entry",
+            "types": [
+                "CatalogEntry"
+            ],
+            "depth": 7,
+            "description": "DCAT 3 catalog entry for GC AI Register (machine-readable)",
+            "phase": 8,
+            "gate": "compliance-demonstrable"
+        },
+        {
+            "id": "owl-time-compliance-schedule",
+            "name": "owl-time-compliance-schedule",
+            "types": [
+                "Schedule"
+            ],
+            "depth": 9,
+            "description": "OWL-Time critical path schedule to June 2026 compliance deadline",
+            "phase": 8,
+            "gate": "compliance-demonstrable"
+        }
+    ],
+    "edges": [
+        {
+            "source": "gc-llm-governance-framework",
+            "target": "directive-on-adm"
+        },
+        {
+            "source": "gc-llm-governance-framework",
+            "target": "privacy-act"
+        },
+        {
+            "source": "gc-llm-governance-framework",
+            "target": "official-languages-act"
+        },
+        {
+            "source": "gc-llm-governance-framework",
+            "target": "cccs-itsap-00-041"
+        },
+        {
+            "source": "directive-on-adm",
+            "target": "genai-guide-v2"
+        },
+        {
+            "source": "genai-guide-v2",
+            "target": "faster-principles"
+        },
+        {
+            "source": "directive-on-adm",
+            "target": "aia-requirement"
+        },
+        {
+            "source": "aia-requirement",
+            "target": "aia-level-i"
+        },
+        {
+            "source": "aia-level-i",
+            "target": "aia-level-ii"
+        },
+        {
+            "source": "aia-level-ii",
+            "target": "aia-level-iii"
+        },
+        {
+            "source": "aia-level-iii",
+            "target": "aia-level-iv"
+        },
+        {
+            "source": "privacy-act",
+            "target": "pii-prompt-blocking"
+        },
+        {
+            "source": "privacy-act",
+            "target": "vendor-data-classification"
+        },
+        {
+            "source": "official-languages-act",
+            "target": "bilingual-quality-parity"
+        },
+        {
+            "source": "aia-level-iii",
+            "target": "human-in-loop-gate"
+        },
+        {
+            "source": "aia-level-ii",
+            "target": "peer-review-mechanism"
+        },
+        {
+            "source": "directive-on-adm",
+            "target": "bias-testing-framework"
+        },
+        {
+            "source": "pii-prompt-blocking",
+            "target": "rule-pii-blocking"
+        },
+        {
+            "source": "vendor-data-classification",
+            "target": "rule-classification-enforcement"
+        },
+        {
+            "source": "bilingual-quality-parity",
+            "target": "rule-bilingual-output"
+        },
+        {
+            "source": "human-in-loop-gate",
+            "target": "rule-human-review-level-iii"
+        },
+        {
+            "source": "peer-review-mechanism",
+            "target": "rule-peer-review-level-ii"
+        },
+        {
+            "source": "bias-testing-framework",
+            "target": "rule-bias-demographic"
+        },
+        {
+            "source": "cccs-itsap-00-041",
+            "target": "rule-cccs-threat-coverage"
+        },
+        {
+            "source": "faster-principles",
+            "target": "rule-faster-coverage"
+        },
+        {
+            "source": "gc-llm-governance-framework",
+            "target": "knowledge-graph-schema"
+        },
+        {
+            "source": "knowledge-graph-schema",
+            "target": "policy-fact-registry"
+        },
+        {
+            "source": "knowledge-graph-schema",
+            "target": "authoritative-source-index"
+        },
+        {
+            "source": "knowledge-graph-schema",
+            "target": "term-definitions-registry"
+        },
+        {
+            "source": "knowledge-graph-schema",
+            "target": "domain-scope-procurement"
+        },
+        {
+            "source": "knowledge-graph-schema",
+            "target": "domain-scope-hr"
+        },
+        {
+            "source": "rule-classification-enforcement",
+            "target": "odrl-unclassified"
+        },
+        {
+            "source": "rule-classification-enforcement",
+            "target": "odrl-protected-a"
+        },
+        {
+            "source": "rule-classification-enforcement",
+            "target": "odrl-protected-b"
+        },
+        {
+            "source": "rule-pii-blocking",
+            "target": "odrl-protected-b"
+        },
+        {
+            "source": "odrl-protected-b",
+            "target": "provider-gc-cloud"
+        },
+        {
+            "source": "odrl-protected-a",
+            "target": "provider-bedrock"
+        },
+        {
+            "source": "odrl-unclassified",
+            "target": "provider-self-hosted"
+        },
+        {
+            "source": "provider-gc-cloud",
+            "target": "deployment-procurement-assistant"
+        },
+        {
+            "source": "domain-scope-procurement",
+            "target": "deployment-procurement-assistant"
+        },
+        {
+            "source": "rule-bilingual-output",
+            "target": "deployment-procurement-assistant"
+        },
+        {
+            "source": "provider-gc-cloud",
+            "target": "deployment-hr-assistant"
+        },
+        {
+            "source": "domain-scope-hr",
+            "target": "deployment-hr-assistant"
+        },
+        {
+            "source": "rule-bilingual-output",
+            "target": "deployment-hr-assistant"
+        },
+        {
+            "source": "provider-self-hosted",
+            "target": "deployment-internal-search"
+        },
+        {
+            "source": "knowledge-graph-schema",
+            "target": "deployment-internal-search"
+        },
+        {
+            "source": "rule-classification-enforcement",
+            "target": "classification-gate"
+        },
+        {
+            "source": "rule-bilingual-output",
+            "target": "bilingual-gate"
+        },
+        {
+            "source": "rule-human-review-level-iii",
+            "target": "human-review-gate"
+        },
+        {
+            "source": "deployment-procurement-assistant",
+            "target": "audit-sink-prov-o"
+        },
+        {
+            "source": "deployment-hr-assistant",
+            "target": "audit-sink-prov-o"
+        },
+        {
+            "source": "bilingual-gate",
+            "target": "smoke-test-bilingual"
+        },
+        {
+            "source": "classification-gate",
+            "target": "smoke-test-pii-blocking"
+        },
+        {
+            "source": "deployment-procurement-assistant",
+            "target": "smoke-test-scope-enforcement"
+        },
+        {
+            "source": "audit-sink-prov-o",
+            "target": "shacl-compliance-report"
+        },
+        {
+            "source": "shacl-compliance-report",
+            "target": "vc-compliance-credential"
+        },
+        {
+            "source": "deployment-procurement-assistant",
+            "target": "dcat-ai-register-entry"
+        },
+        {
+            "source": "deployment-hr-assistant",
+            "target": "dcat-ai-register-entry"
+        },
+        {
+            "source": "shacl-compliance-report",
+            "target": "owl-time-compliance-schedule"
+        }
+    ],
+    "gates": {
+        "obligations-mapped": {
+            "phase": 1,
+            "description": "All legal/policy obligations mapped as graph nodes",
+            "satisfied": true,
+            "resources": [
+                "gc-llm-governance-framework",
+                "directive-on-adm",
+                "privacy-act",
+                "official-languages-act",
+                "cccs-itsap-00-041",
+                "genai-guide-v2",
+                "faster-principles",
+                "aia-requirement"
+            ]
+        },
+        "controls-defined": {
+            "phase": 2,
+            "description": "AIA impact levels + all control objectives defined",
+            "satisfied": true,
+            "resources": [
+                "aia-level-i",
+                "aia-level-ii",
+                "aia-level-iii",
+                "aia-level-iv",
+                "pii-prompt-blocking",
+                "vendor-data-classification",
+                "bilingual-quality-parity",
+                "human-in-loop-gate",
+                "peer-review-mechanism",
+                "bias-testing-framework"
+            ]
+        },
+        "rules-compilable": {
+            "phase": 3,
+            "description": "All compliance rules pass cue vet, SHACL report exports",
+            "satisfied": true,
+            "resources": [
+                "rule-pii-blocking",
+                "rule-classification-enforcement",
+                "rule-bilingual-output",
+                "rule-human-review-level-iii",
+                "rule-peer-review-level-ii",
+                "rule-bias-demographic",
+                "rule-cccs-threat-coverage",
+                "rule-faster-coverage"
+            ]
+        },
+        "knowledge-grounded": {
+            "phase": 4,
+            "description": "Authoritative knowledge graph validates, domain scopes defined",
+            "satisfied": true,
+            "resources": [
+                "knowledge-graph-schema",
+                "policy-fact-registry",
+                "authoritative-source-index",
+                "term-definitions-registry",
+                "domain-scope-procurement",
+                "domain-scope-hr"
+            ]
+        },
+        "policies-bound": {
+            "phase": 5,
+            "description": "ODRL policies export valid JSON-LD, provider binding resolves",
+            "satisfied": true,
+            "resources": [
+                "odrl-unclassified",
+                "odrl-protected-a",
+                "odrl-protected-b",
+                "provider-gc-cloud",
+                "provider-bedrock",
+                "provider-self-hosted"
+            ]
+        },
+        "deployments-modeled": {
+            "phase": 6,
+            "description": "Reference LLM deployments with full constraint binding",
+            "satisfied": true,
+            "resources": [
+                "deployment-procurement-assistant",
+                "deployment-hr-assistant",
+                "deployment-internal-search",
+                "classification-gate",
+                "bilingual-gate",
+                "human-review-gate"
+            ]
+        },
+        "audit-operational": {
+            "phase": 7,
+            "description": "PROV-O audit trail and EARL smoke tests operational",
+            "satisfied": true,
+            "resources": [
+                "audit-sink-prov-o",
+                "smoke-test-bilingual",
+                "smoke-test-pii-blocking",
+                "smoke-test-scope-enforcement"
+            ]
+        },
+        "compliance-demonstrable": {
+            "phase": 8,
+            "description": "Full W3C projection suite — SHACL, VC, DCAT, OWL-Time",
+            "satisfied": true,
+            "resources": [
+                "shacl-compliance-report",
+                "vc-compliance-credential",
+                "dcat-ai-register-entry",
+                "owl-time-compliance-schedule"
+            ]
+        }
+    },
+    "charter_summary": {
+        "project": "gc-llm-governance",
+        "total_resources": 52,
+        "governance_layers": 8,
+        "graph_valid": true,
+        "gap": {
+            "complete": true,
+            "missing": 0,
+            "next_gate": ""
+        },
+        "scheduling": {
+            "total_work_days": 10,
+            "critical_path_nodes": 14,
+            "max_slack": 7
+        },
+        "single_points_of_failure": {
+            "spof_count": 17,
+            "total_with_deps": 35
+        },
+        "compliance": {
+            "total": 6,
+            "passed": 6,
+            "failed": 0,
+            "critical_failures": 0
+        }
+    },
+    "topology": {
+        "layer_0": {
+            "gc-llm-governance-framework": true
+        },
+        "layer_1": {
+            "directive-on-adm": true,
+            "privacy-act": true,
+            "official-languages-act": true,
+            "cccs-itsap-00-041": true,
+            "knowledge-graph-schema": true
+        },
+        "layer_2": {
+            "genai-guide-v2": true,
+            "aia-requirement": true,
+            "pii-prompt-blocking": true,
+            "vendor-data-classification": true,
+            "bilingual-quality-parity": true,
+            "bias-testing-framework": true,
+            "rule-cccs-threat-coverage": true,
+            "policy-fact-registry": true,
+            "authoritative-source-index": true,
+            "term-definitions-registry": true,
+            "domain-scope-procurement": true,
+            "domain-scope-hr": true
+        },
+        "layer_3": {
+            "faster-principles": true,
+            "aia-level-i": true,
+            "rule-pii-blocking": true,
+            "rule-classification-enforcement": true,
+            "rule-bilingual-output": true,
+            "rule-bias-demographic": true
+        },
+        "layer_4": {
+            "aia-level-ii": true,
+            "rule-faster-coverage": true,
+            "odrl-unclassified": true,
+            "odrl-protected-a": true,
+            "odrl-protected-b": true,
+            "classification-gate": true,
+            "bilingual-gate": true
+        },
+        "layer_5": {
+            "aia-level-iii": true,
+            "peer-review-mechanism": true,
+            "provider-gc-cloud": true,
+            "provider-bedrock": true,
+            "provider-self-hosted": true,
+            "smoke-test-bilingual": true,
+            "smoke-test-pii-blocking": true
+        },
+        "layer_6": {
+            "aia-level-iv": true,
+            "human-in-loop-gate": true,
+            "rule-peer-review-level-ii": true,
+            "deployment-procurement-assistant": true,
+            "deployment-hr-assistant": true,
+            "deployment-internal-search": true
+        },
+        "layer_7": {
+            "rule-human-review-level-iii": true,
+            "audit-sink-prov-o": true,
+            "smoke-test-scope-enforcement": true,
+            "dcat-ai-register-entry": true
+        },
+        "layer_8": {
+            "human-review-gate": true,
+            "shacl-compliance-report": true
+        },
+        "layer_9": {
+            "vc-compliance-credential": true,
+            "owl-time-compliance-schedule": true
+        }
+    },
+    "scheduling": {
+        "summary": {
+            "total_duration": 10,
+            "critical_count": 14,
+            "total_resources": 52,
+            "max_slack": 7
+        },
+        "critical_sequence": [
+            {
+                "resource": "gc-llm-governance-framework",
+                "start": 0,
+                "finish": 1,
+                "duration": 1
+            },
+            {
+                "resource": "privacy-act",
+                "start": 1,
+                "finish": 2,
+                "duration": 1
+            },
+            {
+                "resource": "pii-prompt-blocking",
+                "start": 2,
+                "finish": 3,
+                "duration": 1
+            },
+            {
+                "resource": "vendor-data-classification",
+                "start": 2,
+                "finish": 3,
+                "duration": 1
+            },
+            {
+                "resource": "rule-pii-blocking",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "rule-classification-enforcement",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "odrl-protected-b",
+                "start": 4,
+                "finish": 5,
+                "duration": 1
+            },
+            {
+                "resource": "provider-gc-cloud",
+                "start": 5,
+                "finish": 6,
+                "duration": 1
+            },
+            {
+                "resource": "deployment-procurement-assistant",
+                "start": 6,
+                "finish": 7,
+                "duration": 1
+            },
+            {
+                "resource": "deployment-hr-assistant",
+                "start": 6,
+                "finish": 7,
+                "duration": 1
+            },
+            {
+                "resource": "audit-sink-prov-o",
+                "start": 7,
+                "finish": 8,
+                "duration": 1
+            },
+            {
+                "resource": "shacl-compliance-report",
+                "start": 8,
+                "finish": 9,
+                "duration": 1
+            },
+            {
+                "resource": "vc-compliance-credential",
+                "start": 9,
+                "finish": 10,
+                "duration": 1
+            },
+            {
+                "resource": "owl-time-compliance-schedule",
+                "start": 9,
+                "finish": 10,
+                "duration": 1
+            }
+        ]
+    }
+}

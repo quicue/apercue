@@ -1,0 +1,2360 @@
+{
+    "shacl": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "sh:ValidationReport",
+        "sh:conforms": true,
+        "sh:result": []
+    },
+    "owl_time": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "gc-llm-governance-framework": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 0
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "directive-on-adm": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "privacy-act": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "official-languages-act": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "cccs-itsap-00-041": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "genai-guide-v2": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 5,
+            "apercue:isCritical": false
+        },
+        "faster-principles": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 5,
+            "apercue:isCritical": false
+        },
+        "aia-requirement": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "aia-level-i": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "aia-level-ii": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "aia-level-iii": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "aia-level-iv": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "pii-prompt-blocking": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "vendor-data-classification": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "bilingual-quality-parity": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "human-in-loop-gate": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "peer-review-mechanism": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "bias-testing-framework": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 6,
+            "apercue:isCritical": false
+        },
+        "rule-pii-blocking": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "rule-classification-enforcement": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "rule-bilingual-output": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "rule-human-review-level-iii": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "rule-peer-review-level-ii": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "rule-bias-demographic": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 6,
+            "apercue:isCritical": false
+        },
+        "rule-cccs-threat-coverage": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "rule-faster-coverage": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 5,
+            "apercue:isCritical": false
+        },
+        "knowledge-graph-schema": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 1
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "policy-fact-registry": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "authoritative-source-index": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "term-definitions-registry": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 7,
+            "apercue:isCritical": false
+        },
+        "domain-scope-procurement": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "domain-scope-hr": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 2
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 3
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "odrl-unclassified": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "odrl-protected-a": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "odrl-protected-b": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "provider-gc-cloud": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "provider-bedrock": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "provider-self-hosted": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "deployment-procurement-assistant": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "deployment-hr-assistant": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "deployment-internal-search": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 3,
+            "apercue:isCritical": false
+        },
+        "classification-gate": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "bilingual-gate": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 4
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "human-review-gate": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 1,
+            "apercue:isCritical": false
+        },
+        "audit-sink-prov-o": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "smoke-test-bilingual": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "smoke-test-pii-blocking": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 5
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 6
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 4,
+            "apercue:isCritical": false
+        },
+        "smoke-test-scope-enforcement": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "shacl-compliance-report": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "vc-compliance-credential": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        },
+        "dcat-ai-register-entry": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 7
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 8
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 2,
+            "apercue:isCritical": false
+        },
+        "owl-time-compliance-schedule": {
+            "@type": "time:Interval",
+            "time:hasBeginning": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 9
+            },
+            "time:hasEnd": {
+                "@type": "time:Instant",
+                "time:inXSDDecimal": 10
+            },
+            "time:hasDuration": {
+                "@type": "time:Duration",
+                "time:numericDuration": 1,
+                "time:unitType": {
+                    "@id": "time:unitDay"
+                }
+            },
+            "apercue:slack": 0,
+            "apercue:isCritical": true
+        }
+    },
+    "odrl": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "odrl:Set",
+        "odrl:uid": "urn:gc:llm-governance:classification-policies",
+        "odrl:policy": [
+            {
+                "@type": "odrl:Set",
+                "odrl:uid": "urn:gc:policy:unclassified",
+                "dcterms:title": "Unclassified Data — LLM Usage Policy",
+                "odrl:permission": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:use"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:classification:unclassified"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:any-llm-provider"
+                        },
+                        "odrl:constraint": {
+                            "odrl:leftOperand": {
+                                "@id": "odrl:dateTime"
+                            },
+                            "odrl:operator": {
+                                "@id": "odrl:lt"
+                            },
+                            "odrl:rightOperand": "2026-06-24T00:00:00Z"
+                        }
+                    }
+                ],
+                "odrl:obligation": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:attribute"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:deploying-department"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:requirement:aia-assessment"
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "odrl:Set",
+                "odrl:uid": "urn:gc:policy:protected-a",
+                "dcterms:title": "Protected A Data — LLM Usage Policy",
+                "odrl:permission": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:use"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:classification:protected-a"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:gc-controlled-provider"
+                        },
+                        "odrl:constraint": {
+                            "odrl:leftOperand": {
+                                "@id": "odrl:spatial"
+                            },
+                            "odrl:operator": {
+                                "@id": "odrl:eq"
+                            },
+                            "odrl:rightOperand": "urn:gc:jurisdiction:canada"
+                        }
+                    }
+                ],
+                "odrl:prohibition": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:transfer"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:classification:protected-a"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:commercial-provider"
+                        }
+                    }
+                ],
+                "odrl:obligation": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:attribute"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:deploying-department"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:requirement:data-classification-review"
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "odrl:Set",
+                "odrl:uid": "urn:gc:policy:protected-b",
+                "dcterms:title": "Protected B Data — LLM Usage Policy",
+                "odrl:permission": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:use"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:classification:protected-b"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:gc-cloud-provider"
+                        },
+                        "odrl:constraint": [
+                            {
+                                "odrl:leftOperand": {
+                                    "@id": "odrl:spatial"
+                                },
+                                "odrl:operator": {
+                                    "@id": "odrl:eq"
+                                },
+                                "odrl:rightOperand": "urn:gc:jurisdiction:canada"
+                            },
+                            {
+                                "odrl:leftOperand": {
+                                    "@id": "apercue:piiBlocking"
+                                },
+                                "odrl:operator": {
+                                    "@id": "odrl:eq"
+                                },
+                                "odrl:rightOperand": true
+                            }
+                        ]
+                    }
+                ],
+                "odrl:prohibition": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:disclose"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:classification:protected-b"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:commercial-provider"
+                        }
+                    },
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:transfer"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:classification:protected-b"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:non-gc-infrastructure"
+                        }
+                    }
+                ],
+                "odrl:obligation": [
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:reviewPolicy"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:privacy-officer"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:requirement:privacy-impact-assessment"
+                        }
+                    },
+                    {
+                        "odrl:action": {
+                            "@id": "odrl:attribute"
+                        },
+                        "odrl:assignee": {
+                            "@id": "urn:gc:role:deploying-department"
+                        },
+                        "odrl:target": {
+                            "@id": "urn:gc:requirement:pii-blocking-verification"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "prov": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "prov:Bundle",
+        "@id": "urn:gc:llm-governance:provenance",
+        "@graph": [
+            {
+                "@type": "prov:Agent",
+                "@id": "urn:gc:agent:governance-framework",
+                "dcterms:title": "GC LLM Governance Framework",
+                "prov:actedOnBehalfOf": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Agent",
+                "@id": "urn:gc:org:tbs",
+                "dcterms:title": "Treasury Board of Canada Secretariat"
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gc:activity:kg-construction",
+                "dcterms:title": "Knowledge graph construction from authoritative sources",
+                "prov:wasAssociatedWith": {
+                    "@id": "urn:gc:agent:governance-framework"
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:gc:source:SRC-001"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-002"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-003"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-004"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-005"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-006"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-007"
+                    },
+                    {
+                        "@id": "urn:gc:source:SRC-008"
+                    }
+                ],
+                "prov:generated": [
+                    {
+                        "@id": "urn:gc:fact:FACT-001"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-002"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-003"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-004"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-005"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-006"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-007"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-008"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-009"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-010"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-011"
+                    },
+                    {
+                        "@id": "urn:gc:fact:FACT-012"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-001",
+                "dcterms:title": "Directive on Automated Decision-Making",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-002",
+                "dcterms:title": "Privacy Act",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-003",
+                "dcterms:title": "Official Languages Act",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-004",
+                "dcterms:title": "Considerations for the use of Generative AI (ITSAP.00.041)",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-005",
+                "dcterms:title": "Guide on the Use of Generative AI",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-006",
+                "dcterms:title": "Algorithmic Impact Assessment Tool",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-007",
+                "dcterms:title": "All-of-Government Approach to Artificial Intelligence 2025-2027",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:source:SRC-008",
+                "dcterms:title": "Departmental Responsibilities for Automated Decision Systems",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:org:tbs"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-001",
+                "dcterms:title": "The Directive on Automated Decision-Making compliance deadline is June 24, 2026",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-001"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-002",
+                "dcterms:title": "The AIA has four impact levels: Level I (little/no impact), Level II (moderate), Level III (high), Level IV (very high)",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-006"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-003",
+                "dcterms:title": "AIA Level III and IV systems require human-in-the-loop for all decisions",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-001"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-004",
+                "dcterms:title": "AIA Level II and above systems require peer review by a qualified expert",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-001"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-005",
+                "dcterms:title": "Sending Protected B personal information to commercial LLM vendors constitutes unlawful disclosure under Privacy Act s.8",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-002"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-006",
+                "dcterms:title": "All public-facing LLM outputs must be available simultaneously in English and French at equal quality",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-003"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-007",
+                "dcterms:title": "Bill C-27 / AIDA (Artificial Intelligence and Data Act) was not enacted and is not law",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-005"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-008",
+                "dcterms:title": "The GC AI Register tracks over 400 automated decision systems across 42 federal institutions",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-007"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-009",
+                "dcterms:title": "CCCS identifies 8 generative AI threat categories: prompt injection, data poisoning, training data extraction, model manipulation, supply chain, denial of service, output manipulation, and privilege escalation",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-004"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-010",
+                "dcterms:title": "FASTER principles: Fair, Accountable, Secure, Transparent, Educated, Relevant",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-005"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-011",
+                "dcterms:title": "GC data classification levels for LLM usage: Unclassified (commercial LLMs permitted), Protected A (GC-controlled infrastructure), Protected B (GC cloud with PII blocking)",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-001"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:gc:fact:FACT-012",
+                "dcterms:title": "Departments must publish an algorithmic impact assessment before deploying any automated decision system",
+                "prov:wasDerivedFrom": {
+                    "@id": "urn:gc:source:SRC-008"
+                },
+                "prov:wasGeneratedBy": {
+                    "@id": "urn:gc:activity:kg-construction"
+                },
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gc:activity:llm-response-template",
+                "dcterms:title": "LLM response generation (constrained by knowledge graph)",
+                "prov:wasAssociatedWith": {
+                    "@id": "urn:gc:agent:governance-framework"
+                },
+                "dcterms:description": "Each LLM response traces to specific facts from the knowledge graph, which in turn trace to authoritative source documents"
+            }
+        ]
+    },
+    "dcat": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "dcat:Catalog",
+        "@id": "urn:gc:ai-register:llm-governance",
+        "dcterms:title": "GC LLM Governance — AI Register Entries",
+        "dcterms:description": "Machine-readable catalog of LLM deployments under the Directive on Automated Decision-Making",
+        "dcterms:publisher": {
+            "@type": "org:Organization",
+            "dcterms:title": "Treasury Board of Canada Secretariat"
+        },
+        "dcterms:issued": "2026-02-21",
+        "dcterms:language": [
+            "en",
+            "fr"
+        ],
+        "dcat:dataset": [
+            {
+                "@type": "dcat:Dataset",
+                "@id": "urn:gc:deployment:procurement-assistant",
+                "dcterms:title": "Procurement Assistant",
+                "dcterms:description": "Bilingual LLM assistant for GC procurement policy and process guidance",
+                "dcat:keyword": [
+                    "procurement",
+                    "standing-offers",
+                    "trade-agreements",
+                    "bid-evaluation"
+                ],
+                "dcterms:conformsTo": [
+                    {
+                        "@id": "urn:gc:directive:adm"
+                    },
+                    {
+                        "@id": "urn:gc:act:privacy"
+                    },
+                    {
+                        "@id": "urn:gc:act:official-languages"
+                    }
+                ],
+                "dcat:contactPoint": {
+                    "@type": "schema:ContactPoint",
+                    "schema:email": "ai-governance@tbs-sct.gc.ca"
+                },
+                "dcterms:publisher": {
+                    "@type": "org:Organization",
+                    "dcterms:title": "Deploying Department"
+                },
+                "dcterms:spatial": "urn:gc:jurisdiction:canada",
+                "dcat:distribution": {
+                    "@type": "dcat:Distribution",
+                    "dcat:mediaType": "application/json",
+                    "dcterms:title": "API endpoint"
+                }
+            },
+            {
+                "@type": "dcat:Dataset",
+                "@id": "urn:gc:deployment:hr-assistant",
+                "dcterms:title": "HR Assistant",
+                "dcterms:description": "Bilingual LLM assistant for GC human resources policy and process guidance",
+                "dcat:keyword": [
+                    "human-resources",
+                    "psea",
+                    "collective-agreements",
+                    "classification",
+                    "leave-policies"
+                ],
+                "dcterms:conformsTo": [
+                    {
+                        "@id": "urn:gc:directive:adm"
+                    },
+                    {
+                        "@id": "urn:gc:act:privacy"
+                    },
+                    {
+                        "@id": "urn:gc:act:official-languages"
+                    }
+                ],
+                "dcat:contactPoint": {
+                    "@type": "schema:ContactPoint",
+                    "schema:email": "ai-governance@tbs-sct.gc.ca"
+                },
+                "dcterms:publisher": {
+                    "@type": "org:Organization",
+                    "dcterms:title": "Deploying Department"
+                },
+                "dcterms:spatial": "urn:gc:jurisdiction:canada",
+                "dcat:distribution": {
+                    "@type": "dcat:Distribution",
+                    "dcat:mediaType": "application/json",
+                    "dcterms:title": "API endpoint"
+                }
+            },
+            {
+                "@type": "dcat:Dataset",
+                "@id": "urn:gc:deployment:internal-search",
+                "dcterms:title": "Internal Knowledge Search",
+                "dcterms:description": "Self-hosted LLM for internal knowledge search, grounded in authoritative source documents",
+                "dcat:keyword": [
+                    "knowledge-search",
+                    "self-hosted",
+                    "knowledge-grounded"
+                ],
+                "dcterms:conformsTo": [
+                    {
+                        "@id": "urn:gc:directive:adm"
+                    }
+                ],
+                "dcat:contactPoint": {
+                    "@type": "schema:ContactPoint",
+                    "schema:email": "ai-governance@tbs-sct.gc.ca"
+                },
+                "dcterms:publisher": {
+                    "@type": "org:Organization",
+                    "dcterms:title": "Deploying Department"
+                },
+                "dcterms:spatial": "urn:gc:jurisdiction:canada",
+                "dcat:distribution": {
+                    "@type": "dcat:Distribution",
+                    "dcat:mediaType": "application/json",
+                    "dcterms:title": "API endpoint"
+                }
+            }
+        ]
+    },
+    "vc": {
+        "@context": [
+            "https://www.w3.org/ns/credentials/v2",
+            {
+                "@base": "urn:resource:",
+                "dcterms": "http://purl.org/dc/terms/",
+                "prov": "http://www.w3.org/ns/prov#",
+                "dcat": "http://www.w3.org/ns/dcat#",
+                "sh": "http://www.w3.org/ns/shacl#",
+                "skos": "http://www.w3.org/2004/02/skos/core#",
+                "schema": "https://schema.org/",
+                "time": "http://www.w3.org/2006/time#",
+                "earl": "http://www.w3.org/ns/earl#",
+                "odrl": "http://www.w3.org/ns/odrl/2/",
+                "org": "http://www.w3.org/ns/org#",
+                "cred": "https://www.w3.org/2018/credentials#",
+                "as": "https://www.w3.org/ns/activitystreams#",
+                "apercue": "https://apercue.ca/vocab#",
+                "charter": "https://apercue.ca/charter#",
+                "name": "dcterms:title",
+                "description": "dcterms:description",
+                "depends_on": {
+                    "@id": "dcterms:requires",
+                    "@type": "@id"
+                },
+                "status": {
+                    "@id": "schema:actionStatus",
+                    "@type": "@id"
+                },
+                "tags": {
+                    "@id": "dcterms:subject",
+                    "@container": "@set"
+                }
+            }
+        ],
+        "type": [
+            "VerifiableCredential",
+            "ValidationCredential"
+        ],
+        "issuer": "urn:gc:agent:governance-framework",
+        "validFrom": "2026-02-21T00:00:00Z",
+        "credentialSubject": {
+            "id": "urn:gc:llm-governance:charter",
+            "type": "sh:ValidationReport",
+            "sh:conforms": true,
+            "apercue:violationCount": 0,
+            "apercue:validationReport": {
+                "@type": "sh:ValidationReport",
+                "sh:conforms": true,
+                "@context": {
+                    "@base": "urn:resource:",
+                    "dcterms": "http://purl.org/dc/terms/",
+                    "prov": "http://www.w3.org/ns/prov#",
+                    "dcat": "http://www.w3.org/ns/dcat#",
+                    "sh": "http://www.w3.org/ns/shacl#",
+                    "skos": "http://www.w3.org/2004/02/skos/core#",
+                    "schema": "https://schema.org/",
+                    "time": "http://www.w3.org/2006/time#",
+                    "earl": "http://www.w3.org/ns/earl#",
+                    "odrl": "http://www.w3.org/ns/odrl/2/",
+                    "org": "http://www.w3.org/ns/org#",
+                    "cred": "https://www.w3.org/2018/credentials#",
+                    "as": "https://www.w3.org/ns/activitystreams#",
+                    "apercue": "https://apercue.ca/vocab#",
+                    "charter": "https://apercue.ca/charter#",
+                    "name": "dcterms:title",
+                    "description": "dcterms:description",
+                    "depends_on": {
+                        "@id": "dcterms:requires",
+                        "@type": "@id"
+                    },
+                    "status": {
+                        "@id": "schema:actionStatus",
+                        "@type": "@id"
+                    },
+                    "tags": {
+                        "@id": "dcterms:subject",
+                        "@container": "@set"
+                    }
+                },
+                "sh:result": []
+            }
+        }
+    },
+    "skos": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "skos:ConceptScheme",
+        "@id": "https://apercue.ca/gc-governance#TypeVocabulary",
+        "skos:prefLabel": "Type Vocabulary",
+        "dcterms:title": "Type Vocabulary",
+        "skos:hasTopConcept": [
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#Framework",
+                "skos:prefLabel": "Framework",
+                "skos:definition": "Root governance framework definition",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#Statute",
+                "skos:prefLabel": "Statute",
+                "skos:definition": "Federal legislation creating binding obligations",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#Directive",
+                "skos:prefLabel": "Directive",
+                "skos:definition": "Treasury Board directive or mandatory policy instrument",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#Guide",
+                "skos:prefLabel": "Guide",
+                "skos:definition": "Non-binding guidance document from TBS or CCCS",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#SecurityGuidance",
+                "skos:prefLabel": "SecurityGuidance",
+                "skos:definition": "CCCS security guidance for generative AI threats",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#Principle",
+                "skos:prefLabel": "Principle",
+                "skos:definition": "Named principle framework (e.g., FASTER)",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#ImpactLevel",
+                "skos:prefLabel": "ImpactLevel",
+                "skos:definition": "AIA algorithmic impact assessment level (I-IV)",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#ControlObjective",
+                "skos:prefLabel": "ControlObjective",
+                "skos:definition": "Measurable control derived from an obligation",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#ComplianceRule",
+                "skos:prefLabel": "ComplianceRule",
+                "skos:definition": "Enforceable rule that can be tested at compile time",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#PolicyConstraint",
+                "skos:prefLabel": "PolicyConstraint",
+                "skos:definition": "ODRL policy constraint per data classification level",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#LLMProvider",
+                "skos:prefLabel": "LLMProvider",
+                "skos:definition": "Cloud or self-hosted LLM service provider",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#LLMDeployment",
+                "skos:prefLabel": "LLMDeployment",
+                "skos:definition": "Reference LLM deployment with constraint binding",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#DomainScope",
+                "skos:prefLabel": "DomainScope",
+                "skos:definition": "Knowledge boundary defining permitted/excluded topics",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#PolicyFact",
+                "skos:prefLabel": "PolicyFact",
+                "skos:definition": "Verified fact from an authoritative source",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#AuthoritativeSource",
+                "skos:prefLabel": "AuthoritativeSource",
+                "skos:definition": "Trusted source document with integrity metadata",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#TermDefinition",
+                "skos:prefLabel": "TermDefinition",
+                "skos:definition": "Authoritative definition preventing LLM-invented terms",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#ClassificationGate",
+                "skos:prefLabel": "ClassificationGate",
+                "skos:definition": "Runtime data classification checkpoint",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#BilingualGate",
+                "skos:prefLabel": "BilingualGate",
+                "skos:definition": "Runtime EN/FR quality validation checkpoint",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#HumanReviewGate",
+                "skos:prefLabel": "HumanReviewGate",
+                "skos:definition": "Human review checkpoint for high-impact decisions",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#AuditSink",
+                "skos:prefLabel": "AuditSink",
+                "skos:definition": "PROV-O audit trail collecting LLM response provenance",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#SmokeTest",
+                "skos:prefLabel": "SmokeTest",
+                "skos:definition": "EARL smoke test validating runtime control",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#ComplianceReport",
+                "skos:prefLabel": "ComplianceReport",
+                "skos:definition": "SHACL ValidationReport for auditors",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#VerifiableCredential",
+                "skos:prefLabel": "VerifiableCredential",
+                "skos:definition": "VC 2.0 credential attesting compliance",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#CatalogEntry",
+                "skos:prefLabel": "CatalogEntry",
+                "skos:definition": "DCAT 3 catalog entry for GC AI Register",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/gc-governance#Schedule",
+                "skos:prefLabel": "Schedule",
+                "skos:definition": "OWL-Time schedule for compliance deadlines",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                },
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
+                }
+            }
+        ]
+    },
+    "scheduling": {
+        "summary": {
+            "total_duration": 10,
+            "critical_count": 14,
+            "total_resources": 52,
+            "max_slack": 7
+        },
+        "critical_sequence": [
+            {
+                "resource": "gc-llm-governance-framework",
+                "start": 0,
+                "finish": 1,
+                "duration": 1
+            },
+            {
+                "resource": "privacy-act",
+                "start": 1,
+                "finish": 2,
+                "duration": 1
+            },
+            {
+                "resource": "pii-prompt-blocking",
+                "start": 2,
+                "finish": 3,
+                "duration": 1
+            },
+            {
+                "resource": "vendor-data-classification",
+                "start": 2,
+                "finish": 3,
+                "duration": 1
+            },
+            {
+                "resource": "rule-pii-blocking",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "rule-classification-enforcement",
+                "start": 3,
+                "finish": 4,
+                "duration": 1
+            },
+            {
+                "resource": "odrl-protected-b",
+                "start": 4,
+                "finish": 5,
+                "duration": 1
+            },
+            {
+                "resource": "provider-gc-cloud",
+                "start": 5,
+                "finish": 6,
+                "duration": 1
+            },
+            {
+                "resource": "deployment-procurement-assistant",
+                "start": 6,
+                "finish": 7,
+                "duration": 1
+            },
+            {
+                "resource": "deployment-hr-assistant",
+                "start": 6,
+                "finish": 7,
+                "duration": 1
+            },
+            {
+                "resource": "audit-sink-prov-o",
+                "start": 7,
+                "finish": 8,
+                "duration": 1
+            },
+            {
+                "resource": "shacl-compliance-report",
+                "start": 8,
+                "finish": 9,
+                "duration": 1
+            },
+            {
+                "resource": "vc-compliance-credential",
+                "start": 9,
+                "finish": 10,
+                "duration": 1
+            },
+            {
+                "resource": "owl-time-compliance-schedule",
+                "start": 9,
+                "finish": 10,
+                "duration": 1
+            }
+        ]
+    }
+}
