@@ -52,3 +52,23 @@ p005: core.#Pattern & {
 	example:  "cue export ./vocab/ -e specs_table --out text produces the Markdown table for README insertion"
 	used_in: {"apercue.ca": true}
 }
+
+p006: core.#Pattern & {
+	name:     "projection-per-spec"
+	category: "architecture"
+	problem:  "Adding a new W3C projection requires understanding the full framework internals. Each projection has different input requirements and output shapes."
+	solution: "Every projection follows the same template: accept #AnalyzableGraph (or a derived artifact like a SHACL report), comprehend over resources/edges, produce W3C-conformant JSON-LD with the appropriate @context. One file per projection, one export expression per output."
+	context:  "Any CUE module that needs to add W3C projections to a typed dependency graph"
+	example:  "#ProvenanceTrace accepts Graph: #AnalyzableGraph, produces prov_report with prov:Entity per resource and prov:wasDerivedFrom per edge"
+	used_in: {"apercue.ca": true}
+}
+
+p007: core.#Pattern & {
+	name:     "credential-wraps-validation"
+	category: "architecture"
+	problem:  "SHACL validation reports prove that a graph is conformant, but there is no standard way to attest to that validation result as a portable, verifiable claim"
+	solution: "Wrap the SHACL sh:ValidationReport in a W3C Verifiable Credential 2.0. The credential attests that the graph passed (or failed) validation at a specific time. SHACL validates; VC attests. Cryptographic proof is a deployment concern, not a projection concern."
+	context:  "Any system that needs to communicate graph validation results to external parties with attestation semantics"
+	example:  "#ValidationCredential wraps a SHACL report in a VC with issuer, validFrom, and the report as credentialSubject"
+	used_in: {"apercue.ca": true}
+}

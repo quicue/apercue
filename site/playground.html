@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W3C Projection Playground - apercue.ca</title>
+<meta name="description" content="Interactive playground: one typed dependency graph, six W3C projections computed client-side.">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --bg-panel: #0f1319;
+  --bg-code: #0d1117;
+  --bg-hover: #151b24;
+  --border: #1e2733;
+  --border-bright: #2a3545;
+  --text: #c5cdd8;
+  --text-dim: #5c6978;
+  --text-bright: #e8ecf1;
+  --accent: #3ddc84;
+  --accent-dim: rgba(61, 220, 132, 0.15);
+  --blue: #5b9cf6;
+  --amber: #f0c040;
+  --green: #3ddc84;
+  --purple: #c084fc;
+  --teal: #34d1bf;
+  --coral: #f09070;
+  --red: #e05555;
+  --cyan: #56d4e8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Dot grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(61, 220, 132, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Full-page layout ──────────────────────── */
+.page-layout {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Nav bar ───────────────────────────────── */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 24px;
+  height: 40px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.site-nav a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0 14px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+}
+
+.site-nav a.current {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Header ────────────────────────────────── */
+.page-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+}
+
+.page-header h1 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.02em;
+}
+
+.page-header h1 .accent {
+  color: var(--accent);
+}
+
+.page-header .subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Main split ────────────────────────────── */
+.main-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Graph panel (left) ────────────────────── */
+.graph-panel {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.graph-panel svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.edge-line {
+  fill: none;
+  stroke: var(--border-bright);
+  stroke-width: 1.2;
+  opacity: 0.4;
+}
+
+.edge-line.critical {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0.65;
+  stroke-dasharray: 8 4;
+  animation: dash-flow 2s linear infinite;
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -12; }
+}
+
+.edge-line.dimmed { opacity: 0.06; }
+
+.graph-node { cursor: grab; }
+.graph-node:active { cursor: grabbing; }
+
+.node-core {
+  stroke-width: 2;
+  transition: r 0.15s ease;
+}
+
+.node-ring {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.graph-node:hover .node-ring { opacity: 0.6; }
+.graph-node.selected .node-ring { opacity: 1; }
+
+.node-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  fill: var(--text-dim);
+  text-anchor: middle;
+  pointer-events: none;
+  transition: fill 0.15s ease;
+}
+
+.graph-node:hover .node-label { fill: var(--text-bright); }
+.graph-node.selected .node-label { fill: var(--text-bright); }
+.graph-node.dimmed .node-core { opacity: 0.15; }
+.graph-node.dimmed .node-label { opacity: 0.1; }
+.graph-node.dimmed .node-ring { opacity: 0; }
+
+/* Graph overlay legend */
+.graph-legend {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(15, 19, 25, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.graph-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.graph-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Tooltip ───────────────────────────────── */
+.tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-bright);
+  border-radius: 4px;
+  padding: 12px 16px;
+  max-width: 300px;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.12s;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.tooltip.visible { opacity: 1; }
+
+.tooltip-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+
+.tooltip-types {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.tooltip-type-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tooltip-desc {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.45;
+  margin-bottom: 6px;
+}
+
+.tooltip-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  display: flex;
+  gap: 12px;
+}
+
+.tooltip-meta span {
+  color: var(--text);
+}
+
+/* ── JSON panel (right) ────────────────────── */
+.json-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Tab bar */
+.tab-bar {
+  display: flex;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tab-bar::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* JSON output area */
+.json-output-wrap {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.json-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.json-toolbar-left {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.json-toolbar-left .spec-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 2px;
+  margin-left: 8px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.copy-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  letter-spacing: 0.03em;
+}
+
+.copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy-btn.copied {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.json-scroll {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-code);
+}
+
+.json-output {
+  background: var(--bg-code);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  padding: 16px 20px;
+  white-space: pre;
+  min-height: 100%;
+  tab-size: 2;
+}
+
+/* JSON syntax highlighting */
+.json-output .json-key { color: var(--cyan); }
+.json-output .json-string { color: var(--accent); }
+.json-output .json-number { color: var(--amber); }
+.json-output .json-bool { color: var(--purple); }
+.json-output .json-null { color: var(--text-dim); }
+.json-output .json-bracket { color: var(--text-dim); }
+.json-output .json-highlight { background: rgba(61, 220, 132, 0.08); display: inline; border-radius: 2px; }
+
+/* Node selection indicator in JSON */
+.json-output .json-node-match {
+  background: rgba(61, 220, 132, 0.12);
+  border-left: 2px solid var(--accent);
+  margin-left: -2px;
+  padding-left: 2px;
+  display: inline;
+}
+
+/* ── Bottom bar ────────────────────────────── */
+.bottom-bar {
+  padding: 10px 24px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bottom-bar .note { max-width: 600px; }
+
+.bottom-bar .graph-stats {
+  display: flex;
+  gap: 16px;
+}
+
+.bottom-bar .stat-value {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 900px) {
+  .main-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: 40vh 1fr;
+  }
+  .graph-panel { border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+/* ── Stagger animation ─────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header { animation: fade-up 0.4s ease both; }
+.graph-panel { animation: fade-up 0.4s ease 0.05s both; }
+.json-panel { animation: fade-up 0.4s ease 0.1s both; }
+</style>
+</head>
+<body>
+
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-name" id="tt-name"></div>
+  <div class="tooltip-types" id="tt-types"></div>
+  <div class="tooltip-desc" id="tt-desc"></div>
+  <div class="tooltip-meta" id="tt-meta"></div>
+</div>
+
+<div class="page-layout">
+
+<!-- ═══ NAV ════════════════════════════════════════════════ -->
+<nav class="site-nav">
+  <a href="index.html">Home</a>
+  <a href="charter.html">Charter</a>
+  <a href="spec/">Spec</a>
+  <a href="explorer.html">Ecosystem</a>
+  <a href="playground.html" class="current">Playground</a>
+  <a href="https://github.com/quicue/apercue">GitHub</a>
+</nav>
+
+<!-- ═══ HEADER ═════════════════════════════════════════════ -->
+<div class="page-header">
+  <h1><span class="accent">W3C</span> Projection Playground</h1>
+  <div class="subtitle">One graph. Six W3C projections. Click a node to trace its output.</div>
+</div>
+
+<!-- ═══ MAIN SPLIT ═════════════════════════════════════════ -->
+<div class="main-split">
+
+  <!-- Graph (left) -->
+  <div class="graph-panel" id="graph-panel">
+    <svg id="graph-svg"></svg>
+    <div class="graph-legend">
+      <div class="graph-legend-item">
+        <span class="graph-legend-swatch" style="background: var(--blue)"></span>
+        CoreCourse
+      </div>
+      <div class="graph-legend-item">
+        <span class="graph-legend-swatch" style="background: var(--amber)"></span>
+        ElectiveCourse
+      </div>
+      <div class="graph-legend-item">
+        <span class="graph-legend-swatch" style="background: var(--green)"></span>
+        Capstone
+      </div>
+      <div class="graph-legend-item">
+        <span class="graph-legend-swatch" style="background: var(--accent); opacity: 0.5"></span>
+        <span style="font-size: 9px">--- Critical path</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSON (right) -->
+  <div class="json-panel">
+    <div class="tab-bar" id="tab-bar">
+      <button class="tab-btn active" data-tab="prov">PROV-O</button>
+      <button class="tab-btn" data-tab="odrl">ODRL</button>
+      <button class="tab-btn" data-tab="org">ORG</button>
+      <button class="tab-btn" data-tab="schema">Schema.org</button>
+      <button class="tab-btn" data-tab="vc">VC 2.0</button>
+      <button class="tab-btn" data-tab="as">Activity Streams</button>
+    </div>
+    <div class="json-output-wrap">
+      <div class="json-toolbar">
+        <div class="json-toolbar-left" id="json-spec-label">
+          W3C PROV-O
+          <span class="spec-badge" id="json-spec-badge" style="background: rgba(91, 156, 246, 0.15); color: var(--blue);">prov:</span>
+        </div>
+        <button class="copy-btn" id="copy-btn" title="Copy JSON to clipboard">COPY</button>
+      </div>
+      <div class="json-scroll">
+        <div class="json-output" id="json-output"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ BOTTOM BAR ═════════════════════════════════════════ -->
+<div class="bottom-bar">
+  <div class="note">All projections are computed client-side from the same graph data. In production, use <code style="color:var(--accent)">cue export</code> for validated output.</div>
+  <div class="graph-stats">
+    <span><span class="stat-value">12</span> nodes</span>
+    <span><span class="stat-value">16</span> edges</span>
+    <span><span class="stat-value">5</span> layers</span>
+    <span><span class="stat-value">6</span> projections</span>
+  </div>
+</div>
+
+</div><!-- /page-layout -->
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// INLINE DATA - course-prereqs example (12 courses, 3 gates)
+// Matches cue export format from apercue.ca
+// ═══════════════════════════════════════════════════════════
+const GRAPH_DATA = {
+  nodes: [
+    { id: "intro-cs", name: "intro-cs", types: { CoreCourse: true }, depth: 0, description: "Introduction to Computer Science", credits: 3 },
+    { id: "intro-math", name: "intro-math", types: { CoreCourse: true }, depth: 0, description: "Calculus I", credits: 3 },
+    { id: "data-structures", name: "data-structures", types: { CoreCourse: true }, depth: 1, depends_on: { "intro-cs": true, "intro-math": true }, description: "Data Structures and Algorithms", credits: 3 },
+    { id: "discrete-math", name: "discrete-math", types: { CoreCourse: true }, depth: 1, depends_on: { "intro-math": true }, description: "Discrete Mathematics", credits: 3 },
+    { id: "databases", name: "databases", types: { CoreCourse: true }, depth: 2, depends_on: { "data-structures": true }, description: "Database Systems", credits: 3 },
+    { id: "algorithms", name: "algorithms", types: { CoreCourse: true }, depth: 2, depends_on: { "data-structures": true, "discrete-math": true }, description: "Algorithm Design and Analysis", credits: 3 },
+    { id: "networks", name: "networks", types: { CoreCourse: true }, depth: 2, depends_on: { "data-structures": true }, description: "Computer Networks", credits: 3 },
+    { id: "os", name: "os", types: { CoreCourse: true }, depth: 2, depends_on: { "data-structures": true }, description: "Operating Systems", credits: 3 },
+    { id: "compilers", name: "compilers", types: { ElectiveCourse: true }, depth: 3, depends_on: { algorithms: true }, description: "Compiler Construction", credits: 3 },
+    { id: "ml-intro", name: "ml-intro", types: { ElectiveCourse: true }, depth: 3, depends_on: { algorithms: true, databases: true }, description: "Introduction to Machine Learning", credits: 3 },
+    { id: "distributed-systems", name: "distributed-systems", types: { ElectiveCourse: true }, depth: 3, depends_on: { networks: true, os: true }, description: "Distributed Systems", credits: 3 },
+    { id: "capstone", name: "capstone", types: { Capstone: true }, depth: 4, depends_on: { compilers: true, "ml-intro": true, "distributed-systems": true }, description: "Capstone Project", credits: 6 }
+  ],
+  edges: [
+    { source: "data-structures", target: "intro-cs" },
+    { source: "data-structures", target: "intro-math" },
+    { source: "discrete-math", target: "intro-math" },
+    { source: "databases", target: "data-structures" },
+    { source: "algorithms", target: "data-structures" },
+    { source: "algorithms", target: "discrete-math" },
+    { source: "networks", target: "data-structures" },
+    { source: "os", target: "data-structures" },
+    { source: "compilers", target: "algorithms" },
+    { source: "ml-intro", target: "algorithms" },
+    { source: "ml-intro", target: "databases" },
+    { source: "distributed-systems", target: "networks" },
+    { source: "distributed-systems", target: "os" },
+    { source: "capstone", target: "compilers" },
+    { source: "capstone", target: "ml-intro" },
+    { source: "capstone", target: "distributed-systems" }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════
+// TYPE COLORS
+// ═══════════════════════════════════════════════════════════
+const TYPE_COLORS = {
+  CoreCourse: '#5b9cf6',
+  ElectiveCourse: '#f0c040',
+  Capstone: '#3ddc84',
+};
+
+function primaryType(types) {
+  if (types.Capstone) return 'Capstone';
+  if (types.ElectiveCourse) return 'ElectiveCourse';
+  return 'CoreCourse';
+}
+
+function nodeColor(d) {
+  return TYPE_COLORS[primaryType(d.types)] || '#5b9cf6';
+}
+
+function nodeRadius(d) {
+  if (d.types.Capstone) return 16;
+  if (d.depth === 0) return 13;
+  return 10;
+}
+
+// ═══════════════════════════════════════════════════════════
+// CRITICAL PATH COMPUTATION
+// ═══════════════════════════════════════════════════════════
+function computeCriticalPath(data) {
+  // Simple critical path: longest chain from any root to capstone
+  const nodeMap = {};
+  data.nodes.forEach(n => { nodeMap[n.id] = n; });
+
+  // Forward pass: compute longest path length to each node
+  const longestTo = {};
+  const predOn = {};
+  data.nodes.forEach(n => { longestTo[n.id] = 0; predOn[n.id] = null; });
+
+  // Topological order by depth
+  const sorted = [...data.nodes].sort((a, b) => a.depth - b.depth);
+
+  sorted.forEach(n => {
+    if (n.depends_on) {
+      Object.keys(n.depends_on).forEach(dep => {
+        const pathLen = longestTo[dep] + 1;
+        if (pathLen > longestTo[n.id]) {
+          longestTo[n.id] = pathLen;
+          predOn[n.id] = dep;
+        }
+      });
+    }
+  });
+
+  // Find the node with the longest path (should be capstone)
+  let endNode = sorted[sorted.length - 1].id;
+  let maxLen = 0;
+  Object.entries(longestTo).forEach(([id, len]) => {
+    if (len > maxLen) { maxLen = len; endNode = id; }
+  });
+
+  // Backtrack
+  const path = [];
+  let current = endNode;
+  while (current) {
+    path.unshift(current);
+    current = predOn[current];
+  }
+  return new Set(path);
+}
+
+const criticalPathSet = computeCriticalPath(GRAPH_DATA);
+
+// Build critical edge set
+const criticalEdges = new Set();
+const criticalArray = Array.from(criticalPathSet);
+for (let i = 0; i < criticalArray.length; i++) {
+  for (let j = i + 1; j < criticalArray.length; j++) {
+    // Check if there's a direct edge between these two critical nodes
+    GRAPH_DATA.edges.forEach(e => {
+      if ((e.source === criticalArray[i] && e.target === criticalArray[j]) ||
+          (e.source === criticalArray[j] && e.target === criticalArray[i])) {
+        criticalEdges.add(e.source + '>' + e.target);
+      }
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let selectedNodeId = null;
+let activeTab = 'prov';
+let rawJsonText = '';
+
+// Node map for quick lookup
+const nodeMap = {};
+GRAPH_DATA.nodes.forEach(n => { nodeMap[n.id] = n; });
+
+// ═══════════════════════════════════════════════════════════
+// W3C PROJECTION FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+
+// 1. PROV-O: map resources to prov:Entity, depends_on to prov:wasDerivedFrom
+function projectPROVO(data) {
+  return {
+    "@context": {
+      prov: "http://www.w3.org/ns/prov#",
+      dcterms: "http://purl.org/dc/terms/",
+      apercue: "https://apercue.ca/vocab#"
+    },
+    "@type": "prov:Bundle",
+    "@id": "urn:apercue:course-prereqs:provenance",
+    "dcterms:title": "Course Prerequisites Provenance Chain",
+    "dcterms:description": "PROV-O projection: each course is a prov:Entity, each prerequisite is a prov:wasDerivedFrom relationship.",
+    "prov:entity": data.nodes.map(n => {
+      const entity = {
+        "@type": "prov:Entity",
+        "@id": "urn:resource:" + n.id,
+        "dcterms:title": n.description,
+        "apercue:depth": n.depth,
+        "apercue:credits": n.credits
+      };
+      if (n.depends_on) {
+        entity["prov:wasDerivedFrom"] = Object.keys(n.depends_on).map(dep => ({
+          "@type": "prov:Entity",
+          "@id": "urn:resource:" + dep
+        }));
+      }
+      return entity;
+    })
+  };
+}
+
+// 2. ODRL: map resources by type to odrl:Permission/Prohibition
+function projectODRL(data) {
+  const permissions = [];
+  const prohibitions = [];
+
+  data.nodes.forEach(n => {
+    const typeKey = primaryType(n.types);
+
+    if (typeKey === 'CoreCourse' || typeKey === 'ElectiveCourse') {
+      permissions.push({
+        "@type": "odrl:Permission",
+        "odrl:target": { "@id": "urn:resource:" + n.id },
+        "odrl:action": { "@id": "odrl:read" },
+        "odrl:assignee": { "@id": "urn:role:student" },
+        "dcterms:title": n.description
+      });
+    }
+
+    if (typeKey === 'Capstone') {
+      prohibitions.push({
+        "@type": "odrl:Prohibition",
+        "odrl:target": { "@id": "urn:resource:" + n.id },
+        "odrl:action": { "@id": "odrl:modify" },
+        "odrl:assignee": { "@id": "urn:role:student" },
+        "odrl:constraint": {
+          "@type": "odrl:Constraint",
+          "odrl:leftOperand": { "@id": "odrl:count" },
+          "odrl:operator": { "@id": "odrl:lt" },
+          "odrl:rightOperand": Object.keys(n.depends_on || {}).length,
+          "dcterms:description": "Cannot modify capstone without completing all " + Object.keys(n.depends_on || {}).length + " prerequisites"
+        }
+      });
+
+      // Also grant conditional read
+      permissions.push({
+        "@type": "odrl:Permission",
+        "odrl:target": { "@id": "urn:resource:" + n.id },
+        "odrl:action": { "@id": "odrl:read" },
+        "odrl:assignee": { "@id": "urn:role:student" },
+        "odrl:duty": {
+          "@type": "odrl:Duty",
+          "odrl:action": { "@id": "odrl:reviewPolicy" },
+          "dcterms:description": "Must complete all prerequisite courses before accessing capstone"
+        }
+      });
+    }
+  });
+
+  return {
+    "@context": {
+      odrl: "http://www.w3.org/ns/odrl/2/",
+      dcterms: "http://purl.org/dc/terms/"
+    },
+    "@type": "odrl:Policy",
+    "@id": "urn:apercue:course-prereqs:policy",
+    "odrl:profile": "https://apercue.ca/vocab#CourseAccessPolicy",
+    "dcterms:title": "Course Access Policy",
+    "dcterms:description": "ODRL projection: CoreCourse resources grant read permission to students. Capstone requires all prerequisites and prohibits modification without completion.",
+    "odrl:permission": permissions,
+    "odrl:prohibition": prohibitions
+  };
+}
+
+// 3. ORG: group resources by type into org:OrganizationalUnit
+function projectORG(data) {
+  const groups = {};
+  data.nodes.forEach(n => {
+    const typeKey = primaryType(n.types);
+    if (!groups[typeKey]) groups[typeKey] = [];
+    groups[typeKey].push(n);
+  });
+
+  return {
+    "@context": {
+      org: "http://www.w3.org/ns/org#",
+      dcterms: "http://purl.org/dc/terms/",
+      skos: "http://www.w3.org/2004/02/skos/core#"
+    },
+    "@type": "org:Organization",
+    "@id": "urn:apercue:course-prereqs:department",
+    "dcterms:title": "Computer Science Department",
+    "dcterms:description": "ORG projection: courses grouped by type into organizational units.",
+    "org:hasUnit": Object.entries(groups).map(([typeName, members]) => ({
+      "@type": "org:OrganizationalUnit",
+      "@id": "urn:unit:" + typeName.toLowerCase(),
+      "dcterms:title": typeName + " (" + members.length + " courses)",
+      "skos:notation": typeName,
+      "org:hasMember": members.map(m => ({
+        "@type": "org:Membership",
+        "@id": "urn:resource:" + m.id,
+        "dcterms:title": m.description,
+        "org:role": {
+          "@type": "org:Role",
+          "dcterms:title": "depth-" + m.depth
+        }
+      }))
+    }))
+  };
+}
+
+// 4. Schema.org: map types to schema:Course/CreativeWork
+function projectSchema(data) {
+  const typeMapping = {
+    CoreCourse: "schema:Course",
+    ElectiveCourse: "schema:Course",
+    Capstone: "schema:CreativeWork"
+  };
+
+  return {
+    "@context": {
+      schema: "https://schema.org/",
+      dcterms: "http://purl.org/dc/terms/"
+    },
+    "@type": "schema:ItemList",
+    "@id": "urn:apercue:course-prereqs:catalog",
+    "schema:name": "CS Course Catalog",
+    "dcterms:description": "Schema.org projection: CoreCourse and ElectiveCourse map to schema:Course, Capstone maps to schema:CreativeWork.",
+    "schema:numberOfItems": data.nodes.length,
+    "schema:itemListElement": data.nodes.map((n, i) => {
+      const typeKey = primaryType(n.types);
+      const schemaType = typeMapping[typeKey] || "schema:Thing";
+      const item = {
+        "@type": schemaType,
+        "@id": "urn:resource:" + n.id,
+        "schema:name": n.description,
+        "schema:position": i + 1,
+        "schema:additionalType": "apercue:" + typeKey,
+        "schema:educationalLevel": "depth-" + n.depth,
+        "schema:numberOfCredits": n.credits
+      };
+      if (n.depends_on) {
+        item["schema:coursePrerequisites"] = Object.keys(n.depends_on).map(dep => ({
+          "@id": "urn:resource:" + dep,
+          "schema:name": nodeMap[dep] ? nodeMap[dep].description : dep
+        }));
+      }
+      return item;
+    })
+  };
+}
+
+// 5. VC 2.0: wrap a SHACL-like conformance check in a Verifiable Credential
+function projectVC(data) {
+  // Compute conformance checks
+  const results = [];
+  let allConform = true;
+
+  data.nodes.forEach(n => {
+    if (n.depends_on) {
+      const deps = Object.keys(n.depends_on);
+      const missingDeps = deps.filter(d => !nodeMap[d]);
+      if (missingDeps.length > 0) {
+        allConform = false;
+        results.push({
+          "@type": "sh:ValidationResult",
+          "sh:focusNode": { "@id": "urn:resource:" + n.id },
+          "sh:resultSeverity": { "@id": "sh:Violation" },
+          "sh:resultMessage": "Missing dependencies: " + missingDeps.join(", "),
+          "sh:sourceConstraintComponent": { "@id": "sh:MinCountConstraintComponent" }
+        });
+      }
+    }
+  });
+
+  // Check depth consistency: each node's depth must be > all dependencies' depth
+  data.nodes.forEach(n => {
+    if (n.depends_on) {
+      Object.keys(n.depends_on).forEach(depId => {
+        const dep = nodeMap[depId];
+        if (dep && dep.depth >= n.depth) {
+          allConform = false;
+          results.push({
+            "@type": "sh:ValidationResult",
+            "sh:focusNode": { "@id": "urn:resource:" + n.id },
+            "sh:resultSeverity": { "@id": "sh:Violation" },
+            "sh:resultMessage": "Depth " + n.depth + " is not greater than dependency " + depId + " at depth " + dep.depth,
+            "sh:sourceConstraintComponent": { "@id": "apercue:DepthOrderConstraint" }
+          });
+        }
+      });
+    }
+  });
+
+  // Check credit totals
+  const totalCredits = data.nodes.reduce((sum, n) => sum + (n.credits || 0), 0);
+  const hasCapstone = data.nodes.some(n => n.types.Capstone);
+
+  return {
+    "@context": [
+      "https://www.w3.org/ns/credentials/v2",
+      {
+        sh: "http://www.w3.org/ns/shacl#",
+        dcterms: "http://purl.org/dc/terms/",
+        apercue: "https://apercue.ca/vocab#"
+      }
+    ],
+    "@type": "VerifiableCredential",
+    "@id": "urn:apercue:course-prereqs:vc:" + new Date().toISOString().slice(0, 10),
+    "issuer": {
+      "@id": "https://apercue.ca",
+      "dcterms:title": "apercue.ca graph validator"
+    },
+    "validFrom": new Date().toISOString(),
+    "credentialSubject": {
+      "@id": "urn:apercue:course-prereqs",
+      "@type": "apercue:DependencyGraph",
+      "dcterms:title": "CS Course Prerequisites",
+      "apercue:totalResources": data.nodes.length,
+      "apercue:totalEdges": data.edges.length,
+      "apercue:totalCredits": totalCredits,
+      "apercue:hasCapstone": hasCapstone,
+      "apercue:maxDepth": Math.max(...data.nodes.map(n => n.depth)),
+      "apercue:validationReport": {
+        "@type": "sh:ValidationReport",
+        "sh:conforms": allConform,
+        "dcterms:conformsTo": "https://apercue.ca/charter#course-prereqs",
+        "sh:result": results
+      }
+    }
+  };
+}
+
+// 6. Activity Streams: ordered Create activities by depth layer
+function projectActivityStreams(data) {
+  // Group by depth
+  const layers = {};
+  data.nodes.forEach(n => {
+    if (!layers[n.depth]) layers[n.depth] = [];
+    layers[n.depth].push(n);
+  });
+
+  const orderedItems = [];
+  Object.keys(layers).sort((a, b) => a - b).forEach(depth => {
+    layers[depth].forEach(n => {
+      orderedItems.push({
+        "@type": "as:Create",
+        "@id": "urn:activity:create:" + n.id,
+        "as:actor": {
+          "@type": "as:Application",
+          "@id": "https://apercue.ca",
+          "as:name": "apercue.ca"
+        },
+        "as:object": {
+          "@type": "as:Object",
+          "@id": "urn:resource:" + n.id,
+          "as:name": n.description,
+          "as:mediaType": "application/ld+json",
+          "apercue:resourceType": Object.keys(n.types).join(", "),
+          "apercue:depth": n.depth,
+          "apercue:credits": n.credits
+        },
+        "as:published": "2026-01-01T00:00:00Z",
+        "as:summary": "Created " + n.description + " at depth " + n.depth,
+        "as:context": {
+          "@id": "urn:apercue:course-prereqs",
+          "as:name": "Course Prerequisites Graph"
+        }
+      });
+    });
+  });
+
+  return {
+    "@context": {
+      as: "https://www.w3.org/ns/activitystreams#",
+      dcterms: "http://purl.org/dc/terms/",
+      apercue: "https://apercue.ca/vocab#"
+    },
+    "@type": "as:OrderedCollection",
+    "@id": "urn:apercue:course-prereqs:timeline",
+    "as:summary": "Construction timeline for the CS course prerequisites graph, ordered by dependency depth.",
+    "as:totalItems": orderedItems.length,
+    "dcterms:description": "Activity Streams projection: each resource becomes a Create activity, ordered by topological depth layer.",
+    "as:orderedItems": orderedItems
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// JSON SYNTAX HIGHLIGHTING
+// ═══════════════════════════════════════════════════════════
+function highlightJson(json, highlightNodeId) {
+  const text = JSON.stringify(json, null, 2);
+  rawJsonText = text;
+
+  // Escape HTML
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Apply syntax coloring using regex replacements
+  // Order matters: do strings first, then keys, then primitives
+
+  // Strings (values)
+  html = html.replace(/"([^"\\]*(\\.[^"\\]*)*)"/g, (match, content) => {
+    return '<span class="json-string">' + match + '</span>';
+  });
+
+  // Now fix: anything that looks like "key": should be a key, not string
+  html = html.replace(/<span class="json-string">("(?:[^"\\]|\\.)*")<\/span>(\s*:)/g, (match, key, colon) => {
+    return '<span class="json-key">' + key + '</span>' + colon;
+  });
+
+  // Numbers
+  html = html.replace(/:\s*(-?\d+\.?\d*([eE][+-]?\d+)?)\b/g, (match, num) => {
+    return ': <span class="json-number">' + num + '</span>';
+  });
+
+  // Booleans
+  html = html.replace(/:\s*(true|false)\b/g, (match, val) => {
+    return ': <span class="json-bool">' + val + '</span>';
+  });
+
+  // Null
+  html = html.replace(/:\s*(null)\b/g, (match, val) => {
+    return ': <span class="json-null">' + val + '</span>';
+  });
+
+  // Brackets
+  html = html.replace(/([{}\[\]])/g, '<span class="json-bracket">$1</span>');
+
+  // Highlight lines that reference the selected node
+  if (highlightNodeId) {
+    const lines = html.split('\n');
+    const highlightedLines = lines.map(line => {
+      if (line.includes(highlightNodeId)) {
+        return '<span class="json-highlight">' + line + '</span>';
+      }
+      return line;
+    });
+    html = highlightedLines.join('\n');
+  }
+
+  return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// TAB & PROJECTION CONFIG
+// ═══════════════════════════════════════════════════════════
+const TAB_CONFIG = {
+  prov: {
+    label: 'W3C PROV-O',
+    badge: 'prov:',
+    badgeColor: '#5b9cf6',
+    fn: projectPROVO,
+    spec: 'http://www.w3.org/ns/prov#'
+  },
+  odrl: {
+    label: 'W3C ODRL 2.2',
+    badge: 'odrl:',
+    badgeColor: '#c084fc',
+    fn: projectODRL,
+    spec: 'http://www.w3.org/ns/odrl/2/'
+  },
+  org: {
+    label: 'W3C ORG',
+    badge: 'org:',
+    badgeColor: '#34d1bf',
+    fn: projectORG,
+    spec: 'http://www.w3.org/ns/org#'
+  },
+  schema: {
+    label: 'Schema.org',
+    badge: 'schema:',
+    badgeColor: '#f0c040',
+    fn: projectSchema,
+    spec: 'https://schema.org/'
+  },
+  vc: {
+    label: 'W3C VC 2.0',
+    badge: 'cred:',
+    badgeColor: '#e05555',
+    fn: projectVC,
+    spec: 'https://www.w3.org/2018/credentials#'
+  },
+  as: {
+    label: 'Activity Streams',
+    badge: 'as:',
+    badgeColor: '#f09070',
+    fn: projectActivityStreams,
+    spec: 'https://www.w3.org/ns/activitystreams#'
+  },
+};
+
+function renderProjection() {
+  const cfg = TAB_CONFIG[activeTab];
+  const json = cfg.fn(GRAPH_DATA);
+  const outputEl = document.getElementById('json-output');
+  outputEl.innerHTML = highlightJson(json, selectedNodeId);
+
+  // Update toolbar
+  document.getElementById('json-spec-label').innerHTML =
+    cfg.label + ' <span class="spec-badge" style="background: ' + cfg.badgeColor + '20; color: ' + cfg.badgeColor + ';">' + cfg.badge + '</span>';
+
+  // Reset copy button
+  const copyBtn = document.getElementById('copy-btn');
+  copyBtn.textContent = 'COPY';
+  copyBtn.classList.remove('copied');
+
+  // Scroll to first highlight if a node is selected
+  if (selectedNodeId) {
+    requestAnimationFrame(() => {
+      const highlight = outputEl.querySelector('.json-highlight');
+      if (highlight) {
+        highlight.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// GRAPH RENDERING (D3)
+// ═══════════════════════════════════════════════════════════
+function renderGraph() {
+  const container = document.getElementById('graph-panel');
+  const svg = d3.select('#graph-svg');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  // Arrow markers
+  const defs = svg.append('defs');
+
+  defs.append('marker')
+    .attr('id', 'arrow')
+    .attr('viewBox', '0 -4 8 8')
+    .attr('refX', 22).attr('refY', 0)
+    .attr('markerWidth', 5).attr('markerHeight', 5)
+    .attr('orient', 'auto')
+    .append('path').attr('d', 'M0,-3L7,0L0,3').attr('fill', '#2a3545');
+
+  defs.append('marker')
+    .attr('id', 'arrow-crit')
+    .attr('viewBox', '0 -4 8 8')
+    .attr('refX', 22).attr('refY', 0)
+    .attr('markerWidth', 5).attr('markerHeight', 5)
+    .attr('orient', 'auto')
+    .append('path').attr('d', 'M0,-3L7,0L0,3').attr('fill', '#3ddc84');
+
+  // Glow filter for selected node
+  const filter = defs.append('filter')
+    .attr('id', 'glow')
+    .attr('x', '-50%').attr('y', '-50%')
+    .attr('width', '200%').attr('height', '200%');
+  filter.append('feGaussianBlur')
+    .attr('in', 'SourceGraphic')
+    .attr('stdDeviation', '4')
+    .attr('result', 'blur');
+  filter.append('feMerge')
+    .call(m => { m.append('feMergeNode').attr('in', 'blur'); m.append('feMergeNode').attr('in', 'SourceGraphic'); });
+
+  const rootG = svg.append('g');
+
+  // Deterministic layered layout
+  const maxDepth = Math.max(...GRAPH_DATA.nodes.map(n => n.depth));
+  const marginY = 70;
+  const marginX = 60;
+  const layerH = (height - marginY * 2) / Math.max(maxDepth, 1);
+
+  // Group by depth
+  const depthGroups = {};
+  GRAPH_DATA.nodes.forEach(n => {
+    if (!depthGroups[n.depth]) depthGroups[n.depth] = [];
+    depthGroups[n.depth].push(n);
+  });
+
+  // Assign positions
+  const nodes = GRAPH_DATA.nodes.map(d => {
+    const group = depthGroups[d.depth];
+    const idx = group.indexOf(d);
+    const count = group.length;
+    const spacing = Math.min((width - marginX * 2) / (count + 1), 160);
+    const startX = (width - (count - 1) * spacing) / 2;
+    return {
+      ...d,
+      x: startX + idx * spacing,
+      y: marginY + d.depth * layerH,
+    };
+  });
+
+  const graphNodeMap = {};
+  nodes.forEach(n => { graphNodeMap[n.id] = n; });
+
+  const edges = GRAPH_DATA.edges.map(d => ({
+    source: graphNodeMap[d.source],
+    target: graphNodeMap[d.target],
+    sourceId: d.source,
+    targetId: d.target,
+  }));
+
+  // Subtle layer lines
+  for (let d = 0; d <= maxDepth; d++) {
+    const y = marginY + d * layerH;
+    rootG.append('line')
+      .attr('x1', 20).attr('x2', width - 20)
+      .attr('y1', y).attr('y2', y)
+      .attr('stroke', '#1e2733')
+      .attr('stroke-dasharray', '3,6')
+      .attr('opacity', 0.3);
+    rootG.append('text')
+      .attr('x', 12).attr('y', y + 4)
+      .attr('fill', '#1e2733')
+      .attr('font-family', 'IBM Plex Mono, monospace')
+      .attr('font-size', '9px')
+      .text('L' + d);
+  }
+
+  // Render edges
+  const edgeEls = rootG.selectAll('.edge-line')
+    .data(edges)
+    .join('path')
+    .attr('class', d => {
+      const key = d.sourceId + '>' + d.targetId;
+      return criticalEdges.has(key) ? 'edge-line critical' : 'edge-line';
+    })
+    .attr('marker-end', d => {
+      const key = d.sourceId + '>' + d.targetId;
+      return criticalEdges.has(key) ? 'url(#arrow-crit)' : 'url(#arrow)';
+    })
+    .attr('d', d => {
+      const dx = d.target.x - d.source.x;
+      const dy = d.target.y - d.source.y;
+      const cx = d.source.x + dx * 0.5;
+      const cy1 = d.source.y + dy * 0.25;
+      const cy2 = d.source.y + dy * 0.75;
+      return 'M' + d.source.x + ',' + d.source.y + ' C' + cx + ',' + cy1 + ' ' + cx + ',' + cy2 + ' ' + d.target.x + ',' + d.target.y;
+    });
+
+  // Render nodes
+  const nodeEls = rootG.selectAll('.graph-node')
+    .data(nodes)
+    .join('g')
+    .attr('class', 'graph-node')
+    .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
+    .call(d3.drag()
+      .on('start', function() { d3.select(this).raise(); })
+      .on('drag', function(event, d) {
+        d.x = event.x;
+        d.y = event.y;
+        d3.select(this).attr('transform', 'translate(' + d.x + ',' + d.y + ')');
+        edgeEls.attr('d', e => {
+          const dx = e.target.x - e.source.x;
+          const dy = e.target.y - e.source.y;
+          const cx = e.source.x + dx * 0.5;
+          const cy1 = e.source.y + dy * 0.25;
+          const cy2 = e.source.y + dy * 0.75;
+          return 'M' + e.source.x + ',' + e.source.y + ' C' + cx + ',' + cy1 + ' ' + cx + ',' + cy2 + ' ' + e.target.x + ',' + e.target.y;
+        });
+      }));
+
+  // Selection ring (bright, only visible on selected)
+  nodeEls.append('circle')
+    .attr('class', 'node-ring')
+    .attr('r', d => nodeRadius(d) + 5)
+    .attr('stroke', d => nodeColor(d))
+    .attr('stroke-width', 2);
+
+  // Core circle
+  nodeEls.append('circle')
+    .attr('class', 'node-core')
+    .attr('r', d => nodeRadius(d))
+    .attr('fill', d => nodeColor(d) + '20')
+    .attr('stroke', d => nodeColor(d))
+    .attr('stroke-opacity', 0.8);
+
+  // Labels
+  nodeEls.append('text')
+    .attr('class', 'node-label')
+    .attr('dy', d => nodeRadius(d) + 15)
+    .text(d => d.name);
+
+  // Tooltip
+  const tooltip = document.getElementById('tooltip');
+  const ttName = document.getElementById('tt-name');
+  const ttTypes = document.getElementById('tt-types');
+  const ttDesc = document.getElementById('tt-desc');
+  const ttMeta = document.getElementById('tt-meta');
+
+  nodeEls.on('mouseenter', function(event, d) {
+    tooltip.classList.add('visible');
+    ttName.textContent = d.description;
+
+    const typeKeys = Object.keys(d.types);
+    ttTypes.innerHTML = typeKeys.map(t => {
+      const c = TYPE_COLORS[t] || '#5b9cf6';
+      return '<span class="tooltip-type-badge" style="background: ' + c + '22; color: ' + c + ';">' + t + '</span>';
+    }).join('');
+
+    ttDesc.textContent = d.id;
+
+    const depCount = d.depends_on ? Object.keys(d.depends_on).length : 0;
+    ttMeta.innerHTML = 'depth <span>' + d.depth + '</span> &middot; credits <span>' + d.credits + '</span> &middot; deps <span>' + depCount + '</span>';
+
+    // Highlight connected nodes and edges
+    const connected = new Set([d.id]);
+    edges.forEach(e => {
+      if (e.sourceId === d.id || e.targetId === d.id) {
+        connected.add(e.sourceId);
+        connected.add(e.targetId);
+      }
+    });
+
+    if (!selectedNodeId) {
+      nodeEls.classed('dimmed', n => !connected.has(n.id));
+      edgeEls.classed('dimmed', e => !connected.has(e.sourceId) || !connected.has(e.targetId));
+    }
+  });
+
+  nodeEls.on('mousemove', function(event) {
+    tooltip.style.left = (event.clientX + 16) + 'px';
+    tooltip.style.top = (event.clientY - 16) + 'px';
+  });
+
+  nodeEls.on('mouseleave', function() {
+    tooltip.classList.remove('visible');
+    if (!selectedNodeId) {
+      nodeEls.classed('dimmed', false);
+      edgeEls.classed('dimmed', false);
+    }
+  });
+
+  // Click: select/deselect node
+  nodeEls.on('click', function(event, d) {
+    event.stopPropagation();
+
+    if (selectedNodeId === d.id) {
+      // Deselect
+      selectedNodeId = null;
+      nodeEls.classed('selected', false).classed('dimmed', false);
+      edgeEls.classed('dimmed', false);
+    } else {
+      // Select
+      selectedNodeId = d.id;
+
+      const connected = new Set([d.id]);
+      edges.forEach(e => {
+        if (e.sourceId === d.id || e.targetId === d.id) {
+          connected.add(e.sourceId);
+          connected.add(e.targetId);
+        }
+      });
+
+      nodeEls.classed('selected', n => n.id === d.id);
+      nodeEls.classed('dimmed', n => !connected.has(n.id));
+      edgeEls.classed('dimmed', e => !connected.has(e.sourceId) || !connected.has(e.targetId));
+    }
+
+    renderProjection();
+  });
+
+  // Click on background: deselect
+  svg.on('click', function() {
+    selectedNodeId = null;
+    nodeEls.classed('selected', false).classed('dimmed', false);
+    edgeEls.classed('dimmed', false);
+    renderProjection();
+  });
+
+  // Zoom and pan
+  const zoom = d3.zoom()
+    .scaleExtent([0.4, 4])
+    .on('zoom', function(event) {
+      rootG.attr('transform', event.transform);
+    });
+  svg.call(zoom);
+}
+
+// ═══════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════════════════
+document.getElementById('tab-bar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+
+  const tab = btn.dataset.tab;
+  if (tab === activeTab) return;
+
+  activeTab = tab;
+
+  // Update active state
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  renderProjection();
+});
+
+// ═══════════════════════════════════════════════════════════
+// COPY BUTTON
+// ═══════════════════════════════════════════════════════════
+document.getElementById('copy-btn').addEventListener('click', function() {
+  const btn = this;
+  navigator.clipboard.writeText(rawJsonText).then(() => {
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'COPY';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback for file:// protocol where clipboard API may be blocked
+    const ta = document.createElement('textarea');
+    ta.value = rawJsonText;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = 'COPIED';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'COPY';
+        btn.classList.remove('copied');
+      }, 2000);
+    } catch(e) {
+      btn.textContent = 'FAILED';
+      setTimeout(() => { btn.textContent = 'COPY'; }, 2000);
+    }
+    document.body.removeChild(ta);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+renderGraph();
+renderProjection();
+</script>
+</body>
+</html>

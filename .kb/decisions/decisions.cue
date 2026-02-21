@@ -181,3 +181,20 @@ d011: core.#Decision & {
 	]
 	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
 }
+
+d012: core.#Decision & {
+	id:        "ADR-012"
+	title:     "Six new W3C projections: PROV-O, ODRL, ORG, Schema.org, VC 2.0, Activity Streams"
+	status:    "accepted"
+	date:      "2026-02-20"
+	context:   "apercue had 6 implemented W3C projections (JSON-LD, SHACL, SKOS, EARL, OWL-Time, Dublin Core). The thesis 'everything is a projection' needed more evidence — particularly for post-2017 specs like VC 2.0 (2025) and Activity Streams 2.0 (2018)."
+	decision:  "Add 6 new CUE projection patterns: #ProvenanceTrace (PROV-O), #ODRLPolicy (ODRL 2.2), #OrgStructure (W3C ORG), #SchemaOrgAlignment (schema.org), #ValidationCredential (VC 2.0), #ActivityStream (AS 2.0). Each follows the same architecture: accept #AnalyzableGraph, comprehend over resources, produce W3C-conformant JSON-LD."
+	rationale: "12 implemented W3C specs from one typed graph proves the projection model is not cherry-picked. VC 2.0 is particularly compelling — SHACL validates, VC attests. Activity Streams models graph construction as a timeline, enabling changelog narratives."
+	consequences: [
+		"12 W3C specs implemented (was 6), 0 namespace-only (was 2)",
+		"vocab/context.cue gains 4 new namespace prefixes (odrl, org, cred, as)",
+		"Interactive playground (playground.html) demonstrates all 6 new projections",
+		"Each projection is a separate .cue file — modular, composable, independently testable",
+	]
+	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
+}

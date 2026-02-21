@@ -18,8 +18,12 @@ the standards-compliant output.
 | **EARL** | earl:Assertion | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
 | **OWL-Time** | time:Interval | `#CriticalPath.time_report` | `patterns/analysis.cue` | `cue export -e cpm.time_report` |
 | **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural — present in all JSON-LD output |
-| **PROV-O** | prov:wasDerivedFrom | Namespace in @context; full prov_report projections in quicue.ca | `vocab/context.cue` | N/A (namespace prefix) |
-| **schema.org** | schema:actionStatus | Lifecycle status values | `vocab/context.cue` | N/A (namespace prefix) |
+| **PROV-O** | prov:Entity, prov:wasDerivedFrom | `#ProvenanceTrace.prov_report` | `patterns/provenance.cue` | `cue export -e provenance.prov_report` |
+| **ODRL 2.2** | odrl:Set, odrl:Permission | `#ODRLPolicy.odrl_policy` | `patterns/policy.cue` | `cue export -e access_policy.odrl_policy` |
+| **W3C ORG** | org:Organization, org:OrganizationalUnit | `#OrgStructure.org_report` | `views/org.cue` | `cue export -e structure.org_report` |
+| **schema.org** | schema:additionalType | `#SchemaOrgAlignment.schema_graph` | `patterns/schema_alignment.cue` | `cue export -e schema_view.schema_graph` |
+| **VC 2.0** | VerifiableCredential | `#ValidationCredential.vc` | `patterns/credentials.cue` | `cue export -e validation_credential.vc` |
+| **Activity Streams 2.0** | as:OrderedCollection | `#ActivityStream.stream` | `patterns/activity.cue` | `cue export -e activity_stream.stream` |
 
 ## Downstream (in quicue.ca)
 
@@ -55,4 +59,7 @@ different views of the same typed graph, not separate processing stages.
 - [OWL-Time](https://www.w3.org/TR/owl-time/) — W3C Recommendation
 - [DCAT 3](https://www.w3.org/TR/vocab-dcat-3/) — W3C Recommendation
 - [ODRL 2.2](https://www.w3.org/TR/odrl-model/) — W3C Recommendation
+- [W3C ORG](https://www.w3.org/TR/vocab-org/) — W3C Recommendation
+- [Verifiable Credentials 2.0](https://www.w3.org/TR/vc-data-model-2.0/) — W3C Recommendation
+- [Activity Streams 2.0](https://www.w3.org/TR/activitystreams-core/) — W3C Recommendation
 - [Hydra Core](https://www.hydra-cg.com/spec/latest/core/) — W3C Community Group

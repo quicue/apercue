@@ -22,6 +22,10 @@ context: {
 		"schema":  "https://schema.org/"
 		"time":    "http://www.w3.org/2006/time#"
 		"earl":    "http://www.w3.org/ns/earl#"
+		"odrl":    "http://www.w3.org/ns/odrl/2/"
+		"org":     "http://www.w3.org/ns/org#"
+		"cred":    "https://www.w3.org/2018/credentials#"
+		"as":      "https://www.w3.org/ns/activitystreams#"
 		"apercue": "https://apercue.ca/vocab#"
 		"charter": "https://apercue.ca/charter#"
 
