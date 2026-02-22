@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Phase 7: Wire the Stack — Workflow Specification</title>
+<title>Wire the Stack: Constraint-First Migration Tracking with W3C Observability</title>
 <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
 <script class="remove">
 var respecConfig = {
   specStatus: "unofficial",
-  shortName: "phase7-workflow",
+  shortName: "wire-the-stack",
   edDraftURI: "https://quicue-apercue.pages.dev/phase7.html",
   editors: [{ name: "quicue", url: "https://quicue.ca" }],
   github: "https://github.com/quicue/apercue",
@@ -39,19 +39,19 @@ W3C vocabulary terms are used throughout for interoperability.</p>
 
 <section id="sotd">
 <p>This is a living specification generated from the charter's CUE source.
-Current status: <strong>0/23</strong> tasks complete.
+Current status: <strong>0/33</strong> tasks complete.
 Next gate: <strong>interop-proven</strong>.</p>
 </section>
 
 <section>
 <h2>Overview</h2>
 <p>The project is a single CUE module (<code>phase7.quicue.ca</code>) containing
-23 tasks organized into 5 sequential phases. Each task has a
+33 tasks organized into 6 sequential phases. Each task has a
 <code>status</code> field (<code>"pending"</code> or <code>"done"</code>). A filtered
 view feeds only completed tasks to the graph engine, so
 <code>#GapAnalysis</code> tracks execution rather than just planning.</p>
 
-<p>Critical path length: <strong>15</strong> steps
+<p>Critical path length: <strong>19</strong> steps
 (computed via CPM scheduling with unit durations).</p>
 </section>
 
@@ -93,7 +93,7 @@ The following types are declared in the charter scope:</p>
 
 <section>
 <h2>Phase Gates</h2>
-<p>The migration proceeds through 5 sequential gates. Each gate declares
+<p>The migration proceeds through 6 sequential gates. Each gate declares
 required resources that must be completed before the gate is satisfied.
 Gates may depend on other gates, enforcing phase ordering.</p>
 
@@ -104,13 +104,14 @@ Gates may depend on other gates, enforcing phase ordering.</p>
 <tr><td>apercue-ready</td><td>Phase 2</td><td>❌ apercue-importable, apercue-docs-rfc5737</td></tr>
 <tr><td>quicue-integrated</td><td>Phase 3</td><td>❌ quicue-analysis-import, quicue-validation-import, quicue-charter-import, quicue-cpm-upgrade, quicue-shacl-fix</td></tr>
 <tr><td>chain-verified</td><td>Phase 4</td><td>❌ quicue-vet, quicue-exports-diff, quicue-interop, grdn-vet, grdn-exports-diff, downstream-check</td></tr>
-<tr><td>phase7-complete</td><td>Phase 5</td><td>❌ quicue-charter-update, memory-update, final-commit</td></tr></tbody>
+<tr><td>phase7-complete</td><td>Phase 5</td><td>❌ quicue-charter-update, memory-update, final-commit</td></tr>
+<tr><td>w3c-aligned</td><td>Phase 6</td><td>❌ phase7-jsonld, phase7-skos-types, phase7-owl-time, quicue-export-context, quicue-earl-gaps, quicue-owl-time-fix, grdn-w3c-surface, kg-skos-federation, w3c-review, w3c-sweep-complete</td></tr></tbody>
 </table>
 </section>
 
 <section>
 <h2>Task Registry</h2>
-<p>All 23 tasks with current status:</p>
+<p>All 33 tasks with current status:</p>
 
 <table>
 <thead><tr><th>Task</th><th>Type</th><th>Status</th><th>Description</th><th>Dependencies</th></tr></thead>
@@ -137,7 +138,17 @@ Gates may depend on other gates, enforcing phase ordering.</p>
 <tr><td><code>quicue-charter-update</code></td><td>Cleanup</td><td>pending</td><td>Mark quicue Phase 7 apercue-integrated gate as satisfied</td><td>downstream-check</td></tr>
 <tr><td><code>memory-update</code></td><td>Cleanup</td><td>pending</td><td>Update apercue and quicue MEMORY.md with integration status</td><td>downstream-check</td></tr>
 <tr><td><code>quicue-docs-rfc5737</code></td><td>Cleanup</td><td>pending</td><td>Replace any real IPs in quicue docs with RFC 5737 ranges</td><td>downstream-check</td></tr>
-<tr><td><code>final-commit</code></td><td>Gate</td><td>pending</td><td>All repos committed, charters updated, interop passing</td><td>quicue-charter-update, memory-update, quicue-docs-rfc5737</td></tr></tbody>
+<tr><td><code>final-commit</code></td><td>Gate</td><td>pending</td><td>All repos committed, charters updated, interop passing</td><td>quicue-charter-update, memory-update, quicue-docs-rfc5737</td></tr>
+<tr><td><code>phase7-jsonld</code></td><td>Migration</td><td>pending</td><td>Add JSON-LD @context to charter_viz and summary exports using apercue vocab</td><td>final-commit</td></tr>
+<tr><td><code>phase7-skos-types</code></td><td>Migration</td><td>pending</td><td>Project task type taxonomy as SKOS ConceptScheme</td><td>final-commit</td></tr>
+<tr><td><code>phase7-owl-time</code></td><td>Migration</td><td>pending</td><td>Project CPM scheduling data as OWL-Time time:Interval</td><td>final-commit</td></tr>
+<tr><td><code>quicue-export-context</code></td><td>Bugfix</td><td>pending</td><td>Add @context + @type + dct:conformsTo to all quicue.ca export-facing definitions (INSIGHT-013)</td><td>final-commit</td></tr>
+<tr><td><code>quicue-earl-gaps</code></td><td>Migration</td><td>pending</td><td>Add EARL earl:Assertion projection to #GapAnalysis for audit trail</td><td>final-commit</td></tr>
+<tr><td><code>quicue-owl-time-fix</code></td><td>Bugfix</td><td>pending</td><td>Fix #CriticalPath time_report to emit proper OWL-Time intervals</td><td>final-commit</td></tr>
+<tr><td><code>grdn-w3c-surface</code></td><td>Migration</td><td>pending</td><td>Surface inherited W3C projections in grdn docs and exports</td><td>phase7-jsonld, phase7-skos-types, phase7-owl-time, quicue-export-context, quicue-earl-gaps, quicue-owl-time-fix</td></tr>
+<tr><td><code>kg-skos-federation</code></td><td>Migration</td><td>pending</td><td>Add cross-project skos:exactMatch/skos:closeMatch for pattern discovery across .kb/ directories</td><td>phase7-jsonld, phase7-skos-types, phase7-owl-time, quicue-export-context, quicue-earl-gaps, quicue-owl-time-fix</td></tr>
+<tr><td><code>w3c-review</code></td><td>Verification</td><td>pending</td><td>Iterative review: re-export all W3C artifacts, run interop tests, doc sweep, verify shareable URLs</td><td>grdn-w3c-surface, kg-skos-federation</td></tr>
+<tr><td><code>w3c-sweep-complete</code></td><td>Gate</td><td>pending</td><td>All W3C alignment tasks pass, documentation updated, exports validated</td><td>w3c-review</td></tr></tbody>
 </table>
 </section>
 
