@@ -1,0 +1,577 @@
+{
+    "nodes": [
+        {
+            "name": "interop-deps",
+            "types": {
+                "Setup": true
+            },
+            "description": "Install pySHACL, rdflib, pyld for W3C interop validation",
+            "status": "pending",
+            "depth": 0,
+            "earliest": 0,
+            "latest": 0,
+            "slack": 0
+        },
+        {
+            "name": "interop-tests",
+            "types": {
+                "Test": true
+            },
+            "description": "Create tools/interop-test.py: validate JSON-LD, SHACL, SKOS, OWL-Time with standard processors",
+            "status": "pending",
+            "depth": 1,
+            "earliest": 1,
+            "latest": 1,
+            "slack": 0,
+            "depends_on": {
+                "interop-deps": true
+            }
+        },
+        {
+            "name": "interop-pass",
+            "types": {
+                "Gate": true
+            },
+            "description": "All 4 interop tests pass — apercue output is real W3C",
+            "status": "pending",
+            "depth": 2,
+            "earliest": 2,
+            "latest": 2,
+            "slack": 0,
+            "depends_on": {
+                "interop-tests": true
+            }
+        },
+        {
+            "name": "apercue-importable",
+            "types": {
+                "Verification": true
+            },
+            "description": "Verify apercue patterns export cleanly as apercue.ca/patterns@v0",
+            "status": "pending",
+            "depth": 3,
+            "earliest": 3,
+            "latest": 3,
+            "slack": 0,
+            "depends_on": {
+                "interop-pass": true
+            }
+        },
+        {
+            "name": "apercue-docs-rfc5737",
+            "types": {
+                "Cleanup": true
+            },
+            "description": "Replace any real IPs in apercue docs/examples with RFC 5737 ranges",
+            "status": "pending",
+            "depth": 3,
+            "earliest": 3,
+            "latest": 14,
+            "slack": 11,
+            "depends_on": {
+                "interop-pass": true
+            }
+        },
+        {
+            "name": "quicue-baseline",
+            "types": {
+                "Verification": true
+            },
+            "description": "Snapshot quicue.ca exports (metrics, SHACL, CPM) for regression diffing",
+            "status": "pending",
+            "depth": 4,
+            "earliest": 4,
+            "latest": 4,
+            "slack": 0,
+            "depends_on": {
+                "apercue-importable": true
+            }
+        },
+        {
+            "name": "quicue-symlink",
+            "types": {
+                "Setup": true
+            },
+            "description": "Create cue.mod/pkg/apercue.ca@v0 symlink in quicue.ca",
+            "status": "pending",
+            "depth": 5,
+            "earliest": 5,
+            "latest": 5,
+            "slack": 0,
+            "depends_on": {
+                "quicue-baseline": true
+            }
+        },
+        {
+            "name": "quicue-analysis-import",
+            "types": {
+                "Migration": true
+            },
+            "description": "Replace #CycleDetector, #ConnectedComponents, #Subgraph, #GraphDiff with apercue imports",
+            "status": "pending",
+            "depth": 6,
+            "earliest": 6,
+            "latest": 6,
+            "slack": 0,
+            "depends_on": {
+                "quicue-symlink": true
+            }
+        },
+        {
+            "name": "quicue-validation-import",
+            "types": {
+                "Migration": true
+            },
+            "description": "Replace 5 validators + #ComplianceCheck with apercue imports, keep #IPRangeValidation",
+            "status": "pending",
+            "depth": 6,
+            "earliest": 6,
+            "latest": 6,
+            "slack": 0,
+            "depends_on": {
+                "quicue-symlink": true
+            }
+        },
+        {
+            "name": "quicue-charter-import",
+            "types": {
+                "Migration": true
+            },
+            "description": "Replace #Charter, #Gate, #GapAnalysis with apercue imports, keep #InfraCharter + EARL",
+            "status": "pending",
+            "depth": 6,
+            "earliest": 6,
+            "latest": 7,
+            "slack": 1,
+            "depends_on": {
+                "quicue-symlink": true
+            }
+        },
+        {
+            "name": "quicue-cpm-upgrade",
+            "types": {
+                "Migration": true
+            },
+            "description": "Replace #CriticalPath with apercue O(n) version + add #CriticalPathPrecomputed",
+            "status": "pending",
+            "depth": 7,
+            "earliest": 7,
+            "latest": 7,
+            "slack": 0,
+            "depends_on": {
+                "quicue-analysis-import": true
+            }
+        },
+        {
+            "name": "quicue-shacl-fix",
+            "types": {
+                "Bugfix": true
+            },
+            "description": "Add @context to quicue SHACL reports (missing in current version)",
+            "status": "pending",
+            "depth": 7,
+            "earliest": 7,
+            "latest": 7,
+            "slack": 0,
+            "depends_on": {
+                "quicue-validation-import": true
+            }
+        },
+        {
+            "name": "quicue-vet",
+            "types": {
+                "Verification": true
+            },
+            "description": "cue vet passes on all quicue.ca packages",
+            "status": "pending",
+            "depth": 8,
+            "earliest": 8,
+            "latest": 8,
+            "slack": 0,
+            "depends_on": {
+                "quicue-analysis-import": true,
+                "quicue-validation-import": true,
+                "quicue-charter-import": true,
+                "quicue-cpm-upgrade": true,
+                "quicue-shacl-fix": true
+            }
+        },
+        {
+            "name": "quicue-exports-diff",
+            "types": {
+                "Verification": true
+            },
+            "description": "Diff quicue exports against baseline — metrics/CPM identical, SHACL gains @context",
+            "status": "pending",
+            "depth": 9,
+            "earliest": 9,
+            "latest": 10,
+            "slack": 1,
+            "depends_on": {
+                "quicue-vet": true
+            }
+        },
+        {
+            "name": "quicue-interop",
+            "types": {
+                "Test": true
+            },
+            "description": "Run W3C interop tests against quicue.ca output",
+            "status": "pending",
+            "depth": 10,
+            "earliest": 10,
+            "latest": 11,
+            "slack": 1,
+            "depends_on": {
+                "quicue-exports-diff": true
+            }
+        },
+        {
+            "name": "grdn-symlink",
+            "types": {
+                "Setup": true
+            },
+            "description": "Add apercue.ca@v0 transitive symlink to grdn cue.mod/pkg/",
+            "status": "pending",
+            "depth": 9,
+            "earliest": 9,
+            "latest": 9,
+            "slack": 0,
+            "depends_on": {
+                "quicue-vet": true
+            }
+        },
+        {
+            "name": "grdn-vet",
+            "types": {
+                "Verification": true
+            },
+            "description": "cue vet passes on grdn (transitive dependency through quicue)",
+            "status": "pending",
+            "depth": 10,
+            "earliest": 10,
+            "latest": 10,
+            "slack": 0,
+            "depends_on": {
+                "grdn-symlink": true
+            }
+        },
+        {
+            "name": "grdn-exports-diff",
+            "types": {
+                "Verification": true
+            },
+            "description": "grdn exports unchanged after integration",
+            "status": "pending",
+            "depth": 11,
+            "earliest": 11,
+            "latest": 11,
+            "slack": 0,
+            "depends_on": {
+                "grdn-vet": true
+            }
+        },
+        {
+            "name": "downstream-check",
+            "types": {
+                "Verification": true
+            },
+            "description": "make check-downstream passes in quicue.ca",
+            "status": "pending",
+            "depth": 12,
+            "earliest": 12,
+            "latest": 12,
+            "slack": 0,
+            "depends_on": {
+                "quicue-interop": true,
+                "grdn-exports-diff": true
+            }
+        },
+        {
+            "name": "quicue-charter-update",
+            "types": {
+                "Cleanup": true
+            },
+            "description": "Mark quicue Phase 7 apercue-integrated gate as satisfied",
+            "status": "pending",
+            "depth": 13,
+            "earliest": 13,
+            "latest": 13,
+            "slack": 0,
+            "depends_on": {
+                "downstream-check": true
+            }
+        },
+        {
+            "name": "memory-update",
+            "types": {
+                "Cleanup": true
+            },
+            "description": "Update apercue and quicue MEMORY.md with integration status",
+            "status": "pending",
+            "depth": 13,
+            "earliest": 13,
+            "latest": 13,
+            "slack": 0,
+            "depends_on": {
+                "downstream-check": true
+            }
+        },
+        {
+            "name": "quicue-docs-rfc5737",
+            "types": {
+                "Cleanup": true
+            },
+            "description": "Replace any real IPs in quicue docs with RFC 5737 ranges",
+            "status": "pending",
+            "depth": 13,
+            "earliest": 13,
+            "latest": 13,
+            "slack": 0,
+            "depends_on": {
+                "downstream-check": true
+            }
+        },
+        {
+            "name": "final-commit",
+            "types": {
+                "Gate": true
+            },
+            "description": "All repos committed, charters updated, interop passing",
+            "status": "pending",
+            "depth": 14,
+            "earliest": 14,
+            "latest": 14,
+            "slack": 0,
+            "depends_on": {
+                "quicue-charter-update": true,
+                "memory-update": true,
+                "quicue-docs-rfc5737": true
+            }
+        }
+    ],
+    "edges": [
+        {
+            "from": "interop-deps",
+            "to": "interop-tests"
+        },
+        {
+            "from": "interop-tests",
+            "to": "interop-pass"
+        },
+        {
+            "from": "interop-pass",
+            "to": "apercue-importable"
+        },
+        {
+            "from": "interop-pass",
+            "to": "apercue-docs-rfc5737"
+        },
+        {
+            "from": "apercue-importable",
+            "to": "quicue-baseline"
+        },
+        {
+            "from": "quicue-baseline",
+            "to": "quicue-symlink"
+        },
+        {
+            "from": "quicue-symlink",
+            "to": "quicue-analysis-import"
+        },
+        {
+            "from": "quicue-symlink",
+            "to": "quicue-validation-import"
+        },
+        {
+            "from": "quicue-symlink",
+            "to": "quicue-charter-import"
+        },
+        {
+            "from": "quicue-analysis-import",
+            "to": "quicue-cpm-upgrade"
+        },
+        {
+            "from": "quicue-validation-import",
+            "to": "quicue-shacl-fix"
+        },
+        {
+            "from": "quicue-analysis-import",
+            "to": "quicue-vet"
+        },
+        {
+            "from": "quicue-validation-import",
+            "to": "quicue-vet"
+        },
+        {
+            "from": "quicue-charter-import",
+            "to": "quicue-vet"
+        },
+        {
+            "from": "quicue-cpm-upgrade",
+            "to": "quicue-vet"
+        },
+        {
+            "from": "quicue-shacl-fix",
+            "to": "quicue-vet"
+        },
+        {
+            "from": "quicue-vet",
+            "to": "quicue-exports-diff"
+        },
+        {
+            "from": "quicue-exports-diff",
+            "to": "quicue-interop"
+        },
+        {
+            "from": "quicue-vet",
+            "to": "grdn-symlink"
+        },
+        {
+            "from": "grdn-symlink",
+            "to": "grdn-vet"
+        },
+        {
+            "from": "grdn-vet",
+            "to": "grdn-exports-diff"
+        },
+        {
+            "from": "quicue-interop",
+            "to": "downstream-check"
+        },
+        {
+            "from": "grdn-exports-diff",
+            "to": "downstream-check"
+        },
+        {
+            "from": "downstream-check",
+            "to": "quicue-charter-update"
+        },
+        {
+            "from": "downstream-check",
+            "to": "memory-update"
+        },
+        {
+            "from": "downstream-check",
+            "to": "quicue-docs-rfc5737"
+        },
+        {
+            "from": "quicue-charter-update",
+            "to": "final-commit"
+        },
+        {
+            "from": "memory-update",
+            "to": "final-commit"
+        },
+        {
+            "from": "quicue-docs-rfc5737",
+            "to": "final-commit"
+        }
+    ],
+    "gates": {
+        "interop-proven": {
+            "phase": 1,
+            "satisfied": false,
+            "missing": {
+                "interop-pass": true
+            }
+        },
+        "apercue-ready": {
+            "phase": 2,
+            "satisfied": false,
+            "missing": {
+                "apercue-importable": true,
+                "apercue-docs-rfc5737": true
+            }
+        },
+        "quicue-integrated": {
+            "phase": 3,
+            "satisfied": false,
+            "missing": {
+                "quicue-analysis-import": true,
+                "quicue-validation-import": true,
+                "quicue-charter-import": true,
+                "quicue-cpm-upgrade": true,
+                "quicue-shacl-fix": true
+            }
+        },
+        "chain-verified": {
+            "phase": 4,
+            "satisfied": false,
+            "missing": {
+                "quicue-vet": true,
+                "quicue-exports-diff": true,
+                "quicue-interop": true,
+                "grdn-vet": true,
+                "grdn-exports-diff": true,
+                "downstream-check": true
+            }
+        },
+        "phase7-complete": {
+            "phase": 5,
+            "satisfied": false,
+            "missing": {
+                "quicue-charter-update": true,
+                "memory-update": true,
+                "final-commit": true
+            }
+        }
+    },
+    "scheduling": {
+        "critical_path_length": 15,
+        "critical_tasks": [
+            "interop-deps",
+            "interop-tests",
+            "interop-pass",
+            "apercue-importable",
+            "quicue-baseline",
+            "quicue-symlink",
+            "quicue-analysis-import",
+            "quicue-validation-import",
+            "quicue-cpm-upgrade",
+            "quicue-shacl-fix",
+            "quicue-vet",
+            "grdn-symlink",
+            "grdn-vet",
+            "grdn-exports-diff",
+            "downstream-check",
+            "quicue-charter-update",
+            "memory-update",
+            "quicue-docs-rfc5737",
+            "final-commit"
+        ]
+    },
+    "summary": {
+        "project": "phase7-wire-the-stack",
+        "deliverables": 23,
+        "completed": 0,
+        "complete": false,
+        "missing": {
+            "interop-deps": true,
+            "interop-tests": true,
+            "interop-pass": true,
+            "apercue-importable": true,
+            "apercue-docs-rfc5737": true,
+            "quicue-baseline": true,
+            "quicue-symlink": true,
+            "quicue-analysis-import": true,
+            "quicue-validation-import": true,
+            "quicue-charter-import": true,
+            "quicue-cpm-upgrade": true,
+            "quicue-shacl-fix": true,
+            "quicue-vet": true,
+            "quicue-exports-diff": true,
+            "quicue-interop": true,
+            "grdn-symlink": true,
+            "grdn-vet": true,
+            "grdn-exports-diff": true,
+            "downstream-check": true,
+            "quicue-charter-update": true,
+            "memory-update": true,
+            "quicue-docs-rfc5737": true,
+            "final-commit": true
+        },
+        "next_gate": "interop-proven",
+        "critical_path_length": 15
+    }
+}
