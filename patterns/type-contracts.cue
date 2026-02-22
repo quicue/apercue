@@ -11,7 +11,7 @@
 //   myResource: (patterns.#ApplyTypeContracts & {Input: {
 //       name: "dns-server"
 //       "@type": {DNSServer: true, LXCContainer: true}
-//       ip: "10.0.1.10"
+//       ip: "192.0.2.10"
 //       container_id: 101
 //       host: "pve-node"
 //   }}).Output
