@@ -79,6 +79,19 @@ build_llm_governance_spec() {
     echo "  site/spec/llm-governance/index.html ($(wc -l < site/spec/llm-governance/index.html) lines)"
 }
 
+build_phase7() {
+    echo "Building phase7 charter data..."
+    local phase7_dir="${PHASE7_DIR:-$HOME/phase7}"
+    local site_data
+    site_data="$(pwd)/site/data"
+    if [ ! -d "$phase7_dir" ]; then
+        echo "  SKIP: $phase7_dir not found (set PHASE7_DIR to override)"
+        return 0
+    fi
+    (cd "$phase7_dir" && cue export . -e charter_viz --out json) > "$site_data/phase7-charter.json"
+    echo "  site/data/phase7-charter.json ($(wc -l < "$site_data/phase7-charter.json") lines)"
+}
+
 build_gc_governance() {
     echo "Building GC LLM governance data..."
     # Viz data for D3 charter viewer
@@ -107,7 +120,7 @@ stage_public() {
         mkdir -p "$staging/spec/llm-governance"
         cp site/spec/llm-governance/index.html "$staging/spec/llm-governance/"
     fi
-    for html in explorer.html charter.html playground.html gc-governance.html; do
+    for html in explorer.html charter.html playground.html gc-governance.html phase7.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage + examples (no operational data)
@@ -115,7 +128,7 @@ stage_public() {
     [ -f site/data/spec-counts.json ] && cp site/data/spec-counts.json "$staging/data/"
     [ -f site/data/examples.json ] && cp site/data/examples.json "$staging/data/"
     # GC governance demo data (sanitized example, not operational)
-    for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json; do
+    for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json phase7-charter.json; do
         [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
     done
     # Vocab — JSON-LD context
@@ -133,10 +146,12 @@ case "${1:-all}" in
     projections)    build_projections ;;
     gc-governance)  build_gc_governance ;;
     llm-gov-spec)   build_llm_governance_spec ;;
+    phase7)         build_phase7 ;;
     public)
         build_specs
         build_examples
         build_gc_governance
+        build_phase7
         build_spec_html
         build_llm_governance_spec
         build_vocab
@@ -147,12 +162,14 @@ case "${1:-all}" in
         build_charter
         build_projections
         build_gc_governance
+        build_phase7
         echo "Done. Local/private site data regenerated."
         ;;
     stage)
         build_specs
         build_examples
         build_gc_governance
+        build_phase7
         build_spec_html
         build_llm_governance_spec
         build_vocab
@@ -169,10 +186,11 @@ case "${1:-all}" in
         build_vocab
         build_projections
         build_gc_governance
+        build_phase7
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|spec-html|llm-gov-spec|vocab|projections|gc-governance}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|phase7|spec-html|llm-gov-spec|vocab|projections|gc-governance}"
         exit 1
         ;;
 esac
