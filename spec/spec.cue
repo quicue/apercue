@@ -191,7 +191,8 @@ spec_html: """
 	  <nav class="site-nav">
 	    <a href="../index.html">Home</a>
 	    <a href="../charter.html">Charter</a>
-	    <a class="current">Spec</a>
+	    <a class="current">Core Spec</a>
+	    <a href="llm-governance/">Governance Spec</a>
 	    <a href="../explorer.html">Ecosystem</a>
 	    <a href="\(_meta.github)">GitHub</a>
 	  </nav>
@@ -249,6 +250,11 @@ spec_html: """
 	    graphs, the patterns that analyze them, the mappings to W3C
 	    specifications, and the conformance requirements for modules
 	    that use these patterns.</p>
+
+	    <p>For a domain-specific application of these patterns to
+	    governance and regulatory compliance, see the
+	    <a href="llm-governance/">LLM Governance Framework</a>
+	    companion specification.</p>
 	  </section>
 
 	  <!-- ═══ TERMINOLOGY ═══════════════════════════════════════════ -->
