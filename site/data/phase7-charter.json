@@ -6,7 +6,7 @@
                 "Setup": true
             },
             "description": "Install pySHACL, rdflib, pyld for W3C interop validation",
-            "status": "pending",
+            "status": "done",
             "depth": 0,
             "earliest": 0,
             "latest": 0,
@@ -18,7 +18,7 @@
                 "Test": true
             },
             "description": "Create tools/interop-test.py: validate JSON-LD, SHACL, SKOS, OWL-Time with standard processors",
-            "status": "pending",
+            "status": "done",
             "depth": 1,
             "earliest": 1,
             "latest": 1,
@@ -33,7 +33,7 @@
                 "Gate": true
             },
             "description": "All 4 interop tests pass — apercue output is real W3C",
-            "status": "pending",
+            "status": "done",
             "depth": 2,
             "earliest": 2,
             "latest": 2,
@@ -48,7 +48,7 @@
                 "Verification": true
             },
             "description": "Verify apercue patterns export cleanly as apercue.ca/patterns@v0",
-            "status": "pending",
+            "status": "done",
             "depth": 3,
             "earliest": 3,
             "latest": 3,
@@ -716,16 +716,13 @@
     "gates": {
         "interop-proven": {
             "phase": 1,
-            "satisfied": false,
-            "missing": {
-                "interop-pass": true
-            }
+            "satisfied": true,
+            "missing": {}
         },
         "apercue-ready": {
             "phase": 2,
             "satisfied": false,
             "missing": {
-                "apercue-importable": true,
                 "apercue-docs-rfc5737": true
             }
         },
@@ -815,13 +812,9 @@
     "summary": {
         "project": "phase7-wire-the-stack",
         "deliverables": 33,
-        "completed": 0,
+        "completed": 4,
         "complete": false,
         "missing": {
-            "interop-deps": true,
-            "interop-tests": true,
-            "interop-pass": true,
-            "apercue-importable": true,
             "apercue-docs-rfc5737": true,
             "quicue-baseline": true,
             "quicue-symlink": true,
@@ -852,7 +845,7 @@
             "w3c-review": true,
             "w3c-sweep-complete": true
         },
-        "next_gate": "interop-proven",
+        "next_gate": "apercue-ready",
         "critical_path_length": 19
     }
 }
