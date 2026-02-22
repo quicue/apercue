@@ -39,8 +39,8 @@ W3C vocabulary terms are used throughout for interoperability.</p>
 
 <section id="sotd">
 <p>This is a living specification generated from the charter's CUE source.
-Current status: <strong>0/33</strong> tasks complete.
-Next gate: <strong>interop-proven</strong>.</p>
+Current status: <strong>4/33</strong> tasks complete.
+Next gate: <strong>apercue-ready</strong>.</p>
 </section>
 
 <section>
@@ -100,8 +100,8 @@ Gates may depend on other gates, enforcing phase ordering.</p>
 <table>
 <thead><tr><th>Gate</th><th>Phase</th><th>Status</th></tr></thead>
 <tbody>
-<tr><td>interop-proven</td><td>Phase 1</td><td>❌ interop-pass</td></tr>
-<tr><td>apercue-ready</td><td>Phase 2</td><td>❌ apercue-importable, apercue-docs-rfc5737</td></tr>
+<tr><td>interop-proven</td><td>Phase 1</td><td>❌ </td></tr>
+<tr><td>apercue-ready</td><td>Phase 2</td><td>❌ apercue-docs-rfc5737</td></tr>
 <tr><td>quicue-integrated</td><td>Phase 3</td><td>❌ quicue-analysis-import, quicue-validation-import, quicue-charter-import, quicue-cpm-upgrade, quicue-shacl-fix</td></tr>
 <tr><td>chain-verified</td><td>Phase 4</td><td>❌ quicue-vet, quicue-exports-diff, quicue-interop, grdn-vet, grdn-exports-diff, downstream-check</td></tr>
 <tr><td>phase7-complete</td><td>Phase 5</td><td>❌ quicue-charter-update, memory-update, final-commit</td></tr>
@@ -116,10 +116,10 @@ Gates may depend on other gates, enforcing phase ordering.</p>
 <table>
 <thead><tr><th>Task</th><th>Type</th><th>Status</th><th>Description</th><th>Dependencies</th></tr></thead>
 <tbody>
-<tr><td><code>interop-deps</code></td><td>Setup</td><td>pending</td><td>Install pySHACL, rdflib, pyld for W3C interop validation</td><td>—</td></tr>
-<tr><td><code>interop-tests</code></td><td>Test</td><td>pending</td><td>Create tools/interop-test.py: validate JSON-LD, SHACL, SKOS, OWL-Time with standard processors</td><td>interop-deps</td></tr>
-<tr><td><code>interop-pass</code></td><td>Gate</td><td>pending</td><td>All 4 interop tests pass — apercue output is real W3C</td><td>interop-tests</td></tr>
-<tr><td><code>apercue-importable</code></td><td>Verification</td><td>pending</td><td>Verify apercue patterns export cleanly as apercue.ca/patterns@v0</td><td>interop-pass</td></tr>
+<tr><td><code>interop-deps</code></td><td>Setup</td><td>done</td><td>Install pySHACL, rdflib, pyld for W3C interop validation</td><td>—</td></tr>
+<tr><td><code>interop-tests</code></td><td>Test</td><td>done</td><td>Create tools/interop-test.py: validate JSON-LD, SHACL, SKOS, OWL-Time with standard processors</td><td>interop-deps</td></tr>
+<tr><td><code>interop-pass</code></td><td>Gate</td><td>done</td><td>All 4 interop tests pass — apercue output is real W3C</td><td>interop-tests</td></tr>
+<tr><td><code>apercue-importable</code></td><td>Verification</td><td>done</td><td>Verify apercue patterns export cleanly as apercue.ca/patterns@v0</td><td>interop-pass</td></tr>
 <tr><td><code>apercue-docs-rfc5737</code></td><td>Cleanup</td><td>pending</td><td>Replace any real IPs in apercue docs/examples with RFC 5737 ranges</td><td>interop-pass</td></tr>
 <tr><td><code>quicue-baseline</code></td><td>Verification</td><td>pending</td><td>Snapshot quicue.ca exports (metrics, SHACL, CPM) for regression diffing</td><td>apercue-importable</td></tr>
 <tr><td><code>quicue-symlink</code></td><td>Setup</td><td>pending</td><td>Create cue.mod/pkg/apercue.ca@v0 symlink in quicue.ca</td><td>quicue-baseline</td></tr>
