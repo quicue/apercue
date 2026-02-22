@@ -93,7 +93,7 @@
                 "Setup": true
             },
             "description": "Create cue.mod/pkg/apercue.ca@v0 symlink in quicue.ca",
-            "status": "pending",
+            "status": "done",
             "depth": 5,
             "earliest": 5,
             "latest": 5,
@@ -108,7 +108,7 @@
                 "Migration": true
             },
             "description": "Replace #CycleDetector, #ConnectedComponents, #Subgraph, #GraphDiff with apercue imports",
-            "status": "pending",
+            "status": "done",
             "depth": 6,
             "earliest": 6,
             "latest": 6,
@@ -123,7 +123,7 @@
                 "Migration": true
             },
             "description": "Replace 5 validators + #ComplianceCheck with apercue imports, keep #IPRangeValidation",
-            "status": "pending",
+            "status": "done",
             "depth": 6,
             "earliest": 6,
             "latest": 6,
@@ -728,8 +728,6 @@
             "phase": 3,
             "satisfied": false,
             "missing": {
-                "quicue-analysis-import": true,
-                "quicue-validation-import": true,
                 "quicue-charter-import": true,
                 "quicue-cpm-upgrade": true,
                 "quicue-shacl-fix": true
@@ -810,12 +808,9 @@
     "summary": {
         "project": "phase7-wire-the-stack",
         "deliverables": 33,
-        "completed": 6,
+        "completed": 9,
         "complete": false,
         "missing": {
-            "quicue-symlink": true,
-            "quicue-analysis-import": true,
-            "quicue-validation-import": true,
             "quicue-charter-import": true,
             "quicue-cpm-upgrade": true,
             "quicue-shacl-fix": true,
