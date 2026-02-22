@@ -23,6 +23,33 @@
     }
 }
 ,
+  "gc-llm-governance": {
+    "project": "gc-llm-governance",
+    "total_resources": 52,
+    "governance_layers": 8,
+    "graph_valid": true,
+    "gap": {
+        "complete": true,
+        "missing": 0,
+        "next_gate": ""
+    },
+    "scheduling": {
+        "total_work_days": 10,
+        "critical_path_nodes": 14,
+        "max_slack": 7
+    },
+    "single_points_of_failure": {
+        "spof_count": 17,
+        "total_with_deps": 35
+    },
+    "compliance": {
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "critical_failures": 0
+    }
+}
+,
   "project-tracker": {
     "release": "v1.0-release",
     "total_tasks": 10,
