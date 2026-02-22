@@ -72,6 +72,13 @@ build_projections() {
     echo "  site/data/projections.json"
 }
 
+build_llm_governance_spec() {
+    echo "Building LLM governance spec HTML..."
+    mkdir -p site/spec/llm-governance
+    cue export ./spec/llm-governance/ -e spec_html --out text > site/spec/llm-governance/index.html
+    echo "  site/spec/llm-governance/index.html ($(wc -l < site/spec/llm-governance/index.html) lines)"
+}
+
 build_gc_governance() {
     echo "Building GC LLM governance data..."
     # Viz data for D3 charter viewer
@@ -96,6 +103,10 @@ stage_public() {
     # Public HTML — landing page, spec, and interactive demos
     cp site/index.html "$staging/"
     [ -f site/spec/index.html ] && cp site/spec/index.html "$staging/spec/"
+    if [ -d site/spec/llm-governance ]; then
+        mkdir -p "$staging/spec/llm-governance"
+        cp site/spec/llm-governance/index.html "$staging/spec/llm-governance/"
+    fi
     for html in explorer.html charter.html playground.html gc-governance.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
@@ -121,11 +132,13 @@ case "${1:-all}" in
     vocab)          build_vocab ;;
     projections)    build_projections ;;
     gc-governance)  build_gc_governance ;;
+    llm-gov-spec)   build_llm_governance_spec ;;
     public)
         build_specs
         build_examples
         build_gc_governance
         build_spec_html
+        build_llm_governance_spec
         build_vocab
         echo "Done. Public site data regenerated."
         ;;
@@ -141,6 +154,7 @@ case "${1:-all}" in
         build_examples
         build_gc_governance
         build_spec_html
+        build_llm_governance_spec
         build_vocab
         stage_public "${2:-_public}"
         echo "Done. Public site staged for deploy."
@@ -151,13 +165,14 @@ case "${1:-all}" in
         build_ecosystem
         build_charter
         build_spec_html
+        build_llm_governance_spec
         build_vocab
         build_projections
         build_gc_governance
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|spec-html|vocab|projections|gc-governance}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|spec-html|llm-gov-spec|vocab|projections|gc-governance}"
         exit 1
         ;;
 esac
