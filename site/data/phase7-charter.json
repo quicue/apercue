@@ -63,7 +63,7 @@
                 "Cleanup": true
             },
             "description": "Replace any real IPs in apercue docs/examples with RFC 5737 ranges",
-            "status": "pending",
+            "status": "done",
             "depth": 3,
             "earliest": 3,
             "latest": 18,
@@ -78,7 +78,7 @@
                 "Verification": true
             },
             "description": "Snapshot quicue.ca exports (metrics, SHACL, CPM) for regression diffing",
-            "status": "pending",
+            "status": "done",
             "depth": 4,
             "earliest": 4,
             "latest": 4,
@@ -721,10 +721,8 @@
         },
         "apercue-ready": {
             "phase": 2,
-            "satisfied": false,
-            "missing": {
-                "apercue-docs-rfc5737": true
-            }
+            "satisfied": true,
+            "missing": {}
         },
         "quicue-integrated": {
             "phase": 3,
@@ -812,11 +810,9 @@
     "summary": {
         "project": "phase7-wire-the-stack",
         "deliverables": 33,
-        "completed": 4,
+        "completed": 6,
         "complete": false,
         "missing": {
-            "apercue-docs-rfc5737": true,
-            "quicue-baseline": true,
             "quicue-symlink": true,
             "quicue-analysis-import": true,
             "quicue-validation-import": true,
@@ -845,7 +841,7 @@
             "w3c-review": true,
             "w3c-sweep-complete": true
         },
-        "next_gate": "apercue-ready",
+        "next_gate": "quicue-integrated",
         "critical_path_length": 19
     }
 }
