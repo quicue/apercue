@@ -26,6 +26,7 @@
   --phase-3: #c084fc;  /* Quicue Imports — violet */
   --phase-4: #34d1bf;  /* Verify Chain — teal */
   --phase-5: #f0c040;  /* Finalize — gold */
+  --phase-6: #f09070;  /* W3C Alignment — coral */
 
   --body: 'Atkinson Hyperlegible Next', sans-serif;
   --mono: 'Atkinson Hyperlegible Mono', monospace;
@@ -450,6 +451,57 @@ body::before {
   border-bottom-color: var(--accent);
 }
 
+/* Task list */
+.task-list {
+  list-style: none;
+  padding: 0 20px 16px;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-panel);
+}
+
+.task-item {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.task-item:hover { background: var(--bg-hover); margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+
+.task-item .task-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-bright);
+}
+
+.task-item .task-status {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  margin-left: 6px;
+}
+
+.task-item .task-status.done {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.task-item .task-status.pending {
+  color: var(--text-dim);
+  background: rgba(92, 105, 120, 0.15);
+}
+
+.task-item .task-desc {
+  color: var(--text-dim);
+  font-size: 10px;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
 /* Arrowhead marker */
 marker path { fill: var(--border); }
 marker.highlighted path { fill: var(--accent); }
@@ -478,8 +530,11 @@ marker.highlighted path { fill: var(--accent); }
   <div class="section-label">Status</div>
   <div class="legend" id="status-legend"></div>
 
+  <div class="section-label">Tasks</div>
+  <ul class="task-list" id="task-list"></ul>
+
   <div class="nav-links">
-    <a href="phase7-spec.html">Spec</a>
+    <a href="phase7-spec.html">W3C Spec</a>
     <a href="charter.html">Apercue Charter</a>
     <a href="explorer.html">Ecosystem</a>
   </div>
@@ -498,12 +553,12 @@ const DATA_URL = 'data/phase7-charter.json';
 
 const PHASE_COLORS = {
   1: '#5b9cf6', 2: '#7b6cf6', 3: '#c084fc',
-  4: '#34d1bf', 5: '#f0c040'
+  4: '#34d1bf', 5: '#f0c040', 6: '#f09070'
 };
 
 const PHASE_NAMES = {
   1: 'Interop Foundation', 2: 'Apercue Exports', 3: 'Quicue Imports',
-  4: 'Verify Chain', 5: 'Finalize'
+  4: 'Verify Chain', 5: 'Finalize', 6: 'W3C Alignment'
 };
 
 const TYPE_COLORS = {
@@ -518,7 +573,8 @@ function derivePhase(depth) {
   if (depth <= 3) return 2;
   if (depth <= 7) return 3;
   if (depth <= 12) return 4;
-  return 5;
+  if (depth <= 14) return 5;
+  return 6;
 }
 
 function primaryType(types) {
@@ -617,6 +673,26 @@ function renderSidebar(data) {
       const gateName = el.dataset.gate;
       const resources = new Set(gateResources[gateName] || []);
       highlightNodes(resources);
+    });
+    el.addEventListener('mouseleave', clearHighlight);
+  });
+
+  // Task list
+  const tl = document.getElementById('task-list');
+  const sortedNodes = [...data.nodes].sort((a,b) => a.depth - b.depth);
+  tl.innerHTML = sortedNodes.map(n => {
+    const statusCls = n.status === 'done' ? 'done' : 'pending';
+    const statusLabel = n.status === 'done' ? 'DONE' : 'PENDING';
+    return `<li class="task-item" data-task="${n.name}">
+      <div><span class="task-name">${n.name}</span>
+      <span class="task-status ${statusCls}">${statusLabel}</span></div>
+      <div class="task-desc">${n.description}</div>
+    </li>`;
+  }).join('');
+
+  tl.querySelectorAll('.task-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      highlightNodes(new Set([el.dataset.task]));
     });
     el.addEventListener('mouseleave', clearHighlight);
   });

@@ -66,8 +66,8 @@
             "status": "pending",
             "depth": 3,
             "earliest": 3,
-            "latest": 14,
-            "slack": 11,
+            "latest": 18,
+            "slack": 15,
             "depends_on": {
                 "interop-pass": true
             }
@@ -348,6 +348,167 @@
                 "memory-update": true,
                 "quicue-docs-rfc5737": true
             }
+        },
+        {
+            "name": "phase7-jsonld",
+            "types": {
+                "Migration": true
+            },
+            "description": "Add JSON-LD @context to charter_viz and summary exports using apercue vocab",
+            "status": "pending",
+            "depth": 15,
+            "earliest": 15,
+            "latest": 15,
+            "slack": 0,
+            "depends_on": {
+                "final-commit": true
+            }
+        },
+        {
+            "name": "phase7-skos-types",
+            "types": {
+                "Migration": true
+            },
+            "description": "Project task type taxonomy as SKOS ConceptScheme",
+            "status": "pending",
+            "depth": 15,
+            "earliest": 15,
+            "latest": 15,
+            "slack": 0,
+            "depends_on": {
+                "final-commit": true
+            }
+        },
+        {
+            "name": "phase7-owl-time",
+            "types": {
+                "Migration": true
+            },
+            "description": "Project CPM scheduling data as OWL-Time time:Interval",
+            "status": "pending",
+            "depth": 15,
+            "earliest": 15,
+            "latest": 15,
+            "slack": 0,
+            "depends_on": {
+                "final-commit": true
+            }
+        },
+        {
+            "name": "quicue-export-context",
+            "types": {
+                "Bugfix": true
+            },
+            "description": "Add @context + @type + dct:conformsTo to all quicue.ca export-facing definitions (INSIGHT-013)",
+            "status": "pending",
+            "depth": 15,
+            "earliest": 15,
+            "latest": 15,
+            "slack": 0,
+            "depends_on": {
+                "final-commit": true
+            }
+        },
+        {
+            "name": "quicue-earl-gaps",
+            "types": {
+                "Migration": true
+            },
+            "description": "Add EARL earl:Assertion projection to #GapAnalysis for audit trail",
+            "status": "pending",
+            "depth": 15,
+            "earliest": 15,
+            "latest": 15,
+            "slack": 0,
+            "depends_on": {
+                "final-commit": true
+            }
+        },
+        {
+            "name": "quicue-owl-time-fix",
+            "types": {
+                "Bugfix": true
+            },
+            "description": "Fix #CriticalPath time_report to emit proper OWL-Time intervals",
+            "status": "pending",
+            "depth": 15,
+            "earliest": 15,
+            "latest": 15,
+            "slack": 0,
+            "depends_on": {
+                "final-commit": true
+            }
+        },
+        {
+            "name": "grdn-w3c-surface",
+            "types": {
+                "Migration": true
+            },
+            "description": "Surface inherited W3C projections in grdn docs and exports",
+            "status": "pending",
+            "depth": 16,
+            "earliest": 16,
+            "latest": 16,
+            "slack": 0,
+            "depends_on": {
+                "phase7-jsonld": true,
+                "phase7-skos-types": true,
+                "phase7-owl-time": true,
+                "quicue-export-context": true,
+                "quicue-earl-gaps": true,
+                "quicue-owl-time-fix": true
+            }
+        },
+        {
+            "name": "kg-skos-federation",
+            "types": {
+                "Migration": true
+            },
+            "description": "Add cross-project skos:exactMatch/skos:closeMatch for pattern discovery across .kb/ directories",
+            "status": "pending",
+            "depth": 16,
+            "earliest": 16,
+            "latest": 16,
+            "slack": 0,
+            "depends_on": {
+                "phase7-jsonld": true,
+                "phase7-skos-types": true,
+                "phase7-owl-time": true,
+                "quicue-export-context": true,
+                "quicue-earl-gaps": true,
+                "quicue-owl-time-fix": true
+            }
+        },
+        {
+            "name": "w3c-review",
+            "types": {
+                "Verification": true
+            },
+            "description": "Iterative review: re-export all W3C artifacts, run interop tests, doc sweep, verify shareable URLs",
+            "status": "pending",
+            "depth": 17,
+            "earliest": 17,
+            "latest": 17,
+            "slack": 0,
+            "depends_on": {
+                "grdn-w3c-surface": true,
+                "kg-skos-federation": true
+            }
+        },
+        {
+            "name": "w3c-sweep-complete",
+            "types": {
+                "Gate": true
+            },
+            "description": "All W3C alignment tasks pass, documentation updated, exports validated",
+            "status": "pending",
+            "depth": 18,
+            "earliest": 18,
+            "latest": 18,
+            "slack": 0,
+            "depends_on": {
+                "w3c-review": true
+            }
         }
     ],
     "edges": [
@@ -466,6 +627,90 @@
         {
             "from": "quicue-docs-rfc5737",
             "to": "final-commit"
+        },
+        {
+            "from": "final-commit",
+            "to": "phase7-jsonld"
+        },
+        {
+            "from": "final-commit",
+            "to": "phase7-skos-types"
+        },
+        {
+            "from": "final-commit",
+            "to": "phase7-owl-time"
+        },
+        {
+            "from": "final-commit",
+            "to": "quicue-export-context"
+        },
+        {
+            "from": "final-commit",
+            "to": "quicue-earl-gaps"
+        },
+        {
+            "from": "final-commit",
+            "to": "quicue-owl-time-fix"
+        },
+        {
+            "from": "phase7-jsonld",
+            "to": "grdn-w3c-surface"
+        },
+        {
+            "from": "phase7-skos-types",
+            "to": "grdn-w3c-surface"
+        },
+        {
+            "from": "phase7-owl-time",
+            "to": "grdn-w3c-surface"
+        },
+        {
+            "from": "quicue-export-context",
+            "to": "grdn-w3c-surface"
+        },
+        {
+            "from": "quicue-earl-gaps",
+            "to": "grdn-w3c-surface"
+        },
+        {
+            "from": "quicue-owl-time-fix",
+            "to": "grdn-w3c-surface"
+        },
+        {
+            "from": "phase7-jsonld",
+            "to": "kg-skos-federation"
+        },
+        {
+            "from": "phase7-skos-types",
+            "to": "kg-skos-federation"
+        },
+        {
+            "from": "phase7-owl-time",
+            "to": "kg-skos-federation"
+        },
+        {
+            "from": "quicue-export-context",
+            "to": "kg-skos-federation"
+        },
+        {
+            "from": "quicue-earl-gaps",
+            "to": "kg-skos-federation"
+        },
+        {
+            "from": "quicue-owl-time-fix",
+            "to": "kg-skos-federation"
+        },
+        {
+            "from": "grdn-w3c-surface",
+            "to": "w3c-review"
+        },
+        {
+            "from": "kg-skos-federation",
+            "to": "w3c-review"
+        },
+        {
+            "from": "w3c-review",
+            "to": "w3c-sweep-complete"
         }
     ],
     "gates": {
@@ -515,10 +760,26 @@
                 "memory-update": true,
                 "final-commit": true
             }
+        },
+        "w3c-aligned": {
+            "phase": 6,
+            "satisfied": false,
+            "missing": {
+                "phase7-jsonld": true,
+                "phase7-skos-types": true,
+                "phase7-owl-time": true,
+                "quicue-export-context": true,
+                "quicue-earl-gaps": true,
+                "quicue-owl-time-fix": true,
+                "grdn-w3c-surface": true,
+                "kg-skos-federation": true,
+                "w3c-review": true,
+                "w3c-sweep-complete": true
+            }
         }
     },
     "scheduling": {
-        "critical_path_length": 15,
+        "critical_path_length": 19,
         "critical_tasks": [
             "interop-deps",
             "interop-tests",
@@ -538,12 +799,22 @@
             "quicue-charter-update",
             "memory-update",
             "quicue-docs-rfc5737",
-            "final-commit"
+            "final-commit",
+            "phase7-jsonld",
+            "phase7-skos-types",
+            "phase7-owl-time",
+            "quicue-export-context",
+            "quicue-earl-gaps",
+            "quicue-owl-time-fix",
+            "grdn-w3c-surface",
+            "kg-skos-federation",
+            "w3c-review",
+            "w3c-sweep-complete"
         ]
     },
     "summary": {
         "project": "phase7-wire-the-stack",
-        "deliverables": 23,
+        "deliverables": 33,
         "completed": 0,
         "complete": false,
         "missing": {
@@ -569,9 +840,19 @@
             "quicue-charter-update": true,
             "memory-update": true,
             "quicue-docs-rfc5737": true,
-            "final-commit": true
+            "final-commit": true,
+            "phase7-jsonld": true,
+            "phase7-skos-types": true,
+            "phase7-owl-time": true,
+            "quicue-export-context": true,
+            "quicue-earl-gaps": true,
+            "quicue-owl-time-fix": true,
+            "grdn-w3c-surface": true,
+            "kg-skos-federation": true,
+            "w3c-review": true,
+            "w3c-sweep-complete": true
         },
         "next_gate": "interop-proven",
-        "critical_path_length": 15
+        "critical_path_length": 19
     }
 }
