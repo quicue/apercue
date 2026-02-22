@@ -120,7 +120,7 @@ stage_public() {
         mkdir -p "$staging/spec/llm-governance"
         cp site/spec/llm-governance/index.html "$staging/spec/llm-governance/"
     fi
-    for html in explorer.html charter.html playground.html gc-governance.html phase7.html; do
+    for html in explorer.html charter.html playground.html gc-governance.html phase7.html phase7-spec.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage + examples (no operational data)
