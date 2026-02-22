@@ -96,13 +96,17 @@ stage_public() {
     # Public HTML — landing page, spec, and interactive demos
     cp site/index.html "$staging/"
     [ -f site/spec/index.html ] && cp site/spec/index.html "$staging/spec/"
-    for html in explorer.html charter.html playground.html; do
+    for html in explorer.html charter.html playground.html gc-governance.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage + examples (no operational data)
     [ -f site/data/specs.json ] && cp site/data/specs.json "$staging/data/"
     [ -f site/data/spec-counts.json ] && cp site/data/spec-counts.json "$staging/data/"
     [ -f site/data/examples.json ] && cp site/data/examples.json "$staging/data/"
+    # GC governance demo data (sanitized example, not operational)
+    for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json; do
+        [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
+    done
     # Vocab — JSON-LD context
     [ -f site/vocab/context.jsonld ] && cp site/vocab/context.jsonld "$staging/vocab/"
     echo "  Staged to $staging/ ($(find "$staging" -type f | wc -l) files)"
@@ -120,6 +124,7 @@ case "${1:-all}" in
     public)
         build_specs
         build_examples
+        build_gc_governance
         build_spec_html
         build_vocab
         echo "Done. Public site data regenerated."
@@ -134,6 +139,7 @@ case "${1:-all}" in
     stage)
         build_specs
         build_examples
+        build_gc_governance
         build_spec_html
         build_vocab
         stage_public "${2:-_public}"
