@@ -4,6 +4,7 @@ import (
 	"list"
 	"strings"
 	"strconv"
+	"apercue.ca/vocab@v0"
 )
 
 // Reverse-map topology to get actual depth per resource.
@@ -31,6 +32,9 @@ _charter_depth_map: {
 
 // Export-friendly charter data for D3 visualization
 charter_viz: {
+	"@context":       vocab.context["@context"]
+	"@type":          "apercue:CharterVisualization"
+	"dct:conformsTo": {"@id": "https://apercue.ca/charter"}
 	nodes: [
 		for rname, raw in _tasks {
 			id:          rname
@@ -90,6 +94,9 @@ charter_viz: {
 // ═══════════════════════════════════════════════════════════════════════════
 
 projections: {
+	"@context":       vocab.context["@context"]
+	"@type":          "apercue:ProjectionSet"
+	"dct:conformsTo": {"@id": "https://apercue.ca/vocab"}
 	// SHACL — gap analysis as validation report
 	shacl: gaps.shacl_report
 
@@ -107,6 +114,9 @@ projections: {
 // Iterate over _ecosystem (raw input) to get concrete keys.
 // Depth comes from the computed graph topology, not dependency count.
 eco_viz: {
+	"@context":       vocab.context["@context"]
+	"@type":          "apercue:EcosystemVisualization"
+	"dct:conformsTo": {"@id": "https://apercue.ca/charter"}
 	nodes: [
 		for rname, raw in _ecosystem {
 			id:          rname
@@ -128,4 +138,40 @@ eco_viz: {
 	critical_path: _eco_cpm.critical_sequence
 	status:        {for rname, r in _ecosystem {(rname): r.status}}
 	topology:      _eco_graph.topology
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SKOS — Task type taxonomy as a ConceptScheme.
+//
+// Projects the task types used in the charter as SKOS Concepts.
+// W3C SKOS (Recommendation, 2009-08-18): Simple Knowledge Organization System.
+//
+// Export: cue export ./self-charter/ -e type_vocabulary --out json
+// ═══════════════════════════════════════════════════════════════════════════
+
+_charter_types: {
+	Schema:        {description: "Schema or type definition task"}
+	Pattern:       {description: "Reusable computational pattern"}
+	Projection:    {description: "W3C standard output projection"}
+	Example:       {description: "Example or demonstration"}
+	CI:            {description: "Continuous integration or automation"}
+	Documentation: {description: "Documentation or knowledge base entry"}
+}
+
+type_vocabulary: {
+	"@context":       vocab.context["@context"]
+	"@type":          "skos:ConceptScheme"
+	"@id":            "https://apercue.ca/charter#TaskTypes"
+	"skos:prefLabel": "Charter Task Type Vocabulary"
+	"dcterms:title":  "Charter Task Type Vocabulary"
+	"skos:hasTopConcept": [
+		for name, entry in _charter_types {
+			"@type":             "skos:Concept"
+			"@id":               "https://apercue.ca/charter#" + name
+			"skos:prefLabel":    name
+			"skos:definition":   entry.description
+			"skos:inScheme":     {"@id": "https://apercue.ca/charter#TaskTypes"}
+			"skos:topConceptOf": {"@id": "https://apercue.ca/charter#TaskTypes"}
+		},
+	]
 }
