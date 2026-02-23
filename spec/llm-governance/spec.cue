@@ -468,7 +468,7 @@ spec_html: """
 	      padding: 12px 16px; margin: 1em 0; font-size: 0.9em; }
 	    .warn-box { background: #fff8e8; border-left: 4px solid #e6a817;
 	      padding: 12px 16px; margin: 1em 0; font-size: 0.9em; }
-	    .site-nav { background: #0a0e14; padding: 8px 24px; font-family: 'IBM Plex Mono', monospace;
+	    .site-nav { background: #0a0e14; padding: 8px 24px; font-family: 'Atkinson Hyperlegible Mono', monospace;
 	      font-size: 11px; display: flex; gap: 20px; border-bottom: 1px solid #1e2733; }
 	    .site-nav a { color: #5c6978; text-decoration: none; transition: color 0.2s; }
 	    .site-nav a:hover { color: #3ddc84; }

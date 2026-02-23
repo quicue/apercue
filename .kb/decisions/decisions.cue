@@ -211,7 +211,7 @@ d013: core.#Decision & {
 		"All 5 site pages use identical font stack via --body/--mono CSS vars",
 		"Future font changes require updating one Google Fonts URL + two CSS var values",
 		"D3 SVG text attributes must use full font name (can't reference CSS vars)",
-		"spec/index.html remains on IBM Plex Mono (ReSpec-generated, separate build)",
+		"spec/ pages now also use Atkinson Hyperlegible Mono (migrated from IBM Plex Mono)",
 	]
 	appliesTo: [{"@id": "https://apercue.ca/project/apercue"}]
 }
