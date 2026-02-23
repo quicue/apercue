@@ -123,10 +123,8 @@ stage_public() {
     for html in explorer.html charter.html playground.html gc-governance.html phase7.html phase7-spec.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
-    # Public data — W3C coverage + examples (no operational data)
+    # Public data — W3C coverage (no operational data)
     [ -f site/data/specs.json ] && cp site/data/specs.json "$staging/data/"
-    [ -f site/data/spec-counts.json ] && cp site/data/spec-counts.json "$staging/data/"
-    [ -f site/data/examples.json ] && cp site/data/examples.json "$staging/data/"
     # GC governance demo data (sanitized example, not operational)
     for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json phase7-charter.json; do
         [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"

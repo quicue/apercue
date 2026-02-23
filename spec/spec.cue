@@ -180,7 +180,7 @@ spec_html: """
 	      padding: 12px 16px; overflow-x: auto; font-size: 0.85em; line-height: 1.5; }
 	    .note-box { background: #e8f4fd; border-left: 4px solid #005a9c;
 	      padding: 12px 16px; margin: 1em 0; font-size: 0.9em; }
-	    .site-nav { background: #0a0e14; padding: 8px 24px; font-family: 'IBM Plex Mono', monospace;
+	    .site-nav { background: #0a0e14; padding: 8px 24px; font-family: 'Atkinson Hyperlegible Mono', monospace;
 	      font-size: 11px; display: flex; gap: 20px; border-bottom: 1px solid #1e2733; }
 	    .site-nav a { color: #5c6978; text-decoration: none; transition: color 0.2s; }
 	    .site-nav a:hover { color: #3ddc84; }
