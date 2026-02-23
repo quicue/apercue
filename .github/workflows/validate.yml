@@ -78,8 +78,10 @@ jobs:
           bash tools/build-site.sh stage _public
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy _public --project-name=quicue-apercue
+        run: |
+          npx wrangler pages project create quicue-apercue --production-branch=main || echo "Project may already exist"
+          npx wrangler pages deploy _public --project-name=quicue-apercue --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        continue-on-error: true
