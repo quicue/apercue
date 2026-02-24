@@ -146,7 +146,7 @@ import (
 		}
 	}
 
-	count:        len([for c, _ in components {c}])
+	count: len([for c, _ in components {c}])
 	is_connected: count == 1
 }
 
@@ -175,7 +175,7 @@ import (
 	Graph: #AnalyzableGraph
 
 	// Selection criteria (provide at least one)
-	Roots?:  {[string]: true}
+	Roots?: {[string]: true}
 	Target?: string
 	Radius?: int
 	Mode:    *"descendants" | "ancestors" | "both"
@@ -198,7 +198,7 @@ import (
 				if Radius != _|_ {
 					let _targetDepth = Graph.resources[Target]._depth
 					for name, _ in Graph.dependents[Target]
-					if Graph.resources[name]._depth - _targetDepth <= Radius {
+					if Graph.resources[name]._depth-_targetDepth <= Radius {
 						(name): true
 					}
 				}
@@ -211,7 +211,7 @@ import (
 				if Radius != _|_ {
 					let _targetDepth = Graph.resources[Target]._depth
 					for name, _ in Graph.resources[Target]._ancestors
-					if _targetDepth - Graph.resources[name]._depth <= Radius {
+					if _targetDepth-Graph.resources[name]._depth <= Radius {
 						(name): true
 					}
 				}
@@ -283,7 +283,7 @@ import (
 		let _before = Before.resources[name]
 		let _added = {for t, _ in r["@type"] if _before["@type"][t] == _|_ {(t): true}}
 		let _removed = {for t, _ in _before["@type"] if r["@type"][t] == _|_ {(t): true}}
-		let _hasChanges = len([for t, _ in _added {t}]) + len([for t, _ in _removed {t}]) > 0
+		let _hasChanges = len([for t, _ in _added {t}])+len([for t, _ in _removed {t}]) > 0
 		if _hasChanges {
 			(name): {
 				added_types:   _added
@@ -317,9 +317,9 @@ import (
 	]
 
 	summary: {
-		added_node_count:   len([for n, _ in added_nodes {n}])
+		added_node_count: len([for n, _ in added_nodes {n}])
 		removed_node_count: len([for n, _ in removed_nodes {n}])
-		type_change_count:  len([for n, _ in type_changes {n}])
+		type_change_count: len([for n, _ in type_changes {n}])
 		added_edge_count:   len(added_edges)
 		removed_edge_count: len(removed_edges)
 		has_changes:        added_node_count > 0 || removed_node_count > 0 || type_change_count > 0 || added_edge_count > 0 || removed_edge_count > 0
@@ -349,9 +349,9 @@ import (
 //   // cpm.slack — per-resource float time
 //
 #CriticalPath: {
-	Graph:    #AnalyzableGraph
-	Weights?:  [string]: number
-	UnitType:  string | *"time:unitDay" // OWL-Time unit (e.g. time:unitDay, time:unitHour)
+	Graph: #AnalyzableGraph
+	Weights?: [string]: number
+	UnitType: string | *"time:unitDay" // OWL-Time unit (e.g. time:unitDay, time:unitHour)
 
 	// Helper: duration for a resource (default 1)
 	_dur: {
@@ -444,9 +444,9 @@ import (
 
 	// Hidden intermediaries to avoid self-reference inside summary
 	// (same pattern as charter.cue — field names shadow outer scope)
-	_total_dur:  total_duration
+	_total_dur: total_duration
 	_crit_count: len([for c, _ in critical {c}])
-	_res_count:  len(Graph.resources)
+	_res_count: len(Graph.resources)
 	_max_slack: [
 		if len([for _, s in slack {s}]) > 0 {
 			list.Max([for _, s in slack {s}])
@@ -473,17 +473,17 @@ import (
 			(name): {
 				"@type": "time:Interval"
 				"time:hasBeginning": {
-					"@type":              "time:Instant"
-					"time:inXSDDecimal":  _earliest[name]
+					"@type":             "time:Instant"
+					"time:inXSDDecimal": _earliest[name]
 				}
 				"time:hasEnd": {
-					"@type":              "time:Instant"
-					"time:inXSDDecimal":  _finish[name]
+					"@type":             "time:Instant"
+					"time:inXSDDecimal": _finish[name]
 				}
 				"time:hasDuration": {
 					"@type":                "time:Duration"
 					"time:numericDuration": _dur[name]
-					"time:unitType":        {"@id": UnitType}
+					"time:unitType": {"@id": UnitType}
 				}
 				"apercue:slack":      slack[name]
 				"apercue:isCritical": critical[name] != _|_
@@ -512,7 +512,7 @@ import (
 
 	Precomputed: {
 		earliest: [string]: number
-		latest:   [string]: number
+		latest: [string]:   number
 		duration: [string]: number
 	}
 
@@ -541,9 +541,9 @@ import (
 		for name, c in critical {{resource: name} & c},
 	], {x: {}, y: {}, less: x.start < y.start})
 
-	_total_dur:  total_duration
+	_total_dur: total_duration
 	_crit_count: len([for c, _ in critical {c}])
-	_res_count:  len(Graph.resources)
+	_res_count: len(Graph.resources)
 	_max_slack: [
 		if len([for _, s in slack {s}]) > 0 {list.Max([for _, s in slack {s}])},
 		0,
@@ -563,17 +563,17 @@ import (
 			(name): {
 				"@type": "time:Interval"
 				"time:hasBeginning": {
-					"@type":              "time:Instant"
-					"time:inXSDDecimal":  Precomputed.earliest[name]
+					"@type":             "time:Instant"
+					"time:inXSDDecimal": Precomputed.earliest[name]
 				}
 				"time:hasEnd": {
-					"@type":              "time:Instant"
-					"time:inXSDDecimal":  _finish[name]
+					"@type":             "time:Instant"
+					"time:inXSDDecimal": _finish[name]
 				}
 				"time:hasDuration": {
 					"@type":                "time:Duration"
 					"time:numericDuration": Precomputed.duration[name]
-					"time:unitType":        {"@id": UnitType}
+					"time:unitType": {"@id": UnitType}
 				}
 				"apercue:slack":      slack[name]
 				"apercue:isCritical": critical[name] != _|_

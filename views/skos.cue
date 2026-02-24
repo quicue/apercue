@@ -27,12 +27,12 @@ import "apercue.ca/vocab@v0"
 		"dcterms:title":  "Type Vocabulary"
 		"skos:hasTopConcept": [
 			for name, entry in Registry {
-				"@type":              "skos:Concept"
-				"@id":                BaseIRI + name
-				"skos:prefLabel":     name
-				"skos:definition":    entry.description
-				"skos:inScheme":      {"@id": BaseIRI + "TypeVocabulary"}
-				"skos:topConceptOf":  {"@id": BaseIRI + "TypeVocabulary"}
+				"@type":           "skos:Concept"
+				"@id":             BaseIRI + name
+				"skos:prefLabel":  name
+				"skos:definition": entry.description
+				"skos:inScheme": {"@id": BaseIRI + "TypeVocabulary"}
+				"skos:topConceptOf": {"@id": BaseIRI + "TypeVocabulary"}
 			},
 		]
 	}

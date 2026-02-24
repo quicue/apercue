@@ -65,9 +65,9 @@ import (
 
 // #Gate — a checkpoint where named resources must exist.
 #Gate: {
-	phase?:       int & >=0
-	requires:     {[string]: true} // resource names that must be present
-	depends_on?:  {[string]: true} // other gate names that must be satisfied first
+	phase?: int & >=0
+	requires: {[string]: true} // resource names that must be present
+	depends_on?: {[string]: true} // other gate names that must be satisfied first
 	description?: string
 }
 
@@ -124,10 +124,12 @@ import (
 	if Charter.scope.root == _|_ {
 		_root_satisfied: true
 	}
+
 	// String root: must exist and be a graph root
 	if (Charter.scope.root & string) != _|_ {
 		_root_satisfied: Graph.roots[Charter.scope.root] != _|_
 	}
+
 	// Struct root: all named roots must be graph roots
 	if (Charter.scope.root & {[string]: true}) != _|_ {
 		let _root_struct = Charter.scope.root & {[string]: true}
@@ -146,7 +148,7 @@ import (
 		depth_satisfied: true
 	}
 	if Charter.scope.min_depth != _|_ {
-		depth_satisfied: len(Graph.topology) - 1 >= Charter.scope.min_depth
+		depth_satisfied: len(Graph.topology)-1 >= Charter.scope.min_depth
 	}
 
 	// ── Resource count check ─────────────────────────────────────
@@ -167,7 +169,7 @@ import (
 						for rname, _ in gate.requires
 						if _present[rname] == _|_ {(rname): true}
 					}
-					missing:   _missing
+					missing: _missing
 					satisfied: len([for _, _ in _missing {1}]) == 0
 
 					// Check gate dependencies (DAG ordering)
@@ -219,27 +221,27 @@ import (
 	//
 	// Export: cue export -e gaps.shacl_report --out json
 	shacl_report: {
-		"@context":           vocab.context["@context"]
-		"@type":              "sh:ValidationReport"
-		"sh:conforms":        complete
+		"@context":    vocab.context["@context"]
+		"@type":       "sh:ValidationReport"
+		"sh:conforms": complete
 		"dcterms:conformsTo": {"@id": "charter:" + Charter.name}
 		"sh:result": list.Concat([[
 			for name, _ in missing_resources {
-				"@type":                        "sh:ValidationResult"
-				"sh:focusNode":                 {"@id": name}
-				"sh:resultSeverity":            {"@id": "sh:Violation"}
-				"sh:resultMessage":             "Required resource '" + name + "' not present in graph"
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": name}
+				"sh:resultSeverity": {"@id": "sh:Violation"}
+				"sh:resultMessage": "Required resource '" + name + "' not present in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredResource"}
-				"sh:sourceShape":               {"@id": "apercue:charter/" + Charter.name}
+				"sh:sourceShape": {"@id": "apercue:charter/" + Charter.name}
 			},
 		], [
 			for t, _ in missing_types {
-				"@type":                        "sh:ValidationResult"
-				"sh:focusNode":                 {"@id": t}
-				"sh:resultSeverity":            {"@id": "sh:Violation"}
-				"sh:resultMessage":             "Required type '" + t + "' not represented in graph"
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": t}
+				"sh:resultSeverity": {"@id": "sh:Violation"}
+				"sh:resultMessage": "Required type '" + t + "' not represented in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredType"}
-				"sh:sourceShape":               {"@id": "apercue:charter/" + Charter.name}
+				"sh:sourceShape": {"@id": "apercue:charter/" + Charter.name}
 			},
 		]])
 	}
@@ -268,7 +270,7 @@ import (
 		for rname, _ in _gate.requires
 		if _present[rname] == _|_ {(rname): true}
 	}
-	missing:   _missing
+	missing: _missing
 	satisfied: len([for _, _ in _missing {1}]) == 0
 
 	// Blockers: for each missing resource, check if its expected
@@ -285,7 +287,7 @@ import (
 	blockers: _blockers
 
 	// Use hidden intermediaries to avoid self-referencing field names
-	_is_satisfied:  len([for _, _ in _missing {1}]) == 0
+	_is_satisfied: len([for _, _ in _missing {1}]) == 0
 	_missing_count: len([for _, _ in _missing {1}])
 	_blocker_count: len([for _, _ in _blockers {1}])
 
@@ -298,4 +300,3 @@ import (
 		...
 	}
 }
-
