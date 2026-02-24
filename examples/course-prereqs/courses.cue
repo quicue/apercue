@@ -29,86 +29,86 @@ _types: {
 // ═══ COURSES ═══════════════════════════════════════════════════════
 _courses: {
 	"intro-cs": {
-		name:        "intro-cs"
-		"@type":     {CoreCourse: true}
+		name: "intro-cs"
+		"@type": {CoreCourse: true}
 		description: "Introduction to Computer Science"
 		credits:     3
 	}
 	"intro-math": {
-		name:        "intro-math"
-		"@type":     {CoreCourse: true}
+		name: "intro-math"
+		"@type": {CoreCourse: true}
 		description: "Discrete Mathematics"
 		credits:     3
 	}
 	"data-structures": {
-		name:        "data-structures"
-		"@type":     {CoreCourse: true}
+		name: "data-structures"
+		"@type": {CoreCourse: true}
 		description: "Data Structures and Algorithms"
-		depends_on:  {"intro-cs": true, "intro-math": true}
-		credits:     3
+		depends_on: {"intro-cs": true, "intro-math": true}
+		credits: 3
 	}
 	"intro-programming": {
-		name:        "intro-programming"
-		"@type":     {CoreCourse: true, LabCourse: true}
+		name: "intro-programming"
+		"@type": {CoreCourse: true, LabCourse: true}
 		description: "Introduction to Programming"
-		depends_on:  {"intro-cs": true}
-		credits:     4
+		depends_on: {"intro-cs": true}
+		credits: 4
 	}
 	"databases": {
-		name:        "databases"
-		"@type":     {CoreCourse: true}
+		name: "databases"
+		"@type": {CoreCourse: true}
 		description: "Database Systems"
-		depends_on:  {"data-structures": true}
-		credits:     3
+		depends_on: {"data-structures": true}
+		credits: 3
 	}
 	"operating-systems": {
-		name:        "operating-systems"
-		"@type":     {CoreCourse: true}
+		name: "operating-systems"
+		"@type": {CoreCourse: true}
 		description: "Operating Systems"
-		depends_on:  {"data-structures": true, "intro-programming": true}
-		credits:     3
+		depends_on: {"data-structures": true, "intro-programming": true}
+		credits: 3
 	}
 	"software-engineering": {
-		name:        "software-engineering"
-		"@type":     {CoreCourse: true}
+		name: "software-engineering"
+		"@type": {CoreCourse: true}
 		description: "Software Engineering Principles"
-		depends_on:  {"data-structures": true, "intro-programming": true}
-		credits:     3
+		depends_on: {"data-structures": true, "intro-programming": true}
+		credits: 3
 	}
 	"networks": {
-		name:        "networks"
-		"@type":     {CoreCourse: true}
+		name: "networks"
+		"@type": {CoreCourse: true}
 		description: "Computer Networks"
-		depends_on:  {"operating-systems": true}
-		credits:     3
+		depends_on: {"operating-systems": true}
+		credits: 3
 	}
 	"algorithms": {
-		name:        "algorithms"
-		"@type":     {CoreCourse: true}
+		name: "algorithms"
+		"@type": {CoreCourse: true}
 		description: "Advanced Algorithms"
-		depends_on:  {"data-structures": true, "intro-math": true}
-		credits:     3
+		depends_on: {"data-structures": true, "intro-math": true}
+		credits: 3
 	}
 	"ml-intro": {
-		name:        "ml-intro"
-		"@type":     {Elective: true}
+		name: "ml-intro"
+		"@type": {Elective: true}
 		description: "Introduction to Machine Learning"
-		depends_on:  {"algorithms": true, "intro-programming": true}
-		credits:     3
+		depends_on: {"algorithms": true, "intro-programming": true}
+		credits: 3
 	}
 	"systems-lab": {
-		name:        "systems-lab"
-		"@type":     {LabCourse: true, Elective: true}
+		name: "systems-lab"
+		"@type": {LabCourse: true, Elective: true}
 		description: "Systems Programming Lab"
-		depends_on:  {"operating-systems": true}
-		credits:     4
+		depends_on: {"operating-systems": true}
+		credits: 4
 	}
 	"capstone-seminar": {
-		name:        "capstone-seminar"
-		"@type":     {Seminar: true}
+		name: "capstone-seminar"
+		"@type": {Seminar: true}
 		description: "Capstone Research Seminar"
-		depends_on:  {"software-engineering": true, "algorithms": true}
-		credits:     3
+		depends_on: {"software-engineering": true, "algorithms": true}
+		credits: 3
 	}
 }
 
@@ -117,7 +117,7 @@ graph: patterns.#Graph & {Input: _courses}
 
 // Critical path: longest prerequisite chain
 cpm: patterns.#CriticalPath & {
-	Graph:   graph
+	Graph: graph
 	Weights: {for name, c in _courses {(name): c.credits}}
 }
 
@@ -141,9 +141,9 @@ _charter: charter.#Charter & {
 			phase:       1
 			description: "Core foundations complete"
 			requires: {
-				"intro-cs":           true
-				"intro-math":         true
-				"intro-programming":  true
+				"intro-cs":          true
+				"intro-math":        true
+				"intro-programming": true
 			}
 		}
 		"core-complete": {
@@ -163,9 +163,9 @@ _charter: charter.#Charter & {
 			phase:       3
 			description: "Degree requirements satisfied"
 			requires: {
-				"ml-intro":          true
-				"systems-lab":       true
-				"capstone-seminar":  true
+				"ml-intro":         true
+				"systems-lab":      true
+				"capstone-seminar": true
 			}
 			depends_on: {"core-complete": true}
 		}
@@ -183,33 +183,33 @@ compliance: patterns.#ComplianceCheck & {
 	Graph: graph
 	Rules: [
 		{
-			name:            "seminars-need-prereqs"
-			description:     "Seminar courses must have prerequisites"
-			match_types:     {Seminar: true}
+			name:        "seminars-need-prereqs"
+			description: "Seminar courses must have prerequisites"
+			match_types: {Seminar: true}
 			must_not_be_root: true
-			severity:        "warning"
+			severity:         "warning"
 		},
 		{
-			name:            "labs-need-prereqs"
-			description:     "Lab courses must have prerequisites"
-			match_types:     {LabCourse: true}
+			name:        "labs-need-prereqs"
+			description: "Lab courses must have prerequisites"
+			match_types: {LabCourse: true}
 			must_not_be_root: true
-			severity:        "warning"
+			severity:         "warning"
 		},
 	]
 }
 
 // ═══ SUMMARY ═══════════════════════════════════════════════════════
 // Hidden intermediaries to avoid incomplete field references
-_summary_compliance_total:             len(compliance.Rules)
-_summary_compliance_passed:            len([for r in compliance.results if r.passed {1}])
-_summary_compliance_failed:            len([for r in compliance.results if !r.passed {1}])
+_summary_compliance_total: len(compliance.Rules)
+_summary_compliance_passed: len([for r in compliance.results if r.passed {1}])
+_summary_compliance_failed: len([for r in compliance.results if !r.passed {1}])
 _summary_compliance_critical_failures: len([for r in compliance.results if !r.passed && r.severity == "critical" {1}])
 
 summary: {
-	degree:         _charter.name
-	total_courses:  len(_courses)
-	graph_valid:    graph.valid
+	degree:          _charter.name
+	total_courses:   len(_courses)
+	graph_valid:     graph.valid
 	degree_complete: gaps.complete
 	gap: {
 		missing_courses: gaps.missing_resource_count

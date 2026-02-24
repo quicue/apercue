@@ -18,8 +18,8 @@ odrl_policies: {
 	"odrl:policy": [
 		// Unclassified — commercial LLMs permitted
 		{
-			"@type":    "odrl:Set"
-			"odrl:uid": "urn:gc:policy:unclassified"
+			"@type":         "odrl:Set"
+			"odrl:uid":      "urn:gc:policy:unclassified"
 			"dcterms:title": "Unclassified Data — LLM Usage Policy"
 			"odrl:permission": [
 				{
@@ -27,24 +27,24 @@ odrl_policies: {
 					"odrl:target": {"@id": "urn:gc:classification:unclassified"}
 					"odrl:assignee": {"@id": "urn:gc:role:any-llm-provider"}
 					"odrl:constraint": {
-						"odrl:leftOperand":  {"@id": "odrl:dateTime"}
-						"odrl:operator":     {"@id": "odrl:lt"}
+						"odrl:leftOperand": {"@id": "odrl:dateTime"}
+						"odrl:operator": {"@id": "odrl:lt"}
 						"odrl:rightOperand": "2026-06-24T00:00:00Z"
 					}
 				},
 			]
 			"odrl:obligation": [
 				{
-					"odrl:action":   {"@id": "odrl:attribute"}
+					"odrl:action": {"@id": "odrl:attribute"}
 					"odrl:assignee": {"@id": "urn:gc:role:deploying-department"}
-					"odrl:target":   {"@id": "urn:gc:requirement:aia-assessment"}
+					"odrl:target": {"@id": "urn:gc:requirement:aia-assessment"}
 				},
 			]
 		},
 		// Protected A — GC-controlled infrastructure only
 		{
-			"@type":    "odrl:Set"
-			"odrl:uid": "urn:gc:policy:protected-a"
+			"@type":         "odrl:Set"
+			"odrl:uid":      "urn:gc:policy:protected-a"
 			"dcterms:title": "Protected A Data — LLM Usage Policy"
 			"odrl:permission": [
 				{
@@ -52,8 +52,8 @@ odrl_policies: {
 					"odrl:target": {"@id": "urn:gc:classification:protected-a"}
 					"odrl:assignee": {"@id": "urn:gc:role:gc-controlled-provider"}
 					"odrl:constraint": {
-						"odrl:leftOperand":  {"@id": "odrl:spatial"}
-						"odrl:operator":     {"@id": "odrl:eq"}
+						"odrl:leftOperand": {"@id": "odrl:spatial"}
+						"odrl:operator": {"@id": "odrl:eq"}
 						"odrl:rightOperand": "urn:gc:jurisdiction:canada"
 					}
 				},
@@ -67,16 +67,16 @@ odrl_policies: {
 			]
 			"odrl:obligation": [
 				{
-					"odrl:action":   {"@id": "odrl:attribute"}
+					"odrl:action": {"@id": "odrl:attribute"}
 					"odrl:assignee": {"@id": "urn:gc:role:deploying-department"}
-					"odrl:target":   {"@id": "urn:gc:requirement:data-classification-review"}
+					"odrl:target": {"@id": "urn:gc:requirement:data-classification-review"}
 				},
 			]
 		},
 		// Protected B — GC cloud with PII blocking
 		{
-			"@type":    "odrl:Set"
-			"odrl:uid": "urn:gc:policy:protected-b"
+			"@type":         "odrl:Set"
+			"odrl:uid":      "urn:gc:policy:protected-b"
 			"dcterms:title": "Protected B Data — LLM Usage Policy"
 			"odrl:permission": [
 				{
@@ -85,13 +85,13 @@ odrl_policies: {
 					"odrl:assignee": {"@id": "urn:gc:role:gc-cloud-provider"}
 					"odrl:constraint": [
 						{
-							"odrl:leftOperand":  {"@id": "odrl:spatial"}
-							"odrl:operator":     {"@id": "odrl:eq"}
+							"odrl:leftOperand": {"@id": "odrl:spatial"}
+							"odrl:operator": {"@id": "odrl:eq"}
 							"odrl:rightOperand": "urn:gc:jurisdiction:canada"
 						},
 						{
-							"odrl:leftOperand":  {"@id": "apercue:piiBlocking"}
-							"odrl:operator":     {"@id": "odrl:eq"}
+							"odrl:leftOperand": {"@id": "apercue:piiBlocking"}
+							"odrl:operator": {"@id": "odrl:eq"}
 							"odrl:rightOperand": true
 						},
 					]
@@ -111,14 +111,14 @@ odrl_policies: {
 			]
 			"odrl:obligation": [
 				{
-					"odrl:action":   {"@id": "odrl:reviewPolicy"}
+					"odrl:action": {"@id": "odrl:reviewPolicy"}
 					"odrl:assignee": {"@id": "urn:gc:role:privacy-officer"}
-					"odrl:target":   {"@id": "urn:gc:requirement:privacy-impact-assessment"}
+					"odrl:target": {"@id": "urn:gc:requirement:privacy-impact-assessment"}
 				},
 				{
-					"odrl:action":   {"@id": "odrl:attribute"}
+					"odrl:action": {"@id": "odrl:attribute"}
 					"odrl:assignee": {"@id": "urn:gc:role:deploying-department"}
-					"odrl:target":   {"@id": "urn:gc:requirement:pii-blocking-verification"}
+					"odrl:target": {"@id": "urn:gc:requirement:pii-blocking-verification"}
 				},
 			]
 		},

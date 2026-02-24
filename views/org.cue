@@ -22,7 +22,7 @@ import "apercue.ca/vocab@v0"
 #OrgStructure: {
 	Graph: {
 		resources: [string]: {
-			name:    string
+			name: string
 			"@type": {[string]: true}
 			...
 		}
@@ -41,9 +41,9 @@ import "apercue.ca/vocab@v0"
 	}
 
 	org_report: {
-		"@context": vocab.context["@context"]
-		"@type":    "org:Organization"
-		"@id":      BaseIRI + "org"
+		"@context":       vocab.context["@context"]
+		"@type":          "org:Organization"
+		"@id":            BaseIRI + "org"
 		"skos:prefLabel": OrgName
 
 		"org:hasUnit": [
@@ -53,8 +53,8 @@ import "apercue.ca/vocab@v0"
 				"skos:prefLabel": typeName
 				"org:hasMember": [
 					for resName, res in Graph.resources if res["@type"][typeName] != _|_ {
-						"@id":            "urn:resource:" + resName
-						"dcterms:title":  resName
+						"@id":           "urn:resource:" + resName
+						"dcterms:title": resName
 					},
 				]
 			},

@@ -26,72 +26,72 @@ _tasks: [string]: {
 
 _tasks: {
 	"design-api": {
-		name:        "design-api"
-		"@type":     {Design: true}
+		name: "design-api"
+		"@type": {Design: true}
 		description: "Design REST API schema and endpoints"
 		weight:      3
 	}
 	"design-ui": {
-		name:        "design-ui"
-		"@type":     {Design: true}
+		name: "design-ui"
+		"@type": {Design: true}
 		description: "Design user interface wireframes"
 		weight:      2
 	}
 	"impl-auth": {
-		name:        "impl-auth"
-		"@type":     {Implementation: true}
+		name: "impl-auth"
+		"@type": {Implementation: true}
 		description: "Implement authentication system"
-		depends_on:  {"design-api": true}
-		weight:      5
+		depends_on: {"design-api": true}
+		weight: 5
 	}
 	"impl-crud": {
-		name:        "impl-crud"
-		"@type":     {Implementation: true}
+		name: "impl-crud"
+		"@type": {Implementation: true}
 		description: "Implement CRUD endpoints"
-		depends_on:  {"design-api": true}
-		weight:      4
+		depends_on: {"design-api": true}
+		weight: 4
 	}
 	"impl-frontend": {
-		name:        "impl-frontend"
-		"@type":     {Implementation: true}
+		name: "impl-frontend"
+		"@type": {Implementation: true}
 		description: "Implement frontend components"
-		depends_on:  {"design-ui": true, "impl-auth": true}
-		weight:      5
+		depends_on: {"design-ui": true, "impl-auth": true}
+		weight: 5
 	}
 	"test-api": {
-		name:        "test-api"
-		"@type":     {Test: true}
+		name: "test-api"
+		"@type": {Test: true}
 		description: "API integration tests"
-		depends_on:  {"impl-auth": true, "impl-crud": true}
-		weight:      3
+		depends_on: {"impl-auth": true, "impl-crud": true}
+		weight: 3
 	}
 	"test-e2e": {
-		name:        "test-e2e"
-		"@type":     {Test: true}
+		name: "test-e2e"
+		"@type": {Test: true}
 		description: "End-to-end browser tests"
-		depends_on:  {"impl-frontend": true, "test-api": true}
-		weight:      4
+		depends_on: {"impl-frontend": true, "test-api": true}
+		weight: 4
 	}
 	"write-docs": {
-		name:        "write-docs"
-		"@type":     {Documentation: true}
+		name: "write-docs"
+		"@type": {Documentation: true}
 		description: "Write API documentation and user guide"
-		depends_on:  {"impl-auth": true, "impl-crud": true}
-		weight:      3
+		depends_on: {"impl-auth": true, "impl-crud": true}
+		weight: 3
 	}
 	"setup-ci": {
-		name:        "setup-ci"
-		"@type":     {DevOps: true}
+		name: "setup-ci"
+		"@type": {DevOps: true}
 		description: "Configure CI/CD pipeline"
-		depends_on:  {"test-api": true}
-		weight:      2
+		depends_on: {"test-api": true}
+		weight: 2
 	}
 	"deploy-staging": {
-		name:        "deploy-staging"
-		"@type":     {DevOps: true}
+		name: "deploy-staging"
+		"@type": {DevOps: true}
 		description: "Deploy to staging environment"
-		depends_on:  {"test-e2e": true, "setup-ci": true, "write-docs": true}
-		weight:      2
+		depends_on: {"test-e2e": true, "setup-ci": true, "write-docs": true}
+		weight: 2
 	}
 }
 
@@ -122,7 +122,7 @@ _cpm_simple: {
 			(name): {
 				task:   name
 				weight: _weights[name]
-				_deps:  t.depends_on | {}
+				_deps: t.depends_on | {}
 				_ancestor_weights: [
 					for dep, _ in _deps {
 						_weights[dep]
@@ -207,7 +207,7 @@ gaps: charter.#GapAnalysis & {
 metrics: patterns.#GraphMetrics & {Graph: plan}
 
 cpm: {
-	Graph:   plan
+	Graph: plan
 	Weights: {for name, t in _tasks {(name): t.weight}}
 
 	// Simple aggregation for critical path
@@ -227,7 +227,7 @@ cpm: {
 	remaining_weight: total_weight - completed_weight
 
 	// Percentage as integer (0-100)
-	_percent: completed_weight * 100 / total_weight
+	_percent:         completed_weight * 100 / total_weight
 	percent_complete: *0 | _percent
 	if total_weight == 0 {
 		percent_complete: 0
@@ -251,10 +251,10 @@ summary: {
 	}
 	scheduling: cpm.summary
 	graph: {
-		resources:   metrics.total_resources
-		max_depth:   metrics.max_depth
-		edges:       metrics.total_edges
-		root_count:  metrics.root_count
-		leaf_count:  metrics.leaf_count
+		resources:  metrics.total_resources
+		max_depth:  metrics.max_depth
+		edges:      metrics.total_edges
+		root_count: metrics.root_count
+		leaf_count: metrics.leaf_count
 	}
 }

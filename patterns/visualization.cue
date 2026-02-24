@@ -99,10 +99,10 @@ import (
 				resourceName: name
 				displayName:  resource.name | name
 				// Get first type from struct-as-set
-				_typeList:  [for t, _ in resource["@type"] {t}]
-				_type:      *_typeList[0] | "VM"
-				ip:         resource.ip | ""
-				nodeStyle:  NodeStyles[_type] | NodeStyles._default
+				_typeList: [for t, _ in resource["@type"] {t}]
+				_type:     *_typeList[0] | "VM"
+				ip:        resource.ip | ""
+				nodeStyle: NodeStyles[_type] | NodeStyles._default
 			}
 		}
 	}
@@ -164,7 +164,7 @@ import (
 				displayName: resource.name | name
 				// Get first type from struct-as-set
 				_typeList: [for t, _ in resource["@type"] {t}]
-				_type:     *_typeList[0] | "Resource"
+				_type: *_typeList[0] | "Resource"
 			}
 		}
 	}

@@ -28,9 +28,9 @@ package vocab
 // #TypeEntry — Schema for type registry entries.
 #TypeEntry: {
 	description: string
-	requires?: {...}          // Fields that resources of this type MUST have
-	grants?: [...string]      // Capability names this type provides
-	structural_deps?: [...string]  // Fields that auto-create depends_on
+	requires?: {...} // Fields that resources of this type MUST have
+	grants?: [...string] // Capability names this type provides
+	structural_deps?: [...string] // Fields that auto-create depends_on
 }
 
 // #TypeNames — Constraint for type name validation.

@@ -32,8 +32,8 @@ import "apercue.ca/vocab"
 		"@graph": [
 			// Each resource as a prov:Entity
 			for name, res in Graph.resources {
-				"@type": "prov:Entity"
-				"@id":   "urn:resource:" + name
+				"@type":         "prov:Entity"
+				"@id":           "urn:resource:" + name
 				"dcterms:title": name
 				if res.depends_on != _|_ {
 					"prov:wasDerivedFrom": [
@@ -48,8 +48,8 @@ import "apercue.ca/vocab"
 
 			// The graph construction activity
 			{
-				"@type":      "prov:Activity"
-				"@id":        "apercue:graph-construction"
+				"@type":         "prov:Activity"
+				"@id":           "apercue:graph-construction"
 				"dcterms:title": "Graph construction"
 				"prov:wasAssociatedWith": {"@id": _agent_id}
 				"prov:generated": [

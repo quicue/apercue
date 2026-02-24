@@ -35,329 +35,329 @@ import (
 _tasks: {
 	// ── Phase 1: Foundation — Obligation Graph ─────────────────────
 	"gc-llm-governance-framework": {
-		name:        "gc-llm-governance-framework"
-		"@type":     {Framework: true}
+		name: "gc-llm-governance-framework"
+		"@type": {Framework: true}
 		description: "Root: constraint-first LLM governance using apercue/quicue/quicue-kg"
 	}
 	"directive-on-adm": {
-		name:        "directive-on-adm"
-		"@type":     {Directive: true}
+		name: "directive-on-adm"
+		"@type": {Directive: true}
 		description: "TBS Directive on Automated Decision-Making (compliance deadline: 2026-06-24)"
-		depends_on:  {"gc-llm-governance-framework": true}
+		depends_on: {"gc-llm-governance-framework": true}
 	}
 	"privacy-act": {
-		name:        "privacy-act"
-		"@type":     {Statute: true}
+		name: "privacy-act"
+		"@type": {Statute: true}
 		description: "Privacy Act — s.7 use limitation, s.8 disclosure limitation"
-		depends_on:  {"gc-llm-governance-framework": true}
+		depends_on: {"gc-llm-governance-framework": true}
 	}
 	"official-languages-act": {
-		name:        "official-languages-act"
-		"@type":     {Statute: true}
+		name: "official-languages-act"
+		"@type": {Statute: true}
 		description: "Official Languages Act — simultaneous bilingual output, equal quality"
-		depends_on:  {"gc-llm-governance-framework": true}
+		depends_on: {"gc-llm-governance-framework": true}
 	}
 	"cccs-itsap-00-041": {
-		name:        "cccs-itsap-00-041"
-		"@type":     {SecurityGuidance: true}
+		name: "cccs-itsap-00-041"
+		"@type": {SecurityGuidance: true}
 		description: "CCCS Generative AI guidance — 8 threat categories"
-		depends_on:  {"gc-llm-governance-framework": true}
+		depends_on: {"gc-llm-governance-framework": true}
 	}
 	"genai-guide-v2": {
-		name:        "genai-guide-v2"
-		"@type":     {Guide: true}
+		name: "genai-guide-v2"
+		"@type": {Guide: true}
 		description: "TBS Guide on the Use of Generative AI (v2) — FASTER principles"
-		depends_on:  {"directive-on-adm": true}
+		depends_on: {"directive-on-adm": true}
 	}
 	"faster-principles": {
-		name:        "faster-principles"
-		"@type":     {Principle: true}
+		name: "faster-principles"
+		"@type": {Principle: true}
 		description: "FASTER: Fair, Accountable, Secure, Transparent, Educated, Relevant"
-		depends_on:  {"genai-guide-v2": true}
+		depends_on: {"genai-guide-v2": true}
 	}
 	"aia-requirement": {
-		name:        "aia-requirement"
-		"@type":     {Directive: true}
+		name: "aia-requirement"
+		"@type": {Directive: true}
 		description: "Algorithmic Impact Assessment — mandatory risk assessment before deployment"
-		depends_on:  {"directive-on-adm": true}
+		depends_on: {"directive-on-adm": true}
 	}
 
 	// ── Phase 2: Impact Levels & Control Objectives ───────────────
 	"aia-level-i": {
-		name:        "aia-level-i"
-		"@type":     {ImpactLevel: true}
+		name: "aia-level-i"
+		"@type": {ImpactLevel: true}
 		description: "AIA Level I — little/no impact, easily reversible"
-		depends_on:  {"aia-requirement": true}
+		depends_on: {"aia-requirement": true}
 	}
 	"aia-level-ii": {
-		name:        "aia-level-ii"
-		"@type":     {ImpactLevel: true}
+		name: "aia-level-ii"
+		"@type": {ImpactLevel: true}
 		description: "AIA Level II — moderate impact, likely reversible (peer review required)"
-		depends_on:  {"aia-level-i": true}
+		depends_on: {"aia-level-i": true}
 	}
 	"aia-level-iii": {
-		name:        "aia-level-iii"
-		"@type":     {ImpactLevel: true}
+		name: "aia-level-iii"
+		"@type": {ImpactLevel: true}
 		description: "AIA Level III — high impact, difficult to reverse (human-in-the-loop required)"
-		depends_on:  {"aia-level-ii": true}
+		depends_on: {"aia-level-ii": true}
 	}
 	"aia-level-iv": {
-		name:        "aia-level-iv"
-		"@type":     {ImpactLevel: true}
+		name: "aia-level-iv"
+		"@type": {ImpactLevel: true}
 		description: "AIA Level IV — very high, irreversible (TB approval required)"
-		depends_on:  {"aia-level-iii": true}
+		depends_on: {"aia-level-iii": true}
 	}
 	"pii-prompt-blocking": {
-		name:        "pii-prompt-blocking"
-		"@type":     {ControlObjective: true}
+		name: "pii-prompt-blocking"
+		"@type": {ControlObjective: true}
 		description: "Block PII from entering LLM prompts — Privacy Act s.8 compliance"
-		depends_on:  {"privacy-act": true}
+		depends_on: {"privacy-act": true}
 	}
 	"vendor-data-classification": {
-		name:        "vendor-data-classification"
-		"@type":     {ControlObjective: true}
+		name: "vendor-data-classification"
+		"@type": {ControlObjective: true}
 		description: "Enforce data classification for LLM vendor selection"
-		depends_on:  {"privacy-act": true}
+		depends_on: {"privacy-act": true}
 	}
 	"bilingual-quality-parity": {
-		name:        "bilingual-quality-parity"
-		"@type":     {ControlObjective: true}
+		name: "bilingual-quality-parity"
+		"@type": {ControlObjective: true}
 		description: "EN/FR output quality parity — OLA compliance"
-		depends_on:  {"official-languages-act": true}
+		depends_on: {"official-languages-act": true}
 	}
 	"human-in-loop-gate": {
-		name:        "human-in-loop-gate"
-		"@type":     {ControlObjective: true}
+		name: "human-in-loop-gate"
+		"@type": {ControlObjective: true}
 		description: "Human review required for AIA Level III+ decisions"
-		depends_on:  {"aia-level-iii": true}
+		depends_on: {"aia-level-iii": true}
 	}
 	"peer-review-mechanism": {
-		name:        "peer-review-mechanism"
-		"@type":     {ControlObjective: true}
+		name: "peer-review-mechanism"
+		"@type": {ControlObjective: true}
 		description: "Qualified peer review for AIA Level II+ systems"
-		depends_on:  {"aia-level-ii": true}
+		depends_on: {"aia-level-ii": true}
 	}
 	"bias-testing-framework": {
-		name:        "bias-testing-framework"
-		"@type":     {ControlObjective: true}
+		name: "bias-testing-framework"
+		"@type": {ControlObjective: true}
 		description: "Demographic bias testing per Directive Appendix C"
-		depends_on:  {"directive-on-adm": true}
+		depends_on: {"directive-on-adm": true}
 	}
 
 	// ── Phase 3: Compliance Rules (apercue #ComplianceRule) ──────
 	"rule-pii-blocking": {
-		name:        "rule-pii-blocking"
-		"@type":     {ComplianceRule: true}
+		name: "rule-pii-blocking"
+		"@type": {ComplianceRule: true}
 		description: "Block Protected B+ data from commercial LLM prompts"
-		depends_on:  {"pii-prompt-blocking": true}
+		depends_on: {"pii-prompt-blocking": true}
 	}
 	"rule-classification-enforcement": {
-		name:        "rule-classification-enforcement"
-		"@type":     {ComplianceRule: true}
+		name: "rule-classification-enforcement"
+		"@type": {ComplianceRule: true}
 		description: "Enforce Unclassified/Protected A/B classification on provider selection"
-		depends_on:  {"vendor-data-classification": true}
+		depends_on: {"vendor-data-classification": true}
 	}
 	"rule-bilingual-output": {
-		name:        "rule-bilingual-output"
-		"@type":     {ComplianceRule: true}
+		name: "rule-bilingual-output"
+		"@type": {ComplianceRule: true}
 		description: "All public-facing LLM outputs must be available in both EN and FR"
-		depends_on:  {"bilingual-quality-parity": true}
+		depends_on: {"bilingual-quality-parity": true}
 	}
 	"rule-human-review-level-iii": {
-		name:        "rule-human-review-level-iii"
-		"@type":     {ComplianceRule: true}
+		name: "rule-human-review-level-iii"
+		"@type": {ComplianceRule: true}
 		description: "AIA Level III+ decisions require documented human review"
-		depends_on:  {"human-in-loop-gate": true}
+		depends_on: {"human-in-loop-gate": true}
 	}
 	"rule-peer-review-level-ii": {
-		name:        "rule-peer-review-level-ii"
-		"@type":     {ComplianceRule: true}
+		name: "rule-peer-review-level-ii"
+		"@type": {ComplianceRule: true}
 		description: "AIA Level II+ systems require qualified peer review"
-		depends_on:  {"peer-review-mechanism": true}
+		depends_on: {"peer-review-mechanism": true}
 	}
 	"rule-bias-demographic": {
-		name:        "rule-bias-demographic"
-		"@type":     {ComplianceRule: true}
+		name: "rule-bias-demographic"
+		"@type": {ComplianceRule: true}
 		description: "Test for unintended demographic biases in LLM outputs"
-		depends_on:  {"bias-testing-framework": true}
+		depends_on: {"bias-testing-framework": true}
 	}
 	"rule-cccs-threat-coverage": {
-		name:        "rule-cccs-threat-coverage"
-		"@type":     {ComplianceRule: true}
+		name: "rule-cccs-threat-coverage"
+		"@type": {ComplianceRule: true}
 		description: "Address all 8 CCCS generative AI threat categories"
-		depends_on:  {"cccs-itsap-00-041": true}
+		depends_on: {"cccs-itsap-00-041": true}
 	}
 	"rule-faster-coverage": {
-		name:        "rule-faster-coverage"
-		"@type":     {ComplianceRule: true}
+		name: "rule-faster-coverage"
+		"@type": {ComplianceRule: true}
 		description: "Demonstrate coverage of all 6 FASTER principles"
-		depends_on:  {"faster-principles": true}
+		depends_on: {"faster-principles": true}
 	}
 
 	// ── Phase 4: Knowledge Graph — Authoritative Sources ─────────
 	"knowledge-graph-schema": {
-		name:        "knowledge-graph-schema"
-		"@type":     {DomainScope: true}
+		name: "knowledge-graph-schema"
+		"@type": {DomainScope: true}
 		description: "quicue-kg schema for authoritative knowledge grounding"
-		depends_on:  {"gc-llm-governance-framework": true}
+		depends_on: {"gc-llm-governance-framework": true}
 	}
 	"policy-fact-registry": {
-		name:        "policy-fact-registry"
-		"@type":     {PolicyFact: true}
+		name: "policy-fact-registry"
+		"@type": {PolicyFact: true}
 		description: "Verified facts from statutes, directives, and guides"
-		depends_on:  {"knowledge-graph-schema": true}
+		depends_on: {"knowledge-graph-schema": true}
 	}
 	"authoritative-source-index": {
-		name:        "authoritative-source-index"
-		"@type":     {AuthoritativeSource: true}
+		name: "authoritative-source-index"
+		"@type": {AuthoritativeSource: true}
 		description: "Source documents with SHA256 integrity and freshness dates"
-		depends_on:  {"knowledge-graph-schema": true}
+		depends_on: {"knowledge-graph-schema": true}
 	}
 	"term-definitions-registry": {
-		name:        "term-definitions-registry"
-		"@type":     {TermDefinition: true}
+		name: "term-definitions-registry"
+		"@type": {TermDefinition: true}
 		description: "Authoritative term definitions (prevents LLM-invented definitions)"
-		depends_on:  {"knowledge-graph-schema": true}
+		depends_on: {"knowledge-graph-schema": true}
 	}
 	"domain-scope-procurement": {
-		name:        "domain-scope-procurement"
-		"@type":     {DomainScope: true}
+		name: "domain-scope-procurement"
+		"@type": {DomainScope: true}
 		description: "Knowledge boundary for procurement-domain LLM deployments"
-		depends_on:  {"knowledge-graph-schema": true}
+		depends_on: {"knowledge-graph-schema": true}
 	}
 	"domain-scope-hr": {
-		name:        "domain-scope-hr"
-		"@type":     {DomainScope: true}
+		name: "domain-scope-hr"
+		"@type": {DomainScope: true}
 		description: "Knowledge boundary for HR-domain LLM deployments"
-		depends_on:  {"knowledge-graph-schema": true}
+		depends_on: {"knowledge-graph-schema": true}
 	}
 
 	// ── Phase 5: ODRL Policies & Provider Binding ────────────────
 	"odrl-unclassified": {
-		name:        "odrl-unclassified"
-		"@type":     {PolicyConstraint: true}
+		name: "odrl-unclassified"
+		"@type": {PolicyConstraint: true}
 		description: "ODRL policy for Unclassified data — commercial LLMs permitted"
-		depends_on:  {"rule-classification-enforcement": true}
+		depends_on: {"rule-classification-enforcement": true}
 	}
 	"odrl-protected-a": {
-		name:        "odrl-protected-a"
-		"@type":     {PolicyConstraint: true}
+		name: "odrl-protected-a"
+		"@type": {PolicyConstraint: true}
 		description: "ODRL policy for Protected A — GC-controlled infrastructure only"
-		depends_on:  {"rule-classification-enforcement": true}
+		depends_on: {"rule-classification-enforcement": true}
 	}
 	"odrl-protected-b": {
-		name:        "odrl-protected-b"
-		"@type":     {PolicyConstraint: true}
+		name: "odrl-protected-b"
+		"@type": {PolicyConstraint: true}
 		description: "ODRL policy for Protected B — GC cloud provider with PII blocking"
-		depends_on:  {"rule-classification-enforcement": true, "rule-pii-blocking": true}
+		depends_on: {"rule-classification-enforcement": true, "rule-pii-blocking": true}
 	}
 	"provider-gc-cloud": {
-		name:        "provider-gc-cloud"
-		"@type":     {LLMProvider: true}
+		name: "provider-gc-cloud"
+		"@type": {LLMProvider: true}
 		description: "GC cloud provider — GC-tenant, Protected B capable"
-		depends_on:  {"odrl-protected-b": true}
+		depends_on: {"odrl-protected-b": true}
 	}
 	"provider-bedrock": {
-		name:        "provider-bedrock"
-		"@type":     {LLMProvider: true}
+		name: "provider-bedrock"
+		"@type": {LLMProvider: true}
 		description: "AWS Bedrock — GC region, Protected A capable"
-		depends_on:  {"odrl-protected-a": true}
+		depends_on: {"odrl-protected-a": true}
 	}
 	"provider-self-hosted": {
-		name:        "provider-self-hosted"
-		"@type":     {LLMProvider: true}
+		name: "provider-self-hosted"
+		"@type": {LLMProvider: true}
 		description: "Self-hosted LLM (Ollama/vLLM) — air-gapped, any classification"
-		depends_on:  {"odrl-unclassified": true}
+		depends_on: {"odrl-unclassified": true}
 	}
 
 	// ── Phase 6: Deployment Models ───────────────────────────────
 	"deployment-procurement-assistant": {
-		name:        "deployment-procurement-assistant"
-		"@type":     {LLMDeployment: true}
+		name: "deployment-procurement-assistant"
+		"@type": {LLMDeployment: true}
 		description: "Procurement assistant — GC cloud provider, bilingual, scope-bounded"
-		depends_on:  {"provider-gc-cloud": true, "domain-scope-procurement": true, "rule-bilingual-output": true}
+		depends_on: {"provider-gc-cloud": true, "domain-scope-procurement": true, "rule-bilingual-output": true}
 	}
 	"deployment-hr-assistant": {
-		name:        "deployment-hr-assistant"
-		"@type":     {LLMDeployment: true}
+		name: "deployment-hr-assistant"
+		"@type": {LLMDeployment: true}
 		description: "HR assistant — GC cloud provider, bilingual, PII-gated"
-		depends_on:  {"provider-gc-cloud": true, "domain-scope-hr": true, "rule-bilingual-output": true}
+		depends_on: {"provider-gc-cloud": true, "domain-scope-hr": true, "rule-bilingual-output": true}
 	}
 	"deployment-internal-search": {
-		name:        "deployment-internal-search"
-		"@type":     {LLMDeployment: true}
+		name: "deployment-internal-search"
+		"@type": {LLMDeployment: true}
 		description: "Internal knowledge search — self-hosted, knowledge-grounded"
-		depends_on:  {"provider-self-hosted": true, "knowledge-graph-schema": true}
+		depends_on: {"provider-self-hosted": true, "knowledge-graph-schema": true}
 	}
 	"classification-gate": {
-		name:        "classification-gate"
-		"@type":     {ClassificationGate: true}
+		name: "classification-gate"
+		"@type": {ClassificationGate: true}
 		description: "Runtime data classification checkpoint before LLM invocation"
-		depends_on:  {"rule-classification-enforcement": true}
+		depends_on: {"rule-classification-enforcement": true}
 	}
 	"bilingual-gate": {
-		name:        "bilingual-gate"
-		"@type":     {BilingualGate: true}
+		name: "bilingual-gate"
+		"@type": {BilingualGate: true}
 		description: "Runtime EN/FR quality validation checkpoint"
-		depends_on:  {"rule-bilingual-output": true}
+		depends_on: {"rule-bilingual-output": true}
 	}
 	"human-review-gate": {
-		name:        "human-review-gate"
-		"@type":     {HumanReviewGate: true}
+		name: "human-review-gate"
+		"@type": {HumanReviewGate: true}
 		description: "Human review checkpoint for AIA Level III+ decisions"
-		depends_on:  {"rule-human-review-level-iii": true}
+		depends_on: {"rule-human-review-level-iii": true}
 	}
 
 	// ── Phase 7: Audit & Provenance ──────────────────────────────
 	"audit-sink-prov-o": {
-		name:        "audit-sink-prov-o"
-		"@type":     {AuditSink: true}
+		name: "audit-sink-prov-o"
+		"@type": {AuditSink: true}
 		description: "PROV-O audit trail — every LLM response traced to source knowledge"
-		depends_on:  {"deployment-procurement-assistant": true, "deployment-hr-assistant": true}
+		depends_on: {"deployment-procurement-assistant": true, "deployment-hr-assistant": true}
 	}
 	"smoke-test-bilingual": {
-		name:        "smoke-test-bilingual"
-		"@type":     {SmokeTest: true}
+		name: "smoke-test-bilingual"
+		"@type": {SmokeTest: true}
 		description: "EARL smoke test — EN/FR quality parity validation"
-		depends_on:  {"bilingual-gate": true}
+		depends_on: {"bilingual-gate": true}
 	}
 	"smoke-test-pii-blocking": {
-		name:        "smoke-test-pii-blocking"
-		"@type":     {SmokeTest: true}
+		name: "smoke-test-pii-blocking"
+		"@type": {SmokeTest: true}
 		description: "EARL smoke test — PII blocked from commercial LLM prompts"
-		depends_on:  {"classification-gate": true}
+		depends_on: {"classification-gate": true}
 	}
 	"smoke-test-scope-enforcement": {
-		name:        "smoke-test-scope-enforcement"
-		"@type":     {SmokeTest: true}
+		name: "smoke-test-scope-enforcement"
+		"@type": {SmokeTest: true}
 		description: "EARL smoke test — LLM stays within domain scope boundaries"
-		depends_on:  {"deployment-procurement-assistant": true}
+		depends_on: {"deployment-procurement-assistant": true}
 	}
 
 	// ── Phase 8: Compliance Reporting & W3C Projections ──────────
 	"shacl-compliance-report": {
-		name:        "shacl-compliance-report"
-		"@type":     {ComplianceReport: true}
+		name: "shacl-compliance-report"
+		"@type": {ComplianceReport: true}
 		description: "sh:ValidationReport — per-rule conformance for TBS/OAG auditors"
-		depends_on:  {"audit-sink-prov-o": true}
+		depends_on: {"audit-sink-prov-o": true}
 	}
 	"vc-compliance-credential": {
-		name:        "vc-compliance-credential"
-		"@type":     {VerifiableCredential: true}
+		name: "vc-compliance-credential"
+		"@type": {VerifiableCredential: true}
 		description: "VC 2.0 credential attesting compliance (wraps SHACL report)"
-		depends_on:  {"shacl-compliance-report": true}
+		depends_on: {"shacl-compliance-report": true}
 	}
 	"dcat-ai-register-entry": {
-		name:        "dcat-ai-register-entry"
-		"@type":     {CatalogEntry: true}
+		name: "dcat-ai-register-entry"
+		"@type": {CatalogEntry: true}
 		description: "DCAT 3 catalog entry for GC AI Register (machine-readable)"
-		depends_on:  {"deployment-procurement-assistant": true, "deployment-hr-assistant": true}
+		depends_on: {"deployment-procurement-assistant": true, "deployment-hr-assistant": true}
 	}
 	"owl-time-compliance-schedule": {
-		name:        "owl-time-compliance-schedule"
-		"@type":     {Schedule: true}
+		name: "owl-time-compliance-schedule"
+		"@type": {Schedule: true}
 		description: "OWL-Time critical path schedule to June 2026 compliance deadline"
-		depends_on:  {"shacl-compliance-report": true}
+		depends_on: {"shacl-compliance-report": true}
 	}
 }
 
@@ -387,16 +387,16 @@ _charter: charter.#Charter & {
 			"gc-llm-governance-framework": true
 		}
 		required_types: {
-			Statute:           true
-			Directive:         true
-			Guide:             true
-			ControlObjective:  true
-			ComplianceRule:    true
-			PolicyConstraint:  true
-			LLMDeployment:     true
-			AuditSink:         true
-			DomainScope:       true
-			PolicyFact:        true
+			Statute:          true
+			Directive:        true
+			Guide:            true
+			ControlObjective: true
+			ComplianceRule:   true
+			PolicyConstraint: true
+			LLMDeployment:    true
+			AuditSink:        true
+			DomainScope:      true
+			PolicyFact:       true
 		}
 	}
 
@@ -436,14 +436,14 @@ _charter: charter.#Charter & {
 			phase:       3
 			description: "All compliance rules pass cue vet, SHACL report exports"
 			requires: {
-				"rule-pii-blocking":             true
+				"rule-pii-blocking":               true
 				"rule-classification-enforcement": true
-				"rule-bilingual-output":          true
-				"rule-human-review-level-iii":    true
-				"rule-peer-review-level-ii":      true
-				"rule-bias-demographic":          true
-				"rule-cccs-threat-coverage":      true
-				"rule-faster-coverage":           true
+				"rule-bilingual-output":           true
+				"rule-human-review-level-iii":     true
+				"rule-peer-review-level-ii":       true
+				"rule-bias-demographic":           true
+				"rule-cccs-threat-coverage":       true
+				"rule-faster-coverage":            true
 			}
 			depends_on: {"controls-defined": true}
 		}
@@ -451,12 +451,12 @@ _charter: charter.#Charter & {
 			phase:       4
 			description: "Authoritative knowledge graph validates, domain scopes defined"
 			requires: {
-				"knowledge-graph-schema":       true
-				"policy-fact-registry":         true
-				"authoritative-source-index":   true
-				"term-definitions-registry":    true
-				"domain-scope-procurement":     true
-				"domain-scope-hr":              true
+				"knowledge-graph-schema":     true
+				"policy-fact-registry":       true
+				"authoritative-source-index": true
+				"term-definitions-registry":  true
+				"domain-scope-procurement":   true
+				"domain-scope-hr":            true
 			}
 			depends_on: {"rules-compilable": true}
 		}
@@ -464,12 +464,12 @@ _charter: charter.#Charter & {
 			phase:       5
 			description: "ODRL policies export valid JSON-LD, provider binding resolves"
 			requires: {
-				"odrl-unclassified":      true
-				"odrl-protected-a":       true
-				"odrl-protected-b":       true
-				"provider-gc-cloud":  true
-				"provider-bedrock":       true
-				"provider-self-hosted":   true
+				"odrl-unclassified":    true
+				"odrl-protected-a":     true
+				"odrl-protected-b":     true
+				"provider-gc-cloud":    true
+				"provider-bedrock":     true
+				"provider-self-hosted": true
 			}
 			depends_on: {"knowledge-grounded": true}
 		}
@@ -490,10 +490,10 @@ _charter: charter.#Charter & {
 			phase:       7
 			description: "PROV-O audit trail and EARL smoke tests operational"
 			requires: {
-				"audit-sink-prov-o":              true
-				"smoke-test-bilingual":           true
-				"smoke-test-pii-blocking":        true
-				"smoke-test-scope-enforcement":   true
+				"audit-sink-prov-o":            true
+				"smoke-test-bilingual":         true
+				"smoke-test-pii-blocking":      true
+				"smoke-test-scope-enforcement": true
 			}
 			depends_on: {"deployments-modeled": true}
 		}
@@ -501,10 +501,10 @@ _charter: charter.#Charter & {
 			phase:       8
 			description: "Full W3C projection suite — SHACL, VC, DCAT, OWL-Time"
 			requires: {
-				"shacl-compliance-report":       true
-				"vc-compliance-credential":      true
-				"dcat-ai-register-entry":        true
-				"owl-time-compliance-schedule":  true
+				"shacl-compliance-report":      true
+				"vc-compliance-credential":     true
+				"dcat-ai-register-entry":       true
+				"owl-time-compliance-schedule": true
 			}
 			depends_on: {"audit-operational": true}
 		}
@@ -523,44 +523,44 @@ compliance: patterns.#ComplianceCheck & {
 	Graph: graph
 	Rules: [
 		{
-			name:             "deployments-need-providers"
-			description:      "Every LLM deployment must depend on an LLM provider"
-			match_types:      {LLMDeployment: true}
+			name:        "deployments-need-providers"
+			description: "Every LLM deployment must depend on an LLM provider"
+			match_types: {LLMDeployment: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "providers-need-policies"
-			description:      "Every LLM provider must depend on a classification policy"
-			match_types:      {LLMProvider: true}
+			name:        "providers-need-policies"
+			description: "Every LLM provider must depend on a classification policy"
+			match_types: {LLMProvider: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "rules-need-objectives"
-			description:      "Every compliance rule must trace to a control objective"
-			match_types:      {ComplianceRule: true}
+			name:        "rules-need-objectives"
+			description: "Every compliance rule must trace to a control objective"
+			match_types: {ComplianceRule: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "objectives-need-obligations"
-			description:      "Every control objective must trace to a statute, directive, or guide"
-			match_types:      {ControlObjective: true}
+			name:        "objectives-need-obligations"
+			description: "Every control objective must trace to a statute, directive, or guide"
+			match_types: {ControlObjective: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "audit-needs-deployments"
-			description:      "Audit sinks must depend on deployed LLM instances"
-			match_types:      {AuditSink: true}
+			name:        "audit-needs-deployments"
+			description: "Audit sinks must depend on deployed LLM instances"
+			match_types: {AuditSink: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "reports-need-audit"
-			description:      "Compliance reports must depend on audit evidence"
-			match_types:      {ComplianceReport: true}
+			name:        "reports-need-audit"
+			description: "Compliance reports must depend on audit evidence"
+			match_types: {ComplianceReport: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
@@ -568,9 +568,9 @@ compliance: patterns.#ComplianceCheck & {
 }
 
 // ═══ SUMMARY ═════════════════════════════════════════════════════════════════
-_summary_compliance_total:             len(compliance.Rules)
-_summary_compliance_passed:            len([for r in compliance.results if r.passed {1}])
-_summary_compliance_failed:            len([for r in compliance.results if !r.passed {1}])
+_summary_compliance_total: len(compliance.Rules)
+_summary_compliance_passed: len([for r in compliance.results if r.passed {1}])
+_summary_compliance_failed: len([for r in compliance.results if !r.passed {1}])
 _summary_compliance_critical_failures: len([for r in compliance.results if !r.passed && r.severity == "critical" {1}])
 
 summary: {
@@ -601,13 +601,13 @@ summary: {
 // Single export combining all W3C outputs.
 // Export: cue export ./examples/gc-llm-governance/ -e projections --out json
 projections: {
-	shacl:      compliance.shacl_report
-	owl_time:   cpm.time_report
-	odrl:       odrl_policies
-	prov:       provenance
-	dcat:       dcat_catalog
-	vc:         vc_credential.vc
-	skos:       type_vocab.concept_scheme
+	shacl:    compliance.shacl_report
+	owl_time: cpm.time_report
+	odrl:     odrl_policies
+	prov:     provenance
+	dcat:     dcat_catalog
+	vc:       vc_credential.vc
+	skos:     type_vocab.concept_scheme
 	scheduling: {
 		summary:           cpm.summary
 		critical_sequence: cpm.critical_sequence
@@ -630,9 +630,9 @@ _depth_map: {
 viz: {
 	nodes: [
 		for rname, raw in _tasks {
-			id:          rname
-			name:        rname
-			types:       [for t, _ in raw["@type"] {t}]
+			id:   rname
+			name: rname
+			types: [for t, _ in raw["@type"] {t}]
 			depth:       _depth_map[rname]
 			description: raw.description
 			// Phase from charter gates
@@ -659,7 +659,7 @@ viz: {
 				phase:       gate.phase
 				description: gate.description
 				satisfied:   gaps.gate_status[gname].satisfied
-				resources:   [for r, _ in gate.requires {r}]
+				resources: [for r, _ in gate.requires {r}]
 			}
 		}
 	}

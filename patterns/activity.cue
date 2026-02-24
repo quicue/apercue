@@ -38,8 +38,8 @@ import "apercue.ca/vocab"
 		for name, _ in layer_resources {
 			let res = Graph.resources[name]
 			{
-				"type":   "Create"
-				"actor":  _actor
+				"type":  "Create"
+				"actor": _actor
 				"object": {
 					"type":          "Object"
 					"id":            "urn:resource:" + name

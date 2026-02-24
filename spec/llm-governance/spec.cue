@@ -10,11 +10,12 @@
 
 package main
 
-import "strings"
+import ( "strings"
 
-// ═══════════════════════════════════════════════════════════════════════════
-// SPEC METADATA
-// ═══════════════════════════════════════════════════════════════════════════
+	// ═══════════════════════════════════════════════════════════════════════════
+	// SPEC METADATA
+	// ═══════════════════════════════════════════════════════════════════════════
+)
 
 _meta: {
 	title:      "LLM Governance Framework: Compile-Time Compliance Graphs for AI Systems"
@@ -119,160 +120,160 @@ _types: [
 // Phase architecture — drives the Phase Architecture section
 _phases: [
 	{
-		num:         1
-		name:        "Obligation Graph"
-		description: "Map the regulatory landscape. Identify all binding obligations (statutes, directives, standards) and their dependency relationships. Root nodes are primary legislation; dependent nodes are derived instruments."
+		num:          1
+		name:         "Obligation Graph"
+		description:  "Map the regulatory landscape. Identify all binding obligations (statutes, directives, standards) and their dependency relationships. Root nodes are primary legislation; dependent nodes are derived instruments."
 		deliverables: "Obligation inventory, dependency DAG, authority mapping"
-		w3c_output:  "JSON-LD graph with <code>dcterms:requires</code> edges"
-		nist:        "GOVERN (GV-1 Policies, GV-2 Roles)"
-		iso:         "§5 Leadership, §6 Planning"
-		eu:          "Art. 9 Risk management system"
-		uk:          "Principle 1: Safety, security, robustness"
-		can:         "AIDA §5 Definitions, §7 Regulated activities"
+		w3c_output:   "JSON-LD graph with <code>dcterms:requires</code> edges"
+		nist:         "GOVERN (GV-1 Policies, GV-2 Roles)"
+		iso:          "§5 Leadership, §6 Planning"
+		eu:           "Art. 9 Risk management system"
+		uk:           "Principle 1: Safety, security, robustness"
+		can:          "AIDA §5 Definitions, §7 Regulated activities"
 	},
 	{
-		num:         2
-		name:        "Impact Assessment"
-		description: "Classify AI systems by risk level and determine impact tiers. EU AI Act uses four risk categories (unacceptable, high, limited, minimal). Canada's AIA uses four impact levels (I–IV). Map each deployment to its applicable tier."
+		num:          2
+		name:         "Impact Assessment"
+		description:  "Classify AI systems by risk level and determine impact tiers. EU AI Act uses four risk categories (unacceptable, high, limited, minimal). Canada's AIA uses four impact levels (I–IV). Map each deployment to its applicable tier."
 		deliverables: "Risk classification matrix, AIA level assignments, high-risk system inventory"
-		w3c_output:  "SHACL <code>sh:ValidationReport</code> for classification completeness"
-		nist:        "MAP (MP-2 Categorize, MP-3 Benefits/Costs)"
-		iso:         "§6.1 Risk assessment"
-		eu:          "Art. 6 Classification rules, Annex III High-risk list"
-		uk:          "Principle 3: Transparency, explainability"
-		can:         "AIDA §7(1) Impact assessment requirement"
+		w3c_output:   "SHACL <code>sh:ValidationReport</code> for classification completeness"
+		nist:         "MAP (MP-2 Categorize, MP-3 Benefits/Costs)"
+		iso:          "§6.1 Risk assessment"
+		eu:           "Art. 6 Classification rules, Annex III High-risk list"
+		uk:           "Principle 3: Transparency, explainability"
+		can:          "AIDA §7(1) Impact assessment requirement"
 	},
 	{
-		num:         3
-		name:        "Control Objectives"
-		description: "Derive measurable controls from obligations and impact assessments. Each control objective traces to one or more obligations and specifies a verification method. Controls are typed as technical, process, or organizational."
+		num:          3
+		name:         "Control Objectives"
+		description:  "Derive measurable controls from obligations and impact assessments. Each control objective traces to one or more obligations and specifies a verification method. Controls are typed as technical, process, or organizational."
 		deliverables: "Control catalog, obligation-to-control traceability matrix, verification criteria"
-		w3c_output:  "SHACL <code>sh:ValidationReport</code> for control coverage"
-		nist:        "MEASURE (MS-1 Metrics, MS-2 Evaluation)"
-		iso:         "§8.2 AI risk assessment"
-		eu:          "Art. 9(2) Identify and analyse known/foreseeable risks"
-		uk:          "Principle 2: Appropriate transparency"
-		can:         "AIDA §8 Mitigation measures"
+		w3c_output:   "SHACL <code>sh:ValidationReport</code> for control coverage"
+		nist:         "MEASURE (MS-1 Metrics, MS-2 Evaluation)"
+		iso:          "§8.2 AI risk assessment"
+		eu:           "Art. 9(2) Identify and analyse known/foreseeable risks"
+		uk:           "Principle 2: Appropriate transparency"
+		can:          "AIDA §8 Mitigation measures"
 	},
 	{
-		num:         4
-		name:        "Knowledge Grounding"
-		description: "Establish the factual basis for LLM responses. Identify authoritative sources, extract verified facts, define term definitions, and set domain scope boundaries. Every fact cites its source; every term has a canonical definition."
+		num:          4
+		name:         "Knowledge Grounding"
+		description:  "Establish the factual basis for LLM responses. Identify authoritative sources, extract verified facts, define term definitions, and set domain scope boundaries. Every fact cites its source; every term has a canonical definition."
 		deliverables: "Authoritative source registry, fact inventory, term glossary, domain scopes"
-		w3c_output:  "PROV-O provenance chains (<code>prov:wasDerivedFrom</code>)"
-		nist:        "MAP (MP-4 Risks/Impacts)"
-		iso:         "§7.5 Documented information"
-		eu:          "Art. 11 Technical documentation"
-		uk:          "Principle 4: Fairness"
-		can:         "AIDA §11 Records and disclosure"
+		w3c_output:   "PROV-O provenance chains (<code>prov:wasDerivedFrom</code>)"
+		nist:         "MAP (MP-4 Risks/Impacts)"
+		iso:          "§7.5 Documented information"
+		eu:           "Art. 11 Technical documentation"
+		uk:           "Principle 4: Fairness"
+		can:          "AIDA §11 Records and disclosure"
 	},
 	{
-		num:         5
-		name:        "Policy Engine"
-		description: "Define data classification policies as machine-readable ODRL 2.2 policies. Each policy specifies permissions, prohibitions, and duties for a classification level. Policies bind to deployment models via gate requirements."
+		num:          5
+		name:         "Policy Engine"
+		description:  "Define data classification policies as machine-readable ODRL 2.2 policies. Each policy specifies permissions, prohibitions, and duties for a classification level. Policies bind to deployment models via gate requirements."
 		deliverables: "Classification policies (per level), gate definitions, policy-to-deployment bindings"
-		w3c_output:  "ODRL 2.2 <code>odrl:Policy</code> with permissions/prohibitions"
-		nist:        "MANAGE (MG-2 Risk Response, MG-3 Risk Escalation)"
-		iso:         "§8.4 AI system operation"
-		eu:          "Art. 14 Human oversight, Art. 15 Accuracy/robustness"
-		uk:          "Principle 5: Contestability, redress"
-		can:         "AIDA §9 Measures — transparency obligations"
+		w3c_output:   "ODRL 2.2 <code>odrl:Policy</code> with permissions/prohibitions"
+		nist:         "MANAGE (MG-2 Risk Response, MG-3 Risk Escalation)"
+		iso:          "§8.4 AI system operation"
+		eu:           "Art. 14 Human oversight, Art. 15 Accuracy/robustness"
+		uk:           "Principle 5: Contestability, redress"
+		can:          "AIDA §9 Measures — transparency obligations"
 	},
 	{
-		num:         6
-		name:        "Deployment Constraints"
-		description: "Model how LLMs are deployed with bound policies and gate requirements. Each deployment declares its provider, infrastructure type, classification ceiling, and which compliance gates must be satisfied before activation."
+		num:          6
+		name:         "Deployment Constraints"
+		description:  "Model how LLMs are deployed with bound policies and gate requirements. Each deployment declares its provider, infrastructure type, classification ceiling, and which compliance gates must be satisfied before activation."
 		deliverables: "Deployment inventory, gate bindings, provider classification matrix"
-		w3c_output:  "DCAT 3 <code>dcat:Distribution</code> catalog entries"
-		nist:        "MANAGE (MG-1 Risk Monitoring)"
-		iso:         "§8.3 AI system development"
-		eu:          "Art. 16 Provider obligations, Art. 26 Deployer obligations"
-		uk:          "Principle 1: Safety (deployment context)"
-		can:         "AIDA §6 Duties of persons responsible"
+		w3c_output:   "DCAT 3 <code>dcat:Distribution</code> catalog entries"
+		nist:         "MANAGE (MG-1 Risk Monitoring)"
+		iso:          "§8.3 AI system development"
+		eu:           "Art. 16 Provider obligations, Art. 26 Deployer obligations"
+		uk:           "Principle 1: Safety (deployment context)"
+		can:          "AIDA §6 Duties of persons responsible"
 	},
 	{
-		num:         7
-		name:        "Audit & Provenance"
-		description: "Establish accountability chains from obligation through control to evidence. Define audit activities, assign responsible agents, link to evidence artifacts. Provenance chains enable traceability from any compliance claim back to its regulatory source."
+		num:          7
+		name:         "Audit & Provenance"
+		description:  "Establish accountability chains from obligation through control to evidence. Define audit activities, assign responsible agents, link to evidence artifacts. Provenance chains enable traceability from any compliance claim back to its regulatory source."
 		deliverables: "Audit plan, agent registry, provenance chain templates, evidence catalog"
-		w3c_output:  "PROV-O <code>prov:Activity</code> chains + EARL <code>earl:Assertion</code> test reports"
-		nist:        "MEASURE (MS-3 Risk Communication)"
-		iso:         "§9 Performance evaluation, §9.2 Internal audit"
-		eu:          "Art. 12 Record-keeping, Art. 13 Transparency"
-		uk:          "Principle 3: Transparency (audit trail)"
-		can:         "AIDA §11 Records — audit log requirements"
+		w3c_output:   "PROV-O <code>prov:Activity</code> chains + EARL <code>earl:Assertion</code> test reports"
+		nist:         "MEASURE (MS-3 Risk Communication)"
+		iso:          "§9 Performance evaluation, §9.2 Internal audit"
+		eu:           "Art. 12 Record-keeping, Art. 13 Transparency"
+		uk:           "Principle 3: Transparency (audit trail)"
+		can:          "AIDA §11 Records — audit log requirements"
 	},
 	{
-		num:         8
-		name:        "Compliance Reporting"
-		description: "Produce verifiable compliance attestations as W3C Verifiable Credentials wrapping SHACL validation reports. Generate catalog entries for registration with regulatory bodies. Publish governance vocabulary as SKOS concept schemes."
+		num:          8
+		name:         "Compliance Reporting"
+		description:  "Produce verifiable compliance attestations as W3C Verifiable Credentials wrapping SHACL validation reports. Generate catalog entries for registration with regulatory bodies. Publish governance vocabulary as SKOS concept schemes."
 		deliverables: "Verifiable Credentials, SHACL summary reports, DCAT catalog, SKOS governance vocabulary"
-		w3c_output:  "VC 2.0 credentials, SKOS <code>skos:ConceptScheme</code>"
-		nist:        "GOVERN (GV-6 Feedback)"
-		iso:         "§10 Improvement, §10.2 Corrective action"
-		eu:          "Art. 49 Registration, Art. 62 Reporting"
-		uk:          "Principle 5: Redress (reporting mechanisms)"
-		can:         "AIDA §12 Publication — public reporting"
+		w3c_output:   "VC 2.0 credentials, SKOS <code>skos:ConceptScheme</code>"
+		nist:         "GOVERN (GV-6 Feedback)"
+		iso:          "§10 Improvement, §10.2 Corrective action"
+		eu:           "Art. 49 Registration, Art. 62 Reporting"
+		uk:           "Principle 5: Redress (reporting mechanisms)"
+		can:          "AIDA §12 Publication — public reporting"
 	},
 ]
 
 // W3C projection mappings — how each standard maps to governance
 _projections: [
 	{
-		standard:      "SHACL"
-		spec_ref:      "[[shacl]]"
+		standard:       "SHACL"
+		spec_ref:       "[[shacl]]"
 		governance_use: "Compliance validation. Every control objective becomes a SHACL shape; every violation produces a <code>sh:ValidationResult</code> with severity, focus node, and remediation guidance."
-		output:        "<code>sh:ValidationReport</code>"
-		phases:        "2, 3, 8"
+		output:         "<code>sh:ValidationReport</code>"
+		phases:         "2, 3, 8"
 	},
 	{
-		standard:      "ODRL 2.2"
-		spec_ref:      "[[odrl-vocab]]"
+		standard:       "ODRL 2.2"
+		spec_ref:       "[[odrl-vocab]]"
 		governance_use: "Data classification enforcement. Each classification level (Unclassified, Protected A/B, Confidential, etc.) becomes an ODRL policy with permissions, prohibitions, and duty conditions."
-		output:        "<code>odrl:Policy</code>"
-		phases:        "5"
+		output:         "<code>odrl:Policy</code>"
+		phases:         "5"
 	},
 	{
-		standard:      "PROV-O"
-		spec_ref:      "[[prov-o]]"
+		standard:       "PROV-O"
+		spec_ref:       "[[prov-o]]"
 		governance_use: "Audit provenance. Links compliance activities to responsible agents, evidence artifacts, and authoritative sources. Enables end-to-end traceability from obligation to attestation."
-		output:        "<code>prov:Activity</code>, <code>prov:Entity</code>, <code>prov:Agent</code>"
-		phases:        "4, 7"
+		output:         "<code>prov:Activity</code>, <code>prov:Entity</code>, <code>prov:Agent</code>"
+		phases:         "4, 7"
 	},
 	{
-		standard:      "DCAT 3"
-		spec_ref:      "[[vocab-dcat-3]]"
+		standard:       "DCAT 3"
+		spec_ref:       "[[vocab-dcat-3]]"
 		governance_use: "Deployment registry. Each LLM deployment becomes a DCAT dataset with distribution metadata, access constraints, and policy references."
-		output:        "<code>dcat:Dataset</code>, <code>dcat:Distribution</code>"
-		phases:        "6"
+		output:         "<code>dcat:Dataset</code>, <code>dcat:Distribution</code>"
+		phases:         "6"
 	},
 	{
-		standard:      "VC 2.0"
-		spec_ref:      "[[vc-data-model-2.0]]"
+		standard:       "VC 2.0"
+		spec_ref:       "[[vc-data-model-2.0]]"
 		governance_use: "Compliance attestation. Wraps SHACL validation reports in Verifiable Credentials for tamper-evident, machine-verifiable compliance claims."
-		output:        "<code>VerifiableCredential</code>"
-		phases:        "8"
+		output:         "<code>VerifiableCredential</code>"
+		phases:         "8"
 	},
 	{
-		standard:      "SKOS"
-		spec_ref:      "[[skos-reference]]"
+		standard:       "SKOS"
+		spec_ref:       "[[skos-reference]]"
 		governance_use: "Governance vocabulary. Domain types, control categories, and classification levels project as SKOS concept schemes with hierarchical and associative relations."
-		output:        "<code>skos:ConceptScheme</code>, <code>skos:Concept</code>"
-		phases:        "8"
+		output:         "<code>skos:ConceptScheme</code>, <code>skos:Concept</code>"
+		phases:         "8"
 	},
 	{
-		standard:      "OWL-Time"
-		spec_ref:      "[[owl-time]]"
+		standard:       "OWL-Time"
+		spec_ref:       "[[owl-time]]"
 		governance_use: "Compliance scheduling. Critical path analysis produces time intervals for each phase gate, enabling project managers to identify schedule risks and resource bottlenecks."
-		output:        "<code>time:Interval</code>, <code>time:Duration</code>"
-		phases:        "All"
+		output:         "<code>time:Interval</code>, <code>time:Duration</code>"
+		phases:         "All"
 	},
 	{
-		standard:      "JSON-LD"
-		spec_ref:      "[[json-ld11]]"
+		standard:       "JSON-LD"
+		spec_ref:       "[[json-ld11]]"
 		governance_use: "Linked data federation. The shared <code>@context</code> enables governance graphs from different organizations to merge cleanly — same vocabulary, same semantics, different data."
-		output:        "<code>@context</code>, <code>@id</code>, <code>@type</code>"
-		phases:        "All"
+		output:         "<code>@context</code>, <code>@id</code>, <code>@type</code>"
+		phases:         "All"
 	},
 ]
 

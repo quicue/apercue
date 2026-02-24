@@ -32,13 +32,13 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 		name: _#SafeID
 		"@type": {[_#SafeLabel]: true}
 		depends_on?: {[_#SafeID]: true}
-		_depth:     int
+		_depth: int
 		_ancestors: {[string]: bool}
 		...
 	}
 	topology: {[string]: {[string]: true}}
-	roots:      {[string]: true}
-	leaves:     {[string]: true}
+	roots: {[string]: true}
+	leaves: {[string]: true}
 	dependents: {[string]: {[string]: true}}
 	...
 }
@@ -53,7 +53,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 	depends_on?: {[_#SafeID]: true}
 
 	// Metadata
-	tags?:        {[_#SafeLabel]: true}
+	tags?: {[_#SafeLabel]: true}
 	description?: string
 
 	// Computed: depth in dependency graph (0 = root)
@@ -93,7 +93,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 	// When provided, skips expensive CUE recursive computation.
 	// Generate with: python3 tools/toposort.py <cue-dir> <expr> > precomputed.json
 	Precomputed?: {
-		depth:      [_#SafeID]: int
+		depth: [_#SafeID]: int
 		ancestors?: [_#SafeID]: {[_#SafeID]: true}
 		dependents?: [_#SafeID]: {[_#SafeID]: true}
 	}
@@ -117,6 +117,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 			// Normalize depends_on: absent or empty becomes {}
 			let _deps = *r.depends_on | {}
 			let _hasDeps = len(_deps) > 0
+
 			// Convert struct keys to list for ordered operations
 			let _depsList = [for d, _ in _deps {d}]
 
@@ -205,8 +206,8 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 
 	// Required: pre-computed from Python toposort
 	Precomputed: {
-		depth:      [_#SafeID]: int
-		ancestors:  [_#SafeID]: {[_#SafeID]: true}
+		depth: [_#SafeID]: int
+		ancestors: [_#SafeID]: {[_#SafeID]: true}
 		dependents: [_#SafeID]: {[_#SafeID]: true}
 	}
 
@@ -238,7 +239,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 		}
 	}
 
-	roots:  {for rname, r in resources if r._depth == 0 {(rname): true}}
+	roots: {for rname, r in resources if r._depth == 0 {(rname): true}}
 	_hasDependents: {
 		for _, r in resources if r.depends_on != _|_ {
 			for d, _ in r.depends_on {(d): true}
@@ -349,7 +350,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 			let _direct = len([for k, _ in Graph.dependents[rname] {k}])
 			let _transitive = len([
 				for rname2, r2 in Graph.resources
-				if r2._ancestors[rname] != _|_ && rname2 != rname {rname2}
+				if r2._ancestors[rname] != _|_ && rname2 != rname {rname2},
 			])
 			name:       rname
 			direct:     _direct
@@ -524,11 +525,11 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 			let _directDeps = len([for k, _ in Graph.dependents[r.name] {k}])
 			let _transitive = len([
 				for rname2, r2 in Graph.resources
-				if r2._ancestors[r.name] != _|_ && rname2 != r.name {rname2}
+				if r2._ancestors[r.name] != _|_ && rname2 != r.name {rname2},
 			])
-			id:         r.name
-			name:       r.name
-			types:      [for t, _ in r["@type"] {t}]
+			id:   r.name
+			name: r.name
+			types: [for t, _ in r["@type"] {t}]
 			depth:      r.depth
 			ancestors:  r.ancestors
 			dependents: _directDeps
@@ -558,13 +559,13 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 		if s.name != _|_ {
 			name:       s.name
 			dependents: s.dependents
-			types:      [for t, _ in s.types {t}]
-			depth:      s.depth
+			types: [for t, _ in s.types {t}]
+			depth: s.depth
 		},
 	]
 
 	// Coupling points: resources where >30% of graph depends on them
-	_totalNodes: len(_nodes)
+	_totalNodes:        len(_nodes)
 	_couplingThreshold: _totalNodes * 3 / 10 // 30%
 	_couplingRaw: [
 		for rname, deps in Graph.dependents {
@@ -578,22 +579,22 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 
 	// The output data structure (arrays for JavaScript compatibility)
 	data: {
-		nodes:       _nodes
-		edges:       _edges
-		topology:    _topology
-		roots:       [for r, _ in Graph.roots {r}]
-		leaves:      [for l, _ in Graph.leaves {l}]
+		nodes:    _nodes
+		edges:    _edges
+		topology: _topology
+		roots: [for r, _ in Graph.roots {r}]
+		leaves: [for l, _ in Graph.leaves {l}]
 		criticality: _critList
 		byType: {for t, members in _byType.groups {(t): [for m, _ in members {m}]}}
-		spof:        _spofList
-		coupling:    _couplingList
+		spof:     _spofList
+		coupling: _couplingList
 		metrics: {
 			total:    len(_nodes)
 			maxDepth: _export.summary.max_depth
 			edges:    len(_edges)
-			roots:    len([for r, _ in Graph.roots {r}])
-			leaves:   len([for l, _ in Graph.leaves {l}])
-			spofCount: len(_spofList)
+			roots: len([for r, _ in Graph.roots {r}])
+			leaves: len([for l, _ in Graph.leaves {l}])
+			spofCount:     len(_spofList)
 			couplingCount: len(_couplingList)
 		}
 		validation: {
@@ -697,9 +698,9 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 
 	// Summary
 	summary: {
-		target:          Target
-		affected_count:  len([for k, _ in affected {k}])
-		rollback_steps:  len(rollback_order)
+		target: Target
+		affected_count: len([for k, _ in affected {k}])
+		rollback_steps: len(rollback_order)
 		safe_peer_count: len([for k, _ in safe_peers {k}])
 	}
 }
@@ -808,8 +809,8 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 	}
 
 	summary: {
-		targets:             len(Targets)
-		total_affected:      len([for k, _ in _exposure {k}])
+		targets: len(Targets)
+		total_affected: len([for k, _ in _exposure {k}])
 		compound_risk_count: len([for k, _ in compound_risk {k}])
 	}
 }
@@ -986,8 +987,9 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 					// Check overlap: count how many of my dependents also depend on peer
 					let _peerDeps = Graph.dependents[peer]
 					let _shared = len([for d, _ in _deps if _peerDeps[d] != _|_ {d}])
+
 					// Integer math: _shared * 100 >= threshold% * _depCount
-					if _depCount > 0 && (_shared * 100) >= (OverlapThreshold * _depCount) {peer}
+					if _depCount > 0 && (_shared*100) >= (OverlapThreshold*_depCount) {peer}
 				},
 			])
 

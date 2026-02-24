@@ -136,8 +136,8 @@ _patternSections: strings.Join([for key, p in _patterns {
 }], "\n\n")
 
 _implCount: len([for _, s in vocab.Specs if s.status == "Implemented" {s}])
-_nsCount:   len([for _, s in vocab.Specs if s.status == "Namespace" {s}])
-_dsCount:   len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
+_nsCount: len([for _, s in vocab.Specs if s.status == "Namespace" {s}])
+_dsCount: len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HTML DOCUMENT

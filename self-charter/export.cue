@@ -32,14 +32,14 @@ _charter_depth_map: {
 
 // Export-friendly charter data for D3 visualization
 charter_viz: {
-	"@context":       vocab.context["@context"]
-	"@type":          "apercue:CharterVisualization"
+	"@context": vocab.context["@context"]
+	"@type":    "apercue:CharterVisualization"
 	"dct:conformsTo": {"@id": "https://apercue.ca/charter"}
 	nodes: [
 		for rname, raw in _tasks {
-			id:          rname
-			name:        rname
-			types:       [for t, _ in raw["@type"] {t}]
+			id:   rname
+			name: rname
+			types: [for t, _ in raw["@type"] {t}]
 			depth:       _charter_depth_map[rname]
 			description: raw.description
 			planned:     raw._planned
@@ -73,7 +73,7 @@ charter_viz: {
 				phase:       gate.phase
 				description: gate.description
 				satisfied:   gaps.gate_status[gname].satisfied
-				resources:   [for r, _ in gate.requires {r}]
+				resources: [for r, _ in gate.requires {r}]
 			}
 		}
 	}
@@ -94,8 +94,8 @@ charter_viz: {
 // ═══════════════════════════════════════════════════════════════════════════
 
 projections: {
-	"@context":       vocab.context["@context"]
-	"@type":          "apercue:ProjectionSet"
+	"@context": vocab.context["@context"]
+	"@type":    "apercue:ProjectionSet"
 	"dct:conformsTo": {"@id": "https://apercue.ca/vocab"}
 	// SHACL — gap analysis as validation report
 	shacl: gaps.shacl_report
@@ -105,7 +105,7 @@ projections: {
 
 	// CPM summary + critical sequence
 	scheduling: {
-		summary:          cpm.summary
+		summary:           cpm.summary
 		critical_sequence: cpm.critical_sequence
 	}
 }
@@ -114,14 +114,14 @@ projections: {
 // Iterate over _ecosystem (raw input) to get concrete keys.
 // Depth comes from the computed graph topology, not dependency count.
 eco_viz: {
-	"@context":       vocab.context["@context"]
-	"@type":          "apercue:EcosystemVisualization"
+	"@context": vocab.context["@context"]
+	"@type":    "apercue:EcosystemVisualization"
 	"dct:conformsTo": {"@id": "https://apercue.ca/charter"}
 	nodes: [
 		for rname, raw in _ecosystem {
-			id:          rname
-			name:        rname
-			types:       [for t, _ in raw["@type"] {t}]
+			id:   rname
+			name: rname
+			types: [for t, _ in raw["@type"] {t}]
 			depth:       _depth_map[rname]
 			status:      raw.status
 			description: raw.description
@@ -136,8 +136,8 @@ eco_viz: {
 	charter:       ecosystem.summary
 	cpm:           _eco_cpm.summary
 	critical_path: _eco_cpm.critical_sequence
-	status:        {for rname, r in _ecosystem {(rname): r.status}}
-	topology:      _eco_graph.topology
+	status: {for rname, r in _ecosystem {(rname): r.status}}
+	topology: _eco_graph.topology
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -150,11 +150,11 @@ eco_viz: {
 // ═══════════════════════════════════════════════════════════════════════════
 
 _charter_types: {
-	Schema:        {description: "Schema or type definition task"}
-	Pattern:       {description: "Reusable computational pattern"}
-	Projection:    {description: "W3C standard output projection"}
-	Example:       {description: "Example or demonstration"}
-	CI:            {description: "Continuous integration or automation"}
+	Schema: {description: "Schema or type definition task"}
+	Pattern: {description: "Reusable computational pattern"}
+	Projection: {description: "W3C standard output projection"}
+	Example: {description: "Example or demonstration"}
+	CI: {description: "Continuous integration or automation"}
 	Documentation: {description: "Documentation or knowledge base entry"}
 }
 
@@ -166,11 +166,11 @@ type_vocabulary: {
 	"dcterms:title":  "Charter Task Type Vocabulary"
 	"skos:hasTopConcept": [
 		for name, entry in _charter_types {
-			"@type":             "skos:Concept"
-			"@id":               "https://apercue.ca/charter#" + name
-			"skos:prefLabel":    name
-			"skos:definition":   entry.description
-			"skos:inScheme":     {"@id": "https://apercue.ca/charter#TaskTypes"}
+			"@type":           "skos:Concept"
+			"@id":             "https://apercue.ca/charter#" + name
+			"skos:prefLabel":  name
+			"skos:definition": entry.description
+			"skos:inScheme": {"@id": "https://apercue.ca/charter#TaskTypes"}
 			"skos:topConceptOf": {"@id": "https://apercue.ca/charter#TaskTypes"}
 		},
 	]

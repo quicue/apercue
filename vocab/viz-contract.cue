@@ -10,12 +10,12 @@ package vocab
 
 // #VizNode — Minimal node for visualization tools.
 #VizNode: {
-	id:         #SafeID
-	name:       #SafeID
-	types:      [...#SafeLabel]   // Flattened from @type struct
-	depth:      int
-	ancestors:  [...#SafeID]
-	dependents: int               // Count, not list
+	id:   #SafeID
+	name: #SafeID
+	types: [...#SafeLabel] // Flattened from @type struct
+	depth:                 int
+	ancestors: [...#SafeID]
+	dependents:   int // Count, not list
 	description?: string
 }
 
@@ -27,11 +27,11 @@ package vocab
 
 // #VizData — Complete visualization payload.
 #VizData: {
-	nodes:    [...#VizNode]
-	edges:    [...#VizEdge]
+	nodes: [...#VizNode]
+	edges: [...#VizEdge]
 	topology: [string]: [...string]
-	roots:    [...string]
-	leaves:   [...string]
+	roots: [...string]
+	leaves: [...string]
 	metrics: {
 		total:    int
 		maxDepth: int

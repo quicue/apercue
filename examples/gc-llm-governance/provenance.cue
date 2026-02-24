@@ -16,9 +16,9 @@ provenance: {
 	"@graph": [
 		// Agent: the governance framework itself
 		{
-			"@type":          "prov:Agent"
-			"@id":            "urn:gc:agent:governance-framework"
-			"dcterms:title":  "GC LLM Governance Framework"
+			"@type":         "prov:Agent"
+			"@id":           "urn:gc:agent:governance-framework"
+			"dcterms:title": "GC LLM Governance Framework"
 			"prov:actedOnBehalfOf": {"@id": "urn:gc:org:tbs"}
 		},
 		// Agent: TBS as the delegating organization
@@ -29,10 +29,10 @@ provenance: {
 		},
 		// Activity: knowledge graph construction
 		{
-			"@type":                  "prov:Activity"
-			"@id":                    "urn:gc:activity:kg-construction"
-			"dcterms:title":          "Knowledge graph construction from authoritative sources"
-			"prov:wasAssociatedWith":  {"@id": "urn:gc:agent:governance-framework"}
+			"@type":         "prov:Activity"
+			"@id":           "urn:gc:activity:kg-construction"
+			"dcterms:title": "Knowledge graph construction from authoritative sources"
+			"prov:wasAssociatedWith": {"@id": "urn:gc:agent:governance-framework"}
 			"prov:used": [
 				for _, src in sources {
 					{"@id": "urn:gc:source:" + src.id}
@@ -56,17 +56,17 @@ provenance: {
 			"@type":         "prov:Entity"
 			"@id":           "urn:gc:fact:" + fact.id
 			"dcterms:title": fact.claim
-			"prov:wasDerivedFrom":  {"@id": "urn:gc:source:" + fact.source}
-			"prov:wasGeneratedBy":  {"@id": "urn:gc:activity:kg-construction"}
+			"prov:wasDerivedFrom": {"@id": "urn:gc:source:" + fact.source}
+			"prov:wasGeneratedBy": {"@id": "urn:gc:activity:kg-construction"}
 			"prov:wasAttributedTo": {"@id": "urn:gc:agent:governance-framework"}
 		},
 		// Activity: LLM response generation (template)
 		{
-			"@type":                  "prov:Activity"
-			"@id":                    "urn:gc:activity:llm-response-template"
-			"dcterms:title":          "LLM response generation (constrained by knowledge graph)"
-			"prov:wasAssociatedWith":  {"@id": "urn:gc:agent:governance-framework"}
-			"dcterms:description":    "Each LLM response traces to specific facts from the knowledge graph, which in turn trace to authoritative source documents"
+			"@type":         "prov:Activity"
+			"@id":           "urn:gc:activity:llm-response-template"
+			"dcterms:title": "LLM response generation (constrained by knowledge graph)"
+			"prov:wasAssociatedWith": {"@id": "urn:gc:agent:governance-framework"}
+			"dcterms:description": "Each LLM response traces to specific facts from the knowledge graph, which in turn trace to authoritative source documents"
 		},
 	]
 }

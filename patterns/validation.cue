@@ -21,7 +21,7 @@ import (
 #UniqueFieldValidation: {
 	// Input: resources collection and field to validate
 	_resources: [string]: vocab.#Resource
-	_field:     string
+	_field: string
 
 	// Extract field values
 	_values: {
@@ -40,10 +40,10 @@ import (
 		for i, nameA in _names
 		for j, nameB in _names
 		if i < j && _values[nameA] == _values[nameB] {
-			field:     _field
-			value:     _values[nameA]
+			field: _field
+			value: _values[nameA]
 			resources: [nameA, nameB]
-			message:   "Duplicate " + _field + ": '" + "\(_values[nameA])" + "' used by " + nameA + " and " + nameB
+			message: "Duplicate " + _field + ": '" + "\(_values[nameA])" + "' used by " + nameA + " and " + nameB
 		},
 	]
 
@@ -66,8 +66,8 @@ import (
 // Validates at CUE evaluation time
 #ReferenceValidation: {
 	// Input: source resources, target collection, and reference field name
-	_sources:  [string]: vocab.#Resource
-	_targets:  [string]: _
+	_sources: [string]: vocab.#Resource
+	_targets: [string]: _
 	_refField: string // Field name in source that references target
 
 	// Check each reference
@@ -101,7 +101,7 @@ import (
 // Validates at CUE evaluation time
 #RequiredFieldsValidation: {
 	// Input: resources and list of required field names
-	_resources:      [string]: vocab.#Resource
+	_resources: [string]: vocab.#Resource
 	_requiredFields: [...string]
 
 	// Check each resource for required fields
@@ -162,7 +162,7 @@ import (
 // #TypeValidation ensures @type struct contains only valid types
 #TypeValidation: {
 	// Input: resources and allowed types
-	_resources:    [string]: vocab.#Resource
+	_resources: [string]: vocab.#Resource
 	_allowedTypes: [...string]
 
 	// Build set of allowed types
@@ -188,7 +188,7 @@ import (
 // Useful for validating identifiers, slugs, or structured codes
 #PatternValidation: {
 	// Input: resources, field name, and pattern description (for messages)
-	_resources:   [string]: vocab.#Resource
+	_resources: [string]: vocab.#Resource
 	_field:       string
 	_prefix:      string // Required prefix (e.g., "urn:", "http://")
 	_description: string // Human-readable pattern description
@@ -233,12 +233,12 @@ import (
 	match_types: {[string]: true}
 
 	// Assertions (all optional — set one or more)
-	requires_dependent_type?:  {[string]: true} // must have a dependent of this type
+	requires_dependent_type?: {[string]: true} // must have a dependent of this type
 	requires_dependency_type?: {[string]: true} // must depend on something of this type
-	must_not_be_root?:         true              // must depend on something
-	must_not_be_leaf?:         true              // something must depend on it
-	min_dependents?:           int               // minimum number of dependents
-	max_depth?:                int               // maximum allowed depth
+	must_not_be_root?: true // must depend on something
+	must_not_be_leaf?: true // something must depend on it
+	min_dependents?:   int  // minimum number of dependents
+	max_depth?:        int  // maximum allowed depth
 }
 
 // #Violation — a single compliance check failure.
@@ -355,18 +355,18 @@ import (
 
 			let _allViolations = list.Concat([_v1, _v2, _v3, _v4, _v5, _v6])
 
-			name:       rule.name
-			severity:   rule.severity
-			matching:   len([for m, _ in _match {m}])
+			name:     rule.name
+			severity: rule.severity
+			matching: len([for m, _ in _match {m}])
 			violations: _allViolations
 			passed:     len(_allViolations) == 0
 		},
 	]
 
 	summary: {
-		total:             len(Rules)
-		passed:            len([for r in results if r.passed {1}])
-		failed:            len([for r in results if !r.passed {1}])
+		total: len(Rules)
+		passed: len([for r in results if r.passed {1}])
+		failed: len([for r in results if !r.passed {1}])
 		critical_failures: len([for r in results if !r.passed && r.severity == "critical" {1}])
 	}
 
@@ -389,12 +389,12 @@ import (
 		"sh:result": [
 			for r in results if !r.passed
 			for v in r.violations {
-				"@type":                          "sh:ValidationResult"
-				"sh:focusNode":                   {"@id": v.resource}
-				"sh:sourceConstraintComponent":   {"@id": "apercue:" + v.check}
-				"sh:resultSeverity":              {"@id": _severity_iri[r.severity]}
-				"sh:resultMessage":               r.name + ": " + v.check + " on " + v.resource
-				"sh:sourceShape":                 {"@id": "apercue:rule/" + r.name}
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": v.resource}
+				"sh:sourceConstraintComponent": {"@id": "apercue:" + v.check}
+				"sh:resultSeverity": {"@id": _severity_iri[r.severity]}
+				"sh:resultMessage": r.name + ": " + v.check + " on " + v.resource
+				"sh:sourceShape": {"@id": "apercue:rule/" + r.name}
 			},
 		]
 	}

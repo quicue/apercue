@@ -11,9 +11,10 @@
 
 package site
 
-import "apercue.ca/vocab@v0"
+import ( "apercue.ca/vocab@v0"
 
-// ── Spec table data (for site/index.html W3C section) ────────────────
+	// ── Spec table data (for site/index.html W3C section) ────────────────
+)
 
 site_specs: {
 	for name, s in vocab.Specs {
@@ -31,7 +32,7 @@ site_specs: {
 
 site_spec_counts: {
 	implemented: len([for _, s in vocab.Specs if s.status == "Implemented" {s}])
-	namespace:   len([for _, s in vocab.Specs if s.status == "Namespace" {s}])
-	downstream:  len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
-	total:       len(vocab.Specs)
+	namespace: len([for _, s in vocab.Specs if s.status == "Namespace" {s}])
+	downstream: len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
+	total: len(vocab.Specs)
 }

@@ -104,7 +104,7 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 				"echo \"Creating \(name)...\"\n\(res.lifecycle.create)"
 			}]
 			if len(cmds) > 0 {
-				strings.Join(["echo \"=== Layer \(layer_str) ===\""] + cmds + [
+				strings.Join(["echo \"=== Layer \(layer_str) ===\""]+cmds+[
 					"echo \"Layer \(layer_str) complete.\"",
 					"",
 				], "\n")
@@ -175,7 +175,7 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 
 // #SmokeTest runs a list of checks and produces a pass/fail report.
 #SmokeTest: {
-	checks:   [...#Check]
+	checks: [...#Check]
 	Subject?: string // IRI of the system under test (earl:subject)
 
 	// Output: bash script that runs all checks
@@ -184,11 +184,11 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 		"PASS=0; FAIL=0",
 		"check() { local label=\"$1\" cmd=\"$2\" exp=\"$3\"; result=$(eval \"$cmd\" 2>&1); if echo \"$result\" | grep -q \"$exp\"; then echo \"  PASS: $label\"; PASS=$((PASS+1)); else echo \"  FAIL: $label\"; FAIL=$((FAIL+1)); fi; }",
 		"",
-	] + [
+	]+[
 		for c in checks {
 			"check \"\(c.label)\" \"\(c.command)\" \"\(c.expected)\""
 		},
-	] + [
+	]+[
 		"",
 		"echo \"\"",
 		"echo \"Results: $PASS passed, $FAIL failed\"",
@@ -213,13 +213,13 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 					"earl:subject": {"@id": Subject}
 				}
 				"earl:test": {
-					"@type":            "earl:TestCriterion"
-					"dcterms:title":    c.label
-					"apercue:command":  c.command
+					"@type":           "earl:TestCriterion"
+					"dcterms:title":   c.label
+					"apercue:command": c.command
 				}
 				"earl:result": {
-					"@type":         "earl:TestResult"
-					"earl:outcome":  {"@id": "earl:untested"}
+					"@type": "earl:TestResult"
+					"earl:outcome": {"@id": "earl:untested"}
 					"earl:expected": c.expected
 				}
 			},

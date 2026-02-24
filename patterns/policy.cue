@@ -33,7 +33,7 @@ import "apercue.ca/vocab"
 	Profile?: string
 
 	// Rules — user declares these
-	permissions:  [...#PolicyRule]
+	permissions: [...#PolicyRule]
 	prohibitions: [...#PolicyRule]
 
 	odrl_policy: {
@@ -51,10 +51,12 @@ import "apercue.ca/vocab"
 					if rule.assignee != _|_ {
 						"odrl:assignee": {"@id": rule.assignee}
 					}
+
 					// If target is a resource name, link directly
 					if rule.target != _|_ if Graph.resources[rule.target] != _|_ {
 						"odrl:target": {"@id": "urn:resource:" + rule.target}
 					}
+
 					// If target is a @type, expand to all matching resources
 					if rule.target != _|_ if Graph.resources[rule.target] == _|_ {
 						"odrl:target": [
