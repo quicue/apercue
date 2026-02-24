@@ -26,36 +26,36 @@ import (
 _parts: {
 	// ═══ Tier 0: Raw Materials (roots) ═════════════════════════════════
 	"silicon-wafer": {
-		name:        "silicon-wafer"
-		"@type":     {RawMaterial: true}
+		name: "silicon-wafer"
+		"@type": {RawMaterial: true}
 		description: "300mm silicon wafer"
 		lead_days:   14
 		supplier:    "TSMC"
 	}
 	"copper-pcb": {
-		name:        "copper-pcb"
-		"@type":     {RawMaterial: true}
+		name: "copper-pcb"
+		"@type": {RawMaterial: true}
 		description: "Copper-clad PCB laminate"
 		lead_days:   7
 		supplier:    "Isola Group"
 	}
 	"lithium-cells": {
-		name:        "lithium-cells"
-		"@type":     {RawMaterial: true}
+		name: "lithium-cells"
+		"@type": {RawMaterial: true}
 		description: "18650 lithium-ion cells"
 		lead_days:   21
 		supplier:    "Samsung SDI"
 	}
 	"lcd-glass": {
-		name:        "lcd-glass"
-		"@type":     {RawMaterial: true}
+		name: "lcd-glass"
+		"@type": {RawMaterial: true}
 		description: "LCD glass substrate"
 		lead_days:   10
 		supplier:    "Corning"
 	}
 	"aluminum-stock": {
-		name:        "aluminum-stock"
-		"@type":     {RawMaterial: true}
+		name: "aluminum-stock"
+		"@type": {RawMaterial: true}
 		description: "6061-T6 aluminum billet"
 		lead_days:   5
 		supplier:    "Alcoa"
@@ -63,61 +63,61 @@ _parts: {
 
 	// ═══ Tier 1: Components ════════════════════════════════════════════
 	"cpu-chip": {
-		name:        "cpu-chip"
-		"@type":     {Component: true}
+		name: "cpu-chip"
+		"@type": {Component: true}
 		description: "Application processor (5nm)"
-		depends_on:  {"silicon-wafer": true}
-		lead_days:   30
+		depends_on: {"silicon-wafer": true}
+		lead_days: 30
 	}
 	"memory-module": {
-		name:        "memory-module"
-		"@type":     {Component: true}
+		name: "memory-module"
+		"@type": {Component: true}
 		description: "16GB LPDDR5 memory module"
-		depends_on:  {"silicon-wafer": true}
-		lead_days:   21
+		depends_on: {"silicon-wafer": true}
+		lead_days: 21
 	}
 	"battery-pack": {
-		name:        "battery-pack"
-		"@type":     {Component: true}
+		name: "battery-pack"
+		"@type": {Component: true}
 		description: "72Wh battery pack"
-		depends_on:  {"lithium-cells": true}
-		lead_days:   14
+		depends_on: {"lithium-cells": true}
+		lead_days: 14
 	}
 	"display-panel": {
-		name:        "display-panel"
-		"@type":     {Component: true}
+		name: "display-panel"
+		"@type": {Component: true}
 		description: "14-inch IPS display panel"
-		depends_on:  {"lcd-glass": true}
-		lead_days:   18
+		depends_on: {"lcd-glass": true}
+		lead_days: 18
 	}
 	"chassis": {
-		name:        "chassis"
-		"@type":     {Component: true}
+		name: "chassis"
+		"@type": {Component: true}
 		description: "CNC-machined aluminum chassis"
-		depends_on:  {"aluminum-stock": true}
-		lead_days:   10
+		depends_on: {"aluminum-stock": true}
+		lead_days: 10
 	}
 
 	// ═══ Tier 2: Sub-Assemblies ════════════════════════════════════════
 	"motherboard-assy": {
-		name:        "motherboard-assy"
-		"@type":     {SubAssembly: true}
+		name: "motherboard-assy"
+		"@type": {SubAssembly: true}
 		description: "Populated motherboard with CPU and RAM"
-		depends_on:  {"cpu-chip": true, "memory-module": true, "copper-pcb": true}
-		lead_days:   7
+		depends_on: {"cpu-chip": true, "memory-module": true, "copper-pcb": true}
+		lead_days: 7
 	}
 	"display-assy": {
-		name:        "display-assy"
-		"@type":     {SubAssembly: true}
+		name: "display-assy"
+		"@type": {SubAssembly: true}
 		description: "Display assembly with panel and bezel"
-		depends_on:  {"display-panel": true, "chassis": true}
-		lead_days:   5
+		depends_on: {"display-panel": true, "chassis": true}
+		lead_days: 5
 	}
 
 	// ═══ Tier 3: Final Assembly ════════════════════════════════════════
 	"laptop-assy": {
-		name:        "laptop-assy"
-		"@type":     {Assembly: true}
+		name: "laptop-assy"
+		"@type": {Assembly: true}
 		description: "Final laptop assembly"
 		depends_on: {
 			"motherboard-assy": true
@@ -130,11 +130,11 @@ _parts: {
 
 	// ═══ Tier 4: Finished Product ══════════════════════════════════════
 	"laptop-finished": {
-		name:        "laptop-finished"
-		"@type":     {Finished: true}
+		name: "laptop-finished"
+		"@type": {Finished: true}
 		description: "Tested, packaged, shipped laptop"
-		depends_on:  {"laptop-assy": true}
-		lead_days:   2
+		depends_on: {"laptop-assy": true}
+		lead_days: 2
 	}
 }
 
@@ -144,7 +144,7 @@ graph: patterns.#Graph & {Input: _parts}
 // ═══ CRITICAL PATH ANALYSIS ════════════════════════════════════════════════
 // Critical path: minimum total lead time from raw material to ship
 cpm: patterns.#CriticalPath & {
-	Graph:   graph
+	Graph: graph
 	Weights: {for name, p in _parts {(name): p.lead_days}}
 }
 
@@ -189,11 +189,11 @@ _charter: charter.#Charter & {
 			phase:       2
 			description: "All components manufactured"
 			requires: {
-				"cpu-chip":       true
-				"memory-module":  true
-				"battery-pack":   true
-				"display-panel":  true
-				"chassis":        true
+				"cpu-chip":      true
+				"memory-module": true
+				"battery-pack":  true
+				"display-panel": true
+				"chassis":       true
 			}
 			depends_on: {"materials-sourced": true}
 		}
@@ -210,8 +210,8 @@ _charter: charter.#Charter & {
 		"ship-ready": {
 			phase:       4
 			description: "Finished product tested and packaged"
-			requires:    {"laptop-finished": true}
-			depends_on:  {"assemblies-complete": true}
+			requires: {"laptop-finished": true}
+			depends_on: {"assemblies-complete": true}
 		}
 	}
 }
@@ -227,23 +227,23 @@ compliance: patterns.#ComplianceCheck & {
 	Graph: graph
 	Rules: [
 		{
-			name:             "assemblies-need-components"
-			description:      "Assemblies must depend on components"
-			match_types:      {Assembly: true}
+			name:        "assemblies-need-components"
+			description: "Assemblies must depend on components"
+			match_types: {Assembly: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "components-need-materials"
-			description:      "Components must depend on raw materials"
-			match_types:      {Component: true}
+			name:        "components-need-materials"
+			description: "Components must depend on raw materials"
+			match_types: {Component: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
 		{
-			name:             "sub-assemblies-need-components"
-			description:      "Sub-assemblies must depend on components"
-			match_types:      {SubAssembly: true}
+			name:        "sub-assemblies-need-components"
+			description: "Sub-assemblies must depend on components"
+			match_types: {SubAssembly: true}
 			must_not_be_root: true
 			severity:         "critical"
 		},
@@ -252,20 +252,20 @@ compliance: patterns.#ComplianceCheck & {
 
 // ═══ SUMMARY ═══════════════════════════════════════════════════════════════
 // Hidden intermediaries to avoid incomplete field references
-_summary_compliance_total:             len(compliance.Rules)
-_summary_compliance_passed:            len([for r in compliance.results if r.passed {1}])
-_summary_compliance_failed:            len([for r in compliance.results if !r.passed {1}])
+_summary_compliance_total: len(compliance.Rules)
+_summary_compliance_passed: len([for r in compliance.results if r.passed {1}])
+_summary_compliance_failed: len([for r in compliance.results if !r.passed {1}])
 _summary_compliance_critical_failures: len([for r in compliance.results if !r.passed && r.severity == "critical" {1}])
 
 summary: {
-	product:        _charter.name
-	total_parts:    len(_parts)
-	supply_tiers:   5
-	graph_valid:    graph.valid
+	product:      _charter.name
+	total_parts:  len(_parts)
+	supply_tiers: 5
+	graph_valid:  graph.valid
 	gap: {
-		complete:    gaps.complete
-		missing:     gaps.missing_resource_count
-		next_gate:   gaps.next_gate
+		complete:  gaps.complete
+		missing:   gaps.missing_resource_count
+		next_gate: gaps.next_gate
 	}
 	scheduling: {
 		total_lead_days:     cpm.summary.total_duration
