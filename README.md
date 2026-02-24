@@ -189,7 +189,6 @@ and every W3C projection will conform.
 ## Downstream
 
 - **[quicue.ca](https://quicue.ca)** --- Infrastructure-specific patterns (40+ types, 29 providers). Imports apercue for generic graph/charter patterns.
-- **[grdn](https://gitlab.com/mthdn/grdn)** --- Production Kubernetes on Proxmox (9 resources, 5 layers)
 - **[cmhc-retrofit](https://cmhc-retrofit.quicue.ca)** --- CMHC housing retrofit graphs
 - **[kg.quicue.ca](https://kg.quicue.ca)** --- Knowledge graph framework
 
