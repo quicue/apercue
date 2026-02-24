@@ -28,25 +28,34 @@ mkdir -p cue.mod/pkg
 ln -s ~/apercue cue.mod/pkg/apercue.ca
 ```
 
-**What comes out** --- a SHACL validation report from one `cue export`:
+**What comes out** --- from the same graph, different `-e` expressions produce different W3C standards:
 
-```json
-{
-  "@type": "sh:ValidationReport",
-  "sh:conforms": false,
-  "dcterms:conformsTo": {"@id": "charter:v1.0-release"},
-  "sh:result": [
-    {
-      "@type": "sh:ValidationResult",
-      "sh:focusNode": {"@id": "design-api"},
-      "sh:resultSeverity": {"@id": "sh:Violation"},
-      "sh:resultMessage": "Required resource 'design-api' not present in graph"
-    }
-  ]
+```bash
+cue eval ./examples/course-prereqs/ -e summary
+```
+```
+degree:          "bsc-computer-science"
+total_courses:   12
+graph_valid:     true
+degree_complete: true
+scheduling: {
+    total_duration:  14
+    critical_count:  4
 }
 ```
 
-See the [full specification](https://apercue.ca/spec/) for all W3C projection examples.
+```bash
+cue export ./examples/course-prereqs/ -e gaps.shacl_report --out json
+```
+```json
+{
+  "@type": "sh:ValidationReport",
+  "sh:conforms": true,
+  "dcterms:conformsTo": {"@id": "charter:bsc-computer-science"}
+}
+```
+
+The input is 12 courses with `name`, `@type`, and `depends_on`. The same data produces SHACL validation, OWL-Time scheduling, SKOS type taxonomies, and EARL test assertions. See the [full specification](https://apercue.ca/spec/) for all W3C projection examples.
 
 ## Module Structure
 
@@ -140,6 +149,24 @@ cue export ./examples/supply-chain/ -e dot --out text
 ```
 
 All output is valid W3C linked data — feed it to any JSON-LD processor.
+
+## Self-Charter
+
+apercue models its own development as a typed dependency graph. The
+[self-charter](self-charter/) defines 10 ecosystem components (modules,
+instances, services) with 4 gates tracking maturity from foundation through
+full ecosystem. CPM scheduling computes the critical path. Gap analysis
+reports what remains.
+
+```bash
+cue eval ./self-charter/ -e ecosystem.summary
+cue eval ./self-charter/ -e ecosystem.gaps.complete
+```
+
+Live visualization: [apercue.ca/charter.html](https://apercue.ca/charter.html)
+
+This is the proof that the framework works: the project that defines charter
+patterns uses those same patterns to track itself.
 
 ## How Is This Different?
 
