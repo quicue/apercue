@@ -1,0 +1,77 @@
+# apercue documentation and consistency todo
+# updated: 2026-02-25
+#
+# Legend:
+#   [ ] pending
+#   [x] done
+#   [-] wont-do / superseded
+
+# ── Session 2026-02-25: broken command fixes ──────────────────────────────
+
+[x] README.md line 148: replace stale -e dot with -e cpm.critical_sequence
+[x] recipe-ingredients: gaps.summary -> gap_summary (recipe.cue + README)
+[x] project-tracker: gaps.summary -> summary (tasks.cue + README)
+[x] toposort.py: add from __future__ import annotations for Python 3.9
+[x] tests/unicode-rejection: remove stray cue.mod, resolve imports via root
+[x] supply-chain/README.md line 152: hardcoded /home/mthdn path -> relative
+[x] project-tracker/README.md: remove duplicate summary command
+[x] README.md line 93: ecosystem count 12 -> 10
+[x] .kb/rejected/cue.mod/pkg symlink: update to /Users/mthdn/infra/repos/quicue-kg
+
+# ── Documentation quality ─────────────────────────────────────────────────
+
+[ ] Enrich course-prereqs/README.md to match supply-chain quality
+      - add ASCII dependency diagram
+      - add sample output from cue export
+      - add field descriptions
+[ ] Enrich recipe-ingredients/README.md similarly
+[ ] Enrich project-tracker/README.md similarly
+[ ] Verify all README run commands end-to-end (automated smoke test)
+[ ] Add output examples to each example README (ADR-009 compliance)
+
+# ── Cross-repo unification ────────────────────────────────────────────────
+#
+# Verified 2026-02-25:
+#   - cmhc-retrofit symlinks to apercue (always in sync)
+#   - quicue.ca copies apercue files (12 files drifted -- formatting only)
+#   - quicue-kg: module quicue.ca/kg@v0, CUE v0.15.3
+#   - cmhc-retrofit: module quicue.ca/cmhc-retrofit@v0, CUE v0.15.3
+#   - quicue-swamp: only .kg/ dir, module local.project/kg, no apercue imports
+#   - unified-kb (/Users/mthdn/infra/unified-kb/): federation of 4 .kb dirs
+#     - imports apercue, quicue, cmhc, maison-613 knowledge bases
+#     - cue vet passes, cue export federation works
+#     - SKOS crossref maps equivalent concepts across repos
+#   - All downstream README references to apercue are correct
+#   - cue vet ./... passes in quicue.ca with current vendored copies
+
+[ ] Sync quicue.ca vendored apercue packages (formatting drift from 3591c47)
+      - 12 files differ: 3 vocab, 8 patterns, 1 charter
+      - drift is field alignment only, not semantic
+      - cp -r vocab/ patterns/ charter/ -> quicue.ca/cue.mod/pkg/apercue.ca/
+      - or: convert quicue.ca to symlink like cmhc-retrofit does
+[ ] Bump quicue-kg CUE version v0.15.3 -> v0.15.4
+[ ] Bump cmhc-retrofit CUE version v0.15.3 -> v0.15.4
+[ ] unified-kb: add maison-613 .kb content (rfam.cc/maison-613/kb@v0 imported but untested)
+[ ] unified-kb: verify skos-crossref ADR/insight IDs still match after .kb updates
+
+# ── .kb knowledge base ────────────────────────────────────────────────────
+
+[x] Add ADR-016: end-to-end command testing policy
+[x] Add INSIGHT-011: README commands drift when schemas change
+[x] Add INSIGHT-012: stray cue.mod directories isolate files from root module
+[x] Verify .kb CUE files pass cue vet after edits (insights + decisions)
+[ ] Populate .kb/rejected/ with at least one entry (structure exists but empty)
+
+# ── CI and automation ─────────────────────────────────────────────────────
+
+[ ] Add CI step: run every cue command from example READMEs
+      - parse ```bash blocks, execute, check exit code
+      - prevents the exact class of bugs fixed today
+[ ] Add CI step: verify no hardcoded absolute paths in markdown
+[ ] Consider: toposort.py --help flag (currently errors on --help)
+
+# ── Missing documentation ─────────────────────────────────────────────────
+
+[ ] Consider CONTRIBUTING.md (development setup, testing, PR process)
+[ ] Consider ARCHITECTURE.md (module layers, data flow, projection pipeline)
+[ ] Consider pattern API reference (all # types, what they accept, what they emit)

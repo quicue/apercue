@@ -7,7 +7,6 @@ tracking via `schema:actionStatus` and milestone evaluation via charter gates.
 
 ```bash
 cue eval ./examples/project-tracker/ -e summary
-cue eval ./examples/project-tracker/ -e gaps.summary
 cue eval ./examples/project-tracker/ -e cpm.summary
 cue export ./examples/project-tracker/ -e gaps --out json
 ```

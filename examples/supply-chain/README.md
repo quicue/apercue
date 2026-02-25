@@ -149,4 +149,4 @@ To model a real supply chain:
 5. Compose with `patterns.#BlastRadius` for "what if supplier X fails?"
 6. Export to JSON-LD for knowledge graph integration
 
-See `/home/mthdn/apercue/patterns/` for the complete pattern library.
+See `patterns/` in the repository root for the complete pattern library.

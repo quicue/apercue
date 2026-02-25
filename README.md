@@ -90,7 +90,7 @@ apercue.ca@v0
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
 │   └── supply-chain/       # Laptop assembly (15 parts, 5 tiers)
 ├── self-charter/           # Ecosystem graph — models the project itself
-│   ├── ecosystem.cue       #   12 modules/instances/services as typed resources
+│   ├── ecosystem.cue       #   10 modules/instances/services as typed resources
 │   ├── charter.cue         #   4-gate charter for ecosystem completeness
 │   └── export.cue          #   D3 visualization export
 ├── site/                   # Static site (deployed to apercue.ca via CF Pages)
@@ -144,8 +144,8 @@ cue export ./examples/course-prereqs/ -e cpm.time_report --out json
 # Charter gap analysis
 cue export ./examples/project-tracker/ -e gaps --out json
 
-# Graphviz DOT visualization
-cue export ./examples/supply-chain/ -e dot --out text
+# Supply-chain critical sequence
+cue export ./examples/supply-chain/ -e cpm.critical_sequence --out json
 ```
 
 All output is valid W3C linked data — feed it to any JSON-LD processor.
