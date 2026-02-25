@@ -5,7 +5,7 @@
 // recipe execution order. Charter gates = recipe completeness.
 //
 // Run:
-//   cue eval  ./examples/recipe-ingredients/ -e gaps.summary
+//   cue eval  ./examples/recipe-ingredients/ -e gap_summary
 //   cue eval  ./examples/recipe-ingredients/ -e cpm.summary
 //   cue eval  ./examples/recipe-ingredients/ -e cpm.critical_sequence
 
