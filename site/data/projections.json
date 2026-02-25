@@ -1,4 +1,39 @@
 {
+    "@context": {
+        "@base": "urn:resource:",
+        "dcterms": "http://purl.org/dc/terms/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "sh": "http://www.w3.org/ns/shacl#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "time": "http://www.w3.org/2006/time#",
+        "earl": "http://www.w3.org/ns/earl#",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "org": "http://www.w3.org/ns/org#",
+        "cred": "https://www.w3.org/2018/credentials#",
+        "as": "https://www.w3.org/ns/activitystreams#",
+        "apercue": "https://apercue.ca/vocab#",
+        "charter": "https://apercue.ca/charter#",
+        "name": "dcterms:title",
+        "description": "dcterms:description",
+        "depends_on": {
+            "@id": "dcterms:requires",
+            "@type": "@id"
+        },
+        "status": {
+            "@id": "schema:actionStatus",
+            "@type": "@id"
+        },
+        "tags": {
+            "@id": "dcterms:subject",
+            "@container": "@set"
+        }
+    },
+    "@type": "apercue:ProjectionSet",
+    "dct:conformsTo": {
+        "@id": "https://apercue.ca/vocab"
+    },
     "shacl": {
         "@context": {
             "@base": "urn:resource:",

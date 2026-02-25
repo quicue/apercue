@@ -24,6 +24,8 @@ Usage:
     python3 tools/toposort.py ./self-charter/ _tasks --cue > precomputed.cue
 """
 
+from __future__ import annotations
+
 import json
 import re
 import subprocess

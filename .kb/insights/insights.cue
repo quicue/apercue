@@ -147,3 +147,33 @@ i010: core.#Insight & {
 	discovered: "2026-02-20"
 	implication: "The landing page HTML table is the only surface that requires manual sync with the registry. A build step that generates the table from specs.json would eliminate the last manual dependency."
 }
+
+i011: core.#Insight & {
+	id:        "INSIGHT-011"
+	statement: "README run commands drift when underlying schemas change -- expressions reference fields that get renamed or restructured silently"
+	evidence: [
+		"5 broken cue commands discovered in a single end-to-end audit (2026-02-25)",
+		"gaps.summary referenced in 4 files but the field was renamed to gap_summary / summary",
+		"-e dot referenced a #GraphvizDiagram pattern that was never instantiated in supply.cue",
+		"No CI step validates documented commands, so drift is invisible until manual testing",
+	]
+	method:     "experiment"
+	confidence: "high"
+	discovered: "2026-02-25"
+	implication: "README code blocks ARE the test suite. CI should parse and execute them. The fix is cheap: extract bash blocks, run them, check exit codes."
+}
+
+i012: core.#Insight & {
+	id:        "INSIGHT-012"
+	statement: "A stray cue.mod directory isolates CUE files from the root module, preventing import resolution"
+	evidence: [
+		"tests/unicode-rejection/cue.mod/module.cue declared apercue.ca/tests/unicode-rejection@v0",
+		"This created a separate module boundary, so import apercue.ca/vocab@v0 could not resolve",
+		"All examples work because they have no cue.mod -- they inherit the root module",
+		"Removing the stray cue.mod fixed import resolution immediately",
+	]
+	method:     "experiment"
+	confidence: "high"
+	discovered: "2026-02-25"
+	implication: "Subdirectories should not have their own cue.mod unless they are genuinely independent modules. For tests and examples that import from the root, the root module boundary must be inherited."
+}

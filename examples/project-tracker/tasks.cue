@@ -6,7 +6,7 @@
 //
 // Run:
 //   cue vet ./examples/project-tracker/
-//   cue eval ./examples/project-tracker/ -e gaps.summary
+//   cue eval ./examples/project-tracker/ -e summary
 //   cue eval ./examples/project-tracker/ -e cpm.summary
 //   cue eval ./examples/project-tracker/ -e summary
 

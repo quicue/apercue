@@ -254,3 +254,22 @@ d015: core.#Decision & {
 		{"@id": "https://apercue.ca/example/gc-llm-governance"},
 	]
 }
+
+d016: core.#Decision & {
+	id:        "ADR-016"
+	title:     "README run commands are the test suite -- CI must execute them"
+	status:    "accepted"
+	date:      "2026-02-25"
+	context:   "End-to-end audit revealed 5 broken cue commands across READMEs and CUE file headers. Fields were renamed (gaps.summary -> gap_summary), expressions referenced patterns never instantiated (-e dot), and a stray cue.mod isolated test files from the root module. None of these were caught because CI only runs cue vet, not the documented commands."
+	decision:  "Treat README bash code blocks as executable tests. CI must parse each example README, extract cue commands from ```bash blocks, execute them, and verify exit codes. CUE file header comments with Run: sections are also test cases."
+	rationale: "The commands users copy from READMEs are the most important interface. If they break silently, the documentation is worse than absent -- it actively misleads. The fix is cheap: a shell script that extracts and runs the commands. The cost of not doing it was 5 bugs shipped to main."
+	consequences: [
+		"CI pipeline gains a README command smoke test step",
+		"README edits become testable -- changing an -e expression is a test change",
+		"CUE file header Run: comments should match README commands exactly",
+		"New examples must include working commands or CI fails",
+	]
+	appliesTo: [
+		{"@id": "https://apercue.ca/project/apercue"},
+	]
+}

@@ -6,7 +6,7 @@ cooking stages, and assembly. Dependencies encode what must happen before what.
 ## Run
 
 ```bash
-cue eval ./examples/recipe-ingredients/ -e gaps.summary
+cue eval ./examples/recipe-ingredients/ -e gap_summary
 cue eval ./examples/recipe-ingredients/ -e cpm.summary
 cue eval ./examples/recipe-ingredients/ -e cpm.critical_sequence
 ```
