@@ -134,7 +134,7 @@ jobs:
 
       - name: Build public site
         run: |
-          mkdir -p site/data site/vocab site/spec
+          mkdir -p site/data site/vocab
           bash tools/build-site.sh stage _public
 
       - name: Deploy to Cloudflare Pages
