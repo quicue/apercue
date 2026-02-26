@@ -469,9 +469,11 @@ import (
 	// Export: cue export -e cpm.time_report --out json
 	time_report: {
 		"@context": vocab.context["@context"]
-		for name, _ in Graph.resources {
-			(name): {
+		"@graph": [
+			for name, _ in Graph.resources {
 				"@type": "time:Interval"
+				"@id":   "urn:resource:" + name
+				"dcterms:title": name
 				"time:hasBeginning": {
 					"@type":             "time:Instant"
 					"time:inXSDDecimal": _earliest[name]
@@ -487,8 +489,8 @@ import (
 				}
 				"apercue:slack":      slack[name]
 				"apercue:isCritical": critical[name] != _|_
-			}
-		}
+			},
+		]
 	}
 }
 
@@ -559,9 +561,11 @@ import (
 	// OWL-Time projection — same output shape as #CriticalPath
 	time_report: {
 		"@context": vocab.context["@context"]
-		for name, _ in Graph.resources {
-			(name): {
+		"@graph": [
+			for name, _ in Graph.resources {
 				"@type": "time:Interval"
+				"@id":   "urn:resource:" + name
+				"dcterms:title": name
 				"time:hasBeginning": {
 					"@type":             "time:Instant"
 					"time:inXSDDecimal": Precomputed.earliest[name]
@@ -577,7 +581,7 @@ import (
 				}
 				"apercue:slack":      slack[name]
 				"apercue:isCritical": critical[name] != _|_
-			}
-		}
+			},
+		]
 	}
 }

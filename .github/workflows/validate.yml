@@ -57,6 +57,70 @@ jobs:
             exit 1
           fi
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install W3C validation dependencies
+        run: pip install rdflib pyshacl
+
+      - name: W3C round-trip conformance
+        run: python3 tools/validate-w3c.py -v
+
+      - name: No hardcoded absolute paths in markdown
+        run: |
+          # Catch /home/*, /Users/*, /tmp/* paths that sneak into docs.
+          FOUND=0
+          for f in $(find . -name '*.md' -not -path './.git/*' -not -path './node_modules/*'); do
+            if grep -nE '(/home/|/Users/|/tmp/)' "$f"; then
+              echo "  ^ in $f"
+              FOUND=$((FOUND + 1))
+            fi
+          done
+          if [ "$FOUND" -gt 0 ]; then
+            echo ""
+            echo "ERROR: $FOUND file(s) contain hardcoded absolute paths"
+            exit 1
+          fi
+          echo "No hardcoded absolute paths found"
+
+      - name: README command smoke test
+        run: |
+          # Parse and run every cue command from example READMEs (ADR-016).
+          PASS=0
+          FAIL=0
+          for readme in examples/*/README.md; do
+            dir="$(dirname "$readme")"
+            # Extract lines starting with cue from ```bash blocks
+            in_block=false
+            while IFS= read -r line; do
+              if echo "$line" | grep -q '```bash'; then
+                in_block=true
+                continue
+              fi
+              if echo "$line" | grep -q '```'; then
+                in_block=false
+                continue
+              fi
+              if $in_block && echo "$line" | grep -qE '^\s*(cue (vet|eval|export))'; then
+                cmd=$(echo "$line" | sed 's/^\s*//')
+                echo "RUN: $cmd"
+                if eval "$cmd" > /dev/null 2>&1; then
+                  PASS=$((PASS + 1))
+                else
+                  echo "  FAIL: $cmd"
+                  FAIL=$((FAIL + 1))
+                fi
+              fi
+            done < "$readme"
+          done
+          echo ""
+          echo "README commands: $PASS passed, $FAIL failed"
+          if [ "$FAIL" -gt 0 ]; then
+            exit 1
+          fi
+
   deploy:
     needs: validate
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
