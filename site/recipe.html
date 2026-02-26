@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beef Bourguignon — Recipe Graph — apercue.ca</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --bg-panel: #0f1319;
+  --bg-hover: #151b24;
+  --border: #1e2733;
+  --border-bright: #2a3545;
+  --text: #c5cdd8;
+  --text-dim: #5c6978;
+  --text-bright: #e8ecf1;
+  --accent: #3ddc84;
+  --accent-dim: rgba(61, 220, 132, 0.15);
+
+  /* Recipe type palette */
+  --type-protein: #e85d5d;
+  --type-produce: #5bbd6b;
+  --type-seasoning: #d4a855;
+  --type-liquid: #5b9cf6;
+  --type-prepstep: #c084fc;
+  --type-cookstep: #f09070;
+
+  /* Phase palette */
+  --phase-1: #5bbd6b;
+  --phase-2: #f09070;
+
+  --body: 'Atkinson Hyperlegible Next', sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  overflow: hidden;
+  height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(240, 144, 112, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(91, 189, 107, 0.03) 0%, transparent 50%),
+    radial-gradient(circle, rgba(200, 200, 220, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar {
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-panel);
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.02em;
+}
+
+.sidebar-subtitle {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.status-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.complete {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(61, 220, 132, 0.25);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.metric {
+  background: var(--bg-panel);
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.metric-value {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.metric-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 16px 20px 8px;
+}
+
+.gate-list {
+  list-style: none;
+  padding: 0 20px 16px;
+}
+
+.gate-item {
+  position: relative;
+  padding: 10px 0 10px 24px;
+  border-left: 2px solid var(--border);
+  margin-left: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.gate-item:hover { background: var(--bg-hover); margin: 0 -20px; padding-left: 44px; padding-right: 20px; }
+.gate-item:last-child { border-left-color: transparent; }
+
+.gate-item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 14px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg-panel);
+  transition: all 0.2s;
+}
+
+.gate-item.satisfied::before {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(61, 220, 132, 0.3);
+}
+
+.gate-item .gate-phase {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.gate-item .gate-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-bright);
+  margin-top: 2px;
+}
+
+.gate-item .gate-desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.gate-item .gate-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Critical path sidebar */
+.critical-path {
+  padding: 0 20px 16px;
+}
+
+.critical-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.critical-arrow {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.critical-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-bright);
+}
+
+.critical-time {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+/* Legend */
+.legend { padding: 0 20px 20px; }
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.graph-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.graph-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.phase-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
+.edge {
+  stroke: var(--border);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.4;
+  transition: opacity 0.2s, stroke 0.2s;
+}
+
+.edge.highlighted {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0.8;
+}
+
+.edge.faded { opacity: 0.08; }
+
+.edge.critical {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0.7;
+  stroke-dasharray: 6 3;
+  animation: dash-flow 1.5s linear infinite;
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -18; }
+}
+
+.node.critical circle {
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+
+.node { cursor: pointer; }
+
+.node circle {
+  stroke-width: 2;
+  transition: r 0.2s, stroke-width 0.2s;
+}
+
+.node.faded circle { opacity: 0.15; }
+.node.faded text { opacity: 0.1; }
+
+.node text {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--text);
+  text-anchor: middle;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.node:hover circle {
+  stroke-width: 3;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.tooltip {
+  position: absolute;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-bright);
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  max-width: 280px;
+  z-index: 10;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.tooltip.visible { opacity: 1; }
+
+.tooltip-name {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--text-bright);
+  font-size: 13px;
+}
+
+.tooltip-type {
+  font-family: var(--mono);
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.tooltip-type span {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  margin-right: 4px;
+}
+
+.tooltip-desc {
+  color: var(--text-dim);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.tooltip-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.nav-links {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+marker path { fill: var(--border); }
+marker.highlighted path { fill: var(--accent); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">beef bourguignon</div>
+    <div class="sidebar-subtitle">Recipe as Dependency Graph</div>
+    <div id="status-badge"></div>
+  </div>
+
+  <div class="metrics" id="metrics"></div>
+
+  <div class="section-label">Recipe Gates</div>
+  <ul class="gate-list" id="gate-list"></ul>
+
+  <div class="section-label">Critical Path</div>
+  <div class="critical-path" id="critical-path"></div>
+
+  <div class="section-label">Step Types</div>
+  <div class="legend" id="legend"></div>
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="charter.html">Charter</a>
+    <a href="explorer.html">Ecosystem</a>
+    <a href="spec/index.html">Spec</a>
+  </div>
+</aside>
+
+<div class="graph-container" id="graph-area">
+  <svg id="graph-svg"></svg>
+  <div class="tooltip" id="tooltip"></div>
+</div>
+
+</div>
+
+<script>
+const DATA_URL = 'data/recipe.json';
+
+const PHASE_COLORS = {
+  1: '#5bbd6b',
+  2: '#f09070'
+};
+
+const PHASE_NAMES = {
+  1: 'Mise en Place',
+  2: 'Cooking'
+};
+
+const TYPE_COLORS = {
+  Protein: '#e85d5d',
+  Produce: '#5bbd6b',
+  Seasoning: '#d4a855',
+  Liquid: '#5b9cf6',
+  PrepStep: '#c084fc',
+  CookStep: '#f09070'
+};
+
+function primaryType(types) {
+  const order = ['CookStep','PrepStep','Protein','Produce','Seasoning','Liquid'];
+  for (const t of order) if (types.includes(t)) return t;
+  return types[0] || 'Produce';
+}
+
+async function init() {
+  let data;
+  try {
+    data = await fetch(DATA_URL).then(r => r.json());
+  } catch(e) {
+    console.error('Failed to load data:', e);
+    return;
+  }
+
+  window.nodeMap = {};
+  data.nodes.forEach(n => { nodeMap[n.id] = n; });
+
+  window.criticalSet = new Set();
+  if (data.scheduling && data.scheduling.critical_sequence) {
+    data.scheduling.critical_sequence.forEach(s => criticalSet.add(s.resource));
+  }
+
+  renderSidebar(data);
+  renderGraph(data);
+}
+
+function renderSidebar(data) {
+  const badge = document.getElementById('status-badge');
+  badge.innerHTML = `<span class="status-badge complete">ALL STEPS PRESENT</span>`;
+
+  const m = document.getElementById('metrics');
+  const totalEdges = data.edges.length;
+  const cpmSummary = data.scheduling && data.scheduling.summary;
+  const metrics = [
+    [data.charter_summary.steps, 'Steps'],
+    [totalEdges, 'Dependencies'],
+    [cpmSummary ? cpmSummary.total_duration + 'min' : '?', 'Total Time'],
+    [cpmSummary ? cpmSummary.critical_count : '?', 'Critical Path'],
+  ];
+  m.innerHTML = metrics.map(([v,l]) =>
+    `<div class="metric"><div class="metric-value">${v}</div><div class="metric-label">${l}</div></div>`
+  ).join('');
+
+  // Gate timeline
+  const gl = document.getElementById('gate-list');
+  const sortedGates = Object.entries(data.gates).sort((a,b) => a[1].phase - b[1].phase);
+  gl.innerHTML = sortedGates.map(([name, gate]) => {
+    const color = PHASE_COLORS[gate.phase] || '#5bbd6b';
+    return `<li class="gate-item ${gate.satisfied ? 'satisfied' : ''}" data-gate="${name}">
+      <div class="gate-phase" style="color: ${color}">Phase ${gate.phase} &mdash; ${PHASE_NAMES[gate.phase] || ''}</div>
+      <div class="gate-name">${name}</div>
+      <div class="gate-desc">${gate.description}</div>
+      <div class="gate-count">${gate.resources.length} steps</div>
+    </li>`;
+  }).join('');
+
+  gl.querySelectorAll('.gate-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      const resources = new Set(data.gates[el.dataset.gate].resources);
+      highlightNodes(resources);
+    });
+    el.addEventListener('mouseleave', clearHighlight);
+  });
+
+  // Critical path
+  const cp = document.getElementById('critical-path');
+  if (data.scheduling && data.scheduling.critical_sequence) {
+    cp.innerHTML = data.scheduling.critical_sequence.map((s, i) =>
+      `<div class="critical-step">
+        ${i > 0 ? '<span class="critical-arrow">&darr;</span>' : '<span class="critical-arrow">&bull;</span>'}
+        <span class="critical-name">${s.resource}</span>
+        <span class="critical-time">${s.duration}min</span>
+      </div>`
+    ).join('');
+  }
+
+  // Legend
+  const lg = document.getElementById('legend');
+  lg.innerHTML = '<div class="legend-grid">' +
+    Object.entries(TYPE_COLORS).map(([t, c]) =>
+      `<div class="legend-item"><span class="legend-swatch" style="background:${c}"></span>${t}</div>`
+    ).join('') + '</div>';
+}
+
+let nodeElements, edgeElements;
+
+function highlightNodes(nameSet) {
+  if (!nodeElements) return;
+  nodeElements.classed('faded', d => !nameSet.has(d.id));
+  edgeElements.classed('faded', d => !nameSet.has(d.source.id || d.source) && !nameSet.has(d.target.id || d.target));
+  edgeElements.classed('highlighted', d => nameSet.has(d.source.id || d.source) && nameSet.has(d.target.id || d.target));
+}
+
+function clearHighlight() {
+  if (!nodeElements) return;
+  nodeElements.classed('faded', false);
+  edgeElements.classed('faded', false).classed('highlighted', false);
+}
+
+function renderGraph(data) {
+  const container = document.getElementById('graph-area');
+  const svg = d3.select('#graph-svg');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  svg.append('defs').append('marker')
+    .attr('id', 'arrow')
+    .attr('viewBox', '0 -4 8 8')
+    .attr('refX', 16).attr('refY', 0)
+    .attr('markerWidth', 6).attr('markerHeight', 6)
+    .attr('orient', 'auto')
+    .append('path').attr('d', 'M0,-3L7,0L0,3').attr('fill', '#2a3545');
+
+  const g = svg.append('g');
+
+  const zoom = d3.zoom()
+    .scaleExtent([0.3, 4])
+    .on('zoom', e => g.attr('transform', e.transform));
+  svg.call(zoom);
+
+  const maxDepth = Math.max(...data.nodes.map(n => n.depth));
+  const marginY = 80;
+  const layerH = (height - marginY * 2) / Math.max(maxDepth, 1);
+
+  const depthGroups = {};
+  data.nodes.forEach(n => {
+    if (!depthGroups[n.depth]) depthGroups[n.depth] = [];
+    depthGroups[n.depth].push(n);
+  });
+
+  // Phase lane backgrounds
+  const phaseDepthRanges = {};
+  data.nodes.forEach(n => {
+    if (!phaseDepthRanges[n.phase]) phaseDepthRanges[n.phase] = [Infinity, -Infinity];
+    phaseDepthRanges[n.phase][0] = Math.min(phaseDepthRanges[n.phase][0], n.depth);
+    phaseDepthRanges[n.phase][1] = Math.max(phaseDepthRanges[n.phase][1], n.depth);
+  });
+
+  Object.entries(phaseDepthRanges).forEach(([phase, [minD, maxD]]) => {
+    const y1 = marginY + minD * layerH - layerH * 0.4;
+    const y2 = marginY + maxD * layerH + layerH * 0.4;
+    const color = PHASE_COLORS[phase] || '#5bbd6b';
+
+    g.append('rect')
+      .attr('x', 20).attr('y', y1)
+      .attr('width', width - 40).attr('height', y2 - y1)
+      .attr('rx', 4)
+      .attr('fill', color).attr('opacity', 0.03);
+
+    g.append('text')
+      .attr('class', 'phase-label')
+      .attr('x', 32).attr('y', y1 + 14)
+      .attr('fill', color)
+      .text(`Phase ${phase} \u2014 ${PHASE_NAMES[phase] || ''}`);
+  });
+
+  // Deterministic layout
+  data.nodes.forEach(n => {
+    const group = depthGroups[n.depth];
+    const idx = group.indexOf(n);
+    const count = group.length;
+    const spacing = Math.min((width - 80) / (count + 1), 140);
+    const startX = (width - (count - 1) * spacing) / 2;
+    n.x = startX + idx * spacing;
+    n.y = marginY + n.depth * layerH;
+  });
+
+  const nodeById = {};
+  data.nodes.forEach(n => { nodeById[n.id] = n; });
+  data.edges.forEach(e => {
+    if (typeof e.source === 'string') e.source = nodeById[e.source];
+    if (typeof e.target === 'string') e.target = nodeById[e.target];
+  });
+
+  // Edges
+  edgeElements = g.append('g')
+    .selectAll('path')
+    .data(data.edges)
+    .join('path')
+    .attr('class', d => {
+      const s = d.source.id || d.source;
+      const t = d.target.id || d.target;
+      return 'edge' + (criticalSet.has(s) && criticalSet.has(t) ? ' critical' : '');
+    })
+    .attr('marker-end', 'url(#arrow)')
+    .attr('d', d => {
+      const dx = d.target.x - d.source.x;
+      const dy = d.target.y - d.source.y;
+      const cx = d.source.x + dx * 0.5;
+      const cy1 = d.source.y + dy * 0.3;
+      const cy2 = d.source.y + dy * 0.7;
+      return `M${d.source.x},${d.source.y} C${cx},${cy1} ${cx},${cy2} ${d.target.x},${d.target.y}`;
+    });
+
+  // Nodes
+  nodeElements = g.append('g')
+    .selectAll('g')
+    .data(data.nodes)
+    .join('g')
+    .attr('class', d => 'node' + (criticalSet.has(d.id) ? ' critical' : ''));
+
+  nodeElements.append('circle')
+    .attr('r', d => d.depth === 0 ? 14 : d.types.length > 1 ? 11 : 9)
+    .attr('fill', d => {
+      const color = TYPE_COLORS[primaryType(d.types)] || '#5bbd6b';
+      return color + '20';
+    })
+    .attr('stroke', d => TYPE_COLORS[primaryType(d.types)] || '#5bbd6b')
+    .style('color', d => TYPE_COLORS[primaryType(d.types)] || '#5bbd6b');
+
+  nodeElements.append('text')
+    .attr('dy', d => (d.depth === 0 ? 14 : d.types.length > 1 ? 11 : 9) + 14)
+    .text(d => d.name.length > 18 ? d.name.substring(0, 16) + '\u2026' : d.name);
+
+  // Tooltip
+  const tooltip = document.getElementById('tooltip');
+  nodeElements.on('mouseenter', (e, d) => {
+    const typeSpans = d.types.map(t => {
+      const c = TYPE_COLORS[t] || '#5bbd6b';
+      return `<span style="background:${c}20;color:${c};border:1px solid ${c}40">${t}</span>`;
+    }).join('');
+
+    const slackLabel = d.slack === 0
+      ? '<span style="color:var(--accent)">CRITICAL PATH</span>'
+      : `Slack: ${d.slack} min`;
+
+    tooltip.innerHTML = `
+      <div class="tooltip-name">${d.name}</div>
+      <div class="tooltip-type">${typeSpans}</div>
+      <div class="tooltip-desc">${d.description}</div>
+      <div class="tooltip-meta">
+        ${d.gate} &middot; Layer ${d.depth} &middot; ${d.duration} min
+      </div>
+      <div class="tooltip-meta">
+        ${slackLabel}
+      </div>`;
+    tooltip.classList.add('visible');
+
+    const connected = new Set([d.id]);
+    data.edges.forEach(edge => {
+      const s = edge.source.id || edge.source;
+      const t = edge.target.id || edge.target;
+      if (s === d.id) connected.add(t);
+      if (t === d.id) connected.add(s);
+    });
+    highlightNodes(connected);
+  })
+  .on('mousemove', e => {
+    tooltip.style.left = (e.clientX - 280 + 16) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  })
+  .on('mouseleave', () => {
+    tooltip.classList.remove('visible');
+    clearHighlight();
+  });
+
+  nodeElements.attr('transform', d => `translate(${d.x},${d.y})`);
+}
+
+init();
+</script>
+</body>
+</html>
