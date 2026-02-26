@@ -91,26 +91,26 @@ The same data produces OWL-Time `time:Interval` entries:
 
 ```json
 {
-    "analysis-code": {
-        "@type": "time:Interval",
-        "time:hasBeginning": {
-            "@type": "time:Instant",
-            "time:inXSDDecimal": 150
-        },
-        "time:hasEnd": {
-            "@type": "time:Instant",
-            "time:inXSDDecimal": 195
-        },
-        "time:hasDuration": {
-            "@type": "time:Duration",
-            "time:numericDuration": 45,
-            "time:unitType": {
-                "@id": "time:unitDay"
-            }
-        },
-        "apercue:slack": 0,
-        "apercue:isCritical": true
-    }
+    "@type": "time:Interval",
+    "@id": "urn:resource:analysis-code",
+    "dcterms:title": "analysis-code",
+    "time:hasBeginning": {
+        "@type": "time:Instant",
+        "time:inXSDDecimal": 150
+    },
+    "time:hasEnd": {
+        "@type": "time:Instant",
+        "time:inXSDDecimal": 195
+    },
+    "time:hasDuration": {
+        "@type": "time:Duration",
+        "time:numericDuration": 45,
+        "time:unitType": {
+            "@id": "time:unitDay"
+        }
+    },
+    "apercue:slack": 0,
+    "apercue:isCritical": true
 }
 ```
 

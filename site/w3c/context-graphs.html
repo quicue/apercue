@@ -149,26 +149,26 @@ generated.</p>
 selects a different context:</p>
 <p><strong>Scheduling context</strong> (OWL-Time):</p>
 <pre><code class="language-json">{
-    &quot;analysis-code&quot;: {
-        &quot;@type&quot;: &quot;time:Interval&quot;,
-        &quot;time:hasBeginning&quot;: {
-            &quot;@type&quot;: &quot;time:Instant&quot;,
-            &quot;time:inXSDDecimal&quot;: 150
-        },
-        &quot;time:hasEnd&quot;: {
-            &quot;@type&quot;: &quot;time:Instant&quot;,
-            &quot;time:inXSDDecimal&quot;: 195
-        },
-        &quot;time:hasDuration&quot;: {
-            &quot;@type&quot;: &quot;time:Duration&quot;,
-            &quot;time:numericDuration&quot;: 45,
-            &quot;time:unitType&quot;: {
-                &quot;@id&quot;: &quot;time:unitDay&quot;
-            }
-        },
-        &quot;apercue:slack&quot;: 0,
-        &quot;apercue:isCritical&quot;: true
-    }
+    &quot;@type&quot;: &quot;time:Interval&quot;,
+    &quot;@id&quot;: &quot;urn:resource:analysis-code&quot;,
+    &quot;dcterms:title&quot;: &quot;analysis-code&quot;,
+    &quot;time:hasBeginning&quot;: {
+        &quot;@type&quot;: &quot;time:Instant&quot;,
+        &quot;time:inXSDDecimal&quot;: 150
+    },
+    &quot;time:hasEnd&quot;: {
+        &quot;@type&quot;: &quot;time:Instant&quot;,
+        &quot;time:inXSDDecimal&quot;: 195
+    },
+    &quot;time:hasDuration&quot;: {
+        &quot;@type&quot;: &quot;time:Duration&quot;,
+        &quot;time:numericDuration&quot;: 45,
+        &quot;time:unitType&quot;: {
+            &quot;@id&quot;: &quot;time:unitDay&quot;
+        }
+    },
+    &quot;apercue:slack&quot;: 0,
+    &quot;apercue:isCritical&quot;: true
 }
 </code></pre>
 <p><strong>Compliance context</strong> (SHACL):</p>
