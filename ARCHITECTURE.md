@@ -199,6 +199,13 @@ by concatenating their `@graph` arrays under a shared context.
 | `#ReferenceValidation` | validation.cue | Forward references resolve. |
 | `#RequiredFieldsValidation` | validation.cue | Mandatory fields present. |
 
+### Federation
+
+| Pattern | File | Purpose |
+|---------|------|---------|
+| `#FederatedContext` | federation.cue | Wrap a graph with non-default `@base` namespace. Produces namespaced JSON-LD. |
+| `#FederatedMerge` | federation.cue | Validate and merge multiple federated contexts. Collision detection via unification. |
+
 ## Performance Model
 
 CUE is a constraint language, not a general-purpose runtime. Three things to
@@ -236,9 +243,12 @@ unique because each is scoped to its domain's URN namespace. A resource
 `urn:apercue:graph-engine` cannot collide with `urn:quicue-kg:graph-engine`
 even though both are named `graph-engine`. See ADR-017.
 
-Phase 8 (planned) will formalize this as `#FederatedContext` — a pattern
-that enforces `@base` namespacing and validates cross-domain `@id` references
-during graph merge.
+`#FederatedContext` enforces non-default `@base` at the CUE type level
+(`Namespace: string & !="urn:resource:"`). `#FederatedMerge` validates
+multiple contexts can merge safely — namespace and `@id` collision detection
+uses CUE unification (if two domains claim the same namespace, the struct
+produces conflicting values and evaluation fails). See ADR-018 and
+`patterns/federation.cue`.
 
 ## Build Pipeline
 

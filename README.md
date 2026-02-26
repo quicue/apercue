@@ -75,20 +75,24 @@ apercue.ca@v0
 │   ├── policy.cue          #   #ODRLPolicy → odrl:Set, odrl:Permission
 │   ├── credentials.cue     #   #ValidationCredential → VerifiableCredential
 │   ├── activity.cue        #   #ActivityStream → as:OrderedCollection
+│   ├── catalog.cue         #   #DCATCatalog → dcat:Catalog, dcat:Dataset
+│   ├── federation.cue      #   #FederatedContext, #FederatedMerge — multi-domain merge
 │   ├── schema_alignment.cue #  #SchemaOrgAlignment → schema:additionalType
 │   ├── type-contracts.cue  #   #ApplyTypeContracts, #ValidateTypes
 │   └── visualization.cue   #   Graphviz DOT, Mermaid, dependency matrix
 ├── charter/                # Constraint-first planning
 │   └── charter.cue         #   #Charter, #GapAnalysis → sh:ValidationReport, #Milestone
 ├── views/                  # Vocabulary projections
-│   └── skos.cue            #   #TypeVocabulary → skos:ConceptScheme
+│   ├── skos.cue            #   #TypeVocabulary → skos:ConceptScheme
+│   └── org.cue             #   #OrgChart → org:Organization, org:OrganizationalUnit
 ├── w3c/                    # Spec coverage index
 │   └── README.md
 ├── examples/
 │   ├── course-prereqs/     # University prerequisites (12 courses, 3 gates)
 │   ├── recipe-ingredients/ # Beef bourguignon (17 steps, critical path)
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
-│   └── supply-chain/       # Laptop assembly (15 parts, 5 tiers)
+│   ├── supply-chain/       # Laptop assembly (15 parts, 5 tiers)
+│   └── gc-llm-governance/  # GC LLM governance (52 nodes, ODRL policies, DCAT catalog)
 ├── self-charter/           # Ecosystem graph — models the project itself
 │   ├── ecosystem.cue       #   10 modules/instances/services as typed resources
 │   ├── charter.cue         #   4-gate charter for ecosystem completeness
@@ -98,7 +102,14 @@ apercue.ca@v0
 │   ├── explorer.html       #   D3 ecosystem graph explorer
 │   ├── playground.html     #   Interactive W3C projection playground (6 projections)
 │   └── data/               #   Pre-computed JSON from cue export
+├── tests/                  # Validation test suites
+│   ├── federation/         #   Multi-domain merge tests (2 domains, 5 resources)
+│   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
+    ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
+    ├── pattern-api.md      # Field-level reference for all ~40 pattern types
+    ├── api-stability.md    # Stable vs experimental classification
+    ├── adapters.md         # Downstream module guide + creating adapters
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
 ```
 
@@ -117,6 +128,7 @@ apercue.ca@v0
 | ORG | `views/org.cue` --- org:Organization, org:OrganizationalUnit by @type | Implemented |
 | schema.org | `schema_alignment.cue` --- schema:additionalType mapping | Implemented |
 | VC 2.0 | `credentials.cue` --- VerifiableCredential wrapping SHACL reports | Implemented |
+| DCAT 3 | `catalog.cue` --- dcat:Catalog, dcat:Dataset per resource | Implemented |
 | Activity Streams 2.0 | `activity.cue` --- as:OrderedCollection of graph construction | Implemented |
 | Hydra Core | Downstream: quicue.ca operator dashboard | Downstream |
 
@@ -132,6 +144,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 15 parts | 5-tier dependency depth, compliance checks |
+| [gc-llm-governance](examples/gc-llm-governance/) | GC AI governance | 52 nodes | ODRL policies, DCAT catalog, compliance rules, fact registry |
 | [self-charter](self-charter/) | Meta — apercue itself | 12 modules | The project models its own development: 4 gates, CPM scheduling, [live visualization](https://apercue.ca/charter.html) |
 
 ```bash
@@ -186,11 +199,22 @@ CUE's constraint lattice subsumes both graph query (SPARQL) and shape validation
 (SHACL) into a single evaluation model. If `cue vet` passes, the data is valid
 and every W3C projection will conform.
 
+## Documentation
+
+- [Getting Started](docs/getting-started.md) --- standalone walkthrough from empty project to W3C exports
+- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all ~40 pattern types
+- [API Stability](docs/api-stability.md) --- stable vs experimental type classification
+- [Adapters](docs/adapters.md) --- downstream module guide + creating your own adapter
+- [ARCHITECTURE.md](ARCHITECTURE.md) --- design principles, data flow, module layers
+- [CONTRIBUTING.md](CONTRIBUTING.md) --- development setup, testing, PR process
+
 ## Downstream
 
 - **[quicue.ca](https://quicue.ca)** --- Infrastructure-specific patterns (40+ types, 29 providers). Imports apercue for generic graph/charter patterns.
 - **[cmhc-retrofit](https://cmhc-retrofit.quicue.ca)** --- CMHC housing retrofit graphs
 - **[kg.quicue.ca](https://kg.quicue.ca)** --- Knowledge graph framework
+
+See [Adapters](docs/adapters.md) for how these modules import apercue and how to create your own.
 
 ## License
 
