@@ -172,9 +172,10 @@ _json: {
 	cpm_sequence: json.Indent(json.Marshal(_cpm.critical_sequence), "", "    ")
 
 	// OWL-Time — single entry showing time:Interval (analysis-code)
-	time_entry: json.Indent(json.Marshal({
-		"analysis-code": _cpm.time_report["analysis-code"]
-	}), "", "    ")
+	time_entry: json.Indent(json.Marshal(
+		[for e in _cpm.time_report["@graph"]
+			if e["dcterms:title"] == "analysis-code" {e}][0],
+	), "", "    ")
 
 	// ODRL — compact (no @context)
 	odrl: json.Indent(json.Marshal({
