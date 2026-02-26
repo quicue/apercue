@@ -32,7 +32,7 @@
             "types": {
                 "Gate": true
             },
-            "description": "All 4 interop tests pass \u2014 apercue output is real W3C",
+            "description": "All 4 interop tests pass — apercue output is real W3C",
             "status": "done",
             "depth": 2,
             "earliest": 2,
@@ -201,7 +201,7 @@
             "types": {
                 "Verification": true
             },
-            "description": "Diff quicue exports against baseline \u2014 metrics/CPM identical, SHACL gains @context",
+            "description": "Diff quicue exports against baseline — metrics/CPM identical, SHACL gains @context",
             "status": "done",
             "depth": 9,
             "earliest": 9,
@@ -232,7 +232,7 @@
                 "Setup": true
             },
             "description": "Add apercue.ca@v0 transitive symlink to grdn cue.mod/pkg/",
-            "status": "done",
+            "status": "pending",
             "depth": 9,
             "earliest": 9,
             "latest": 9,
@@ -247,7 +247,7 @@
                 "Verification": true
             },
             "description": "cue vet passes on grdn (transitive dependency through quicue)",
-            "status": "done",
+            "status": "pending",
             "depth": 10,
             "earliest": 10,
             "latest": 10,
@@ -262,7 +262,7 @@
                 "Verification": true
             },
             "description": "grdn exports unchanged after integration",
-            "status": "done",
+            "status": "pending",
             "depth": 11,
             "earliest": 11,
             "latest": 11,
@@ -277,7 +277,7 @@
                 "Verification": true
             },
             "description": "make check-downstream passes in quicue.ca",
-            "status": "done",
+            "status": "pending",
             "depth": 12,
             "earliest": 12,
             "latest": 12,
@@ -293,7 +293,7 @@
                 "Cleanup": true
             },
             "description": "Mark quicue Phase 7 apercue-integrated gate as satisfied",
-            "status": "done",
+            "status": "pending",
             "depth": 13,
             "earliest": 13,
             "latest": 13,
@@ -308,7 +308,7 @@
                 "Cleanup": true
             },
             "description": "Update apercue and quicue MEMORY.md with integration status",
-            "status": "done",
+            "status": "pending",
             "depth": 13,
             "earliest": 13,
             "latest": 13,
@@ -323,7 +323,7 @@
                 "Cleanup": true
             },
             "description": "Replace any real IPs in quicue docs with RFC 5737 ranges",
-            "status": "done",
+            "status": "pending",
             "depth": 13,
             "earliest": 13,
             "latest": 13,
@@ -338,7 +338,7 @@
                 "Gate": true
             },
             "description": "All repos committed, charters updated, interop passing",
-            "status": "done",
+            "status": "pending",
             "depth": 14,
             "earliest": 14,
             "latest": 14,
@@ -355,7 +355,7 @@
                 "Migration": true
             },
             "description": "Add JSON-LD @context to charter_viz and summary exports using apercue vocab",
-            "status": "done",
+            "status": "pending",
             "depth": 15,
             "earliest": 15,
             "latest": 15,
@@ -370,7 +370,7 @@
                 "Migration": true
             },
             "description": "Project task type taxonomy as SKOS ConceptScheme",
-            "status": "done",
+            "status": "pending",
             "depth": 15,
             "earliest": 15,
             "latest": 15,
@@ -385,7 +385,7 @@
                 "Migration": true
             },
             "description": "Project CPM scheduling data as OWL-Time time:Interval",
-            "status": "done",
+            "status": "pending",
             "depth": 15,
             "earliest": 15,
             "latest": 15,
@@ -400,7 +400,7 @@
                 "Bugfix": true
             },
             "description": "Add @context + @type + dct:conformsTo to all quicue.ca export-facing definitions (INSIGHT-013)",
-            "status": "done",
+            "status": "pending",
             "depth": 15,
             "earliest": 15,
             "latest": 15,
@@ -415,7 +415,7 @@
                 "Migration": true
             },
             "description": "Add EARL earl:Assertion projection to #GapAnalysis for audit trail",
-            "status": "done",
+            "status": "pending",
             "depth": 15,
             "earliest": 15,
             "latest": 15,
@@ -430,7 +430,7 @@
                 "Bugfix": true
             },
             "description": "Fix #CriticalPath time_report to emit proper OWL-Time intervals",
-            "status": "done",
+            "status": "pending",
             "depth": 15,
             "earliest": 15,
             "latest": 15,
@@ -445,7 +445,7 @@
                 "Migration": true
             },
             "description": "Surface inherited W3C projections in grdn docs and exports",
-            "status": "done",
+            "status": "pending",
             "depth": 16,
             "earliest": 16,
             "latest": 16,
@@ -465,7 +465,7 @@
                 "Migration": true
             },
             "description": "Add cross-project skos:exactMatch/skos:closeMatch for pattern discovery across .kb/ directories",
-            "status": "done",
+            "status": "pending",
             "depth": 16,
             "earliest": 16,
             "latest": 16,
@@ -485,7 +485,7 @@
                 "Verification": true
             },
             "description": "Iterative review: re-export all W3C artifacts, run interop tests, doc sweep, verify shareable URLs",
-            "status": "done",
+            "status": "pending",
             "depth": 17,
             "earliest": 17,
             "latest": 17,
@@ -501,7 +501,7 @@
                 "Gate": true
             },
             "description": "All W3C alignment tasks pass, documentation updated, exports validated",
-            "status": "done",
+            "status": "pending",
             "depth": 18,
             "earliest": 18,
             "latest": 18,
@@ -731,18 +731,37 @@
         },
         "chain-verified": {
             "phase": 4,
-            "satisfied": true,
-            "missing": {}
+            "satisfied": false,
+            "missing": {
+                "grdn-vet": true,
+                "grdn-exports-diff": true,
+                "downstream-check": true
+            }
         },
         "phase7-complete": {
             "phase": 5,
-            "satisfied": true,
-            "missing": {}
+            "satisfied": false,
+            "missing": {
+                "quicue-charter-update": true,
+                "memory-update": true,
+                "final-commit": true
+            }
         },
         "w3c-aligned": {
             "phase": 6,
-            "satisfied": true,
-            "missing": {}
+            "satisfied": false,
+            "missing": {
+                "phase7-jsonld": true,
+                "phase7-skos-types": true,
+                "phase7-owl-time": true,
+                "quicue-export-context": true,
+                "quicue-earl-gaps": true,
+                "quicue-owl-time-fix": true,
+                "grdn-w3c-surface": true,
+                "kg-skos-federation": true,
+                "w3c-review": true,
+                "w3c-sweep-complete": true
+            }
         }
     },
     "scheduling": {
@@ -782,10 +801,29 @@
     "summary": {
         "project": "phase7-wire-the-stack",
         "deliverables": 33,
-        "completed": 33,
-        "complete": true,
-        "missing": {},
-        "next_gate": "",
+        "completed": 15,
+        "complete": false,
+        "missing": {
+            "grdn-symlink": true,
+            "grdn-vet": true,
+            "grdn-exports-diff": true,
+            "downstream-check": true,
+            "quicue-charter-update": true,
+            "memory-update": true,
+            "quicue-docs-rfc5737": true,
+            "final-commit": true,
+            "phase7-jsonld": true,
+            "phase7-skos-types": true,
+            "phase7-owl-time": true,
+            "quicue-export-context": true,
+            "quicue-earl-gaps": true,
+            "quicue-owl-time-fix": true,
+            "grdn-w3c-surface": true,
+            "kg-skos-federation": true,
+            "w3c-review": true,
+            "w3c-sweep-complete": true
+        },
+        "next_gate": "chain-verified",
         "critical_path_length": 19
     }
 }

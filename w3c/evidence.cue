@@ -102,6 +102,14 @@ _policy: patterns.#ODRLPolicy & {
 	}]
 }
 
+// ── DCAT catalog ──────────────────────────────────────────────
+
+_catalog: patterns.#DCATCatalog & {
+	Graph:       _graph
+	Title:       "Research Publication Pipeline"
+	Description: "Five-stage research workflow from ethics approval through peer review"
+}
+
 // ── Provenance ──────────────────────────────────────────────────
 
 _provenance: patterns.#ProvenanceTrace & {Graph: _graph}
@@ -149,6 +157,9 @@ evidence: {
 
 	// Provenance
 	prov_report: _provenance.prov_report
+
+	// DCAT catalog
+	dcat_catalog: _catalog.dcat_catalog
 }
 
 // ── JSON-formatted evidence blocks for report injection ─────────
@@ -190,4 +201,14 @@ _json: {
 		[ for e in _provenance.prov_report["@graph"]
 			if e["@id"] == "urn:resource:analysis-code" {e}][0],
 	), "", "    ")
+
+	// DCAT — compact catalog entry (first dataset only)
+	dcat: json.Indent(json.Marshal({
+		"@type":          "dcat:Catalog"
+		"dcterms:title":  _catalog.dcat_catalog["dcterms:title"]
+		"dcat:dataset": [
+			for d in _catalog.dcat_catalog["dcat:dataset"]
+			if d["dcterms:title"] == "sensor-dataset" {d},
+		]
+	}), "", "    ")
 }

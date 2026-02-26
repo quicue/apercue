@@ -168,26 +168,26 @@ duration. The same data produces standard OWL-Time `time:Interval` entries:
 
 ```json
 {
-    "analysis-code": {
-        "@type": "time:Interval",
-        "time:hasBeginning": {
-            "@type": "time:Instant",
-            "time:inXSDDecimal": 150
-        },
-        "time:hasEnd": {
-            "@type": "time:Instant",
-            "time:inXSDDecimal": 195
-        },
-        "time:hasDuration": {
-            "@type": "time:Duration",
-            "time:numericDuration": 45,
-            "time:unitType": {
-                "@id": "time:unitDay"
-            }
-        },
-        "apercue:slack": 0,
-        "apercue:isCritical": true
-    }
+    "@type": "time:Interval",
+    "@id": "urn:resource:analysis-code",
+    "dcterms:title": "analysis-code",
+    "time:hasBeginning": {
+        "@type": "time:Instant",
+        "time:inXSDDecimal": 150
+    },
+    "time:hasEnd": {
+        "@type": "time:Instant",
+        "time:inXSDDecimal": 195
+    },
+    "time:hasDuration": {
+        "@type": "time:Duration",
+        "time:numericDuration": 45,
+        "time:unitType": {
+            "@id": "time:unitDay"
+        }
+    },
+    "apercue:slack": 0,
+    "apercue:isCritical": true
 }
 ```
 
@@ -257,11 +257,11 @@ generating `prov:Activity` and `prov:Agent`.
 
 ### Spec Coverage
 
-12 specifications implemented,
-2 downstream (in the infrastructure-specific
+13 specifications implemented,
+1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 
-**Implemented** (12):
+**Implemented** (13):
 
 | W3C Specification | CUE Produces |
 |-------------------|--------------|
@@ -277,13 +277,13 @@ extension). Adding a projection is adding a file, not modifying a framework.
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers |
 | Verifiable Credentials 2.0 | VerifiableCredential wrapping SHACL validation attestation |
 | W3C Org | org:Organization with type-based OrganizationalUnits |
+| DCAT 3 | dcat:Catalog with dcat:Dataset per resource, dcat:theme from @type |
 
-**Downstream** (2):
+**Downstream** (1):
 
 | W3C Specification | CUE Produces |
 |-------------------|--------------|
 | Hydra Core | hydra:ApiDocumentation in quicue.ca operator dashboard |
-| DCAT 3 | dcat:Catalog in quicue-kg aggregate module |
 
 ## Key Mechanisms
 
