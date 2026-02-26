@@ -79,6 +79,21 @@ dataspaces_report: """
 	this provenance chain answers "where did this data come from?" without
 	external provenance stores.
 
+	## Evidence: Data Catalog / DCAT 3 (computed)
+
+	The `#DCATCatalog` pattern projects the graph as a `dcat:Catalog` where
+	each resource becomes a `dcat:Dataset`. Resource types map to `dcat:theme`
+	via SKOS concepts:
+
+	```json
+	\(_json.dcat)
+	```
+
+	Dependencies propagate as `dcterms:requires` links between datasets.
+	In a dataspace, this catalog projection enables discovery of what data
+	assets exist and how they relate — computed directly from the same typed
+	graph, not maintained as separate metadata.
+
 	## Governance as Constraints
 
 	Dataspace governance typically requires runtime policy enforcement:

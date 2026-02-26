@@ -106,6 +106,43 @@ Every knowledge base entry has computable provenance via the
 this provenance chain answers "where did this data come from?" without
 external provenance stores.
 
+## Evidence: Data Catalog / DCAT 3 (computed)
+
+The `#DCATCatalog` pattern projects the graph as a `dcat:Catalog` where
+each resource becomes a `dcat:Dataset`. Resource types map to `dcat:theme`
+via SKOS concepts:
+
+```json
+{
+    "@type": "dcat:Catalog",
+    "dcterms:title": "Research Publication Pipeline",
+    "dcat:dataset": [
+        {
+            "@type": "dcat:Dataset",
+            "@id": "urn:resource:sensor-dataset",
+            "dcterms:description": "Telemetry dataset (embargoed until publication)",
+            "dcterms:requires": [
+                {
+                    "@id": "urn:resource:ethics-approval"
+                }
+            ],
+            "dcterms:title": "sensor-dataset",
+            "dcat:theme": [
+                {
+                    "@type": "skos:Concept",
+                    "skos:prefLabel": "Dataset"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Dependencies propagate as `dcterms:requires` links between datasets.
+In a dataspace, this catalog projection enables discovery of what data
+assets exist and how they relate — computed directly from the same typed
+graph, not maintained as separate metadata.
+
 ## Governance as Constraints
 
 Dataspace governance typically requires runtime policy enforcement:

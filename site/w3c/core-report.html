@@ -240,26 +240,26 @@ the critical sequence:</p>
 <p>5-node critical path, 285-day total
 duration. The same data produces standard OWL-Time <code>time:Interval</code> entries:</p>
 <pre><code class="language-json">{
-    &quot;analysis-code&quot;: {
-        &quot;@type&quot;: &quot;time:Interval&quot;,
-        &quot;time:hasBeginning&quot;: {
-            &quot;@type&quot;: &quot;time:Instant&quot;,
-            &quot;time:inXSDDecimal&quot;: 150
-        },
-        &quot;time:hasEnd&quot;: {
-            &quot;@type&quot;: &quot;time:Instant&quot;,
-            &quot;time:inXSDDecimal&quot;: 195
-        },
-        &quot;time:hasDuration&quot;: {
-            &quot;@type&quot;: &quot;time:Duration&quot;,
-            &quot;time:numericDuration&quot;: 45,
-            &quot;time:unitType&quot;: {
-                &quot;@id&quot;: &quot;time:unitDay&quot;
-            }
-        },
-        &quot;apercue:slack&quot;: 0,
-        &quot;apercue:isCritical&quot;: true
-    }
+    &quot;@type&quot;: &quot;time:Interval&quot;,
+    &quot;@id&quot;: &quot;urn:resource:analysis-code&quot;,
+    &quot;dcterms:title&quot;: &quot;analysis-code&quot;,
+    &quot;time:hasBeginning&quot;: {
+        &quot;@type&quot;: &quot;time:Instant&quot;,
+        &quot;time:inXSDDecimal&quot;: 150
+    },
+    &quot;time:hasEnd&quot;: {
+        &quot;@type&quot;: &quot;time:Instant&quot;,
+        &quot;time:inXSDDecimal&quot;: 195
+    },
+    &quot;time:hasDuration&quot;: {
+        &quot;@type&quot;: &quot;time:Duration&quot;,
+        &quot;time:numericDuration&quot;: 45,
+        &quot;time:unitType&quot;: {
+            &quot;@id&quot;: &quot;time:unitDay&quot;
+        }
+    },
+    &quot;apercue:slack&quot;: 0,
+    &quot;apercue:isCritical&quot;: true
 }
 </code></pre>
 <p>Each resource becomes a <code>time:Interval</code> with <code>time:hasBeginning</code>,
@@ -316,10 +316,10 @@ relations:</p>
 links. The full provenance graph includes all 5 resources plus the
 generating <code>prov:Activity</code> and <code>prov:Agent</code>.</p>
 <h3 id="spec-coverage">Spec Coverage</h3>
-<p>12 specifications implemented,
-2 downstream (in the infrastructure-specific
+<p>13 specifications implemented,
+1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.</p>
-<p><strong>Implemented</strong> (12):</p>
+<p><strong>Implemented</strong> (13):</p>
 <table>
 <thead>
 <tr>
@@ -376,9 +376,13 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <td>W3C Org</td>
 <td>org:Organization with type-based OrganizationalUnits</td>
 </tr>
+<tr>
+<td>DCAT 3</td>
+<td>dcat:Catalog with dcat:Dataset per resource, dcat:theme from @type</td>
+</tr>
 </tbody>
 </table>
-<p><strong>Downstream</strong> (2):</p>
+<p><strong>Downstream</strong> (1):</p>
 <table>
 <thead>
 <tr>
@@ -390,10 +394,6 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <tr>
 <td>Hydra Core</td>
 <td>hydra:ApiDocumentation in quicue.ca operator dashboard</td>
-</tr>
-<tr>
-<td>DCAT 3</td>
-<td>dcat:Catalog in quicue-kg aggregate module</td>
 </tr>
 </tbody>
 </table>

@@ -187,6 +187,38 @@ The policy is a CUE projection — it changes when the graph changes.</p>
 <p><code>prov:wasDerivedFrom</code> tracks dependency edges. In a federated dataspace,
 this provenance chain answers "where did this data come from?" without
 external provenance stores.</p>
+<h2 id="evidence-data-catalog-dcat-3-computed">Evidence: Data Catalog / DCAT 3 (computed)</h2>
+<p>The <code>#DCATCatalog</code> pattern projects the graph as a <code>dcat:Catalog</code> where
+each resource becomes a <code>dcat:Dataset</code>. Resource types map to <code>dcat:theme</code>
+via SKOS concepts:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;dcat:Catalog&quot;,
+    &quot;dcterms:title&quot;: &quot;Research Publication Pipeline&quot;,
+    &quot;dcat:dataset&quot;: [
+        {
+            &quot;@type&quot;: &quot;dcat:Dataset&quot;,
+            &quot;@id&quot;: &quot;urn:resource:sensor-dataset&quot;,
+            &quot;dcterms:description&quot;: &quot;Telemetry dataset (embargoed until publication)&quot;,
+            &quot;dcterms:requires&quot;: [
+                {
+                    &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;
+                }
+            ],
+            &quot;dcterms:title&quot;: &quot;sensor-dataset&quot;,
+            &quot;dcat:theme&quot;: [
+                {
+                    &quot;@type&quot;: &quot;skos:Concept&quot;,
+                    &quot;skos:prefLabel&quot;: &quot;Dataset&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>Dependencies propagate as <code>dcterms:requires</code> links between datasets.
+In a dataspace, this catalog projection enables discovery of what data
+assets exist and how they relate — computed directly from the same typed
+graph, not maintained as separate metadata.</p>
 <h2 id="governance-as-constraints">Governance as Constraints</h2>
 <p>Dataspace governance typically requires runtime policy enforcement:
 access control, data quality, provenance tracking. In CUE:</p>
