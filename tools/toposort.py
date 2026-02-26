@@ -243,9 +243,9 @@ def to_cue_struct(data: dict) -> str:
 
 
 def main():
-    if len(sys.argv) < 2:
-        print(__doc__, file=sys.stderr)
-        sys.exit(1)
+    if len(sys.argv) < 2 or "--help" in sys.argv or "-h" in sys.argv:
+        print(__doc__.strip())
+        sys.exit(0 if "--help" in sys.argv or "-h" in sys.argv else 1)
 
     source = sys.argv[1]
     expr = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith("--") else "_tasks"

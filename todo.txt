@@ -1,5 +1,5 @@
 # apercue documentation and consistency todo
-# updated: 2026-02-25
+# updated: 2026-02-26
 #
 # Legend:
 #   [ ] pending
@@ -18,16 +18,38 @@
 [x] README.md line 93: ecosystem count 12 -> 10
 [x] .kb/rejected/cue.mod/pkg symlink: update to /Users/mthdn/infra/repos/quicue-kg
 
+# ── Session 2026-02-26: W3C alignment hardening ───────────────────────────
+
+[x] Create patterns/catalog.cue (#DCATCatalog) — DCAT 3 as first-class pattern
+[x] Update specs-registry.cue — DCAT: Downstream -> Implemented (now 14 specs)
+[x] Create tools/validate-w3c.py — rdflib round-trip conformance validation
+[x] Run validation: 10 passed, 1 known issue (OWL-Time), 1 skipped
+[x] Add ADR-017: @id namespacing convention for multi-domain federation
+[x] Add INSIGHT-013: rdflib proves @context resolution CUE cannot
+[x] Add INSIGHT-014: OWL-Time flat keys fail JSON-LD round-trip
+[x] Fix OWL-Time projection to use @graph array (INSIGHT-014)
+      - both #CriticalPath and #CriticalPathPrecomputed now use @graph + @id
+      - 574 triples from self-charter, 41 time:Interval resources
+[x] Add DCAT/PROV-O/AS projections to supply-chain example
+[x] Expand validate-w3c.py: OWL-Time, DCAT, PROV-O, Activity Streams, SKOS
+[x] Final validation: 19 passed, 0 failed, 14 skipped (expected)
+[x] Add validate-w3c.py to CI pipeline (+ README smoke test)
+[ ] Phase 8: enforce @base namespacing with #FederatedContext pattern
+
 # ── Documentation quality ─────────────────────────────────────────────────
 
-[ ] Enrich course-prereqs/README.md to match supply-chain quality
-      - add ASCII dependency diagram
-      - add sample output from cue export
-      - add field descriptions
-[ ] Enrich recipe-ingredients/README.md similarly
-[ ] Enrich project-tracker/README.md similarly
-[ ] Verify all README run commands end-to-end (automated smoke test)
-[ ] Add output examples to each example README (ADR-009 compliance)
+[x] Enrich course-prereqs/README.md to match supply-chain quality
+      - ASCII dependency diagram, field descriptions, output examples
+      - charter gates table, patterns used, file structure
+[x] Enrich recipe-ingredients/README.md similarly
+      - ASCII dependency diagram, critical path walkthrough (205 min)
+      - charter gates table, slack analysis (172 min)
+[x] Enrich project-tracker/README.md similarly
+      - ASCII dependency diagram, dual-graph pattern explanation
+      - charter gates table, status tracking
+[x] Verify all README run commands end-to-end (automated smoke test)
+      - 26/26 commands pass; now in CI via validate.yml
+[x] Add output examples to each example README (ADR-009 compliance)
 
 # ── Cross-repo unification ────────────────────────────────────────────────
 #
@@ -44,12 +66,10 @@
 #   - All downstream README references to apercue are correct
 #   - cue vet ./... passes in quicue.ca with current vendored copies
 
-[ ] Sync quicue.ca vendored apercue packages (formatting drift from 3591c47)
-      - 12 files differ: 3 vocab, 8 patterns, 1 charter
-      - drift is field alignment only, not semantic
-      - cp -r vocab/ patterns/ charter/ -> quicue.ca/cue.mod/pkg/apercue.ca/
-      - or: convert quicue.ca to symlink like cmhc-retrofit does
-[ ] Bump quicue-kg CUE version v0.15.3 -> v0.15.4
+[x] Sync quicue.ca vendored apercue packages
+      - synced analysis.cue (OWL-Time @graph fix), catalog.cue (new), specs-registry.cue
+      - zero drift verified after sync
+[x] Bump quicue-kg CUE version v0.15.3 -> v0.15.4
 [ ] Bump cmhc-retrofit CUE version v0.15.3 -> v0.15.4
 [ ] unified-kb: add maison-613 .kb content (rfam.cc/maison-613/kb@v0 imported but untested)
 [ ] unified-kb: verify skos-crossref ADR/insight IDs still match after .kb updates
@@ -60,15 +80,16 @@
 [x] Add INSIGHT-011: README commands drift when schemas change
 [x] Add INSIGHT-012: stray cue.mod directories isolate files from root module
 [x] Verify .kb CUE files pass cue vet after edits (insights + decisions)
-[ ] Populate .kb/rejected/ with at least one entry (structure exists but empty)
+[x] Populate .kb/rejected/ with REJ-001 (flat keyed OWL-Time rejection)
 
 # ── CI and automation ─────────────────────────────────────────────────────
 
-[ ] Add CI step: run every cue command from example READMEs
+[x] Add CI step: run every cue command from example READMEs
       - parse ```bash blocks, execute, check exit code
-      - prevents the exact class of bugs fixed today
-[ ] Add CI step: verify no hardcoded absolute paths in markdown
-[ ] Consider: toposort.py --help flag (currently errors on --help)
+      - 23/23 commands pass locally; added to validate.yml
+[x] Add CI step: verify no hardcoded absolute paths in markdown
+      - grep for /home/, /Users/, /tmp/ in all *.md files
+[x] toposort.py: add --help / -h flag (exit 0 with docstring)
 
 # ── Missing documentation ─────────────────────────────────────────────────
 
