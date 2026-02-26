@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM-KR CG Report — apercue.ca</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1a1a1a;
+    --accent: #2563eb;
+    --code-bg: #f3f4f6;
+    --border: #d1d5db;
+    --max-w: 48rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111827;
+      --fg: #e5e7eb;
+      --accent: #60a5fa;
+      --code-bg: #1f2937;
+      --border: #374151;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.7;
+    padding: 2rem 1rem;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  nav {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h1 { font-size: 1.75rem; margin: 1.5rem 0 0.75rem; }
+  h2 { font-size: 1.35rem; margin: 1.5rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+  h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+  p { margin: 0.75rem 0; }
+  a { color: var(--accent); }
+  ul, ol { margin: 0.75rem 0 0.75rem 1.5rem; }
+  li { margin: 0.25rem 0; }
+  code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #6b7280;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  th { background: var(--code-bg); font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  strong { font-weight: 600; }
+  .meta {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">apercue.ca</a> /
+  <a href="index.html">W3C Reports</a> /
+  PM-KR CG Report
+</nav>
+<h1 id="project-management-as-constraint-satisfaction-in-cue">Project Management as Constraint Satisfaction in CUE</h1>
+<p><strong>Use Case Submission for the PM-KR Community Group</strong></p>
+<hr>
+<h2 id="summary">Summary</h2>
+<p><a href="https://github.com/quicue/apercue">apercue.ca</a> implements project management
+patterns — critical path scheduling, gap analysis, milestone evaluation, and
+EARL test plans — as CUE type constraints. A project charter declares required
+resources, types, and completion gates. The <code>#GapAnalysis</code> pattern computes
+what is missing. <code>cue vet</code> fails if the project is incomplete. Project
+management becomes type checking.</p>
+<p>This submission demonstrates how CUE's constraint system maps to PM-KR's
+work on knowledge representation for project management.</p>
+<h2 id="the-charter-pattern">The Charter Pattern</h2>
+<p>A project charter declares scope and gates:</p>
+<pre><code class="language-cue">#Charter: {
+    scope: {
+        total_resources:    int
+        required_resources: {[string]: true}
+        required_types:     {[string]: true}
+    }
+    gates: [...#Gate]
+}
+
+#Gate: {
+    name:     string
+    min_depth: int
+    required: {[string]: true}
+}
+</code></pre>
+<p>The <code>#GapAnalysis</code> pattern unifies the charter against a <code>#Graph</code> and
+computes: which resources are missing, which types are unsatisfied, which
+gates are blocked, and which gates are complete. The result is a SHACL
+validation report — project incompleteness surfaces as constraint violations.</p>
+<h2 id="evidence-critical-path-computed">Evidence: Critical Path (computed)</h2>
+<p>The <code>#CriticalPath</code> pattern computes forward/backward scheduling passes
+from dependency weights:</p>
+<pre><code class="language-json">[
+    {
+        &quot;resource&quot;: &quot;ethics-approval&quot;,
+        &quot;start&quot;: 0,
+        &quot;finish&quot;: 60,
+        &quot;duration&quot;: 60
+    },
+    {
+        &quot;resource&quot;: &quot;sensor-dataset&quot;,
+        &quot;start&quot;: 60,
+        &quot;finish&quot;: 150,
+        &quot;duration&quot;: 90
+    },
+    {
+        &quot;resource&quot;: &quot;analysis-code&quot;,
+        &quot;start&quot;: 150,
+        &quot;finish&quot;: 195,
+        &quot;duration&quot;: 45
+    },
+    {
+        &quot;resource&quot;: &quot;draft-paper&quot;,
+        &quot;start&quot;: 195,
+        &quot;finish&quot;: 225,
+        &quot;duration&quot;: 30
+    },
+    {
+        &quot;resource&quot;: &quot;peer-review&quot;,
+        &quot;start&quot;: 225,
+        &quot;finish&quot;: 285,
+        &quot;duration&quot;: 60
+    }
+]
+</code></pre>
+<p>5-node critical path,
+285-day total duration,
+maximum slack 0 days. This is standard CPM
+(Critical Path Method) computed at CUE evaluation time.</p>
+<p>The same data produces OWL-Time <code>time:Interval</code> entries:</p>
+<pre><code class="language-json">{
+    &quot;analysis-code&quot;: {
+        &quot;@type&quot;: &quot;time:Interval&quot;,
+        &quot;time:hasBeginning&quot;: {
+            &quot;@type&quot;: &quot;time:Instant&quot;,
+            &quot;time:inXSDDecimal&quot;: 150
+        },
+        &quot;time:hasEnd&quot;: {
+            &quot;@type&quot;: &quot;time:Instant&quot;,
+            &quot;time:inXSDDecimal&quot;: 195
+        },
+        &quot;time:hasDuration&quot;: {
+            &quot;@type&quot;: &quot;time:Duration&quot;,
+            &quot;time:numericDuration&quot;: 45,
+            &quot;time:unitType&quot;: {
+                &quot;@id&quot;: &quot;time:unitDay&quot;
+            }
+        },
+        &quot;apercue:slack&quot;: 0,
+        &quot;apercue:isCritical&quot;: true
+    }
+}
+</code></pre>
+<p>Each resource has <code>time:hasBeginning</code>, <code>time:hasEnd</code>, <code>time:hasDuration</code>,
+plus <code>apercue:slack</code> and <code>apercue:isCritical</code> extensions. The scheduling
+model IS the semantic model — no translation layer.</p>
+<h2 id="evidence-compliance-validation-computed">Evidence: Compliance Validation (computed)</h2>
+<p>The <code>#ComplianceCheck</code> pattern evaluates rules against the graph and
+produces a SHACL validation report:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;sh:ValidationReport&quot;,
+    &quot;sh:conforms&quot;: true,
+    &quot;sh:result&quot;: []
+}
+</code></pre>
+<p>For project charters, this same mechanism validates gate completion. A gate
+that requires <code>{sensor-dataset: true, ethics-approval: true}</code> checks
+membership in <code>_graph.resources</code> via set intersection. Missing resources
+produce <code>sh:conforms: false</code>.</p>
+<h2 id="how-it-maps-to-pm-kr">How It Maps to PM-KR</h2>
+<table>
+<thead>
+<tr>
+<th>PM Concept</th>
+<th>CUE Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Work Breakdown Structure</td>
+<td><code>#Graph</code> with typed resources and <code>depends_on</code> edges</td>
+</tr>
+<tr>
+<td>Critical Path Method</td>
+<td><code>#CriticalPath</code> — forward/backward pass on weighted DAG</td>
+</tr>
+<tr>
+<td>Milestone / Gate</td>
+<td><code>#Gate</code> — set membership check on required resources</td>
+</tr>
+<tr>
+<td>Gap Analysis</td>
+<td><code>#GapAnalysis</code> — charter scope vs. actual graph</td>
+</tr>
+<tr>
+<td>Test Plan</td>
+<td>EARL <code>earl:Assertion</code> from smoke test definitions</td>
+</tr>
+<tr>
+<td>Schedule</td>
+<td>OWL-Time <code>time:Interval</code> per resource</td>
+</tr>
+<tr>
+<td>Risk (single points of failure)</td>
+<td><code>#SinglePointsOfFailure</code> — nodes whose removal disconnects dependents</td>
+</tr>
+</tbody>
+</table>
+<p>The key insight: CUE constraints and project constraints use the same
+formalism. "The project needs resource X" is <code>required_resources: {"X": true}</code>.
+"Resource X exists" is <code>resources["X"]</code> being defined. Unification of
+requirement with actuality either succeeds (gate passes) or produces bottom
+(gate blocked). Project management is type checking.</p>
+<h2 id="multi-domain-evidence">Multi-Domain Evidence</h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>WBS Nodes</th>
+<th>Gates</th>
+<th>Critical Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Research data mgmt</td>
+<td>5</td>
+<td>—</td>
+<td>5-node, 285-day pipeline</td>
+</tr>
+<tr>
+<td>IT infrastructure</td>
+<td>30</td>
+<td>8</td>
+<td>9 layers, 53 resources</td>
+</tr>
+<tr>
+<td>University curricula</td>
+<td>12</td>
+<td>5</td>
+<td>4th-year capstone chain</td>
+</tr>
+<tr>
+<td>Construction PM (CMHC)</td>
+<td>18</td>
+<td>5</td>
+<td>Phase-gated retrofit</td>
+</tr>
+</tbody>
+</table>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>No resource leveling or cost optimization (CPM only, not PERT)</li>
+<li>Deterministic durations (no probabilistic scheduling)</li>
+<li>DAG structure required (no iterative loops)</li>
+<li>Pre-compute transitive closure for graphs exceeding ~40 nodes</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/quicue/apercue/blob/main/w3c/core-report.md">Core report</a>
+  — Full implementation evidence with 14 W3C specs</li>
+<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a> — Source (Apache 2.0)</li>
+<li><a href="https://demo.quicue.ca">demo.quicue.ca</a> — Interactive D3 graph explorer</li>
+</ul>
+<div class="meta">
+  <p>Source: <a href="https://github.com/quicue/apercue/tree/main/w3c">github.com/quicue/apercue/tree/main/w3c</a></p>
+  <p>All evidence is computed from CUE source. Reproduce: <code>cue export ./w3c/ -e evidence --out json</code></p>
+</div>
+</body>
+</html>
