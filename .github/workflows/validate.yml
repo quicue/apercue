@@ -18,22 +18,8 @@ jobs:
         with:
           version: v0.15.4
 
-      - name: Validate core packages
-        run: |
-          cue vet ./vocab/
-          cue vet ./patterns/
-          cue vet ./charter/
-          cue vet ./views/
-
-      - name: Validate examples
-        run: |
-          for d in examples/*/; do
-            echo "Validating $d..."
-            cue vet "./$d"
-          done
-
-      - name: Validate self-charter
-        run: cue vet ./self-charter/
+      - name: Unified validation (all packages)
+        run: cue vet ./... -c
 
       - name: Unicode rejection tests
         run: |
