@@ -87,9 +87,9 @@ _cpm: patterns.#CriticalPath & {
 _policy: patterns.#ODRLPolicy & {
 	Graph: _graph
 	permissions: [{
-		action: "odrl:read"
+		action: "read"
 	}, {
-		action:   "odrl:execute"
+		action:   "execute"
 		assignee: "apercue:operator"
 	}]
 }
@@ -147,11 +147,37 @@ evidence: {
 
 // Marshal from hidden fields directly — avoids cycles through
 // the public evidence struct when interpolated in report templates.
+// Compact versions strip @context (shown once in the report).
 _json: {
-	shacl:        json.Indent(json.Marshal(_compliance.shacl_report), "", "    ")
+	// Full JSON-LD context (shown once at top of report)
+	context: json.Indent(json.Marshal(vocab.context), "", "    ")
+
+	// SHACL — compact (no @context)
+	shacl: json.Indent(json.Marshal({
+		"@type":       "sh:ValidationReport"
+		"sh:conforms": _compliance.shacl_report["sh:conforms"]
+		"sh:result":   _compliance.shacl_report["sh:result"]
+	}), "", "    ")
+
+	// Critical path schedule (compact tabular)
 	cpm_summary:  json.Indent(json.Marshal(_cpm.summary), "", "    ")
 	cpm_sequence: json.Indent(json.Marshal(_cpm.critical_sequence), "", "    ")
-	context:      json.Indent(json.Marshal(vocab.context), "", "    ")
-	odrl:         json.Indent(json.Marshal(_policy.odrl_policy), "", "    ")
-	prov:         json.Indent(json.Marshal(_provenance.prov_report), "", "    ")
+
+	// OWL-Time — single entry showing time:Interval (cpu-chip)
+	time_entry: json.Indent(json.Marshal({
+		"cpu-chip": _cpm.time_report["cpu-chip"]
+	}), "", "    ")
+
+	// ODRL — compact (no @context)
+	odrl: json.Indent(json.Marshal({
+		"@type":            _policy.odrl_policy["@type"]
+		"odrl:uid":         _policy.odrl_policy["odrl:uid"]
+		"odrl:permission":  _policy.odrl_policy["odrl:permission"]
+		"odrl:prohibition": _policy.odrl_policy["odrl:prohibition"]
+	}), "", "    ")
+
+	// PROV-O — single entity with derivation chain
+	prov_entity: json.Indent(json.Marshal(
+		_provenance.prov_report["@graph"][2],
+	), "", "    ")
 }
