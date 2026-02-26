@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GC LLM Governance Charter — apercue.ca</title>
-<meta name="description" content="Constraint-first governance for Canadian federal LLM deployment. 52 typed resources, 8 W3C projections (SHACL, OWL-Time, ODRL, PROV-O, DCAT, VC, SKOS, EARL) from one CUE dependency graph.">
+<meta name="description" content="Constraint-first governance for Canadian federal LLM deployment. 52 typed resources, 8 W3C projections (SHACL, OWL-Time, ODRL, PROV-O, DCAT, VC, SKOS, JSON-LD) from one CUE dependency graph.">
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -1005,9 +1005,22 @@ marker.highlighted path { fill: var(--accent); }
   <div class="section-label">Types</div>
   <div class="legend" id="legend"></div>
 
+  <div class="section-label">W3C Coverage</div>
+  <div style="padding:0 20px 12px;font-family:var(--mono);font-size:9px;color:var(--text-dim);line-height:1.8">
+    <span style="color:var(--accent)">SHACL</span> validation &middot;
+    <span style="color:var(--accent)">OWL-Time</span> scheduling &middot;
+    <span style="color:var(--accent)">ODRL</span> policies &middot;
+    <span style="color:var(--accent)">PROV-O</span> provenance &middot;
+    <span style="color:var(--accent)">DCAT&nbsp;3</span> catalog &middot;
+    <span style="color:var(--accent)">VC&nbsp;2.0</span> credentials &middot;
+    <span style="color:var(--accent)">SKOS</span> vocabulary &middot;
+    <span style="color:var(--accent)">JSON-LD</span> context
+  </div>
+
   <div class="nav-links">
     <a href="index.html">Home</a>
-    <a href="charter.html">Build Charter</a>
+    <a href="spec/">Spec</a>
+    <a href="recipe.html">Recipe</a>
   </div>
 </aside>
 
@@ -1128,6 +1141,15 @@ async function init() {
 
   window.nodeMap = {};
   graphData.nodes.forEach(n => { nodeMap[n.id] = n; });
+
+  // Flatten OWL-Time @graph array into name-keyed lookup
+  window.owlByName = {};
+  if (projData.owl_time && projData.owl_time['@graph']) {
+    projData.owl_time['@graph'].forEach(entry => {
+      const name = entry['dcterms:title'] || (entry['@id'] || '').replace(/^urn:resource:/, '');
+      if (name) owlByName[name] = entry;
+    });
+  }
 
   window.criticalSet = new Set();
   if (graphData.scheduling && graphData.scheduling.critical_sequence) {
@@ -1396,7 +1418,7 @@ function renderGraph(data) {
     }).join('');
 
     // OWL-Time scheduling data from projections
-    const owlEntry = projData && projData.owl_time ? projData.owl_time[d.id] : null;
+    const owlEntry = owlByName ? owlByName[d.id] : null;
     let schedulingHtml = '';
     if (owlEntry) {
       const es = owlEntry['time:hasBeginning']['time:inXSDDecimal'];
@@ -1563,8 +1585,8 @@ function renderSchedule() {
   pane.innerHTML = html;
 
   // Render D3 Gantt
-  renderGantt(owl, sched);
-  renderHistogram(owl);
+  renderGantt(sched);
+  renderHistogram();
 
   // Click critical path nodes → highlight graph
   pane.querySelectorAll('[data-node]').forEach(el => {
@@ -1574,14 +1596,13 @@ function renderSchedule() {
   });
 }
 
-function renderGantt(owl, sched) {
+function renderGantt(sched) {
   const container = document.getElementById('gantt-container');
   if (!container) return;
 
-  // Build entries from OWL-Time
+  // Build entries from OWL-Time (flattened lookup)
   const entries = [];
-  for (const [name, val] of Object.entries(owl)) {
-    if (name === '@context') continue;
+  for (const [name, val] of Object.entries(owlByName)) {
     const es = val['time:hasBeginning']['time:inXSDDecimal'];
     const ef = val['time:hasEnd']['time:inXSDDecimal'];
     const slack = val['apercue:slack'];
@@ -1668,13 +1689,12 @@ function renderGantt(owl, sched) {
   });
 }
 
-function renderHistogram(owl) {
+function renderHistogram() {
   const container = document.getElementById('histogram-container');
   if (!container) return;
 
   const slacks = [];
-  for (const [name, val] of Object.entries(owl)) {
-    if (name === '@context') continue;
+  for (const [name, val] of Object.entries(owlByName)) {
     slacks.push(val['apercue:slack']);
   }
 
@@ -1725,7 +1745,9 @@ function renderPolicies() {
   const pane = document.getElementById('pane-policies');
   const policies = projData.odrl['odrl:policy'];
 
-  // Parse policies into a matrix-friendly structure
+  // Parse policies into a detailed structure
+  const urnLabel = id => (id || '').split(':').pop().replace(/-/g, ' ');
+
   const matrix = policies.map(p => {
     const uid = p['odrl:uid'];
     const title = p['dcterms:title'];
@@ -1737,17 +1759,24 @@ function renderPolicies() {
               : 'prot-b';
 
     const perms = (p['odrl:permission'] || []).map(r => {
-      const assignee = (r['odrl:assignee'] || {})['@id'] || '';
-      return assignee.split(':').pop().replace(/-/g, ' ');
+      const action = urnLabel((r['odrl:action'] || {})['@id']);
+      const assignee = urnLabel((r['odrl:assignee'] || {})['@id']);
+      const constraints = (r['odrl:constraint'] || []).map(c => {
+        const left = urnLabel((c['odrl:leftOperand'] || {})['@id'] || c['odrl:leftOperand']);
+        const op = urnLabel((c['odrl:operator'] || {})['@id'] || c['odrl:operator']);
+        const right = c['odrl:rightOperand'];
+        return { left, op, right };
+      });
+      return { action, assignee, constraints };
     });
     const prohibs = (p['odrl:prohibition'] || []).map(r => {
-      const assignee = (r['odrl:assignee'] || {})['@id'] || '';
-      const action = (r['odrl:action'] || {})['@id'] || '';
-      return action.split(':').pop() + ' by ' + assignee.split(':').pop().replace(/-/g, ' ');
+      const action = urnLabel((r['odrl:action'] || {})['@id']);
+      const assignee = urnLabel((r['odrl:assignee'] || {})['@id']);
+      return { action, assignee };
     });
     const obligs = (p['odrl:obligation'] || []).map(r => {
-      const target = (r['odrl:target'] || {})['@id'] || '';
-      return target.split(':').pop().replace(/-/g, ' ');
+      const target = urnLabel((r['odrl:target'] || {})['@id']);
+      return { target };
     });
 
     return { level, cls, title, perms, prohibs, obligs };
@@ -1757,16 +1786,34 @@ function renderPolicies() {
     <div class="panel-section-title">ODRL 2.2 Classification Policies</div>`;
 
   matrix.forEach(p => {
-    html += `<div style="margin-bottom:12px">
+    html += `<div style="margin-bottom:14px">
       <div style="margin-bottom:6px">
         <span class="classification-badge ${p.cls}">${p.level}</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-left:6px">${p.title}</span>
       </div>
-      <table class="policy-matrix">
-        <tr><td class="col-label">Permitted</td><td>${p.perms.join(', ') || '—'}</td></tr>
-        <tr><td class="col-label">Prohibited</td><td>${p.prohibs.join('; ') || '—'}</td></tr>
-        <tr><td class="col-label">Obligations</td><td>${p.obligs.join(', ') || '—'}</td></tr>
-      </table>
-    </div>`;
+      <table class="policy-matrix">`;
+
+    // Permissions with constraints
+    p.perms.forEach(perm => {
+      html += `<tr><td class="col-label">Permit</td><td><span style="color:var(--accent)">${perm.action}</span> to ${perm.assignee}</td></tr>`;
+      perm.constraints.forEach(c => {
+        html += `<tr><td class="col-label" style="padding-left:16px;color:var(--warn)">if</td>
+          <td style="color:var(--warn)">${c.left} ${c.op} ${c.right}</td></tr>`;
+      });
+    });
+
+    // Prohibitions
+    p.prohibs.forEach(pr => {
+      html += `<tr><td class="col-label" style="color:var(--danger)">Forbid</td>
+        <td><span style="color:var(--danger)">${pr.action}</span> by ${pr.assignee}</td></tr>`;
+    });
+
+    // Obligations
+    p.obligs.forEach(ob => {
+      html += `<tr><td class="col-label">Require</td><td>${ob.target}</td></tr>`;
+    });
+
+    html += `</table></div>`;
   });
 
   html += '</div>';
@@ -1938,18 +1985,22 @@ function renderCatalog() {
 
   datasets.forEach(ds => {
     const title = ds['dcterms:title'];
+    const desc = ds['dcterms:description'] || '';
+    const mediaType = ds['dcat:mediaType'] || '';
     const keywords = ds['dcat:keyword'] || [];
     const conformsTo = ds['dcterms:conformsTo'] || [];
 
     html += `<div class="catalog-card">
       <div class="catalog-title">${title}</div>
+      ${desc ? `<div style="font-family:var(--mono);font-size:10px;color:var(--text);margin:4px 0 6px;line-height:1.5">${desc}</div>` : ''}
       <div class="catalog-keywords">
         ${keywords.map(k => `<span class="catalog-keyword">${k}</span>`).join('')}
+        ${mediaType ? `<span class="catalog-keyword" style="color:var(--accent);border-color:rgba(61,220,132,0.2)">${mediaType}</span>` : ''}
       </div>
       <div class="catalog-conformance">
         Conforms to: ${conformsTo.map(c => {
-          const name = (c['dcterms:title'] || c['@id'] || '').replace('urn:gc:directive:', '');
-          return `<a href="#" onclick="return false">${name}</a>`;
+          const name = (c['dcterms:title'] || c['@id'] || '').replace('urn:gc:directive:', '').replace('urn:gc:act:', '');
+          return `<span style="color:var(--accent)">${name}</span>`;
         }).join(' &middot; ')}
       </div>
     </div>`;
@@ -1958,10 +2009,12 @@ function renderCatalog() {
   html += '</div>';
 
   // Catalog metadata
+  const langs = catalog['dcterms:language'] || [];
   html += `<div class="panel-section">
     <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim)">
       Issued: ${catalog['dcterms:issued'] || '—'}<br>
-      Publisher: ${(catalog['dcterms:publisher'] || {})['@id'] || '—'}
+      Publisher: ${(catalog['dcterms:publisher'] || {})['dcterms:title'] || (catalog['dcterms:publisher'] || {})['@id'] || '—'}
+      ${langs.length ? `<br>Languages: ${langs.join(', ').toUpperCase()}` : ''}
     </div>
   </div>`;
 
