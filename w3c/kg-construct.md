@@ -34,16 +34,16 @@ The "mapping" is CUE type unification. The "validation" is CUE constraint
 resolution. The "serialization" is JSON-LD context injection. All three happen
 during evaluation — there is no separate step for any of them.
 
-## Example: Supply Chain Graph
+## Example: Research Publication Pipeline
 
-Five nodes define a supply chain. Each declares `@type` (what it is) and
-`depends_on` (what it needs):
+Five nodes define a publication pipeline. Each declares `@type` (what it is)
+and `depends_on` (what it needs):
 
 ```cue
-"cpu-chip": {
-    name:       "cpu-chip"
-    "@type":    {Component: true}
-    depends_on: {"silicon-wafer": true}
+"analysis-code": {
+    name:       "analysis-code"
+    "@type":    {Process: true}
+    depends_on: {"sensor-dataset": true}
 }
 ```
 
@@ -52,7 +52,7 @@ dependents, and impact sets from this declaration alone.
 
 ## Evidence: SHACL Validation (computed)
 
-A compliance rule requires that assemblies have upstream dependencies. The
+A compliance rule requires that publications have upstream data. The
 `#ComplianceCheck` pattern produces a standard `sh:ValidationReport`:
 
 ```json
@@ -75,14 +75,14 @@ The `#ProvenanceTrace` pattern maps dependency edges to PROV-O:
 ```json
 {
     "@type": "prov:Entity",
-    "@id": "urn:resource:cpu-chip",
-    "dcterms:title": "cpu-chip",
+    "@id": "urn:resource:analysis-code",
+    "dcterms:title": "analysis-code",
     "prov:wasAttributedTo": {
         "@id": "apercue:graph-engine"
     },
     "prov:wasDerivedFrom": [
         {
-            "@id": "urn:resource:silicon-wafer"
+            "@id": "urn:resource:sensor-dataset"
         }
     ],
     "prov:wasGeneratedBy": {

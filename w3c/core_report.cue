@@ -59,9 +59,9 @@ core_report: """
 	query planner. Each introduces its own execution model, failure modes, and
 	infrastructure requirements. Schema drift between layers is common.
 
-	For constrained domains — infrastructure topology, project plans, supply chains,
-	academic curricula — this operational complexity is disproportionate to the
-	problem. These domains share a common structure: typed resources with directed
+	For constrained domains — research data management, project plans, infrastructure
+	topology, academic curricula — this operational complexity is disproportionate
+	to the problem. These domains share a common structure: typed resources with directed
 	acyclic dependency edges. They need standards-compliant output, not the full
 	semantic web runtime.
 
@@ -73,10 +73,10 @@ core_report: """
 	struct-as-set) and what they need (`depends_on`, also a struct-as-set):
 
 	```cue
-	"cpu-chip": {
-	    name:       "cpu-chip"
-	    "@type":    {Component: true}
-	    depends_on: {"silicon-wafer": true}
+	"analysis-code": {
+	    name:       "analysis-code"
+	    "@type":    {Process: true}
+	    depends_on: {"sensor-dataset": true}
 	}
 	```
 
@@ -86,10 +86,12 @@ core_report: """
 
 	## Implementation Evidence
 
-	The inline example graph defines a 5-node supply chain: two raw materials
-	(silicon wafer, copper PCB), one component (CPU chip), one sub-assembly
-	(motherboard), and one finished assembly (laptop). This is the same `#Graph`
-	pattern used in production deployments with 30+ nodes.
+	The inline example graph defines a 5-node research publication pipeline:
+	ethics approval, sensor dataset, analysis code, draft paper, and peer review.
+	This domain was chosen because W3C specifications map to their intended
+	purposes: Dublin Core for publication metadata, PROV-O for dataset provenance,
+	ODRL for data embargo policies, and OWL-Time for submission deadlines. This is
+	the same `#Graph` pattern used in production deployments with 30+ nodes.
 
 	### JSON-LD Context
 
@@ -106,9 +108,9 @@ core_report: """
 
 	### SHACL Validation (computed)
 
-	A compliance rule requires that assemblies have upstream dependencies (cannot
-	be root nodes). The `#ComplianceCheck` pattern produces a standard
-	`sh:ValidationReport`:
+	A compliance rule requires that publications have upstream dependencies
+	(cannot exist without supporting data). The `#ComplianceCheck` pattern
+	produces a standard `sh:ValidationReport`:
 
 	```json
 	\(_json.shacl)
@@ -126,7 +128,7 @@ core_report: """
 	\(_json.cpm_sequence)
 	```
 
-	Four-node critical path, \(evidence.cpm_summary.total_duration)-day total
+	\(evidence.cpm_summary.critical_count)-node critical path, \(evidence.cpm_summary.total_duration)-day total
 	duration. The same data produces standard OWL-Time `time:Interval` entries:
 
 	```json
@@ -209,8 +211,8 @@ core_report: """
 	if resource["@type"][tname] != _|_ {tname}
 	```
 
-	A resource with `{LXCContainer: true, DNSServer: true}` matches
-	Proxmox (serves LXCContainer) AND PowerDNS (serves DNSServer)
+	A resource with `{Dataset: true, Governance: true}` matches a data
+	repository (serves Dataset) AND an ethics board (serves Governance)
 	simultaneously. Set intersection, not registration. This is the CUE
 	equivalent of SPARQL `?resource a ?type` pattern matching.
 
@@ -233,10 +235,10 @@ core_report: """
 
 	| Domain | Resources | Patterns Used |
 	|--------|-----------|---------------|
+	| Research data mgmt | 5 resources, 3 types | Provenance, embargo, scheduling |
 	| IT infrastructure | 30 nodes, 29 providers | Full stack (654 CLI commands) |
 	| University curricula | 12 CS courses | Critical path, compliance, charter |
 	| Construction PM | 18 work packages | 5 DAG gates, CMHC retrofit phases |
-	| Supply chain | 14 parts, 5 tiers | BOM completeness, lead time CPM |
 
 	Same `#Graph`, same `#CriticalPath`, same `#ComplianceCheck`. The domain is
 	data; the patterns are generic.
@@ -259,7 +261,7 @@ core_report: """
 	  graph building, SHACL validation, and RDF serialization in one
 	  compile-time evaluation. No mapping language or runtime pipeline.
 	- **Context Graphs:** Struct-as-set `@type` as multi-context resource
-	  identity — one resource participates in infrastructure, compliance,
+	  identity — one resource participates in data governance, provenance,
 	  scheduling, and semantic web contexts simultaneously via set
 	  intersection.
 	- **PM-KR:** Charter pattern as compile-time project completion —

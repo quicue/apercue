@@ -16,55 +16,63 @@ import (
 )
 
 // ── Inline example graph ────────────────────────────────────────
-// Minimal supply chain: 5 nodes, 3 types, enough to show every pattern.
+// Research publication pipeline: 5 nodes, 3 types.
+// Chosen because W3C specs map to their intended domains:
+//   Dublin Core → publication metadata
+//   PROV-O → dataset provenance
+//   ODRL → data embargo / open access
+//   OWL-Time → submission deadlines
+//   SHACL → metadata completeness
 
-_parts: {
-	"silicon-wafer": {
-		name: "silicon-wafer"
-		"@type": {RawMaterial: true}
-		description:       "300mm semiconductor-grade silicon substrate"
-		schedule_duration: 14
+_resources: {
+	"ethics-approval": {
+		name: "ethics-approval"
+		"@type": {Governance: true}
+		description:       "Institutional review board approval (Protocol #2024-0142)"
+		schedule_duration: 60
 	}
-	"copper-pcb": {
-		name: "copper-pcb"
-		"@type": {RawMaterial: true}
-		description: "FR-4 copper-clad laminate"
+	"sensor-dataset": {
+		name: "sensor-dataset"
+		"@type": {Dataset: true}
+		description:       "Telemetry dataset (embargoed until publication)"
+		depends_on: {"ethics-approval": true}
+		schedule_duration: 90
 	}
-	"cpu-chip": {
-		name: "cpu-chip"
-		"@type": {Component: true}
-		description: "Application processor (5nm)"
-		depends_on: {"silicon-wafer": true}
+	"analysis-code": {
+		name: "analysis-code"
+		"@type": {Process: true}
+		description:       "Statistical analysis pipeline (R + Python)"
+		depends_on: {"sensor-dataset": true}
+		schedule_duration: 45
+	}
+	"draft-paper": {
+		name: "draft-paper"
+		"@type": {Publication: true}
+		description:       "Conference submission draft"
+		depends_on: {"analysis-code": true}
 		schedule_duration: 30
 	}
-	"motherboard": {
-		name: "motherboard"
-		"@type": {SubAssembly: true}
-		description: "Main logic board"
-		depends_on: {"cpu-chip": true, "copper-pcb": true}
-		schedule_duration: 7
-	}
-	"laptop": {
-		name: "laptop"
-		"@type": {Assembly: true}
-		description: "Finished product"
-		depends_on: {"motherboard": true}
-		schedule_duration: 2
+	"peer-review": {
+		name: "peer-review"
+		"@type": {Review: true}
+		description:       "Double-blind peer review"
+		depends_on: {"draft-paper": true}
+		schedule_duration: 60
 	}
 }
 
 // ── Graph computation ───────────────────────────────────────────
 
-_graph: patterns.#Graph & {Input: _parts}
+_graph: patterns.#Graph & {Input: _resources}
 
 // ── Compliance rules ────────────────────────────────────────────
 
 _compliance: patterns.#ComplianceCheck & {
 	Graph: _graph
 	Rules: [{
-		name:       "assemblies-need-components"
-		severity:   "critical"
-		match_types: {"Assembly": true}
+		name:            "publications-need-data"
+		severity:        "critical"
+		match_types:     {"Publication": true}
 		must_not_be_root: true
 	}]
 }
@@ -74,11 +82,11 @@ _compliance: patterns.#ComplianceCheck & {
 _cpm: patterns.#CriticalPath & {
 	Graph: _graph
 	Weights: {
-		"silicon-wafer": 14
-		"copper-pcb":    7
-		"cpu-chip":      30
-		"motherboard":   7
-		"laptop":        2
+		"ethics-approval": 60
+		"sensor-dataset":  90
+		"analysis-code":   45
+		"draft-paper":     30
+		"peer-review":     60
 	}
 }
 
@@ -163,9 +171,9 @@ _json: {
 	cpm_summary:  json.Indent(json.Marshal(_cpm.summary), "", "    ")
 	cpm_sequence: json.Indent(json.Marshal(_cpm.critical_sequence), "", "    ")
 
-	// OWL-Time — single entry showing time:Interval (cpu-chip)
+	// OWL-Time — single entry showing time:Interval (analysis-code)
 	time_entry: json.Indent(json.Marshal({
-		"cpu-chip": _cpm.time_report["cpu-chip"]
+		"analysis-code": _cpm.time_report["analysis-code"]
 	}), "", "    ")
 
 	// ODRL — compact (no @context)
@@ -176,8 +184,9 @@ _json: {
 		"odrl:prohibition": _policy.odrl_policy["odrl:prohibition"]
 	}), "", "    ")
 
-	// PROV-O — single entity with derivation chain
+	// PROV-O — single entity with derivation chain (analysis-code)
 	prov_entity: json.Indent(json.Marshal(
-		_provenance.prov_report["@graph"][2],
+		[ for e in _provenance.prov_report["@graph"]
+			if e["@id"] == "urn:resource:analysis-code" {e}][0],
 	), "", "    ")
 }

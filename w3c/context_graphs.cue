@@ -16,7 +16,7 @@ context_graphs_report: """
 	[apercue.ca](https://github.com/quicue/apercue) represents resource types
 	as CUE structs (`{TypeA: true, TypeB: true}`) rather than arrays or class
 	hierarchies. This "struct-as-set" pattern gives every resource simultaneous
-	membership in multiple contexts — infrastructure, compliance, scheduling,
+	membership in multiple contexts — data governance, provenance, scheduling,
 	semantic web — resolved through set intersection at evaluation time.
 
 	This submission demonstrates how CUE's type system naturally models the
@@ -27,17 +27,17 @@ context_graphs_report: """
 	Each resource declares its types as a struct with boolean values:
 
 	```cue
-	"cpu-chip": {
-	    name:       "cpu-chip"
-	    "@type":    {Component: true, Schedulable: true, Auditable: true}
-	    depends_on: {"silicon-wafer": true}
+	"sensor-dataset": {
+	    name:       "sensor-dataset"
+	    "@type":    {Dataset: true, Schedulable: true, Governed: true}
+	    depends_on: {"ethics-approval": true}
 	}
 	```
 
 	This resource exists simultaneously in three contexts:
-	- **Component** context: part of a supply chain BOM
+	- **Dataset** context: subject to provenance tracking
 	- **Schedulable** context: subject to critical path analysis
-	- **Auditable** context: subject to compliance checks
+	- **Governed** context: subject to embargo and access policies
 
 	No context is primary. No context is added after the fact. The resource IS
 	all of these simultaneously, and CUE unification guarantees consistency
@@ -54,9 +54,9 @@ context_graphs_report: """
 	if resource["@type"][tname] != _|_ {tname}
 	```
 
-	A resource with `{LXCContainer: true, DNSServer: true}` matches Proxmox
-	(serves LXCContainer) AND PowerDNS (serves DNSServer) simultaneously. The
-	binding is set intersection, not registration.
+	A resource with `{Dataset: true, Governed: true}` matches a data
+	repository (serves Dataset) AND an ethics board (serves Governed)
+	simultaneously. The binding is set intersection, not registration.
 
 	### Unification Guarantees Consistency
 
@@ -67,7 +67,7 @@ context_graphs_report: """
 
 	## Evidence: Multiple Projections From One Graph
 
-	The same 5-node supply chain graph (defined once) produces output in
+	The same 5-node research publication graph (defined once) produces output in
 	\(evidence.spec_counts.total) different W3C specifications. Each projection
 	selects a different context:
 
@@ -120,10 +120,10 @@ context_graphs_report: """
 
 	| Domain | Resources | Contexts Per Resource |
 	|--------|-----------|----------------------|
+	| Research data mgmt | 5 resources | Dataset + governance + scheduling |
 	| IT infrastructure | 30 nodes | 2-4 types per resource |
 	| University curricula | 12 courses | Department + prerequisite + scheduling |
 	| Construction PM | 18 work packages | Phase + gate + compliance |
-	| Supply chain | 14 parts | Tier + BOM + scheduling |
 
 	The same `#Graph` pattern, the same set intersection dispatch. The contexts
 	are domain-specific; the mechanism is universal.

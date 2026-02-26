@@ -50,54 +50,60 @@ from dependency weights:
 ```json
 [
     {
-        "resource": "silicon-wafer",
+        "resource": "ethics-approval",
         "start": 0,
-        "finish": 14,
-        "duration": 14
+        "finish": 60,
+        "duration": 60
     },
     {
-        "resource": "cpu-chip",
-        "start": 14,
-        "finish": 44,
+        "resource": "sensor-dataset",
+        "start": 60,
+        "finish": 150,
+        "duration": 90
+    },
+    {
+        "resource": "analysis-code",
+        "start": 150,
+        "finish": 195,
+        "duration": 45
+    },
+    {
+        "resource": "draft-paper",
+        "start": 195,
+        "finish": 225,
         "duration": 30
     },
     {
-        "resource": "motherboard",
-        "start": 44,
-        "finish": 51,
-        "duration": 7
-    },
-    {
-        "resource": "laptop",
-        "start": 51,
-        "finish": 53,
-        "duration": 2
+        "resource": "peer-review",
+        "start": 225,
+        "finish": 285,
+        "duration": 60
     }
 ]
 ```
 
-4-node critical path,
-53-day total duration,
-maximum slack 37 days. This is standard CPM
+5-node critical path,
+285-day total duration,
+maximum slack 0 days. This is standard CPM
 (Critical Path Method) computed at CUE evaluation time.
 
 The same data produces OWL-Time `time:Interval` entries:
 
 ```json
 {
-    "cpu-chip": {
+    "analysis-code": {
         "@type": "time:Interval",
         "time:hasBeginning": {
             "@type": "time:Instant",
-            "time:inXSDDecimal": 14
+            "time:inXSDDecimal": 150
         },
         "time:hasEnd": {
             "@type": "time:Instant",
-            "time:inXSDDecimal": 44
+            "time:inXSDDecimal": 195
         },
         "time:hasDuration": {
             "@type": "time:Duration",
-            "time:numericDuration": 30,
+            "time:numericDuration": 45,
             "time:unitType": {
                 "@id": "time:unitDay"
             }
@@ -126,9 +132,9 @@ produces a SHACL validation report:
 ```
 
 For project charters, this same mechanism validates gate completion. A gate
-that requires `{dns-server: true, web-proxy: true}` checks membership in
-`_graph.resources` via set intersection. Missing resources produce
-`sh:conforms: false`.
+that requires `{sensor-dataset: true, ethics-approval: true}` checks
+membership in `_graph.resources` via set intersection. Missing resources
+produce `sh:conforms: false`.
 
 ## How It Maps to PM-KR
 
@@ -152,10 +158,10 @@ requirement with actuality either succeeds (gate passes) or produces bottom
 
 | Domain | WBS Nodes | Gates | Critical Path |
 |--------|-----------|-------|---------------|
+| Research data mgmt | 5 | — | 5-node, 285-day pipeline |
 | IT infrastructure | 30 | 8 | 9 layers, 53 resources |
 | University curricula | 12 | 5 | 4th-year capstone chain |
 | Construction PM (CMHC) | 18 | 5 | Phase-gated retrofit |
-| Supply chain | 14 | — | 4-node, 53-day lead time |
 
 ## Limitations
 
