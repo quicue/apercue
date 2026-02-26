@@ -19,7 +19,17 @@ jobs:
           version: v0.15.4
 
       - name: Unified validation (all packages)
-        run: cue vet ./... -c
+        run: |
+          # Vet all real packages. tests/unicode-rejection/ is excluded
+          # because those files contain intentional violations (tested below).
+          for pkg in vocab patterns views charter self-charter w3c site \
+                     tests/federation \
+                     examples/course-prereqs examples/gc-llm-governance \
+                     examples/project-tracker examples/recipe-ingredients \
+                     examples/supply-chain; do
+            echo "vet ./$pkg"
+            cue vet "./$pkg" -c
+          done
 
       - name: Unicode rejection tests
         run: |
