@@ -645,26 +645,6 @@
             "apercue:slack": 2,
             "apercue:isCritical": false
         },
-        "respec-projection": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 7
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 5,
-            "apercue:isCritical": false
-        },
         "site-build": {
             "@type": "time:Interval",
             "time:hasBeginning": {
@@ -944,33 +924,13 @@
             },
             "apercue:slack": 1,
             "apercue:isCritical": false
-        },
-        "spec-v2-update": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 7
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 5,
-            "apercue:isCritical": false
         }
     },
     "scheduling": {
         "summary": {
             "total_duration": 12,
             "critical_count": 14,
-            "total_resources": 43,
+            "total_resources": 41,
             "max_slack": 10
         },
         "critical_sequence": [

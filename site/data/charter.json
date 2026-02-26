@@ -583,24 +583,6 @@
             "gate": "projections-complete"
         },
         {
-            "id": "respec-projection",
-            "name": "respec-projection",
-            "types": [
-                "Projection",
-                "Documentation"
-            ],
-            "depth": 6,
-            "description": "ReSpec HTML spec generated from CUE via cue export -e spec_html",
-            "planned": false,
-            "kb": [],
-            "earliest": 6,
-            "latest": 11,
-            "duration": 1,
-            "slack": 5,
-            "phase": 6,
-            "gate": "projections-complete"
-        },
-        {
             "id": "site-build",
             "name": "site-build",
             "types": [
@@ -885,34 +867,6 @@
             "slack": 1,
             "phase": 8,
             "gate": "local-hardening"
-        },
-        {
-            "id": "spec-v2-update",
-            "name": "spec-v2-update",
-            "types": [
-                "Documentation"
-            ],
-            "depth": 6,
-            "description": "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge",
-            "planned": false,
-            "kb": [
-                {
-                    "type": "decision",
-                    "id": "ADR-007",
-                    "title": "#AnalyzableGraph + precomputed CPM"
-                },
-                {
-                    "type": "decision",
-                    "id": "ADR-008",
-                    "title": "Public/private site split"
-                }
-            ],
-            "earliest": 6,
-            "latest": 11,
-            "duration": 1,
-            "slack": 5,
-            "phase": 8,
-            "gate": "local-hardening"
         }
     ],
     "edges": [
@@ -1082,14 +1036,6 @@
         },
         {
             "source": "specs-registry",
-            "target": "respec-projection"
-        },
-        {
-            "source": "safeid-constraints",
-            "target": "respec-projection"
-        },
-        {
-            "source": "specs-registry",
             "target": "site-build"
         },
         {
@@ -1171,10 +1117,6 @@
         {
             "source": "site-data-locality",
             "target": "projections-dashboard"
-        },
-        {
-            "source": "specs-registry",
-            "target": "spec-v2-update"
         }
     ],
     "gates": {
@@ -1245,7 +1187,6 @@
                 "safeid-constraints",
                 "ci-workflow",
                 "specs-registry",
-                "respec-projection",
                 "site-build",
                 "ci-regen-check"
             ]
@@ -1273,14 +1214,13 @@
                 "site-data-locality",
                 "grdn-site-deploy",
                 "charter-cpm-overlay",
-                "projections-dashboard",
-                "spec-v2-update"
+                "projections-dashboard"
             ]
         }
     },
     "charter_summary": {
         "project": "apercue-build",
-        "deliverables": 43,
+        "deliverables": 41,
         "complete": true,
         "missing": 0,
         "next_gate": ""
@@ -1325,9 +1265,7 @@
             "specs-registry": true
         },
         "layer_6": {
-            "github-repo": true,
-            "respec-projection": true,
-            "spec-v2-update": true
+            "github-repo": true
         },
         "layer_7": {
             "cf-pages": true,
@@ -1358,7 +1296,7 @@
         "summary": {
             "total_duration": 12,
             "critical_count": 14,
-            "total_resources": 43,
+            "total_resources": 41,
             "max_slack": 10
         },
         "critical_sequence": [
