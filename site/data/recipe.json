@@ -1,0 +1,421 @@
+{
+    "@type": "apercue:RecipeVisualization",
+    "nodes": [
+        {
+            "id": "beef-chuck",
+            "name": "beef-chuck",
+            "types": [
+                "Protein"
+            ],
+            "depth": 0,
+            "description": "2 lbs beef chuck, cubed",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 0
+        },
+        {
+            "id": "onions",
+            "name": "onions",
+            "types": [
+                "Produce"
+            ],
+            "depth": 0,
+            "description": "2 large yellow onions",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 2
+        },
+        {
+            "id": "carrots",
+            "name": "carrots",
+            "types": [
+                "Produce"
+            ],
+            "depth": 0,
+            "description": "4 large carrots",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 4
+        },
+        {
+            "id": "garlic",
+            "name": "garlic",
+            "types": [
+                "Produce",
+                "Seasoning"
+            ],
+            "depth": 0,
+            "description": "4 cloves garlic",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 5
+        },
+        {
+            "id": "red-wine",
+            "name": "red-wine",
+            "types": [
+                "Liquid"
+            ],
+            "depth": 0,
+            "description": "1 bottle Burgundy red wine",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 15
+        },
+        {
+            "id": "beef-stock",
+            "name": "beef-stock",
+            "types": [
+                "Liquid"
+            ],
+            "depth": 0,
+            "description": "2 cups beef stock",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 25
+        },
+        {
+            "id": "mushrooms",
+            "name": "mushrooms",
+            "types": [
+                "Produce"
+            ],
+            "depth": 0,
+            "description": "8 oz cremini mushrooms",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 172
+        },
+        {
+            "id": "thyme-bay",
+            "name": "thyme-bay",
+            "types": [
+                "Seasoning"
+            ],
+            "depth": 0,
+            "description": "Fresh thyme + 2 bay leaves (bouquet garni)",
+            "time_min": 0,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 0,
+            "slack": 25
+        },
+        {
+            "id": "dice-onions",
+            "name": "dice-onions",
+            "types": [
+                "PrepStep"
+            ],
+            "depth": 1,
+            "description": "Dice onions into 1-inch pieces",
+            "time_min": 5,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 5,
+            "slack": 2
+        },
+        {
+            "id": "slice-carrots",
+            "name": "slice-carrots",
+            "types": [
+                "PrepStep"
+            ],
+            "depth": 1,
+            "description": "Slice carrots into 1/2-inch rounds",
+            "time_min": 3,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 3,
+            "slack": 4
+        },
+        {
+            "id": "mince-garlic",
+            "name": "mince-garlic",
+            "types": [
+                "PrepStep"
+            ],
+            "depth": 1,
+            "description": "Mince garlic cloves",
+            "time_min": 2,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 2,
+            "slack": 5
+        },
+        {
+            "id": "quarter-mushrooms",
+            "name": "quarter-mushrooms",
+            "types": [
+                "PrepStep"
+            ],
+            "depth": 1,
+            "description": "Quarter the mushrooms",
+            "time_min": 3,
+            "phase": 1,
+            "gate": "mise-en-place",
+            "duration": 3,
+            "slack": 172
+        },
+        {
+            "id": "brown-beef",
+            "name": "brown-beef",
+            "types": [
+                "CookStep"
+            ],
+            "depth": 1,
+            "description": "Sear beef in batches until deeply browned",
+            "time_min": 15,
+            "phase": 2,
+            "gate": "cooking-complete",
+            "duration": 15,
+            "slack": 0
+        },
+        {
+            "id": "saute-mirepoix",
+            "name": "saute-mirepoix",
+            "types": [
+                "CookStep"
+            ],
+            "depth": 2,
+            "description": "Sauté onions, carrots, garlic until softened",
+            "time_min": 8,
+            "phase": 2,
+            "gate": "cooking-complete",
+            "duration": 8,
+            "slack": 2
+        },
+        {
+            "id": "deglaze",
+            "name": "deglaze",
+            "types": [
+                "CookStep"
+            ],
+            "depth": 3,
+            "description": "Deglaze pan with red wine, reduce by half",
+            "time_min": 10,
+            "phase": 2,
+            "gate": "cooking-complete",
+            "duration": 10,
+            "slack": 0
+        },
+        {
+            "id": "braise",
+            "name": "braise",
+            "types": [
+                "CookStep"
+            ],
+            "depth": 4,
+            "description": "Combine everything, braise at 325°F for 2.5 hours",
+            "time_min": 150,
+            "phase": 2,
+            "gate": "cooking-complete",
+            "duration": 150,
+            "slack": 0
+        },
+        {
+            "id": "finish",
+            "name": "finish",
+            "types": [
+                "CookStep"
+            ],
+            "depth": 5,
+            "description": "Add mushrooms, cook 30 min more. Season to taste.",
+            "time_min": 30,
+            "phase": 2,
+            "gate": "cooking-complete",
+            "duration": 30,
+            "slack": 0
+        }
+    ],
+    "edges": [
+        {
+            "source": "onions",
+            "target": "dice-onions"
+        },
+        {
+            "source": "carrots",
+            "target": "slice-carrots"
+        },
+        {
+            "source": "garlic",
+            "target": "mince-garlic"
+        },
+        {
+            "source": "mushrooms",
+            "target": "quarter-mushrooms"
+        },
+        {
+            "source": "beef-chuck",
+            "target": "brown-beef"
+        },
+        {
+            "source": "dice-onions",
+            "target": "saute-mirepoix"
+        },
+        {
+            "source": "slice-carrots",
+            "target": "saute-mirepoix"
+        },
+        {
+            "source": "mince-garlic",
+            "target": "saute-mirepoix"
+        },
+        {
+            "source": "brown-beef",
+            "target": "deglaze"
+        },
+        {
+            "source": "saute-mirepoix",
+            "target": "deglaze"
+        },
+        {
+            "source": "red-wine",
+            "target": "deglaze"
+        },
+        {
+            "source": "deglaze",
+            "target": "braise"
+        },
+        {
+            "source": "beef-stock",
+            "target": "braise"
+        },
+        {
+            "source": "thyme-bay",
+            "target": "braise"
+        },
+        {
+            "source": "braise",
+            "target": "finish"
+        },
+        {
+            "source": "quarter-mushrooms",
+            "target": "finish"
+        }
+    ],
+    "gates": {
+        "mise-en-place": {
+            "phase": 1,
+            "description": "All ingredients gathered and prepped",
+            "satisfied": true,
+            "resources": [
+                "beef-chuck",
+                "onions",
+                "carrots",
+                "garlic",
+                "red-wine",
+                "beef-stock",
+                "mushrooms",
+                "thyme-bay",
+                "dice-onions",
+                "slice-carrots",
+                "mince-garlic",
+                "quarter-mushrooms"
+            ]
+        },
+        "cooking-complete": {
+            "phase": 2,
+            "description": "All cooking steps done",
+            "satisfied": true,
+            "resources": [
+                "brown-beef",
+                "saute-mirepoix",
+                "deglaze",
+                "braise",
+                "finish"
+            ]
+        }
+    },
+    "charter_summary": {
+        "recipe": "beef-bourguignon",
+        "steps": 17,
+        "complete": true,
+        "missing": 0,
+        "next_gate": ""
+    },
+    "topology": {
+        "layer_0": {
+            "beef-chuck": true,
+            "onions": true,
+            "carrots": true,
+            "garlic": true,
+            "red-wine": true,
+            "beef-stock": true,
+            "mushrooms": true,
+            "thyme-bay": true
+        },
+        "layer_1": {
+            "dice-onions": true,
+            "slice-carrots": true,
+            "mince-garlic": true,
+            "quarter-mushrooms": true,
+            "brown-beef": true
+        },
+        "layer_2": {
+            "saute-mirepoix": true
+        },
+        "layer_3": {
+            "deglaze": true
+        },
+        "layer_4": {
+            "braise": true
+        },
+        "layer_5": {
+            "finish": true
+        }
+    },
+    "scheduling": {
+        "summary": {
+            "total_duration": 205,
+            "critical_count": 5,
+            "total_resources": 17,
+            "max_slack": 172
+        },
+        "critical_sequence": [
+            {
+                "resource": "beef-chuck",
+                "start": 0,
+                "finish": 0,
+                "duration": 0
+            },
+            {
+                "resource": "brown-beef",
+                "start": 0,
+                "finish": 15,
+                "duration": 15
+            },
+            {
+                "resource": "deglaze",
+                "start": 15,
+                "finish": 25,
+                "duration": 10
+            },
+            {
+                "resource": "braise",
+                "start": 25,
+                "finish": 175,
+                "duration": 150
+            },
+            {
+                "resource": "finish",
+                "start": 175,
+                "finish": 205,
+                "duration": 30
+            }
+        ]
+    }
+}
