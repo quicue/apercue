@@ -12,6 +12,9 @@
 package main
 
 import (
+	"list"
+	"strings"
+	"strconv"
 	"apercue.ca/patterns@v0"
 	"apercue.ca/charter@v0"
 )
@@ -238,4 +241,79 @@ summary: {
 	gap:         gap_summary
 	scheduling:  scheduling_summary
 	graph:       graph_metrics
+}
+
+// ═══ VISUALIZATION ═══════════════════════════════════════════════════════════════
+// D3-compatible graph data for site/recipe.html
+
+// Reverse-map topology layer keys ("layer_N") to integer depth per step
+_depth_map: {
+	for layerName, members in graph.topology {
+		let _n = strconv.Atoi(strings.TrimPrefix(layerName, "layer_"))
+		for rname, _ in members {
+			(rname): _n
+		}
+	}
+}
+
+viz: {
+	"@type": "apercue:RecipeVisualization"
+
+	nodes: [
+		for rname, raw in _steps {
+			id:          rname
+			name:        rname
+			types: [for t, _ in raw["@type"] {t}]
+			depth:       _depth_map[rname]
+			description: raw.description
+			time_min:    raw.time_min
+			// Determine phase + gate from charter
+			phase: [
+				for gname, gate in _charter.gates
+				if gate.requires[rname] != _|_ {gate.phase},
+				0,
+			][0]
+			gate: [
+				for gname, gate in _charter.gates
+				if gate.requires[rname] != _|_ {gname},
+				"",
+			][0]
+			// CPM scheduling (earliest/latest are hidden in #CriticalPath;
+			// use slack + duration for viz — HTML computes the rest)
+			duration: raw.time_min
+			slack:    cpm.slack[rname]
+		},
+	]
+
+	edges: list.FlattenN([
+		for rname, raw in _steps if raw.depends_on != _|_ {
+			[for dep, _ in raw.depends_on {{source: dep, target: rname}}]
+		},
+	], 1)
+
+	gates: {
+		for gname, gate in _charter.gates {
+			(gname): {
+				phase:       gate.phase
+				description: gate.description
+				satisfied:   gaps.gate_status[gname].satisfied
+				resources: [for r, _ in gate.requires {r}]
+			}
+		}
+	}
+
+	charter_summary: {
+		recipe:    _charter.name
+		steps:     len(_steps)
+		complete:  gaps.complete
+		missing:   gaps.missing_resource_count
+		next_gate: gaps.next_gate
+	}
+
+	topology: graph.topology
+
+	scheduling: {
+		summary:           cpm.summary
+		critical_sequence: cpm.critical_sequence
+	}
 }

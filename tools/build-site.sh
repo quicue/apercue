@@ -78,6 +78,12 @@ build_phase7() {
     echo "  site/data/phase7-charter.json ($(wc -l < "$site_data/phase7-charter.json") lines)"
 }
 
+build_recipe() {
+    echo "Building recipe graph data..."
+    cue export ./examples/recipe-ingredients/ -e viz --out json > site/data/recipe.json
+    echo "  site/data/recipe.json ($(wc -l < site/data/recipe.json) lines)"
+}
+
 build_gc_governance() {
     echo "Building GC LLM governance data..."
     # Viz data for D3 charter viewer
@@ -101,13 +107,13 @@ stage_public() {
     mkdir -p "$staging/data" "$staging/vocab"
     # Public HTML — landing page and interactive demos
     cp site/index.html "$staging/"
-    for html in explorer.html charter.html playground.html gc-governance.html phase7.html; do
+    for html in explorer.html charter.html playground.html gc-governance.html phase7.html recipe.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage (no operational data)
     [ -f site/data/specs.json ] && cp site/data/specs.json "$staging/data/"
     # GC governance demo data (sanitized example, not operational)
-    for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json phase7-charter.json; do
+    for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json phase7-charter.json recipe.json; do
         [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
     done
     # Vocab — JSON-LD context
@@ -122,11 +128,13 @@ case "${1:-all}" in
     charter)        build_charter ;;
     vocab)          build_vocab ;;
     projections)    build_projections ;;
+    recipe)         build_recipe ;;
     gc-governance)  build_gc_governance ;;
     phase7)         build_phase7 ;;
     public)
         build_specs
         build_examples
+        build_recipe
         build_gc_governance
         build_phase7
         build_vocab
@@ -136,6 +144,7 @@ case "${1:-all}" in
         build_ecosystem
         build_charter
         build_projections
+        build_recipe
         build_gc_governance
         build_phase7
         echo "Done. Local/private site data regenerated."
@@ -143,6 +152,7 @@ case "${1:-all}" in
     stage)
         build_specs
         build_examples
+        build_recipe
         build_gc_governance
         build_phase7
         build_vocab
@@ -156,12 +166,13 @@ case "${1:-all}" in
         build_charter
         build_vocab
         build_projections
+        build_recipe
         build_gc_governance
         build_phase7
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|phase7|vocab|projections|gc-governance}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|recipe|ecosystem|charter|phase7|vocab|projections|gc-governance}"
         exit 1
         ;;
 esac
