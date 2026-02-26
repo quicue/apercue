@@ -512,3 +512,44 @@ Propagate health through the graph.
 
 **Input:** `Graph`, `Status: {[string]: "healthy" | "degraded" | "down"}`
 **Output:** `propagated: {[string]: status}`, `summary: {healthy, degraded, down}`
+
+---
+
+## Federation (`patterns/federation.cue`)
+
+### #FederatedContext
+
+Wrap a graph with a domain-specific `@base` namespace for multi-domain federation.
+Each resource gets a globally unique `@id` scoped to the domain's URN. See ADR-017.
+
+**Input:**
+- `Domain: _#SafeID` — domain identifier (e.g., `"apercue"`, `"quicue-kg"`)
+- `Namespace: string & !="urn:resource:"` — URI prefix (e.g., `"urn:apercue:"`)
+- `Graph: #AnalyzableGraph` — the underlying computed graph
+
+**Output:**
+- `context` — `@context` with domain-specific `@base` and all W3C namespace prefixes
+- `ids: {[string]: string}` — fully-qualified `@id` per resource (e.g., `"urn:apercue:graph-engine"`)
+- `jsonld` — complete JSON-LD export with namespaced `@id` values and `dcterms:requires` edges
+
+**Key constraint:** `Namespace` must not be `"urn:resource:"` (the default). This forces
+explicit namespace choice, preventing accidental `@id` collisions during federation.
+
+### #FederatedMerge
+
+Validate and merge multiple `#FederatedContext` sources. Collision detection uses CUE
+unification — if two domains claim the same namespace or produce the same `@id`, evaluation
+fails at compile time. See ADR-018.
+
+**Input:**
+- `Sources: {[_#SafeID]: #FederatedContext}` — named federated contexts
+- `CrossEdges: [...{source_domain, source, target_domain, target}]` — optional inter-domain dependencies
+
+**Output:**
+- `merged_jsonld` — concatenated `@graph` arrays under the shared `@context`
+- `summary` — `source_count`, `total_resources`, `cross_edges`, `cross_edge_errors`, `namespaces`, `valid`
+
+**Collision detection (zero-cost):**
+- `_namespace_ownership` — maps `Namespace → domain`; duplicate namespaces cause CUE unification conflict
+- `_id_ownership` — maps `@id → domain`; duplicate `@id` values cause conflict
+- `_cross_edge_errors` — validates all cross-edge references resolve (uses comprehension-level `if` per ADR-003)
