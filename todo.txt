@@ -70,7 +70,7 @@
       - synced analysis.cue (OWL-Time @graph fix), catalog.cue (new), specs-registry.cue
       - zero drift verified after sync
 [x] Bump quicue-kg CUE version v0.15.3 -> v0.15.4
-[ ] Bump cmhc-retrofit CUE version v0.15.3 -> v0.15.4
+[x] Bump cmhc-retrofit CUE version v0.15.3 -> v0.15.4
 [ ] unified-kb: add maison-613 .kb content (rfam.cc/maison-613/kb@v0 imported but untested)
 [ ] unified-kb: verify skos-crossref ADR/insight IDs still match after .kb updates
 
