@@ -255,6 +255,26 @@ d015: core.#Decision & {
 	]
 }
 
+d017: core.#Decision & {
+	id:        "ADR-017"
+	title:     "@id namespacing convention for multi-domain federation"
+	status:    "accepted"
+	date:      "2026-02-26"
+	context:   "Multiple repositories (apercue, quicue-kg, downstream domain modules) share the same @context and produce resources with @id URIs. The default @base is 'urn:resource:', so a resource named 'auth_service' in two different graphs produces the same @id, causing silent collision when graphs are merged."
+	decision:  "Each domain sets @base to its own namespace URI (e.g., urn:apercue:, urn:quicue-kg:, urn:datacenter:). The default urn:resource: is safe for single-repo use. Federation requires distinct @base values. No CUE enforcement yet — document the convention, enforce with #FederatedContext in Phase 8."
+	rationale: "Namespace partitioning is the standard linked data solution to @id collision. CUE's @context override makes this trivial — each module provides its own context with a distinct @base. Enforcement is deferred because the convention is sufficient for the current 3-repo ecosystem."
+	consequences: [
+		"Each repo's context.cue overrides @base with its own namespace URI",
+		"Merged graphs have globally unique @id values (namespace + local name)",
+		"Phase 8 #FederatedContext will enforce non-default @base at the CUE type level",
+		"Single-repo users are unaffected — urn:resource: remains the default",
+	]
+	appliesTo: [
+		{"@id": "https://apercue.ca/project/apercue"},
+		{"@id": "https://quicue.ca/project/quicue-ca"},
+	]
+}
+
 d016: core.#Decision & {
 	id:        "ADR-016"
 	title:     "README run commands are the test suite -- CI must execute them"
