@@ -192,12 +192,6 @@ _tasks: {
 		description: "W3C spec coverage as structured CUE data (single source of truth)"
 		depends_on: {"shacl-projection": true, "skos-projection": true, "owl-time-projection": true, "earl-projection": true}
 	}
-	"respec-projection": {
-		name: "respec-projection"
-		"@type": {Projection: true, Documentation: true}
-		description: "ReSpec HTML spec generated from CUE via cue export -e spec_html"
-		depends_on: {"specs-registry": true, "safeid-constraints": true}
-	}
 	"site-build": {
 		name: "site-build"
 		"@type": {CI: true, Projection: true}
@@ -285,12 +279,6 @@ _tasks: {
 		"@type": {Projection: true, Documentation: true}
 		description: "Interactive page showing SHACL gaps, OWL-Time intervals, CPM schedule"
 		depends_on: {"site-data-locality": true}
-	}
-	"spec-v2-update": {
-		name: "spec-v2-update"
-		"@type": {Documentation: true}
-		description: "Update ReSpec spec with AnalyzableGraph, precomputed CPM, KB bridge"
-		depends_on: {"specs-registry": true}
 	}
 }
 
@@ -396,7 +384,6 @@ _charter: charter.#Charter & {
 				"safeid-constraints": true
 				"ci-workflow":        true
 				"specs-registry":     true
-				"respec-projection":  true
 				"site-build":         true
 				"ci-regen-check":     true
 			}
@@ -425,7 +412,6 @@ _charter: charter.#Charter & {
 				"grdn-site-deploy":      true
 				"charter-cpm-overlay":   true
 				"projections-dashboard": true
-				"spec-v2-update":        true
 			}
 			depends_on: {"semantic-integrity": true}
 		}
@@ -495,8 +481,4 @@ _kb_annotations: {
 	"grdn-site-deploy": [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
 	"charter-cpm-overlay": [{type: "decision", id: "ADR-007", title: "#AnalyzableGraph + precomputed CPM"}]
 	"projections-dashboard": [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
-	"spec-v2-update": [
-		{type: "decision", id: "ADR-007", title: "#AnalyzableGraph + precomputed CPM"},
-		{type: "decision", id: "ADR-008", title: "Public/private site split"},
-	]
 }
