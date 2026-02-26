@@ -7,7 +7,7 @@ Every W3C artifact --- JSON-LD, SHACL, SKOS, OWL-Time --- is a zero-cost
 projection of the same typed graph. No triplestore. No SPARQL. No runtime validators.
 Just `cue export`.
 
-**Live:** [apercue.ca](https://apercue.ca) | [Spec](https://apercue.ca/spec/) | [Ecosystem Explorer](https://apercue.ca/explorer.html) | [GitHub](https://github.com/quicue/apercue)
+**Live:** [apercue.ca](https://apercue.ca) | [GC Governance Demo](https://apercue.ca/gc-governance.html) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
 
 ## Quick Start
 
@@ -55,7 +55,7 @@ cue export ./examples/course-prereqs/ -e gaps.shacl_report --out json
 }
 ```
 
-The input is 12 courses with `name`, `@type`, and `depends_on`. The same data produces SHACL validation, OWL-Time scheduling, SKOS type taxonomies, and EARL test assertions. See the [full specification](https://apercue.ca/spec/) for all W3C projection examples.
+The input is 12 courses with `name`, `@type`, and `depends_on`. The same data produces SHACL validation, OWL-Time scheduling, SKOS type taxonomies, and EARL test assertions. See the [pattern API reference](docs/pattern-api.md) for all W3C projection details.
 
 ## Module Structure
 
