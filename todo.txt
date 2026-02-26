@@ -93,6 +93,6 @@
 
 # ── Missing documentation ─────────────────────────────────────────────────
 
-[ ] Consider CONTRIBUTING.md (development setup, testing, PR process)
-[ ] Consider ARCHITECTURE.md (module layers, data flow, projection pipeline)
-[ ] Consider pattern API reference (all # types, what they accept, what they emit)
+[x] CONTRIBUTING.md (development setup, testing, PR process)
+[x] ARCHITECTURE.md (module layers, data flow, projection pipeline)
+[x] Pattern API reference docs/pattern-api.md (all # types, inputs, outputs)
