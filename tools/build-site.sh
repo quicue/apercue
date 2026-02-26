@@ -52,13 +52,6 @@ build_charter() {
     echo "  site/data/charter.json ($(wc -l < site/data/charter.json) lines)"
 }
 
-build_spec_html() {
-    echo "Building spec HTML..."
-    mkdir -p site/spec
-    cue export ./spec/ -e spec_html --out text > site/spec/index.html
-    echo "  site/spec/index.html ($(wc -l < site/spec/index.html) lines)"
-}
-
 build_vocab() {
     echo "Building JSON-LD context..."
     mkdir -p site/vocab
@@ -70,13 +63,6 @@ build_projections() {
     echo "Building unified projections..."
     cue export ./self-charter/ -e projections --out json > site/data/projections.json
     echo "  site/data/projections.json"
-}
-
-build_llm_governance_spec() {
-    echo "Building LLM governance spec HTML..."
-    mkdir -p site/spec/llm-governance
-    cue export ./spec/llm-governance/ -e spec_html --out text > site/spec/llm-governance/index.html
-    echo "  site/spec/llm-governance/index.html ($(wc -l < site/spec/llm-governance/index.html) lines)"
 }
 
 build_phase7() {
@@ -112,15 +98,10 @@ stage_public() {
     echo "Staging public site for deploy..."
     local staging="${1:-_public}"
     rm -rf "$staging"
-    mkdir -p "$staging/data" "$staging/spec" "$staging/vocab"
-    # Public HTML — landing page, spec, and interactive demos
+    mkdir -p "$staging/data" "$staging/vocab"
+    # Public HTML — landing page and interactive demos
     cp site/index.html "$staging/"
-    [ -f site/spec/index.html ] && cp site/spec/index.html "$staging/spec/"
-    if [ -d site/spec/llm-governance ]; then
-        mkdir -p "$staging/spec/llm-governance"
-        cp site/spec/llm-governance/index.html "$staging/spec/llm-governance/"
-    fi
-    for html in explorer.html charter.html playground.html gc-governance.html phase7.html phase7-spec.html; do
+    for html in explorer.html charter.html playground.html gc-governance.html phase7.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage (no operational data)
@@ -139,19 +120,15 @@ case "${1:-all}" in
     examples)       build_examples ;;
     ecosystem)      build_ecosystem ;;
     charter)        build_charter ;;
-    spec-html)      build_spec_html ;;
     vocab)          build_vocab ;;
     projections)    build_projections ;;
     gc-governance)  build_gc_governance ;;
-    llm-gov-spec)   build_llm_governance_spec ;;
     phase7)         build_phase7 ;;
     public)
         build_specs
         build_examples
         build_gc_governance
         build_phase7
-        build_spec_html
-        build_llm_governance_spec
         build_vocab
         echo "Done. Public site data regenerated."
         ;;
@@ -168,8 +145,6 @@ case "${1:-all}" in
         build_examples
         build_gc_governance
         build_phase7
-        build_spec_html
-        build_llm_governance_spec
         build_vocab
         stage_public "${2:-_public}"
         echo "Done. Public site staged for deploy."
@@ -179,8 +154,6 @@ case "${1:-all}" in
         build_examples
         build_ecosystem
         build_charter
-        build_spec_html
-        build_llm_governance_spec
         build_vocab
         build_projections
         build_gc_governance
@@ -188,7 +161,7 @@ case "${1:-all}" in
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|phase7|spec-html|llm-gov-spec|vocab|projections|gc-governance}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|ecosystem|charter|phase7|vocab|projections|gc-governance}"
         exit 1
         ;;
 esac

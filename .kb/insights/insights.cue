@@ -138,7 +138,6 @@ i010: core.#Insight & {
 	statement:  "The specs-registry.cue is the single source of truth for all W3C coverage surfaces"
 	evidence: [
 		"site/build.cue projects registry into specs.json and spec-counts.json",
-		"ReSpec spec consumes the same data",
 		"Landing page W3C table must manually mirror the registry (no dynamic rendering)",
 		"Adding a 13th spec: write pattern, add registry entry, rebuild — everything updates",
 	]

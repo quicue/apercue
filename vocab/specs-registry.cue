@@ -1,7 +1,7 @@
 // W3C Specification Registry — single source of truth for spec coverage.
 //
-// Every table in README.md, w3c/README.md, site/index.html, and the ReSpec
-// spec is a projection of this registry. No hardcoded spec data elsewhere.
+// Every table in README.md, w3c/README.md, and site/index.html is a
+// projection of this registry. No hardcoded spec data elsewhere.
 //
 // Usage:
 //   import "apercue.ca/vocab@v0"
