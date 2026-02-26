@@ -101,3 +101,22 @@
 [x] CONTRIBUTING.md (development setup, testing, PR process)
 [x] ARCHITECTURE.md (module layers, data flow, projection pipeline)
 [x] Pattern API reference docs/pattern-api.md (all # types, inputs, outputs)
+
+# ── Phase 9: Publish ────────────────────────────────────────────────────
+
+[x] Getting-started guide (docs/getting-started.md)
+      - standalone walkthrough from empty project to W3C exports
+[x] API stability classification (docs/api-stability.md)
+      - all ~40 public types classified as stable or experimental
+[x] Module publish readiness verified
+      - apercue.ca@v0, source: self, no external deps for core packages
+      - OCI registry compatible when CUE v0.16+ available
+
+# ── Phase 10: Community ─────────────────────────────────────────────────
+
+[x] Domain template scaffolder (tools/scaffold.sh)
+      - creates project with graph, charter, compliance wired up
+      - validates on scaffold, shows summary output
+[x] Adapter catalog (docs/adapters.md)
+      - documents quicue.ca, quicue-kg, cmhc-retrofit, unified-kb
+      - includes creating-an-adapter guide
