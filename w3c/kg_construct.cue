@@ -41,16 +41,16 @@ kg_construct_report: """
 	resolution. The "serialization" is JSON-LD context injection. All three happen
 	during evaluation — there is no separate step for any of them.
 
-	## Example: Supply Chain Graph
+	## Example: Research Publication Pipeline
 
-	Five nodes define a supply chain. Each declares `@type` (what it is) and
-	`depends_on` (what it needs):
+	Five nodes define a publication pipeline. Each declares `@type` (what it is)
+	and `depends_on` (what it needs):
 
 	```cue
-	"cpu-chip": {
-	    name:       "cpu-chip"
-	    "@type":    {Component: true}
-	    depends_on: {"silicon-wafer": true}
+	"analysis-code": {
+	    name:       "analysis-code"
+	    "@type":    {Process: true}
+	    depends_on: {"sensor-dataset": true}
 	}
 	```
 
@@ -59,7 +59,7 @@ kg_construct_report: """
 
 	## Evidence: SHACL Validation (computed)
 
-	A compliance rule requires that assemblies have upstream dependencies. The
+	A compliance rule requires that publications have upstream data. The
 	`#ComplianceCheck` pattern produces a standard `sh:ValidationReport`:
 
 	```json

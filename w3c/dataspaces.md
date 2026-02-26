@@ -86,14 +86,14 @@ Every knowledge base entry has computable provenance via the
 ```json
 {
     "@type": "prov:Entity",
-    "@id": "urn:resource:cpu-chip",
-    "dcterms:title": "cpu-chip",
+    "@id": "urn:resource:analysis-code",
+    "dcterms:title": "analysis-code",
     "prov:wasAttributedTo": {
         "@id": "apercue:graph-engine"
     },
     "prov:wasDerivedFrom": [
         {
-            "@id": "urn:resource:silicon-wafer"
+            "@id": "urn:resource:sensor-dataset"
         }
     ],
     "prov:wasGeneratedBy": {
