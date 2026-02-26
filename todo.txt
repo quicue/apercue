@@ -34,7 +34,12 @@
 [x] Expand validate-w3c.py: OWL-Time, DCAT, PROV-O, Activity Streams, SKOS
 [x] Final validation: 19 passed, 0 failed, 14 skipped (expected)
 [x] Add validate-w3c.py to CI pipeline (+ README smoke test)
-[ ] Phase 8: enforce @base namespacing with #FederatedContext pattern
+[x] Phase 8: enforce @base namespacing with #FederatedContext pattern
+      - #FederatedContext: non-default @base enforcement, namespaced @id export
+      - #FederatedMerge: collision detection via CUE unification, cross-edge validation
+      - tests/federation/: 2-domain merge test (infra + monitoring, 5 resources)
+      - W3C validation: 21 passed (up from 19, added 2 federation tests)
+      - ADR-018: compile-time federation safety
 
 # ── Documentation quality ─────────────────────────────────────────────────
 
