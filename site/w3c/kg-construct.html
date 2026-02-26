@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KG-Construct CG Report — apercue.ca</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1a1a1a;
+    --accent: #2563eb;
+    --code-bg: #f3f4f6;
+    --border: #d1d5db;
+    --max-w: 48rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111827;
+      --fg: #e5e7eb;
+      --accent: #60a5fa;
+      --code-bg: #1f2937;
+      --border: #374151;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.7;
+    padding: 2rem 1rem;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  nav {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h1 { font-size: 1.75rem; margin: 1.5rem 0 0.75rem; }
+  h2 { font-size: 1.35rem; margin: 1.5rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+  h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+  p { margin: 0.75rem 0; }
+  a { color: var(--accent); }
+  ul, ol { margin: 0.75rem 0 0.75rem 1.5rem; }
+  li { margin: 0.25rem 0; }
+  code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #6b7280;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  th { background: var(--code-bg); font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  strong { font-weight: 600; }
+  .meta {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">apercue.ca</a> /
+  <a href="index.html">W3C Reports</a> /
+  KG-Construct CG Report
+</nav>
+<h1 id="cue-as-a-declarative-knowledge-graph-construction-language">CUE as a Declarative Knowledge Graph Construction Language</h1>
+<p><strong>Use Case Submission for the KG-Construct Community Group</strong></p>
+<hr>
+<h2 id="summary">Summary</h2>
+<p><a href="https://github.com/quicue/apercue">apercue.ca</a> uses
+<a href="https://cuelang.org">CUE</a> — a constraint language with lattice-based type
+semantics — to construct, validate, and serialize knowledge graphs entirely at
+compile time. Graph building, SHACL validation, and JSON-LD output happen in a
+single <code>cue export</code> invocation. No mapping language, no runtime pipeline, no
+triplestore.</p>
+<p>This submission demonstrates CUE as a KG construction language and explains how
+it relates to the KG-Construct CG's work on declarative KG construction.</p>
+<h2 id="the-construction-pipeline-one-step">The Construction Pipeline (One Step)</h2>
+<p>Traditional KG construction requires a multi-stage pipeline:</p>
+<pre><code>Source Data → Mapping (R2RML/RML) → RDF Store → SHACL Validation → Serialization
+</code></pre>
+<p>CUE collapses this to:</p>
+<pre><code>Source Data (CUE structs) → cue export -e &lt;projection&gt;
+</code></pre>
+<p>The "mapping" is CUE type unification. The "validation" is CUE constraint
+resolution. The "serialization" is JSON-LD context injection. All three happen
+during evaluation — there is no separate step for any of them.</p>
+<h2 id="example-research-publication-pipeline">Example: Research Publication Pipeline</h2>
+<p>Five nodes define a publication pipeline. Each declares <code>@type</code> (what it is)
+and <code>depends_on</code> (what it needs):</p>
+<pre><code class="language-cue">&quot;analysis-code&quot;: {
+    name:       &quot;analysis-code&quot;
+    &quot;@type&quot;:    {Process: true}
+    depends_on: {&quot;sensor-dataset&quot;: true}
+}
+</code></pre>
+<p>The <code>#Graph</code> pattern computes topology, depth, roots, leaves, ancestors,
+dependents, and impact sets from this declaration alone.</p>
+<h2 id="evidence-shacl-validation-computed">Evidence: SHACL Validation (computed)</h2>
+<p>A compliance rule requires that publications have upstream data. The
+<code>#ComplianceCheck</code> pattern produces a standard <code>sh:ValidationReport</code>:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;sh:ValidationReport&quot;,
+    &quot;sh:conforms&quot;: true,
+    &quot;sh:result&quot;: []
+}
+</code></pre>
+<p>This is produced during CUE evaluation. <code>sh:conforms: true</code> means the graph
+satisfies all constraints. If any resource violates a rule, unification with
+<code>true</code> produces bottom (<code>_|_</code>) and <code>cue vet</code> fails — the graph cannot be
+constructed in an invalid state.</p>
+<h2 id="evidence-provenance-computed">Evidence: Provenance (computed)</h2>
+<p>The <code>#ProvenanceTrace</code> pattern maps dependency edges to PROV-O:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;prov:Entity&quot;,
+    &quot;@id&quot;: &quot;urn:resource:analysis-code&quot;,
+    &quot;dcterms:title&quot;: &quot;analysis-code&quot;,
+    &quot;prov:wasAttributedTo&quot;: {
+        &quot;@id&quot;: &quot;apercue:graph-engine&quot;
+    },
+    &quot;prov:wasDerivedFrom&quot;: [
+        {
+            &quot;@id&quot;: &quot;urn:resource:sensor-dataset&quot;
+        }
+    ],
+    &quot;prov:wasGeneratedBy&quot;: {
+        &quot;@id&quot;: &quot;apercue:graph-construction&quot;
+    }
+}
+</code></pre>
+<p>Every resource becomes a <code>prov:Entity</code>. Dependency edges become
+<code>prov:wasDerivedFrom</code> links. Provenance is not annotated after the fact — it
+is structurally computed from the same graph that produces the KG.</p>
+<h2 id="evidence-json-ld-context-computed">Evidence: JSON-LD Context (computed)</h2>
+<p>The vocabulary registry produces a JSON-LD 1.1 <code>@context</code>:</p>
+<pre><code class="language-json">{
+    &quot;@context&quot;: {
+        &quot;@base&quot;: &quot;urn:resource:&quot;,
+        &quot;dcterms&quot;: &quot;http://purl.org/dc/terms/&quot;,
+        &quot;prov&quot;: &quot;http://www.w3.org/ns/prov#&quot;,
+        &quot;dcat&quot;: &quot;http://www.w3.org/ns/dcat#&quot;,
+        &quot;sh&quot;: &quot;http://www.w3.org/ns/shacl#&quot;,
+        &quot;skos&quot;: &quot;http://www.w3.org/2004/02/skos/core#&quot;,
+        &quot;schema&quot;: &quot;https://schema.org/&quot;,
+        &quot;time&quot;: &quot;http://www.w3.org/2006/time#&quot;,
+        &quot;earl&quot;: &quot;http://www.w3.org/ns/earl#&quot;,
+        &quot;odrl&quot;: &quot;http://www.w3.org/ns/odrl/2/&quot;,
+        &quot;org&quot;: &quot;http://www.w3.org/ns/org#&quot;,
+        &quot;cred&quot;: &quot;https://www.w3.org/2018/credentials#&quot;,
+        &quot;as&quot;: &quot;https://www.w3.org/ns/activitystreams#&quot;,
+        &quot;apercue&quot;: &quot;https://apercue.ca/vocab#&quot;,
+        &quot;charter&quot;: &quot;https://apercue.ca/charter#&quot;,
+        &quot;name&quot;: &quot;dcterms:title&quot;,
+        &quot;description&quot;: &quot;dcterms:description&quot;,
+        &quot;depends_on&quot;: {
+            &quot;@id&quot;: &quot;dcterms:requires&quot;,
+            &quot;@type&quot;: &quot;@id&quot;
+        },
+        &quot;status&quot;: {
+            &quot;@id&quot;: &quot;schema:actionStatus&quot;,
+            &quot;@type&quot;: &quot;@id&quot;
+        },
+        &quot;tags&quot;: {
+            &quot;@id&quot;: &quot;dcterms:subject&quot;,
+            &quot;@container&quot;: &quot;@set&quot;
+        }
+    }
+}
+</code></pre>
+<p>Every field mapping (<code>name</code> → <code>dcterms:title</code>, <code>depends_on</code> → <code>dcterms:requires</code>)
+is a CUE constraint. Adding a vocabulary term means extending a CUE definition,
+not editing a context file.</p>
+<h2 id="relevance-to-kg-construct">Relevance to KG-Construct</h2>
+<table>
+<thead>
+<tr>
+<th>KG-Construct Concern</th>
+<th>CUE Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Declarative mapping</td>
+<td>CUE types + comprehensions (no R2RML)</td>
+</tr>
+<tr>
+<td>Source heterogeneity</td>
+<td>Adapter scripts output <code>{name, @type, depends_on}</code></td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>SHACL reports from constraint unification</td>
+</tr>
+<tr>
+<td>Provenance</td>
+<td>PROV-O from dependency structure</td>
+</tr>
+<tr>
+<td>Serialization</td>
+<td>JSON-LD via <code>@context</code> injection</td>
+</tr>
+<tr>
+<td>Incremental construction</td>
+<td>Add a <code>.cue</code> file; graph extends via unification</td>
+</tr>
+</tbody>
+</table>
+<p>CUE does not replace RML for arbitrary RDF construction from relational
+sources. It targets constrained domains where the schema is known and the
+graph structure maps directly to typed dependencies. For these domains, the
+entire KG construction pipeline reduces to a type-checked <code>cue export</code>.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Closed-world: all resources declared upfront</li>
+<li>DAGs only: no cyclic dependencies</li>
+<li>Not a general RDF toolkit: targets constrained dependency graphs</li>
+<li>Performance: pre-compute transitive closure for graphs exceeding ~40 nodes</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/quicue/apercue/blob/main/w3c/core-report.md">Core report</a>
+  — Full implementation evidence with 14 W3C specs</li>
+<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a> — Source (Apache 2.0)</li>
+<li><a href="https://demo.quicue.ca">demo.quicue.ca</a> — Interactive D3 graph explorer</li>
+</ul>
+<div class="meta">
+  <p>Source: <a href="https://github.com/quicue/apercue/tree/main/w3c">github.com/quicue/apercue/tree/main/w3c</a></p>
+  <p>All evidence is computed from CUE source. Reproduce: <code>cue export ./w3c/ -e evidence --out json</code></p>
+</div>
+</body>
+</html>
