@@ -33,7 +33,7 @@ cue vet ./self-charter/
 
 # ── Step 3: Build all site data (public + private) ──────────
 log "BUILD" "Exporting all site data..."
-mkdir -p site/data site/vocab site/spec
+mkdir -p site/data site/vocab
 
 # Private data
 cue export ./self-charter/ -e charter_viz --out json > site/data/charter.json
