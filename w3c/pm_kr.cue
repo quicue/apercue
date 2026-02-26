@@ -83,9 +83,9 @@ pm_kr_report: """
 	```
 
 	For project charters, this same mechanism validates gate completion. A gate
-	that requires `{dns-server: true, web-proxy: true}` checks membership in
-	`_graph.resources` via set intersection. Missing resources produce
-	`sh:conforms: false`.
+	that requires `{sensor-dataset: true, ethics-approval: true}` checks
+	membership in `_graph.resources` via set intersection. Missing resources
+	produce `sh:conforms: false`.
 
 	## How It Maps to PM-KR
 
@@ -109,10 +109,10 @@ pm_kr_report: """
 
 	| Domain | WBS Nodes | Gates | Critical Path |
 	|--------|-----------|-------|---------------|
+	| Research data mgmt | 5 | — | 5-node, 285-day pipeline |
 	| IT infrastructure | 30 | 8 | 9 layers, 53 resources |
 	| University curricula | 12 | 5 | 4th-year capstone chain |
 	| Construction PM (CMHC) | 18 | 5 | Phase-gated retrofit |
-	| Supply chain | 14 | — | 4-node, 53-day lead time |
 
 	## Limitations
 
