@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dataspaces CG Report — apercue.ca</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1a1a1a;
+    --accent: #2563eb;
+    --code-bg: #f3f4f6;
+    --border: #d1d5db;
+    --max-w: 48rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111827;
+      --fg: #e5e7eb;
+      --accent: #60a5fa;
+      --code-bg: #1f2937;
+      --border: #374151;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.7;
+    padding: 2rem 1rem;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  nav {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h1 { font-size: 1.75rem; margin: 1.5rem 0 0.75rem; }
+  h2 { font-size: 1.35rem; margin: 1.5rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+  h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+  p { margin: 0.75rem 0; }
+  a { color: var(--accent); }
+  ul, ol { margin: 0.75rem 0 0.75rem 1.5rem; }
+  li { margin: 0.25rem 0; }
+  code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: "SF Mono", "Fira Code", Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #6b7280;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  th { background: var(--code-bg); font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  strong { font-weight: 600; }
+  .meta {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">apercue.ca</a> /
+  <a href="index.html">W3C Reports</a> /
+  Dataspaces CG Report
+</nav>
+<h1 id="typed-knowledge-bases-as-lightweight-dataspace-primitives">Typed Knowledge Bases as Lightweight Dataspace Primitives</h1>
+<p><strong>Use Case Submission for the Dataspaces Community Group</strong></p>
+<hr>
+<h2 id="summary">Summary</h2>
+<p><a href="https://github.com/quicue/apercue">apercue.ca</a> implements a <code>.kb/</code>
+(Knowledge Base) convention where structured entries — decisions, insights,
+patterns, tasks — validate against typed CUE schemas at evaluation time.
+ODRL access policies and DCAT catalog metadata are projections of the same
+typed graph. The result is a lightweight dataspace primitive: governed data
+sharing with compile-time structural validation.</p>
+<p>This submission demonstrates how CUE's constraint system maps to the
+Dataspaces CG's work on data governance and interoperability.</p>
+<h2 id="the-kb-convention">The .kb/ Convention</h2>
+<p>Each repository maintains a <code>.kb/</code> directory with typed graph subdirectories:</p>
+<pre><code>.kb/
+├── decisions/    # ADR-001, ADR-002, ...
+├── insights/     # INSIGHT-001, INSIGHT-002, ...
+├── patterns/     # P-001, P-002, ...
+├── rejected/     # REJ-001, REJ-002, ...
+├── tasks/        # Typed work items with dependencies
+└── manifest.cue  # Graph topology declaration
+</code></pre>
+<p>Each subdirectory is a CUE package that validates against a typed schema
+(<code>#Decision</code>, <code>#Insight</code>, <code>#Pattern</code>, <code>#Task</code>). The manifest declares
+which graphs exist and their semantic types:</p>
+<pre><code class="language-cue">graphs: {
+    decisions: ext.#DecisionsGraph   // schema:ChooseAction
+    insights:  ext.#InsightsGraph    // schema:DiscoverAction
+    patterns:  ext.#PatternsGraph    // schema:HowTo
+    tasks:     ext.#TasksGraph       // schema:Action
+}
+</code></pre>
+<p><code>cue vet .kb/</code> validates all entries against their schemas. Invalid entries
+are type errors — they cannot enter the knowledge base.</p>
+<h2 id="evidence-access-policy-odrl-computed">Evidence: Access Policy / ODRL (computed)</h2>
+<p>The <code>#ODRLPolicy</code> pattern produces standard ODRL 2.2 policy sets from graph
+resources:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;odrl:Set&quot;,
+    &quot;odrl:uid&quot;: &quot;apercue:graph-policy&quot;,
+    &quot;odrl:permission&quot;: [
+        {
+            &quot;odrl:action&quot;: {
+                &quot;@id&quot;: &quot;odrl:read&quot;
+            }
+        },
+        {
+            &quot;odrl:action&quot;: {
+                &quot;@id&quot;: &quot;odrl:execute&quot;
+            },
+            &quot;odrl:assignee&quot;: {
+                &quot;@id&quot;: &quot;apercue:operator&quot;
+            }
+        }
+    ],
+    &quot;odrl:prohibition&quot;: []
+}
+</code></pre>
+<p>Permissions and prohibitions bind to resource types. In a dataspace context,
+this governs which participants can read or execute which resource categories.
+The policy is a CUE projection — it changes when the graph changes.</p>
+<h2 id="evidence-provenance-computed">Evidence: Provenance (computed)</h2>
+<p>Every knowledge base entry has computable provenance via the
+<code>#ProvenanceTrace</code> pattern:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;prov:Entity&quot;,
+    &quot;@id&quot;: &quot;urn:resource:analysis-code&quot;,
+    &quot;dcterms:title&quot;: &quot;analysis-code&quot;,
+    &quot;prov:wasAttributedTo&quot;: {
+        &quot;@id&quot;: &quot;apercue:graph-engine&quot;
+    },
+    &quot;prov:wasDerivedFrom&quot;: [
+        {
+            &quot;@id&quot;: &quot;urn:resource:sensor-dataset&quot;
+        }
+    ],
+    &quot;prov:wasGeneratedBy&quot;: {
+        &quot;@id&quot;: &quot;apercue:graph-construction&quot;
+    }
+}
+</code></pre>
+<p><code>prov:wasDerivedFrom</code> tracks dependency edges. In a federated dataspace,
+this provenance chain answers "where did this data come from?" without
+external provenance stores.</p>
+<h2 id="governance-as-constraints">Governance as Constraints</h2>
+<p>Dataspace governance typically requires runtime policy enforcement:
+access control, data quality, provenance tracking. In CUE:</p>
+<table>
+<thead>
+<tr>
+<th>Governance Concern</th>
+<th>CUE Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access control</td>
+<td>ODRL policy projection (<code>#ODRLPolicy</code>)</td>
+</tr>
+<tr>
+<td>Data quality</td>
+<td>CUE schema validation (<code>cue vet</code>)</td>
+</tr>
+<tr>
+<td>Provenance</td>
+<td>PROV-O projection (<code>#ProvenanceTrace</code>)</td>
+</tr>
+<tr>
+<td>Catalog metadata</td>
+<td>DCAT projection (<code>#DCATKnowledgeBase</code>)</td>
+</tr>
+<tr>
+<td>Structural integrity</td>
+<td>Type unification (dependency edges must resolve)</td>
+</tr>
+<tr>
+<td>Policy consistency</td>
+<td>Unification — conflicting policies are type errors</td>
+</tr>
+</tbody>
+</table>
+<p>These are not separate systems. Each is a CUE expression applied to the
+same typed graph. Adding governance is adding a <code>.cue</code> file.</p>
+<h2 id="federation-model">Federation Model</h2>
+<p>The <code>.kb/</code> convention enables lightweight federation:</p>
+<ol>
+<li><strong>Each repository</strong> maintains its own <code>.kb/</code> with local schemas</li>
+<li><strong>Cross-references</strong> use typed ID patterns (<code>ADR-001</code>, <code>INSIGHT-003</code>)</li>
+<li><strong>Aggregation</strong> merges <code>.kb/</code> entries via CUE unification</li>
+<li><strong>Conflict detection</strong> is automatic — incompatible entries fail unification</li>
+</ol>
+<p>This is not full dataspace interoperability. It is a structural primitive:
+governed, typed, validated knowledge sharing between repositories that agree
+on schema definitions.</p>
+<h2 id="relevance-to-dataspaces">Relevance to Dataspaces</h2>
+<table>
+<thead>
+<tr>
+<th>Dataspaces Concern</th>
+<th>CUE Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data sovereignty</td>
+<td><code>.kb/</code> per repository, local schema ownership</td>
+</tr>
+<tr>
+<td>Interoperability</td>
+<td>Shared CUE type definitions (imported as modules)</td>
+</tr>
+<tr>
+<td>Access governance</td>
+<td>ODRL policies as graph projections</td>
+</tr>
+<tr>
+<td>Catalog / discovery</td>
+<td>DCAT metadata from knowledge base manifests</td>
+</tr>
+<tr>
+<td>Trust / provenance</td>
+<td>PROV-O traces from dependency structure</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Compile-time schema enforcement (<code>cue vet</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="multi-domain-evidence">Multi-Domain Evidence</h2>
+<p>The <code>.kb/</code> convention is deployed across:</p>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>KB Entries</th>
+<th>Graphs</th>
+<th>Schema Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>apercue.ca (reference)</td>
+<td>15+</td>
+<td>decisions, insights, patterns</td>
+<td>CUE types</td>
+</tr>
+<tr>
+<td>quicue.ca (infrastructure)</td>
+<td>20+</td>
+<td>+ tasks, rejected</td>
+<td>CUE types</td>
+</tr>
+<tr>
+<td>cmhc-retrofit (construction)</td>
+<td>8+</td>
+<td>decisions, insights</td>
+<td>CUE types</td>
+</tr>
+</tbody>
+</table>
+<p>Each <code>.kb/</code> validates independently. Cross-repository references resolve
+via shared type definitions published as CUE modules.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Not a full dataspace runtime (no negotiation protocol)</li>
+<li>Static governance (policies evaluated at build time, not request time)</li>
+<li>Schema agreement required between participants</li>
+<li>No dynamic discovery (catalog metadata is pre-computed)</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/quicue/apercue/blob/main/w3c/core-report.md">Core report</a>
+  — Full implementation evidence with 14 W3C specs</li>
+<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a> — Source (Apache 2.0)</li>
+<li><a href="https://docs.quicue.ca">docs.quicue.ca</a> — Module documentation</li>
+</ul>
+<div class="meta">
+  <p>Source: <a href="https://github.com/quicue/apercue/tree/main/w3c">github.com/quicue/apercue/tree/main/w3c</a></p>
+  <p>All evidence is computed from CUE source. Reproduce: <code>cue export ./w3c/ -e evidence --out json</code></p>
+</div>
+</body>
+</html>

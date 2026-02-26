@@ -84,6 +84,11 @@ build_recipe() {
     echo "  site/data/recipe.json ($(wc -l < site/data/recipe.json) lines)"
 }
 
+build_w3c_reports() {
+    echo "Building W3C CG report pages..."
+    python3 tools/render-w3c-reports.py
+}
+
 build_gc_governance() {
     echo "Building GC LLM governance data..."
     # Viz data for D3 charter viewer
@@ -104,7 +109,7 @@ stage_public() {
     echo "Staging public site for deploy..."
     local staging="${1:-_public}"
     rm -rf "$staging"
-    mkdir -p "$staging/data" "$staging/vocab"
+    mkdir -p "$staging/data" "$staging/vocab" "$staging/w3c"
     # Public HTML — landing page and interactive demos
     cp site/index.html "$staging/"
     for html in explorer.html charter.html playground.html gc-governance.html phase7.html recipe.html; do
@@ -118,6 +123,10 @@ stage_public() {
     done
     # Vocab — JSON-LD context
     [ -f site/vocab/context.jsonld ] && cp site/vocab/context.jsonld "$staging/vocab/"
+    # W3C CG reports
+    if [ -d site/w3c ]; then
+        cp site/w3c/*.html "$staging/w3c/" 2>/dev/null || true
+    fi
     echo "  Staged to $staging/ ($(find "$staging" -type f | wc -l) files)"
 }
 
@@ -131,6 +140,7 @@ case "${1:-all}" in
     recipe)         build_recipe ;;
     gc-governance)  build_gc_governance ;;
     phase7)         build_phase7 ;;
+    w3c-reports)    build_w3c_reports ;;
     public)
         build_specs
         build_examples
@@ -138,6 +148,7 @@ case "${1:-all}" in
         build_gc_governance
         build_phase7
         build_vocab
+        build_w3c_reports
         echo "Done. Public site data regenerated."
         ;;
     local)
@@ -156,6 +167,7 @@ case "${1:-all}" in
         build_gc_governance
         build_phase7
         build_vocab
+        build_w3c_reports
         stage_public "${2:-_public}"
         echo "Done. Public site staged for deploy."
         ;;
@@ -169,10 +181,11 @@ case "${1:-all}" in
         build_recipe
         build_gc_governance
         build_phase7
+        build_w3c_reports
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|recipe|ecosystem|charter|phase7|vocab|projections|gc-governance}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|recipe|ecosystem|charter|phase7|vocab|projections|gc-governance|w3c-reports}"
         exit 1
         ;;
 esac
