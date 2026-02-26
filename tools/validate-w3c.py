@@ -116,6 +116,24 @@ CONTEXT_PROJECTION = Projection(
     ],
 )
 
+# Federation projections — merged JSON-LD from tests/federation
+FEDERATION_PROJECTIONS: list[Projection] = [
+    Projection(
+        name="Federated Merge (JSON-LD)",
+        expression="federation.merged_jsonld",
+        expected_type="",  # multiple types across domains
+        min_triples=5,
+        namespaces=["http://purl.org/dc/terms/"],
+    ),
+    Projection(
+        name="Federated Context (infra)",
+        expression="infra_ctx.jsonld",
+        expected_type="",
+        min_triples=3,
+        namespaces=["http://purl.org/dc/terms/"],
+    ),
+]
+
 
 # ── Validation logic ─────────────────────────────────────────────────────
 
@@ -261,6 +279,13 @@ def main() -> int:
         if self_charter.exists():
             results.extend(
                 validate_directory(str(self_charter), SELFCHARTER_PROJECTIONS)
+            )
+
+        # Federation test
+        federation_test = root / "tests" / "federation"
+        if federation_test.exists():
+            results.extend(
+                validate_directory(str(federation_test), FEDERATION_PROJECTIONS)
             )
 
     # Report

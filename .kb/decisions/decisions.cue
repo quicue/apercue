@@ -275,6 +275,26 @@ d017: core.#Decision & {
 	]
 }
 
+d018: core.#Decision & {
+	id:        "ADR-018"
+	title:     "#FederatedContext and #FederatedMerge — compile-time federation safety"
+	status:    "accepted"
+	date:      "2026-02-26"
+	context:   "ADR-017 established @base namespacing as a convention. With 4+ repos in the ecosystem (apercue, quicue-kg, cmhc-retrofit, unified-kb), convention alone is insufficient — a typo in @base or a duplicate namespace goes undetected until rdflib or a triple store encounters the collision at import time."
+	decision:  "#FederatedContext wraps a graph with a non-default @base namespace (enforced via CUE constraint !=\"urn:resource:\"). #FederatedMerge takes multiple FederatedContext instances and uses CUE unification to detect collisions: each namespace maps to its owning domain, and each @id maps to its source. Conflicting values fail at cue vet time."
+	rationale: "CUE unification is the cheapest possible collision detector. If two domains claim the same namespace, the _namespace_ownership struct produces conflicting string values and evaluation fails — no runtime checks, no external validators, no additional dependencies. Cross-domain edges are validated via comprehension-level if filters (ADR-003)."
+	consequences: [
+		"Any repo joining federation must wrap its graph in #FederatedContext with a unique namespace",
+		"Merged JSON-LD concatenates @graph arrays with fully-qualified @id values",
+		"Cross-domain edges are declared externally and validated against both source graphs",
+		"W3C validation (rdflib round-trip) extended to cover federation test fixtures",
+		"Collision detection is zero-cost — it's a CUE constraint, not a runtime check",
+	]
+	appliesTo: [
+		{"@id": "https://apercue.ca/project/apercue"},
+	]
+}
+
 d016: core.#Decision & {
 	id:        "ADR-016"
 	title:     "README run commands are the test suite -- CI must execute them"
