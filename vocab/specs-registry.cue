@@ -199,11 +199,11 @@ Specs: {[string]: #SpecEntry} & {
 	"DCAT 3": {
 		name:   "DCAT 3"
 		url:    "https://www.w3.org/TR/vocab-dcat-3/"
-		status: "Downstream"
+		status: "Implemented"
 		prefix: "dcat"
 		patterns: {"#DCATCatalog": true}
-		files: {}
-		exports: {}
-		coverage: "dcat:Catalog in quicue-kg aggregate module"
+		files: {"patterns/catalog.cue": true}
+		exports: {"catalog.dcat_catalog": true}
+		coverage: "dcat:Catalog with dcat:Dataset per resource, dcat:theme from @type"
 	}
 }

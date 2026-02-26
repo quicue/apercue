@@ -250,6 +250,19 @@ compliance: patterns.#ComplianceCheck & {
 	]
 }
 
+// ═══ W3C PROJECTIONS ═══════════════════════════════════════════════════════
+// DCAT — supply chain as a data catalog
+catalog: patterns.#DCATCatalog & {
+	Graph: graph
+	Title: "Laptop Supply Chain"
+}
+
+// PROV-O — dependency provenance
+provenance: patterns.#ProvenanceTrace & {Graph: graph}
+
+// Activity Streams — build order as activity stream
+activity_stream: patterns.#ActivityStream & {Graph: graph}
+
 // ═══ SUMMARY ═══════════════════════════════════════════════════════════════
 // Hidden intermediaries to avoid incomplete field references
 _summary_compliance_total: len(compliance.Rules)

@@ -162,6 +162,36 @@ i011: core.#Insight & {
 	implication: "README code blocks ARE the test suite. CI should parse and execute them. The fix is cheap: extract bash blocks, run them, check exit codes."
 }
 
+i013: core.#Insight & {
+	id:        "INSIGHT-013"
+	statement: "rdflib JSON-LD parsing proves @context resolution that CUE unification cannot — the output produces real RDF triples, not just structurally correct JSON"
+	evidence: [
+		"cue vet validates that sh:ValidationReport has the right fields, but cannot verify that 'sh:' resolves to 'http://www.w3.org/ns/shacl#'",
+		"rdflib parses the @context and produces triples: sh:conforms becomes http://www.w3.org/ns/shacl#conforms",
+		"10/12 projections round-trip through rdflib on first run; OWL-Time fails because it uses flat keyed objects instead of @graph array",
+		"project-tracker SHACL Compliance skipped because the example does not instantiate #ComplianceCheck",
+	]
+	method:     "experiment"
+	confidence: "high"
+	discovered: "2026-02-26"
+	implication: "CUE guarantees shape; rdflib proves interoperability. Both are needed. The round-trip test is the proof that apercue output is real W3C, not just W3C-shaped."
+}
+
+i014: core.#Insight & {
+	id:        "INSIGHT-014"
+	statement: "OWL-Time projection uses flat keyed objects (resource names as JSON keys) instead of @graph array — rdflib cannot resolve them as named subjects"
+	evidence: [
+		"projections.owl_time exports {repo-scaffold: {time:hasBeginning: ...}, ...} with resource names as top-level keys",
+		"JSON-LD requires @id on nodes for named subject resolution; bare keys become unreachable",
+		"rdflib produces 0 triples from the OWL-Time output despite valid @context",
+		"SHACL, PROV-O, ODRL, Activity Streams all use @graph arrays and round-trip correctly",
+	]
+	method:     "experiment"
+	confidence: "high"
+	discovered: "2026-02-26"
+	implication: "Projections that use @graph arrays are JSON-LD conformant. Projections that use flat keyed objects are CUE-convenient but not JSON-LD round-trippable. The fix is wrapping each resource in {@id, @type, ...} inside a @graph array."
+}
+
 i012: core.#Insight & {
 	id:        "INSIGHT-012"
 	statement: "A stray cue.mod directory isolates CUE files from the root module, preventing import resolution"
