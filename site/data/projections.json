@@ -105,826 +105,910 @@
                 "@container": "@set"
             }
         },
-        "repo-scaffold": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 0
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 1
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "resource-schema": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 1
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "type-registry": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 1
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 4,
-            "apercue:isCritical": false
-        },
-        "jsonld-context": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 1
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 8,
-            "apercue:isCritical": false
-        },
-        "viz-contract": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 1
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 10,
-            "apercue:isCritical": false
-        },
-        "graph-engine": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "analysis-patterns": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "validation-patterns": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "lifecycle-patterns": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "charter-module": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "shacl-projection": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "skos-projection": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "owl-time-projection": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "earl-projection": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "example-course-prereqs": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "example-recipe": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 7,
-            "apercue:isCritical": false
-        },
-        "example-project-tracker": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 7,
-            "apercue:isCritical": false
-        },
-        "example-supply-chain": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 7,
-            "apercue:isCritical": false
-        },
-        "docs-readme": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "docs-w3c-index": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 6,
-            "apercue:isCritical": false
-        },
-        "docs-novelty": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 6,
-            "apercue:isCritical": false
-        },
-        "kb-setup": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "github-repo": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 7
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "cf-pages": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 7
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 8
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "safeid-constraints": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 7,
-            "apercue:isCritical": false
-        },
-        "ci-workflow": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 7
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 8
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 3,
-            "apercue:isCritical": false
-        },
-        "specs-registry": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 5
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 6
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "site-build": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 8
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 9
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "ci-regen-check": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 9
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 2,
-            "apercue:isCritical": false
-        },
-        "w3c-namespace-cleanup": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 2
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 8,
-            "apercue:isCritical": false
-        },
-        "context-canonical-url": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 8
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 9
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 3,
-            "apercue:isCritical": false
-        },
-        "charter-status-tracking": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 9
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "charter-live-viz": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 11
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "quicue-semantic-sync": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 3
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 4
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 8,
-            "apercue:isCritical": false
-        },
-        "ci-auto-deploy": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 8
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 9
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 3,
-            "apercue:isCritical": false
-        },
-        "kb-charter-bridge": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 11
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 1,
-            "apercue:isCritical": false
-        },
-        "grdn-mirror": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 7
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 8
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 3,
-            "apercue:isCritical": false
-        },
-        "site-data-locality": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 9
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 1,
-            "apercue:isCritical": false
-        },
-        "grdn-site-deploy": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 11
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 1,
-            "apercue:isCritical": false
-        },
-        "charter-cpm-overlay": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 11
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 12
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 0,
-            "apercue:isCritical": true
-        },
-        "projections-dashboard": {
-            "@type": "time:Interval",
-            "time:hasBeginning": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 10
-            },
-            "time:hasEnd": {
-                "@type": "time:Instant",
-                "time:inXSDDecimal": 11
-            },
-            "time:hasDuration": {
-                "@type": "time:Duration",
-                "time:numericDuration": 1,
-                "time:unitType": {
-                    "@id": "time:unitDay"
-                }
-            },
-            "apercue:slack": 1,
-            "apercue:isCritical": false
-        }
+        "@graph": [
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:repo-scaffold",
+                "dcterms:title": "repo-scaffold",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 0
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:resource-schema",
+                "dcterms:title": "resource-schema",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:type-registry",
+                "dcterms:title": "type-registry",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:jsonld-context",
+                "dcterms:title": "jsonld-context",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 8,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:viz-contract",
+                "dcterms:title": "viz-contract",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 10,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:graph-engine",
+                "dcterms:title": "graph-engine",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:analysis-patterns",
+                "dcterms:title": "analysis-patterns",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:validation-patterns",
+                "dcterms:title": "validation-patterns",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:lifecycle-patterns",
+                "dcterms:title": "lifecycle-patterns",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:charter-module",
+                "dcterms:title": "charter-module",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:shacl-projection",
+                "dcterms:title": "shacl-projection",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:skos-projection",
+                "dcterms:title": "skos-projection",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:owl-time-projection",
+                "dcterms:title": "owl-time-projection",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:earl-projection",
+                "dcterms:title": "earl-projection",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:example-course-prereqs",
+                "dcterms:title": "example-course-prereqs",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:example-recipe",
+                "dcterms:title": "example-recipe",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:example-project-tracker",
+                "dcterms:title": "example-project-tracker",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:example-supply-chain",
+                "dcterms:title": "example-supply-chain",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:docs-readme",
+                "dcterms:title": "docs-readme",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:docs-w3c-index",
+                "dcterms:title": "docs-w3c-index",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 6,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:docs-novelty",
+                "dcterms:title": "docs-novelty",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 6,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:kb-setup",
+                "dcterms:title": "kb-setup",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:github-repo",
+                "dcterms:title": "github-repo",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:cf-pages",
+                "dcterms:title": "cf-pages",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:safeid-constraints",
+                "dcterms:title": "safeid-constraints",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:ci-workflow",
+                "dcterms:title": "ci-workflow",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:specs-registry",
+                "dcterms:title": "specs-registry",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:site-build",
+                "dcterms:title": "site-build",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:ci-regen-check",
+                "dcterms:title": "ci-regen-check",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:w3c-namespace-cleanup",
+                "dcterms:title": "w3c-namespace-cleanup",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 8,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:context-canonical-url",
+                "dcterms:title": "context-canonical-url",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:charter-status-tracking",
+                "dcterms:title": "charter-status-tracking",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:charter-live-viz",
+                "dcterms:title": "charter-live-viz",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 11
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:quicue-semantic-sync",
+                "dcterms:title": "quicue-semantic-sync",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 8,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:ci-auto-deploy",
+                "dcterms:title": "ci-auto-deploy",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:kb-charter-bridge",
+                "dcterms:title": "kb-charter-bridge",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 11
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:grdn-mirror",
+                "dcterms:title": "grdn-mirror",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:site-data-locality",
+                "dcterms:title": "site-data-locality",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:grdn-site-deploy",
+                "dcterms:title": "grdn-site-deploy",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 11
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:charter-cpm-overlay",
+                "dcterms:title": "charter-cpm-overlay",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 11
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 12
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:projections-dashboard",
+                "dcterms:title": "projections-dashboard",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 11
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            }
+        ]
     },
     "scheduling": {
         "summary": {

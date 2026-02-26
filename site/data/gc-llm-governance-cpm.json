@@ -1,86 +1,3894 @@
-[
-    {
-        "resource": "gc-llm-governance-framework",
-        "start": 0,
-        "finish": 1,
-        "duration": 1
+{
+    "Graph": {
+        "Input": {
+            "gc-llm-governance-framework": {
+                "name": "gc-llm-governance-framework",
+                "@type": {
+                    "Framework": true
+                },
+                "description": "Root: constraint-first LLM governance using apercue/quicue/quicue-kg"
+            },
+            "directive-on-adm": {
+                "name": "directive-on-adm",
+                "@type": {
+                    "Directive": true
+                },
+                "description": "TBS Directive on Automated Decision-Making (compliance deadline: 2026-06-24)",
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                }
+            },
+            "privacy-act": {
+                "name": "privacy-act",
+                "@type": {
+                    "Statute": true
+                },
+                "description": "Privacy Act — s.7 use limitation, s.8 disclosure limitation",
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                }
+            },
+            "official-languages-act": {
+                "name": "official-languages-act",
+                "@type": {
+                    "Statute": true
+                },
+                "description": "Official Languages Act — simultaneous bilingual output, equal quality",
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                }
+            },
+            "cccs-itsap-00-041": {
+                "name": "cccs-itsap-00-041",
+                "@type": {
+                    "SecurityGuidance": true
+                },
+                "description": "CCCS Generative AI guidance — 8 threat categories",
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                }
+            },
+            "genai-guide-v2": {
+                "name": "genai-guide-v2",
+                "@type": {
+                    "Guide": true
+                },
+                "description": "TBS Guide on the Use of Generative AI (v2) — FASTER principles",
+                "depends_on": {
+                    "directive-on-adm": true
+                }
+            },
+            "faster-principles": {
+                "name": "faster-principles",
+                "@type": {
+                    "Principle": true
+                },
+                "description": "FASTER: Fair, Accountable, Secure, Transparent, Educated, Relevant",
+                "depends_on": {
+                    "genai-guide-v2": true
+                }
+            },
+            "aia-requirement": {
+                "name": "aia-requirement",
+                "@type": {
+                    "Directive": true
+                },
+                "description": "Algorithmic Impact Assessment — mandatory risk assessment before deployment",
+                "depends_on": {
+                    "directive-on-adm": true
+                }
+            },
+            "aia-level-i": {
+                "name": "aia-level-i",
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "description": "AIA Level I — little/no impact, easily reversible",
+                "depends_on": {
+                    "aia-requirement": true
+                }
+            },
+            "aia-level-ii": {
+                "name": "aia-level-ii",
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "description": "AIA Level II — moderate impact, likely reversible (peer review required)",
+                "depends_on": {
+                    "aia-level-i": true
+                }
+            },
+            "aia-level-iii": {
+                "name": "aia-level-iii",
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "description": "AIA Level III — high impact, difficult to reverse (human-in-the-loop required)",
+                "depends_on": {
+                    "aia-level-ii": true
+                }
+            },
+            "aia-level-iv": {
+                "name": "aia-level-iv",
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "description": "AIA Level IV — very high, irreversible (TB approval required)",
+                "depends_on": {
+                    "aia-level-iii": true
+                }
+            },
+            "pii-prompt-blocking": {
+                "name": "pii-prompt-blocking",
+                "@type": {
+                    "ControlObjective": true
+                },
+                "description": "Block PII from entering LLM prompts — Privacy Act s.8 compliance",
+                "depends_on": {
+                    "privacy-act": true
+                }
+            },
+            "vendor-data-classification": {
+                "name": "vendor-data-classification",
+                "@type": {
+                    "ControlObjective": true
+                },
+                "description": "Enforce data classification for LLM vendor selection",
+                "depends_on": {
+                    "privacy-act": true
+                }
+            },
+            "bilingual-quality-parity": {
+                "name": "bilingual-quality-parity",
+                "@type": {
+                    "ControlObjective": true
+                },
+                "description": "EN/FR output quality parity — OLA compliance",
+                "depends_on": {
+                    "official-languages-act": true
+                }
+            },
+            "human-in-loop-gate": {
+                "name": "human-in-loop-gate",
+                "@type": {
+                    "ControlObjective": true
+                },
+                "description": "Human review required for AIA Level III+ decisions",
+                "depends_on": {
+                    "aia-level-iii": true
+                }
+            },
+            "peer-review-mechanism": {
+                "name": "peer-review-mechanism",
+                "@type": {
+                    "ControlObjective": true
+                },
+                "description": "Qualified peer review for AIA Level II+ systems",
+                "depends_on": {
+                    "aia-level-ii": true
+                }
+            },
+            "bias-testing-framework": {
+                "name": "bias-testing-framework",
+                "@type": {
+                    "ControlObjective": true
+                },
+                "description": "Demographic bias testing per Directive Appendix C",
+                "depends_on": {
+                    "directive-on-adm": true
+                }
+            },
+            "rule-pii-blocking": {
+                "name": "rule-pii-blocking",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "Block Protected B+ data from commercial LLM prompts",
+                "depends_on": {
+                    "pii-prompt-blocking": true
+                }
+            },
+            "rule-classification-enforcement": {
+                "name": "rule-classification-enforcement",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "Enforce Unclassified/Protected A/B classification on provider selection",
+                "depends_on": {
+                    "vendor-data-classification": true
+                }
+            },
+            "rule-bilingual-output": {
+                "name": "rule-bilingual-output",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "All public-facing LLM outputs must be available in both EN and FR",
+                "depends_on": {
+                    "bilingual-quality-parity": true
+                }
+            },
+            "rule-human-review-level-iii": {
+                "name": "rule-human-review-level-iii",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "AIA Level III+ decisions require documented human review",
+                "depends_on": {
+                    "human-in-loop-gate": true
+                }
+            },
+            "rule-peer-review-level-ii": {
+                "name": "rule-peer-review-level-ii",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "AIA Level II+ systems require qualified peer review",
+                "depends_on": {
+                    "peer-review-mechanism": true
+                }
+            },
+            "rule-bias-demographic": {
+                "name": "rule-bias-demographic",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "Test for unintended demographic biases in LLM outputs",
+                "depends_on": {
+                    "bias-testing-framework": true
+                }
+            },
+            "rule-cccs-threat-coverage": {
+                "name": "rule-cccs-threat-coverage",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "Address all 8 CCCS generative AI threat categories",
+                "depends_on": {
+                    "cccs-itsap-00-041": true
+                }
+            },
+            "rule-faster-coverage": {
+                "name": "rule-faster-coverage",
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "description": "Demonstrate coverage of all 6 FASTER principles",
+                "depends_on": {
+                    "faster-principles": true
+                }
+            },
+            "knowledge-graph-schema": {
+                "name": "knowledge-graph-schema",
+                "@type": {
+                    "DomainScope": true
+                },
+                "description": "quicue-kg schema for authoritative knowledge grounding",
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                }
+            },
+            "policy-fact-registry": {
+                "name": "policy-fact-registry",
+                "@type": {
+                    "PolicyFact": true
+                },
+                "description": "Verified facts from statutes, directives, and guides",
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                }
+            },
+            "authoritative-source-index": {
+                "name": "authoritative-source-index",
+                "@type": {
+                    "AuthoritativeSource": true
+                },
+                "description": "Source documents with SHA256 integrity and freshness dates",
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                }
+            },
+            "term-definitions-registry": {
+                "name": "term-definitions-registry",
+                "@type": {
+                    "TermDefinition": true
+                },
+                "description": "Authoritative term definitions (prevents LLM-invented definitions)",
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                }
+            },
+            "domain-scope-procurement": {
+                "name": "domain-scope-procurement",
+                "@type": {
+                    "DomainScope": true
+                },
+                "description": "Knowledge boundary for procurement-domain LLM deployments",
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                }
+            },
+            "domain-scope-hr": {
+                "name": "domain-scope-hr",
+                "@type": {
+                    "DomainScope": true
+                },
+                "description": "Knowledge boundary for HR-domain LLM deployments",
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                }
+            },
+            "odrl-unclassified": {
+                "name": "odrl-unclassified",
+                "@type": {
+                    "PolicyConstraint": true
+                },
+                "description": "ODRL policy for Unclassified data — commercial LLMs permitted",
+                "depends_on": {
+                    "rule-classification-enforcement": true
+                }
+            },
+            "odrl-protected-a": {
+                "name": "odrl-protected-a",
+                "@type": {
+                    "PolicyConstraint": true
+                },
+                "description": "ODRL policy for Protected A — GC-controlled infrastructure only",
+                "depends_on": {
+                    "rule-classification-enforcement": true
+                }
+            },
+            "odrl-protected-b": {
+                "name": "odrl-protected-b",
+                "@type": {
+                    "PolicyConstraint": true
+                },
+                "description": "ODRL policy for Protected B — GC cloud provider with PII blocking",
+                "depends_on": {
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true
+                }
+            },
+            "provider-gc-cloud": {
+                "name": "provider-gc-cloud",
+                "@type": {
+                    "LLMProvider": true
+                },
+                "description": "GC cloud provider — GC-tenant, Protected B capable",
+                "depends_on": {
+                    "odrl-protected-b": true
+                }
+            },
+            "provider-bedrock": {
+                "name": "provider-bedrock",
+                "@type": {
+                    "LLMProvider": true
+                },
+                "description": "AWS Bedrock — GC region, Protected A capable",
+                "depends_on": {
+                    "odrl-protected-a": true
+                }
+            },
+            "provider-self-hosted": {
+                "name": "provider-self-hosted",
+                "@type": {
+                    "LLMProvider": true
+                },
+                "description": "Self-hosted LLM (Ollama/vLLM) — air-gapped, any classification",
+                "depends_on": {
+                    "odrl-unclassified": true
+                }
+            },
+            "deployment-procurement-assistant": {
+                "name": "deployment-procurement-assistant",
+                "@type": {
+                    "LLMDeployment": true
+                },
+                "description": "Procurement assistant — GC cloud provider, bilingual, scope-bounded",
+                "depends_on": {
+                    "provider-gc-cloud": true,
+                    "domain-scope-procurement": true,
+                    "rule-bilingual-output": true
+                }
+            },
+            "deployment-hr-assistant": {
+                "name": "deployment-hr-assistant",
+                "@type": {
+                    "LLMDeployment": true
+                },
+                "description": "HR assistant — GC cloud provider, bilingual, PII-gated",
+                "depends_on": {
+                    "provider-gc-cloud": true,
+                    "domain-scope-hr": true,
+                    "rule-bilingual-output": true
+                }
+            },
+            "deployment-internal-search": {
+                "name": "deployment-internal-search",
+                "@type": {
+                    "LLMDeployment": true
+                },
+                "description": "Internal knowledge search — self-hosted, knowledge-grounded",
+                "depends_on": {
+                    "provider-self-hosted": true,
+                    "knowledge-graph-schema": true
+                }
+            },
+            "classification-gate": {
+                "name": "classification-gate",
+                "@type": {
+                    "ClassificationGate": true
+                },
+                "description": "Runtime data classification checkpoint before LLM invocation",
+                "depends_on": {
+                    "rule-classification-enforcement": true
+                }
+            },
+            "bilingual-gate": {
+                "name": "bilingual-gate",
+                "@type": {
+                    "BilingualGate": true
+                },
+                "description": "Runtime EN/FR quality validation checkpoint",
+                "depends_on": {
+                    "rule-bilingual-output": true
+                }
+            },
+            "human-review-gate": {
+                "name": "human-review-gate",
+                "@type": {
+                    "HumanReviewGate": true
+                },
+                "description": "Human review checkpoint for AIA Level III+ decisions",
+                "depends_on": {
+                    "rule-human-review-level-iii": true
+                }
+            },
+            "audit-sink-prov-o": {
+                "name": "audit-sink-prov-o",
+                "@type": {
+                    "AuditSink": true
+                },
+                "description": "PROV-O audit trail — every LLM response traced to source knowledge",
+                "depends_on": {
+                    "deployment-procurement-assistant": true,
+                    "deployment-hr-assistant": true
+                }
+            },
+            "smoke-test-bilingual": {
+                "name": "smoke-test-bilingual",
+                "@type": {
+                    "SmokeTest": true
+                },
+                "description": "EARL smoke test — EN/FR quality parity validation",
+                "depends_on": {
+                    "bilingual-gate": true
+                }
+            },
+            "smoke-test-pii-blocking": {
+                "name": "smoke-test-pii-blocking",
+                "@type": {
+                    "SmokeTest": true
+                },
+                "description": "EARL smoke test — PII blocked from commercial LLM prompts",
+                "depends_on": {
+                    "classification-gate": true
+                }
+            },
+            "smoke-test-scope-enforcement": {
+                "name": "smoke-test-scope-enforcement",
+                "@type": {
+                    "SmokeTest": true
+                },
+                "description": "EARL smoke test — LLM stays within domain scope boundaries",
+                "depends_on": {
+                    "deployment-procurement-assistant": true
+                }
+            },
+            "shacl-compliance-report": {
+                "name": "shacl-compliance-report",
+                "@type": {
+                    "ComplianceReport": true
+                },
+                "description": "sh:ValidationReport — per-rule conformance for TBS/OAG auditors",
+                "depends_on": {
+                    "audit-sink-prov-o": true
+                }
+            },
+            "vc-compliance-credential": {
+                "name": "vc-compliance-credential",
+                "@type": {
+                    "VerifiableCredential": true
+                },
+                "description": "VC 2.0 credential attesting compliance (wraps SHACL report)",
+                "depends_on": {
+                    "shacl-compliance-report": true
+                }
+            },
+            "dcat-ai-register-entry": {
+                "name": "dcat-ai-register-entry",
+                "@type": {
+                    "CatalogEntry": true
+                },
+                "description": "DCAT 3 catalog entry for GC AI Register (machine-readable)",
+                "depends_on": {
+                    "deployment-procurement-assistant": true,
+                    "deployment-hr-assistant": true
+                }
+            },
+            "owl-time-compliance-schedule": {
+                "name": "owl-time-compliance-schedule",
+                "@type": {
+                    "Schedule": true
+                },
+                "description": "OWL-Time critical path schedule to June 2026 compliance deadline",
+                "depends_on": {
+                    "shacl-compliance-report": true
+                }
+            }
+        },
+        "Precomputed": {
+            "depth": {
+                "gc-llm-governance-framework": 0,
+                "directive-on-adm": 1,
+                "privacy-act": 1,
+                "official-languages-act": 1,
+                "cccs-itsap-00-041": 1,
+                "knowledge-graph-schema": 1,
+                "genai-guide-v2": 2,
+                "aia-requirement": 2,
+                "bias-testing-framework": 2,
+                "pii-prompt-blocking": 2,
+                "vendor-data-classification": 2,
+                "bilingual-quality-parity": 2,
+                "rule-cccs-threat-coverage": 2,
+                "policy-fact-registry": 2,
+                "authoritative-source-index": 2,
+                "term-definitions-registry": 2,
+                "domain-scope-procurement": 2,
+                "domain-scope-hr": 2,
+                "faster-principles": 3,
+                "aia-level-i": 3,
+                "rule-bias-demographic": 3,
+                "rule-pii-blocking": 3,
+                "rule-classification-enforcement": 3,
+                "rule-bilingual-output": 3,
+                "rule-faster-coverage": 4,
+                "aia-level-ii": 4,
+                "odrl-unclassified": 4,
+                "odrl-protected-a": 4,
+                "odrl-protected-b": 4,
+                "classification-gate": 4,
+                "bilingual-gate": 4,
+                "aia-level-iii": 5,
+                "peer-review-mechanism": 5,
+                "provider-self-hosted": 5,
+                "provider-bedrock": 5,
+                "provider-gc-cloud": 5,
+                "smoke-test-pii-blocking": 5,
+                "smoke-test-bilingual": 5,
+                "aia-level-iv": 6,
+                "human-in-loop-gate": 6,
+                "rule-peer-review-level-ii": 6,
+                "deployment-internal-search": 6,
+                "deployment-procurement-assistant": 6,
+                "deployment-hr-assistant": 6,
+                "rule-human-review-level-iii": 7,
+                "smoke-test-scope-enforcement": 7,
+                "audit-sink-prov-o": 7,
+                "dcat-ai-register-entry": 7,
+                "human-review-gate": 8,
+                "shacl-compliance-report": 8,
+                "vc-compliance-credential": 9,
+                "owl-time-compliance-schedule": 9
+            },
+            "ancestors": {
+                "gc-llm-governance-framework": {},
+                "directive-on-adm": {
+                    "gc-llm-governance-framework": true
+                },
+                "privacy-act": {
+                    "gc-llm-governance-framework": true
+                },
+                "official-languages-act": {
+                    "gc-llm-governance-framework": true
+                },
+                "cccs-itsap-00-041": {
+                    "gc-llm-governance-framework": true
+                },
+                "knowledge-graph-schema": {
+                    "gc-llm-governance-framework": true
+                },
+                "genai-guide-v2": {
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "aia-requirement": {
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "bias-testing-framework": {
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "pii-prompt-blocking": {
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true
+                },
+                "vendor-data-classification": {
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true
+                },
+                "bilingual-quality-parity": {
+                    "gc-llm-governance-framework": true,
+                    "official-languages-act": true
+                },
+                "rule-cccs-threat-coverage": {
+                    "cccs-itsap-00-041": true,
+                    "gc-llm-governance-framework": true
+                },
+                "policy-fact-registry": {
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true
+                },
+                "authoritative-source-index": {
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true
+                },
+                "term-definitions-registry": {
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true
+                },
+                "domain-scope-procurement": {
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true
+                },
+                "domain-scope-hr": {
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true
+                },
+                "faster-principles": {
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true,
+                    "genai-guide-v2": true
+                },
+                "aia-level-i": {
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "rule-bias-demographic": {
+                    "bias-testing-framework": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "rule-pii-blocking": {
+                    "gc-llm-governance-framework": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true
+                },
+                "rule-classification-enforcement": {
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true,
+                    "vendor-data-classification": true
+                },
+                "rule-bilingual-output": {
+                    "bilingual-quality-parity": true,
+                    "gc-llm-governance-framework": true,
+                    "official-languages-act": true
+                },
+                "rule-faster-coverage": {
+                    "directive-on-adm": true,
+                    "faster-principles": true,
+                    "gc-llm-governance-framework": true,
+                    "genai-guide-v2": true
+                },
+                "aia-level-ii": {
+                    "aia-level-i": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "odrl-unclassified": {
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "odrl-protected-a": {
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "odrl-protected-b": {
+                    "gc-llm-governance-framework": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "classification-gate": {
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "bilingual-gate": {
+                    "bilingual-quality-parity": true,
+                    "gc-llm-governance-framework": true,
+                    "official-languages-act": true,
+                    "rule-bilingual-output": true
+                },
+                "aia-level-iii": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "peer-review-mechanism": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "provider-self-hosted": {
+                    "gc-llm-governance-framework": true,
+                    "odrl-unclassified": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "provider-bedrock": {
+                    "gc-llm-governance-framework": true,
+                    "odrl-protected-a": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "provider-gc-cloud": {
+                    "gc-llm-governance-framework": true,
+                    "odrl-protected-b": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "smoke-test-pii-blocking": {
+                    "classification-gate": true,
+                    "gc-llm-governance-framework": true,
+                    "privacy-act": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "smoke-test-bilingual": {
+                    "bilingual-gate": true,
+                    "bilingual-quality-parity": true,
+                    "gc-llm-governance-framework": true,
+                    "official-languages-act": true,
+                    "rule-bilingual-output": true
+                },
+                "aia-level-iv": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "human-in-loop-gate": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true
+                },
+                "rule-peer-review-level-ii": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true,
+                    "peer-review-mechanism": true
+                },
+                "deployment-internal-search": {
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-unclassified": true,
+                    "privacy-act": true,
+                    "provider-self-hosted": true,
+                    "rule-classification-enforcement": true,
+                    "vendor-data-classification": true
+                },
+                "deployment-procurement-assistant": {
+                    "bilingual-quality-parity": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "deployment-hr-assistant": {
+                    "bilingual-quality-parity": true,
+                    "domain-scope-hr": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "rule-human-review-level-iii": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true,
+                    "human-in-loop-gate": true
+                },
+                "smoke-test-scope-enforcement": {
+                    "bilingual-quality-parity": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "audit-sink-prov-o": {
+                    "bilingual-quality-parity": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "dcat-ai-register-entry": {
+                    "bilingual-quality-parity": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "human-review-gate": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-requirement": true,
+                    "directive-on-adm": true,
+                    "gc-llm-governance-framework": true,
+                    "human-in-loop-gate": true,
+                    "rule-human-review-level-iii": true
+                },
+                "shacl-compliance-report": {
+                    "audit-sink-prov-o": true,
+                    "bilingual-quality-parity": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "vendor-data-classification": true
+                },
+                "vc-compliance-credential": {
+                    "audit-sink-prov-o": true,
+                    "bilingual-quality-parity": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "shacl-compliance-report": true,
+                    "vendor-data-classification": true
+                },
+                "owl-time-compliance-schedule": {
+                    "audit-sink-prov-o": true,
+                    "bilingual-quality-parity": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "gc-llm-governance-framework": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-b": true,
+                    "official-languages-act": true,
+                    "pii-prompt-blocking": true,
+                    "privacy-act": true,
+                    "provider-gc-cloud": true,
+                    "rule-bilingual-output": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "shacl-compliance-report": true,
+                    "vendor-data-classification": true
+                }
+            },
+            "dependents": {
+                "gc-llm-governance-framework": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-level-iv": true,
+                    "aia-requirement": true,
+                    "audit-sink-prov-o": true,
+                    "authoritative-source-index": true,
+                    "bias-testing-framework": true,
+                    "bilingual-gate": true,
+                    "bilingual-quality-parity": true,
+                    "cccs-itsap-00-041": true,
+                    "classification-gate": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-internal-search": true,
+                    "deployment-procurement-assistant": true,
+                    "directive-on-adm": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "faster-principles": true,
+                    "genai-guide-v2": true,
+                    "human-in-loop-gate": true,
+                    "human-review-gate": true,
+                    "knowledge-graph-schema": true,
+                    "odrl-protected-a": true,
+                    "odrl-protected-b": true,
+                    "odrl-unclassified": true,
+                    "official-languages-act": true,
+                    "owl-time-compliance-schedule": true,
+                    "peer-review-mechanism": true,
+                    "pii-prompt-blocking": true,
+                    "policy-fact-registry": true,
+                    "privacy-act": true,
+                    "provider-bedrock": true,
+                    "provider-gc-cloud": true,
+                    "provider-self-hosted": true,
+                    "rule-bias-demographic": true,
+                    "rule-bilingual-output": true,
+                    "rule-cccs-threat-coverage": true,
+                    "rule-classification-enforcement": true,
+                    "rule-faster-coverage": true,
+                    "rule-human-review-level-iii": true,
+                    "rule-peer-review-level-ii": true,
+                    "rule-pii-blocking": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-bilingual": true,
+                    "smoke-test-pii-blocking": true,
+                    "smoke-test-scope-enforcement": true,
+                    "term-definitions-registry": true,
+                    "vc-compliance-credential": true,
+                    "vendor-data-classification": true
+                },
+                "directive-on-adm": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-level-iv": true,
+                    "aia-requirement": true,
+                    "bias-testing-framework": true,
+                    "faster-principles": true,
+                    "genai-guide-v2": true,
+                    "human-in-loop-gate": true,
+                    "human-review-gate": true,
+                    "peer-review-mechanism": true,
+                    "rule-bias-demographic": true,
+                    "rule-faster-coverage": true,
+                    "rule-human-review-level-iii": true,
+                    "rule-peer-review-level-ii": true
+                },
+                "privacy-act": {
+                    "audit-sink-prov-o": true,
+                    "classification-gate": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-internal-search": true,
+                    "deployment-procurement-assistant": true,
+                    "odrl-protected-a": true,
+                    "odrl-protected-b": true,
+                    "odrl-unclassified": true,
+                    "owl-time-compliance-schedule": true,
+                    "pii-prompt-blocking": true,
+                    "provider-bedrock": true,
+                    "provider-gc-cloud": true,
+                    "provider-self-hosted": true,
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-pii-blocking": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true,
+                    "vendor-data-classification": true
+                },
+                "official-languages-act": {
+                    "audit-sink-prov-o": true,
+                    "bilingual-gate": true,
+                    "bilingual-quality-parity": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "rule-bilingual-output": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-bilingual": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "cccs-itsap-00-041": {
+                    "rule-cccs-threat-coverage": true
+                },
+                "knowledge-graph-schema": {
+                    "audit-sink-prov-o": true,
+                    "authoritative-source-index": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-internal-search": true,
+                    "deployment-procurement-assistant": true,
+                    "domain-scope-hr": true,
+                    "domain-scope-procurement": true,
+                    "owl-time-compliance-schedule": true,
+                    "policy-fact-registry": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "term-definitions-registry": true,
+                    "vc-compliance-credential": true
+                },
+                "genai-guide-v2": {
+                    "faster-principles": true,
+                    "rule-faster-coverage": true
+                },
+                "aia-requirement": {
+                    "aia-level-i": true,
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-level-iv": true,
+                    "human-in-loop-gate": true,
+                    "human-review-gate": true,
+                    "peer-review-mechanism": true,
+                    "rule-human-review-level-iii": true,
+                    "rule-peer-review-level-ii": true
+                },
+                "bias-testing-framework": {
+                    "rule-bias-demographic": true
+                },
+                "pii-prompt-blocking": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "odrl-protected-b": true,
+                    "owl-time-compliance-schedule": true,
+                    "provider-gc-cloud": true,
+                    "rule-pii-blocking": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "vendor-data-classification": {
+                    "audit-sink-prov-o": true,
+                    "classification-gate": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-internal-search": true,
+                    "deployment-procurement-assistant": true,
+                    "odrl-protected-a": true,
+                    "odrl-protected-b": true,
+                    "odrl-unclassified": true,
+                    "owl-time-compliance-schedule": true,
+                    "provider-bedrock": true,
+                    "provider-gc-cloud": true,
+                    "provider-self-hosted": true,
+                    "rule-classification-enforcement": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-pii-blocking": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "bilingual-quality-parity": {
+                    "audit-sink-prov-o": true,
+                    "bilingual-gate": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "rule-bilingual-output": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-bilingual": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "rule-cccs-threat-coverage": {},
+                "policy-fact-registry": {},
+                "authoritative-source-index": {},
+                "term-definitions-registry": {},
+                "domain-scope-procurement": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-procurement-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "domain-scope-hr": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "vc-compliance-credential": true
+                },
+                "faster-principles": {
+                    "rule-faster-coverage": true
+                },
+                "aia-level-i": {
+                    "aia-level-ii": true,
+                    "aia-level-iii": true,
+                    "aia-level-iv": true,
+                    "human-in-loop-gate": true,
+                    "human-review-gate": true,
+                    "peer-review-mechanism": true,
+                    "rule-human-review-level-iii": true,
+                    "rule-peer-review-level-ii": true
+                },
+                "rule-bias-demographic": {},
+                "rule-pii-blocking": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "odrl-protected-b": true,
+                    "owl-time-compliance-schedule": true,
+                    "provider-gc-cloud": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "rule-classification-enforcement": {
+                    "audit-sink-prov-o": true,
+                    "classification-gate": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-internal-search": true,
+                    "deployment-procurement-assistant": true,
+                    "odrl-protected-a": true,
+                    "odrl-protected-b": true,
+                    "odrl-unclassified": true,
+                    "owl-time-compliance-schedule": true,
+                    "provider-bedrock": true,
+                    "provider-gc-cloud": true,
+                    "provider-self-hosted": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-pii-blocking": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "rule-bilingual-output": {
+                    "audit-sink-prov-o": true,
+                    "bilingual-gate": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-bilingual": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "rule-faster-coverage": {},
+                "aia-level-ii": {
+                    "aia-level-iii": true,
+                    "aia-level-iv": true,
+                    "human-in-loop-gate": true,
+                    "human-review-gate": true,
+                    "peer-review-mechanism": true,
+                    "rule-human-review-level-iii": true,
+                    "rule-peer-review-level-ii": true
+                },
+                "odrl-unclassified": {
+                    "deployment-internal-search": true,
+                    "provider-self-hosted": true
+                },
+                "odrl-protected-a": {
+                    "provider-bedrock": true
+                },
+                "odrl-protected-b": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "provider-gc-cloud": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "classification-gate": {
+                    "smoke-test-pii-blocking": true
+                },
+                "bilingual-gate": {
+                    "smoke-test-bilingual": true
+                },
+                "aia-level-iii": {
+                    "aia-level-iv": true,
+                    "human-in-loop-gate": true,
+                    "human-review-gate": true,
+                    "rule-human-review-level-iii": true
+                },
+                "peer-review-mechanism": {
+                    "rule-peer-review-level-ii": true
+                },
+                "provider-self-hosted": {
+                    "deployment-internal-search": true
+                },
+                "provider-bedrock": {},
+                "provider-gc-cloud": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "deployment-hr-assistant": true,
+                    "deployment-procurement-assistant": true,
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "smoke-test-pii-blocking": {},
+                "smoke-test-bilingual": {},
+                "aia-level-iv": {},
+                "human-in-loop-gate": {
+                    "human-review-gate": true,
+                    "rule-human-review-level-iii": true
+                },
+                "rule-peer-review-level-ii": {},
+                "deployment-internal-search": {},
+                "deployment-procurement-assistant": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "smoke-test-scope-enforcement": true,
+                    "vc-compliance-credential": true
+                },
+                "deployment-hr-assistant": {
+                    "audit-sink-prov-o": true,
+                    "dcat-ai-register-entry": true,
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "vc-compliance-credential": true
+                },
+                "rule-human-review-level-iii": {
+                    "human-review-gate": true
+                },
+                "smoke-test-scope-enforcement": {},
+                "audit-sink-prov-o": {
+                    "owl-time-compliance-schedule": true,
+                    "shacl-compliance-report": true,
+                    "vc-compliance-credential": true
+                },
+                "dcat-ai-register-entry": {},
+                "human-review-gate": {},
+                "shacl-compliance-report": {
+                    "owl-time-compliance-schedule": true,
+                    "vc-compliance-credential": true
+                },
+                "vc-compliance-credential": {},
+                "owl-time-compliance-schedule": {}
+            }
+        },
+        "dependents": {
+            "gc-llm-governance-framework": {
+                "aia-level-i": true,
+                "aia-level-ii": true,
+                "aia-level-iii": true,
+                "aia-level-iv": true,
+                "aia-requirement": true,
+                "audit-sink-prov-o": true,
+                "authoritative-source-index": true,
+                "bias-testing-framework": true,
+                "bilingual-gate": true,
+                "bilingual-quality-parity": true,
+                "cccs-itsap-00-041": true,
+                "classification-gate": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-internal-search": true,
+                "deployment-procurement-assistant": true,
+                "directive-on-adm": true,
+                "domain-scope-hr": true,
+                "domain-scope-procurement": true,
+                "faster-principles": true,
+                "genai-guide-v2": true,
+                "human-in-loop-gate": true,
+                "human-review-gate": true,
+                "knowledge-graph-schema": true,
+                "odrl-protected-a": true,
+                "odrl-protected-b": true,
+                "odrl-unclassified": true,
+                "official-languages-act": true,
+                "owl-time-compliance-schedule": true,
+                "peer-review-mechanism": true,
+                "pii-prompt-blocking": true,
+                "policy-fact-registry": true,
+                "privacy-act": true,
+                "provider-bedrock": true,
+                "provider-gc-cloud": true,
+                "provider-self-hosted": true,
+                "rule-bias-demographic": true,
+                "rule-bilingual-output": true,
+                "rule-cccs-threat-coverage": true,
+                "rule-classification-enforcement": true,
+                "rule-faster-coverage": true,
+                "rule-human-review-level-iii": true,
+                "rule-peer-review-level-ii": true,
+                "rule-pii-blocking": true,
+                "shacl-compliance-report": true,
+                "smoke-test-bilingual": true,
+                "smoke-test-pii-blocking": true,
+                "smoke-test-scope-enforcement": true,
+                "term-definitions-registry": true,
+                "vc-compliance-credential": true,
+                "vendor-data-classification": true
+            },
+            "directive-on-adm": {
+                "aia-level-i": true,
+                "aia-level-ii": true,
+                "aia-level-iii": true,
+                "aia-level-iv": true,
+                "aia-requirement": true,
+                "bias-testing-framework": true,
+                "faster-principles": true,
+                "genai-guide-v2": true,
+                "human-in-loop-gate": true,
+                "human-review-gate": true,
+                "peer-review-mechanism": true,
+                "rule-bias-demographic": true,
+                "rule-faster-coverage": true,
+                "rule-human-review-level-iii": true,
+                "rule-peer-review-level-ii": true
+            },
+            "privacy-act": {
+                "audit-sink-prov-o": true,
+                "classification-gate": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-internal-search": true,
+                "deployment-procurement-assistant": true,
+                "odrl-protected-a": true,
+                "odrl-protected-b": true,
+                "odrl-unclassified": true,
+                "owl-time-compliance-schedule": true,
+                "pii-prompt-blocking": true,
+                "provider-bedrock": true,
+                "provider-gc-cloud": true,
+                "provider-self-hosted": true,
+                "rule-classification-enforcement": true,
+                "rule-pii-blocking": true,
+                "shacl-compliance-report": true,
+                "smoke-test-pii-blocking": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true,
+                "vendor-data-classification": true
+            },
+            "official-languages-act": {
+                "audit-sink-prov-o": true,
+                "bilingual-gate": true,
+                "bilingual-quality-parity": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "rule-bilingual-output": true,
+                "shacl-compliance-report": true,
+                "smoke-test-bilingual": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "cccs-itsap-00-041": {
+                "rule-cccs-threat-coverage": true
+            },
+            "knowledge-graph-schema": {
+                "audit-sink-prov-o": true,
+                "authoritative-source-index": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-internal-search": true,
+                "deployment-procurement-assistant": true,
+                "domain-scope-hr": true,
+                "domain-scope-procurement": true,
+                "owl-time-compliance-schedule": true,
+                "policy-fact-registry": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "term-definitions-registry": true,
+                "vc-compliance-credential": true
+            },
+            "genai-guide-v2": {
+                "faster-principles": true,
+                "rule-faster-coverage": true
+            },
+            "aia-requirement": {
+                "aia-level-i": true,
+                "aia-level-ii": true,
+                "aia-level-iii": true,
+                "aia-level-iv": true,
+                "human-in-loop-gate": true,
+                "human-review-gate": true,
+                "peer-review-mechanism": true,
+                "rule-human-review-level-iii": true,
+                "rule-peer-review-level-ii": true
+            },
+            "bias-testing-framework": {
+                "rule-bias-demographic": true
+            },
+            "pii-prompt-blocking": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "odrl-protected-b": true,
+                "owl-time-compliance-schedule": true,
+                "provider-gc-cloud": true,
+                "rule-pii-blocking": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "vendor-data-classification": {
+                "audit-sink-prov-o": true,
+                "classification-gate": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-internal-search": true,
+                "deployment-procurement-assistant": true,
+                "odrl-protected-a": true,
+                "odrl-protected-b": true,
+                "odrl-unclassified": true,
+                "owl-time-compliance-schedule": true,
+                "provider-bedrock": true,
+                "provider-gc-cloud": true,
+                "provider-self-hosted": true,
+                "rule-classification-enforcement": true,
+                "shacl-compliance-report": true,
+                "smoke-test-pii-blocking": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "bilingual-quality-parity": {
+                "audit-sink-prov-o": true,
+                "bilingual-gate": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "rule-bilingual-output": true,
+                "shacl-compliance-report": true,
+                "smoke-test-bilingual": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "rule-cccs-threat-coverage": {},
+            "policy-fact-registry": {},
+            "authoritative-source-index": {},
+            "term-definitions-registry": {},
+            "domain-scope-procurement": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "deployment-procurement-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "domain-scope-hr": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "vc-compliance-credential": true
+            },
+            "faster-principles": {
+                "rule-faster-coverage": true
+            },
+            "aia-level-i": {
+                "aia-level-ii": true,
+                "aia-level-iii": true,
+                "aia-level-iv": true,
+                "human-in-loop-gate": true,
+                "human-review-gate": true,
+                "peer-review-mechanism": true,
+                "rule-human-review-level-iii": true,
+                "rule-peer-review-level-ii": true
+            },
+            "rule-bias-demographic": {},
+            "rule-pii-blocking": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "odrl-protected-b": true,
+                "owl-time-compliance-schedule": true,
+                "provider-gc-cloud": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "rule-classification-enforcement": {
+                "audit-sink-prov-o": true,
+                "classification-gate": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-internal-search": true,
+                "deployment-procurement-assistant": true,
+                "odrl-protected-a": true,
+                "odrl-protected-b": true,
+                "odrl-unclassified": true,
+                "owl-time-compliance-schedule": true,
+                "provider-bedrock": true,
+                "provider-gc-cloud": true,
+                "provider-self-hosted": true,
+                "shacl-compliance-report": true,
+                "smoke-test-pii-blocking": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "rule-bilingual-output": {
+                "audit-sink-prov-o": true,
+                "bilingual-gate": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "smoke-test-bilingual": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "rule-faster-coverage": {},
+            "aia-level-ii": {
+                "aia-level-iii": true,
+                "aia-level-iv": true,
+                "human-in-loop-gate": true,
+                "human-review-gate": true,
+                "peer-review-mechanism": true,
+                "rule-human-review-level-iii": true,
+                "rule-peer-review-level-ii": true
+            },
+            "odrl-unclassified": {
+                "deployment-internal-search": true,
+                "provider-self-hosted": true
+            },
+            "odrl-protected-a": {
+                "provider-bedrock": true
+            },
+            "odrl-protected-b": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "provider-gc-cloud": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "classification-gate": {
+                "smoke-test-pii-blocking": true
+            },
+            "bilingual-gate": {
+                "smoke-test-bilingual": true
+            },
+            "aia-level-iii": {
+                "aia-level-iv": true,
+                "human-in-loop-gate": true,
+                "human-review-gate": true,
+                "rule-human-review-level-iii": true
+            },
+            "peer-review-mechanism": {
+                "rule-peer-review-level-ii": true
+            },
+            "provider-self-hosted": {
+                "deployment-internal-search": true
+            },
+            "provider-bedrock": {},
+            "provider-gc-cloud": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "deployment-hr-assistant": true,
+                "deployment-procurement-assistant": true,
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "smoke-test-pii-blocking": {},
+            "smoke-test-bilingual": {},
+            "aia-level-iv": {},
+            "human-in-loop-gate": {
+                "human-review-gate": true,
+                "rule-human-review-level-iii": true
+            },
+            "rule-peer-review-level-ii": {},
+            "deployment-internal-search": {},
+            "deployment-procurement-assistant": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "smoke-test-scope-enforcement": true,
+                "vc-compliance-credential": true
+            },
+            "deployment-hr-assistant": {
+                "audit-sink-prov-o": true,
+                "dcat-ai-register-entry": true,
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "vc-compliance-credential": true
+            },
+            "rule-human-review-level-iii": {
+                "human-review-gate": true
+            },
+            "smoke-test-scope-enforcement": {},
+            "audit-sink-prov-o": {
+                "owl-time-compliance-schedule": true,
+                "shacl-compliance-report": true,
+                "vc-compliance-credential": true
+            },
+            "dcat-ai-register-entry": {},
+            "human-review-gate": {},
+            "shacl-compliance-report": {
+                "owl-time-compliance-schedule": true,
+                "vc-compliance-credential": true
+            },
+            "vc-compliance-credential": {},
+            "owl-time-compliance-schedule": {}
+        },
+        "leaves": {
+            "aia-level-iv": true,
+            "rule-peer-review-level-ii": true,
+            "rule-bias-demographic": true,
+            "rule-cccs-threat-coverage": true,
+            "rule-faster-coverage": true,
+            "policy-fact-registry": true,
+            "authoritative-source-index": true,
+            "term-definitions-registry": true,
+            "provider-bedrock": true,
+            "deployment-internal-search": true,
+            "human-review-gate": true,
+            "smoke-test-bilingual": true,
+            "smoke-test-pii-blocking": true,
+            "smoke-test-scope-enforcement": true,
+            "vc-compliance-credential": true,
+            "dcat-ai-register-entry": true,
+            "owl-time-compliance-schedule": true
+        },
+        "resources": {
+            "gc-llm-governance-framework": {
+                "@type": {
+                    "Framework": true
+                },
+                "name": "gc-llm-governance-framework",
+                "description": "Root: constraint-first LLM governance using apercue/quicue/quicue-kg"
+            },
+            "directive-on-adm": {
+                "@type": {
+                    "Directive": true
+                },
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                },
+                "description": "TBS Directive on Automated Decision-Making (compliance deadline: 2026-06-24)",
+                "name": "directive-on-adm"
+            },
+            "privacy-act": {
+                "@type": {
+                    "Statute": true
+                },
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                },
+                "description": "Privacy Act — s.7 use limitation, s.8 disclosure limitation",
+                "name": "privacy-act"
+            },
+            "official-languages-act": {
+                "@type": {
+                    "Statute": true
+                },
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                },
+                "description": "Official Languages Act — simultaneous bilingual output, equal quality",
+                "name": "official-languages-act"
+            },
+            "cccs-itsap-00-041": {
+                "@type": {
+                    "SecurityGuidance": true
+                },
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                },
+                "description": "CCCS Generative AI guidance — 8 threat categories",
+                "name": "cccs-itsap-00-041"
+            },
+            "genai-guide-v2": {
+                "@type": {
+                    "Guide": true
+                },
+                "depends_on": {
+                    "directive-on-adm": true
+                },
+                "description": "TBS Guide on the Use of Generative AI (v2) — FASTER principles",
+                "name": "genai-guide-v2"
+            },
+            "faster-principles": {
+                "@type": {
+                    "Principle": true
+                },
+                "depends_on": {
+                    "genai-guide-v2": true
+                },
+                "description": "FASTER: Fair, Accountable, Secure, Transparent, Educated, Relevant",
+                "name": "faster-principles"
+            },
+            "aia-requirement": {
+                "@type": {
+                    "Directive": true
+                },
+                "depends_on": {
+                    "directive-on-adm": true
+                },
+                "description": "Algorithmic Impact Assessment — mandatory risk assessment before deployment",
+                "name": "aia-requirement"
+            },
+            "aia-level-i": {
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "depends_on": {
+                    "aia-requirement": true
+                },
+                "description": "AIA Level I — little/no impact, easily reversible",
+                "name": "aia-level-i"
+            },
+            "aia-level-ii": {
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "depends_on": {
+                    "aia-level-i": true
+                },
+                "description": "AIA Level II — moderate impact, likely reversible (peer review required)",
+                "name": "aia-level-ii"
+            },
+            "aia-level-iii": {
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "depends_on": {
+                    "aia-level-ii": true
+                },
+                "description": "AIA Level III — high impact, difficult to reverse (human-in-the-loop required)",
+                "name": "aia-level-iii"
+            },
+            "aia-level-iv": {
+                "@type": {
+                    "ImpactLevel": true
+                },
+                "depends_on": {
+                    "aia-level-iii": true
+                },
+                "description": "AIA Level IV — very high, irreversible (TB approval required)",
+                "name": "aia-level-iv"
+            },
+            "pii-prompt-blocking": {
+                "@type": {
+                    "ControlObjective": true
+                },
+                "depends_on": {
+                    "privacy-act": true
+                },
+                "description": "Block PII from entering LLM prompts — Privacy Act s.8 compliance",
+                "name": "pii-prompt-blocking"
+            },
+            "vendor-data-classification": {
+                "@type": {
+                    "ControlObjective": true
+                },
+                "depends_on": {
+                    "privacy-act": true
+                },
+                "description": "Enforce data classification for LLM vendor selection",
+                "name": "vendor-data-classification"
+            },
+            "bilingual-quality-parity": {
+                "@type": {
+                    "ControlObjective": true
+                },
+                "depends_on": {
+                    "official-languages-act": true
+                },
+                "description": "EN/FR output quality parity — OLA compliance",
+                "name": "bilingual-quality-parity"
+            },
+            "human-in-loop-gate": {
+                "@type": {
+                    "ControlObjective": true
+                },
+                "depends_on": {
+                    "aia-level-iii": true
+                },
+                "description": "Human review required for AIA Level III+ decisions",
+                "name": "human-in-loop-gate"
+            },
+            "peer-review-mechanism": {
+                "@type": {
+                    "ControlObjective": true
+                },
+                "depends_on": {
+                    "aia-level-ii": true
+                },
+                "description": "Qualified peer review for AIA Level II+ systems",
+                "name": "peer-review-mechanism"
+            },
+            "bias-testing-framework": {
+                "@type": {
+                    "ControlObjective": true
+                },
+                "depends_on": {
+                    "directive-on-adm": true
+                },
+                "description": "Demographic bias testing per Directive Appendix C",
+                "name": "bias-testing-framework"
+            },
+            "rule-pii-blocking": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "pii-prompt-blocking": true
+                },
+                "description": "Block Protected B+ data from commercial LLM prompts",
+                "name": "rule-pii-blocking"
+            },
+            "rule-classification-enforcement": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "vendor-data-classification": true
+                },
+                "description": "Enforce Unclassified/Protected A/B classification on provider selection",
+                "name": "rule-classification-enforcement"
+            },
+            "rule-bilingual-output": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "bilingual-quality-parity": true
+                },
+                "description": "All public-facing LLM outputs must be available in both EN and FR",
+                "name": "rule-bilingual-output"
+            },
+            "rule-human-review-level-iii": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "human-in-loop-gate": true
+                },
+                "description": "AIA Level III+ decisions require documented human review",
+                "name": "rule-human-review-level-iii"
+            },
+            "rule-peer-review-level-ii": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "peer-review-mechanism": true
+                },
+                "description": "AIA Level II+ systems require qualified peer review",
+                "name": "rule-peer-review-level-ii"
+            },
+            "rule-bias-demographic": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "bias-testing-framework": true
+                },
+                "description": "Test for unintended demographic biases in LLM outputs",
+                "name": "rule-bias-demographic"
+            },
+            "rule-cccs-threat-coverage": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "cccs-itsap-00-041": true
+                },
+                "description": "Address all 8 CCCS generative AI threat categories",
+                "name": "rule-cccs-threat-coverage"
+            },
+            "rule-faster-coverage": {
+                "@type": {
+                    "ComplianceRule": true
+                },
+                "depends_on": {
+                    "faster-principles": true
+                },
+                "description": "Demonstrate coverage of all 6 FASTER principles",
+                "name": "rule-faster-coverage"
+            },
+            "knowledge-graph-schema": {
+                "@type": {
+                    "DomainScope": true
+                },
+                "depends_on": {
+                    "gc-llm-governance-framework": true
+                },
+                "description": "quicue-kg schema for authoritative knowledge grounding",
+                "name": "knowledge-graph-schema"
+            },
+            "policy-fact-registry": {
+                "@type": {
+                    "PolicyFact": true
+                },
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                },
+                "description": "Verified facts from statutes, directives, and guides",
+                "name": "policy-fact-registry"
+            },
+            "authoritative-source-index": {
+                "@type": {
+                    "AuthoritativeSource": true
+                },
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                },
+                "description": "Source documents with SHA256 integrity and freshness dates",
+                "name": "authoritative-source-index"
+            },
+            "term-definitions-registry": {
+                "@type": {
+                    "TermDefinition": true
+                },
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                },
+                "description": "Authoritative term definitions (prevents LLM-invented definitions)",
+                "name": "term-definitions-registry"
+            },
+            "domain-scope-procurement": {
+                "@type": {
+                    "DomainScope": true
+                },
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                },
+                "description": "Knowledge boundary for procurement-domain LLM deployments",
+                "name": "domain-scope-procurement"
+            },
+            "domain-scope-hr": {
+                "@type": {
+                    "DomainScope": true
+                },
+                "depends_on": {
+                    "knowledge-graph-schema": true
+                },
+                "description": "Knowledge boundary for HR-domain LLM deployments",
+                "name": "domain-scope-hr"
+            },
+            "odrl-unclassified": {
+                "@type": {
+                    "PolicyConstraint": true
+                },
+                "depends_on": {
+                    "rule-classification-enforcement": true
+                },
+                "description": "ODRL policy for Unclassified data — commercial LLMs permitted",
+                "name": "odrl-unclassified"
+            },
+            "odrl-protected-a": {
+                "@type": {
+                    "PolicyConstraint": true
+                },
+                "depends_on": {
+                    "rule-classification-enforcement": true
+                },
+                "description": "ODRL policy for Protected A — GC-controlled infrastructure only",
+                "name": "odrl-protected-a"
+            },
+            "odrl-protected-b": {
+                "@type": {
+                    "PolicyConstraint": true
+                },
+                "depends_on": {
+                    "rule-classification-enforcement": true,
+                    "rule-pii-blocking": true
+                },
+                "description": "ODRL policy for Protected B — GC cloud provider with PII blocking",
+                "name": "odrl-protected-b"
+            },
+            "provider-gc-cloud": {
+                "@type": {
+                    "LLMProvider": true
+                },
+                "depends_on": {
+                    "odrl-protected-b": true
+                },
+                "description": "GC cloud provider — GC-tenant, Protected B capable",
+                "name": "provider-gc-cloud"
+            },
+            "provider-bedrock": {
+                "@type": {
+                    "LLMProvider": true
+                },
+                "depends_on": {
+                    "odrl-protected-a": true
+                },
+                "description": "AWS Bedrock — GC region, Protected A capable",
+                "name": "provider-bedrock"
+            },
+            "provider-self-hosted": {
+                "@type": {
+                    "LLMProvider": true
+                },
+                "depends_on": {
+                    "odrl-unclassified": true
+                },
+                "description": "Self-hosted LLM (Ollama/vLLM) — air-gapped, any classification",
+                "name": "provider-self-hosted"
+            },
+            "deployment-procurement-assistant": {
+                "@type": {
+                    "LLMDeployment": true
+                },
+                "depends_on": {
+                    "provider-gc-cloud": true,
+                    "domain-scope-procurement": true,
+                    "rule-bilingual-output": true
+                },
+                "description": "Procurement assistant — GC cloud provider, bilingual, scope-bounded",
+                "name": "deployment-procurement-assistant"
+            },
+            "deployment-hr-assistant": {
+                "@type": {
+                    "LLMDeployment": true
+                },
+                "depends_on": {
+                    "provider-gc-cloud": true,
+                    "domain-scope-hr": true,
+                    "rule-bilingual-output": true
+                },
+                "description": "HR assistant — GC cloud provider, bilingual, PII-gated",
+                "name": "deployment-hr-assistant"
+            },
+            "deployment-internal-search": {
+                "@type": {
+                    "LLMDeployment": true
+                },
+                "depends_on": {
+                    "provider-self-hosted": true,
+                    "knowledge-graph-schema": true
+                },
+                "description": "Internal knowledge search — self-hosted, knowledge-grounded",
+                "name": "deployment-internal-search"
+            },
+            "classification-gate": {
+                "@type": {
+                    "ClassificationGate": true
+                },
+                "depends_on": {
+                    "rule-classification-enforcement": true
+                },
+                "description": "Runtime data classification checkpoint before LLM invocation",
+                "name": "classification-gate"
+            },
+            "bilingual-gate": {
+                "@type": {
+                    "BilingualGate": true
+                },
+                "depends_on": {
+                    "rule-bilingual-output": true
+                },
+                "description": "Runtime EN/FR quality validation checkpoint",
+                "name": "bilingual-gate"
+            },
+            "human-review-gate": {
+                "@type": {
+                    "HumanReviewGate": true
+                },
+                "depends_on": {
+                    "rule-human-review-level-iii": true
+                },
+                "description": "Human review checkpoint for AIA Level III+ decisions",
+                "name": "human-review-gate"
+            },
+            "audit-sink-prov-o": {
+                "@type": {
+                    "AuditSink": true
+                },
+                "depends_on": {
+                    "deployment-procurement-assistant": true,
+                    "deployment-hr-assistant": true
+                },
+                "description": "PROV-O audit trail — every LLM response traced to source knowledge",
+                "name": "audit-sink-prov-o"
+            },
+            "smoke-test-bilingual": {
+                "@type": {
+                    "SmokeTest": true
+                },
+                "depends_on": {
+                    "bilingual-gate": true
+                },
+                "description": "EARL smoke test — EN/FR quality parity validation",
+                "name": "smoke-test-bilingual"
+            },
+            "smoke-test-pii-blocking": {
+                "@type": {
+                    "SmokeTest": true
+                },
+                "depends_on": {
+                    "classification-gate": true
+                },
+                "description": "EARL smoke test — PII blocked from commercial LLM prompts",
+                "name": "smoke-test-pii-blocking"
+            },
+            "smoke-test-scope-enforcement": {
+                "@type": {
+                    "SmokeTest": true
+                },
+                "depends_on": {
+                    "deployment-procurement-assistant": true
+                },
+                "description": "EARL smoke test — LLM stays within domain scope boundaries",
+                "name": "smoke-test-scope-enforcement"
+            },
+            "shacl-compliance-report": {
+                "@type": {
+                    "ComplianceReport": true
+                },
+                "depends_on": {
+                    "audit-sink-prov-o": true
+                },
+                "description": "sh:ValidationReport — per-rule conformance for TBS/OAG auditors",
+                "name": "shacl-compliance-report"
+            },
+            "vc-compliance-credential": {
+                "@type": {
+                    "VerifiableCredential": true
+                },
+                "depends_on": {
+                    "shacl-compliance-report": true
+                },
+                "description": "VC 2.0 credential attesting compliance (wraps SHACL report)",
+                "name": "vc-compliance-credential"
+            },
+            "dcat-ai-register-entry": {
+                "@type": {
+                    "CatalogEntry": true
+                },
+                "depends_on": {
+                    "deployment-procurement-assistant": true,
+                    "deployment-hr-assistant": true
+                },
+                "description": "DCAT 3 catalog entry for GC AI Register (machine-readable)",
+                "name": "dcat-ai-register-entry"
+            },
+            "owl-time-compliance-schedule": {
+                "@type": {
+                    "Schedule": true
+                },
+                "depends_on": {
+                    "shacl-compliance-report": true
+                },
+                "description": "OWL-Time critical path schedule to June 2026 compliance deadline",
+                "name": "owl-time-compliance-schedule"
+            }
+        },
+        "roots": {
+            "gc-llm-governance-framework": true
+        },
+        "topology": {
+            "layer_0": {
+                "gc-llm-governance-framework": true
+            },
+            "layer_1": {
+                "directive-on-adm": true,
+                "privacy-act": true,
+                "official-languages-act": true,
+                "cccs-itsap-00-041": true,
+                "knowledge-graph-schema": true
+            },
+            "layer_2": {
+                "genai-guide-v2": true,
+                "aia-requirement": true,
+                "pii-prompt-blocking": true,
+                "vendor-data-classification": true,
+                "bilingual-quality-parity": true,
+                "bias-testing-framework": true,
+                "rule-cccs-threat-coverage": true,
+                "policy-fact-registry": true,
+                "authoritative-source-index": true,
+                "term-definitions-registry": true,
+                "domain-scope-procurement": true,
+                "domain-scope-hr": true
+            },
+            "layer_3": {
+                "faster-principles": true,
+                "aia-level-i": true,
+                "rule-pii-blocking": true,
+                "rule-classification-enforcement": true,
+                "rule-bilingual-output": true,
+                "rule-bias-demographic": true
+            },
+            "layer_4": {
+                "aia-level-ii": true,
+                "rule-faster-coverage": true,
+                "odrl-unclassified": true,
+                "odrl-protected-a": true,
+                "odrl-protected-b": true,
+                "classification-gate": true,
+                "bilingual-gate": true
+            },
+            "layer_5": {
+                "aia-level-iii": true,
+                "peer-review-mechanism": true,
+                "provider-gc-cloud": true,
+                "provider-bedrock": true,
+                "provider-self-hosted": true,
+                "smoke-test-bilingual": true,
+                "smoke-test-pii-blocking": true
+            },
+            "layer_6": {
+                "aia-level-iv": true,
+                "human-in-loop-gate": true,
+                "rule-peer-review-level-ii": true,
+                "deployment-procurement-assistant": true,
+                "deployment-hr-assistant": true,
+                "deployment-internal-search": true
+            },
+            "layer_7": {
+                "rule-human-review-level-iii": true,
+                "audit-sink-prov-o": true,
+                "smoke-test-scope-enforcement": true,
+                "dcat-ai-register-entry": true
+            },
+            "layer_8": {
+                "human-review-gate": true,
+                "shacl-compliance-report": true
+            },
+            "layer_9": {
+                "vc-compliance-credential": true,
+                "owl-time-compliance-schedule": true
+            }
+        },
+        "valid": true
     },
-    {
-        "resource": "privacy-act",
-        "start": 1,
-        "finish": 2,
-        "duration": 1
+    "UnitType": "time:unitDay",
+    "Precomputed": {
+        "earliest": {
+            "gc-llm-governance-framework": 0,
+            "directive-on-adm": 1,
+            "privacy-act": 1,
+            "official-languages-act": 1,
+            "cccs-itsap-00-041": 1,
+            "knowledge-graph-schema": 1,
+            "genai-guide-v2": 2,
+            "aia-requirement": 2,
+            "bias-testing-framework": 2,
+            "pii-prompt-blocking": 2,
+            "vendor-data-classification": 2,
+            "bilingual-quality-parity": 2,
+            "rule-cccs-threat-coverage": 2,
+            "policy-fact-registry": 2,
+            "authoritative-source-index": 2,
+            "term-definitions-registry": 2,
+            "domain-scope-procurement": 2,
+            "domain-scope-hr": 2,
+            "faster-principles": 3,
+            "aia-level-i": 3,
+            "rule-bias-demographic": 3,
+            "rule-pii-blocking": 3,
+            "rule-classification-enforcement": 3,
+            "rule-bilingual-output": 3,
+            "rule-faster-coverage": 4,
+            "aia-level-ii": 4,
+            "odrl-unclassified": 4,
+            "odrl-protected-a": 4,
+            "odrl-protected-b": 4,
+            "classification-gate": 4,
+            "bilingual-gate": 4,
+            "aia-level-iii": 5,
+            "peer-review-mechanism": 5,
+            "provider-self-hosted": 5,
+            "provider-bedrock": 5,
+            "provider-gc-cloud": 5,
+            "smoke-test-pii-blocking": 5,
+            "smoke-test-bilingual": 5,
+            "aia-level-iv": 6,
+            "human-in-loop-gate": 6,
+            "rule-peer-review-level-ii": 6,
+            "deployment-internal-search": 6,
+            "deployment-procurement-assistant": 6,
+            "deployment-hr-assistant": 6,
+            "rule-human-review-level-iii": 7,
+            "smoke-test-scope-enforcement": 7,
+            "audit-sink-prov-o": 7,
+            "dcat-ai-register-entry": 7,
+            "human-review-gate": 8,
+            "shacl-compliance-report": 8,
+            "vc-compliance-credential": 9,
+            "owl-time-compliance-schedule": 9
+        },
+        "latest": {
+            "gc-llm-governance-framework": 0,
+            "directive-on-adm": 2,
+            "privacy-act": 1,
+            "official-languages-act": 3,
+            "cccs-itsap-00-041": 8,
+            "knowledge-graph-schema": 4,
+            "genai-guide-v2": 7,
+            "aia-requirement": 3,
+            "bias-testing-framework": 8,
+            "pii-prompt-blocking": 2,
+            "vendor-data-classification": 2,
+            "bilingual-quality-parity": 4,
+            "rule-cccs-threat-coverage": 9,
+            "policy-fact-registry": 9,
+            "authoritative-source-index": 9,
+            "term-definitions-registry": 9,
+            "domain-scope-procurement": 5,
+            "domain-scope-hr": 5,
+            "faster-principles": 8,
+            "aia-level-i": 4,
+            "rule-bias-demographic": 9,
+            "rule-pii-blocking": 3,
+            "rule-classification-enforcement": 3,
+            "rule-bilingual-output": 5,
+            "rule-faster-coverage": 9,
+            "aia-level-ii": 5,
+            "odrl-unclassified": 7,
+            "odrl-protected-a": 8,
+            "odrl-protected-b": 4,
+            "classification-gate": 8,
+            "bilingual-gate": 8,
+            "aia-level-iii": 6,
+            "peer-review-mechanism": 8,
+            "provider-self-hosted": 8,
+            "provider-bedrock": 9,
+            "provider-gc-cloud": 5,
+            "smoke-test-pii-blocking": 9,
+            "smoke-test-bilingual": 9,
+            "aia-level-iv": 9,
+            "human-in-loop-gate": 7,
+            "rule-peer-review-level-ii": 9,
+            "deployment-internal-search": 9,
+            "deployment-procurement-assistant": 6,
+            "deployment-hr-assistant": 6,
+            "rule-human-review-level-iii": 8,
+            "smoke-test-scope-enforcement": 9,
+            "audit-sink-prov-o": 7,
+            "dcat-ai-register-entry": 9,
+            "human-review-gate": 9,
+            "shacl-compliance-report": 8,
+            "vc-compliance-credential": 9,
+            "owl-time-compliance-schedule": 9
+        },
+        "duration": {
+            "gc-llm-governance-framework": 1,
+            "directive-on-adm": 1,
+            "privacy-act": 1,
+            "official-languages-act": 1,
+            "cccs-itsap-00-041": 1,
+            "knowledge-graph-schema": 1,
+            "genai-guide-v2": 1,
+            "aia-requirement": 1,
+            "bias-testing-framework": 1,
+            "pii-prompt-blocking": 1,
+            "vendor-data-classification": 1,
+            "bilingual-quality-parity": 1,
+            "rule-cccs-threat-coverage": 1,
+            "policy-fact-registry": 1,
+            "authoritative-source-index": 1,
+            "term-definitions-registry": 1,
+            "domain-scope-procurement": 1,
+            "domain-scope-hr": 1,
+            "faster-principles": 1,
+            "aia-level-i": 1,
+            "rule-bias-demographic": 1,
+            "rule-pii-blocking": 1,
+            "rule-classification-enforcement": 1,
+            "rule-bilingual-output": 1,
+            "rule-faster-coverage": 1,
+            "aia-level-ii": 1,
+            "odrl-unclassified": 1,
+            "odrl-protected-a": 1,
+            "odrl-protected-b": 1,
+            "classification-gate": 1,
+            "bilingual-gate": 1,
+            "aia-level-iii": 1,
+            "peer-review-mechanism": 1,
+            "provider-self-hosted": 1,
+            "provider-bedrock": 1,
+            "provider-gc-cloud": 1,
+            "smoke-test-pii-blocking": 1,
+            "smoke-test-bilingual": 1,
+            "aia-level-iv": 1,
+            "human-in-loop-gate": 1,
+            "rule-peer-review-level-ii": 1,
+            "deployment-internal-search": 1,
+            "deployment-procurement-assistant": 1,
+            "deployment-hr-assistant": 1,
+            "rule-human-review-level-iii": 1,
+            "smoke-test-scope-enforcement": 1,
+            "audit-sink-prov-o": 1,
+            "dcat-ai-register-entry": 1,
+            "human-review-gate": 1,
+            "shacl-compliance-report": 1,
+            "vc-compliance-credential": 1,
+            "owl-time-compliance-schedule": 1
+        }
     },
-    {
-        "resource": "pii-prompt-blocking",
-        "start": 2,
-        "finish": 3,
-        "duration": 1
+    "slack": {
+        "gc-llm-governance-framework": 0,
+        "directive-on-adm": 1,
+        "privacy-act": 0,
+        "official-languages-act": 2,
+        "cccs-itsap-00-041": 7,
+        "genai-guide-v2": 5,
+        "faster-principles": 5,
+        "aia-requirement": 1,
+        "aia-level-i": 1,
+        "aia-level-ii": 1,
+        "aia-level-iii": 1,
+        "aia-level-iv": 3,
+        "pii-prompt-blocking": 0,
+        "vendor-data-classification": 0,
+        "bilingual-quality-parity": 2,
+        "human-in-loop-gate": 1,
+        "peer-review-mechanism": 3,
+        "bias-testing-framework": 6,
+        "rule-pii-blocking": 0,
+        "rule-classification-enforcement": 0,
+        "rule-bilingual-output": 2,
+        "rule-human-review-level-iii": 1,
+        "rule-peer-review-level-ii": 3,
+        "rule-bias-demographic": 6,
+        "rule-cccs-threat-coverage": 7,
+        "rule-faster-coverage": 5,
+        "knowledge-graph-schema": 3,
+        "policy-fact-registry": 7,
+        "authoritative-source-index": 7,
+        "term-definitions-registry": 7,
+        "domain-scope-procurement": 3,
+        "domain-scope-hr": 3,
+        "odrl-unclassified": 3,
+        "odrl-protected-a": 4,
+        "odrl-protected-b": 0,
+        "provider-gc-cloud": 0,
+        "provider-bedrock": 4,
+        "provider-self-hosted": 3,
+        "deployment-procurement-assistant": 0,
+        "deployment-hr-assistant": 0,
+        "deployment-internal-search": 3,
+        "classification-gate": 4,
+        "bilingual-gate": 4,
+        "human-review-gate": 1,
+        "audit-sink-prov-o": 0,
+        "smoke-test-bilingual": 4,
+        "smoke-test-pii-blocking": 4,
+        "smoke-test-scope-enforcement": 2,
+        "shacl-compliance-report": 0,
+        "vc-compliance-credential": 0,
+        "dcat-ai-register-entry": 2,
+        "owl-time-compliance-schedule": 0
     },
-    {
-        "resource": "vendor-data-classification",
-        "start": 2,
-        "finish": 3,
-        "duration": 1
+    "total_duration": 10,
+    "critical": {
+        "gc-llm-governance-framework": {
+            "start": 0,
+            "finish": 1,
+            "duration": 1
+        },
+        "privacy-act": {
+            "start": 1,
+            "finish": 2,
+            "duration": 1
+        },
+        "pii-prompt-blocking": {
+            "start": 2,
+            "finish": 3,
+            "duration": 1
+        },
+        "vendor-data-classification": {
+            "start": 2,
+            "finish": 3,
+            "duration": 1
+        },
+        "rule-pii-blocking": {
+            "start": 3,
+            "finish": 4,
+            "duration": 1
+        },
+        "rule-classification-enforcement": {
+            "start": 3,
+            "finish": 4,
+            "duration": 1
+        },
+        "odrl-protected-b": {
+            "start": 4,
+            "finish": 5,
+            "duration": 1
+        },
+        "provider-gc-cloud": {
+            "start": 5,
+            "finish": 6,
+            "duration": 1
+        },
+        "deployment-procurement-assistant": {
+            "start": 6,
+            "finish": 7,
+            "duration": 1
+        },
+        "deployment-hr-assistant": {
+            "start": 6,
+            "finish": 7,
+            "duration": 1
+        },
+        "audit-sink-prov-o": {
+            "start": 7,
+            "finish": 8,
+            "duration": 1
+        },
+        "shacl-compliance-report": {
+            "start": 8,
+            "finish": 9,
+            "duration": 1
+        },
+        "vc-compliance-credential": {
+            "start": 9,
+            "finish": 10,
+            "duration": 1
+        },
+        "owl-time-compliance-schedule": {
+            "start": 9,
+            "finish": 10,
+            "duration": 1
+        }
     },
-    {
-        "resource": "rule-pii-blocking",
-        "start": 3,
-        "finish": 4,
-        "duration": 1
+    "critical_sequence": [
+        {
+            "resource": "gc-llm-governance-framework",
+            "start": 0,
+            "finish": 1,
+            "duration": 1
+        },
+        {
+            "resource": "privacy-act",
+            "start": 1,
+            "finish": 2,
+            "duration": 1
+        },
+        {
+            "resource": "pii-prompt-blocking",
+            "start": 2,
+            "finish": 3,
+            "duration": 1
+        },
+        {
+            "resource": "vendor-data-classification",
+            "start": 2,
+            "finish": 3,
+            "duration": 1
+        },
+        {
+            "resource": "rule-pii-blocking",
+            "start": 3,
+            "finish": 4,
+            "duration": 1
+        },
+        {
+            "resource": "rule-classification-enforcement",
+            "start": 3,
+            "finish": 4,
+            "duration": 1
+        },
+        {
+            "resource": "odrl-protected-b",
+            "start": 4,
+            "finish": 5,
+            "duration": 1
+        },
+        {
+            "resource": "provider-gc-cloud",
+            "start": 5,
+            "finish": 6,
+            "duration": 1
+        },
+        {
+            "resource": "deployment-procurement-assistant",
+            "start": 6,
+            "finish": 7,
+            "duration": 1
+        },
+        {
+            "resource": "deployment-hr-assistant",
+            "start": 6,
+            "finish": 7,
+            "duration": 1
+        },
+        {
+            "resource": "audit-sink-prov-o",
+            "start": 7,
+            "finish": 8,
+            "duration": 1
+        },
+        {
+            "resource": "shacl-compliance-report",
+            "start": 8,
+            "finish": 9,
+            "duration": 1
+        },
+        {
+            "resource": "vc-compliance-credential",
+            "start": 9,
+            "finish": 10,
+            "duration": 1
+        },
+        {
+            "resource": "owl-time-compliance-schedule",
+            "start": 9,
+            "finish": 10,
+            "duration": 1
+        }
+    ],
+    "summary": {
+        "total_duration": 10,
+        "critical_count": 14,
+        "total_resources": 52,
+        "max_slack": 7
     },
-    {
-        "resource": "rule-classification-enforcement",
-        "start": 3,
-        "finish": 4,
-        "duration": 1
-    },
-    {
-        "resource": "odrl-protected-b",
-        "start": 4,
-        "finish": 5,
-        "duration": 1
-    },
-    {
-        "resource": "provider-gc-cloud",
-        "start": 5,
-        "finish": 6,
-        "duration": 1
-    },
-    {
-        "resource": "deployment-procurement-assistant",
-        "start": 6,
-        "finish": 7,
-        "duration": 1
-    },
-    {
-        "resource": "deployment-hr-assistant",
-        "start": 6,
-        "finish": 7,
-        "duration": 1
-    },
-    {
-        "resource": "audit-sink-prov-o",
-        "start": 7,
-        "finish": 8,
-        "duration": 1
-    },
-    {
-        "resource": "shacl-compliance-report",
-        "start": 8,
-        "finish": 9,
-        "duration": 1
-    },
-    {
-        "resource": "vc-compliance-credential",
-        "start": 9,
-        "finish": 10,
-        "duration": 1
-    },
-    {
-        "resource": "owl-time-compliance-schedule",
-        "start": 9,
-        "finish": 10,
-        "duration": 1
+    "time_report": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@graph": [
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:gc-llm-governance-framework",
+                "dcterms:title": "gc-llm-governance-framework",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 0
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:directive-on-adm",
+                "dcterms:title": "directive-on-adm",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:privacy-act",
+                "dcterms:title": "privacy-act",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:official-languages-act",
+                "dcterms:title": "official-languages-act",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:cccs-itsap-00-041",
+                "dcterms:title": "cccs-itsap-00-041",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:genai-guide-v2",
+                "dcterms:title": "genai-guide-v2",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 5,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:faster-principles",
+                "dcterms:title": "faster-principles",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 5,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:aia-requirement",
+                "dcterms:title": "aia-requirement",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:aia-level-i",
+                "dcterms:title": "aia-level-i",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:aia-level-ii",
+                "dcterms:title": "aia-level-ii",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:aia-level-iii",
+                "dcterms:title": "aia-level-iii",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:aia-level-iv",
+                "dcterms:title": "aia-level-iv",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:pii-prompt-blocking",
+                "dcterms:title": "pii-prompt-blocking",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:vendor-data-classification",
+                "dcterms:title": "vendor-data-classification",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:bilingual-quality-parity",
+                "dcterms:title": "bilingual-quality-parity",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:human-in-loop-gate",
+                "dcterms:title": "human-in-loop-gate",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:peer-review-mechanism",
+                "dcterms:title": "peer-review-mechanism",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:bias-testing-framework",
+                "dcterms:title": "bias-testing-framework",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 6,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-pii-blocking",
+                "dcterms:title": "rule-pii-blocking",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-classification-enforcement",
+                "dcterms:title": "rule-classification-enforcement",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-bilingual-output",
+                "dcterms:title": "rule-bilingual-output",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-human-review-level-iii",
+                "dcterms:title": "rule-human-review-level-iii",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-peer-review-level-ii",
+                "dcterms:title": "rule-peer-review-level-ii",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-bias-demographic",
+                "dcterms:title": "rule-bias-demographic",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 6,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-cccs-threat-coverage",
+                "dcterms:title": "rule-cccs-threat-coverage",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:rule-faster-coverage",
+                "dcterms:title": "rule-faster-coverage",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 5,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:knowledge-graph-schema",
+                "dcterms:title": "knowledge-graph-schema",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 1
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:policy-fact-registry",
+                "dcterms:title": "policy-fact-registry",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:authoritative-source-index",
+                "dcterms:title": "authoritative-source-index",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:term-definitions-registry",
+                "dcterms:title": "term-definitions-registry",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 7,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:domain-scope-procurement",
+                "dcterms:title": "domain-scope-procurement",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:domain-scope-hr",
+                "dcterms:title": "domain-scope-hr",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 2
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 3
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:odrl-unclassified",
+                "dcterms:title": "odrl-unclassified",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:odrl-protected-a",
+                "dcterms:title": "odrl-protected-a",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:odrl-protected-b",
+                "dcterms:title": "odrl-protected-b",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:provider-gc-cloud",
+                "dcterms:title": "provider-gc-cloud",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:provider-bedrock",
+                "dcterms:title": "provider-bedrock",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:provider-self-hosted",
+                "dcterms:title": "provider-self-hosted",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:deployment-procurement-assistant",
+                "dcterms:title": "deployment-procurement-assistant",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:deployment-hr-assistant",
+                "dcterms:title": "deployment-hr-assistant",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:deployment-internal-search",
+                "dcterms:title": "deployment-internal-search",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 3,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:classification-gate",
+                "dcterms:title": "classification-gate",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:bilingual-gate",
+                "dcterms:title": "bilingual-gate",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 4
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:human-review-gate",
+                "dcterms:title": "human-review-gate",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 1,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:audit-sink-prov-o",
+                "dcterms:title": "audit-sink-prov-o",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:smoke-test-bilingual",
+                "dcterms:title": "smoke-test-bilingual",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:smoke-test-pii-blocking",
+                "dcterms:title": "smoke-test-pii-blocking",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 5
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 6
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 4,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:smoke-test-scope-enforcement",
+                "dcterms:title": "smoke-test-scope-enforcement",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:shacl-compliance-report",
+                "dcterms:title": "shacl-compliance-report",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:vc-compliance-credential",
+                "dcterms:title": "vc-compliance-credential",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:dcat-ai-register-entry",
+                "dcterms:title": "dcat-ai-register-entry",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 7
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 8
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 2,
+                "apercue:isCritical": false
+            },
+            {
+                "@type": "time:Interval",
+                "@id": "urn:resource:owl-time-compliance-schedule",
+                "dcterms:title": "owl-time-compliance-schedule",
+                "time:hasBeginning": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 9
+                },
+                "time:hasEnd": {
+                    "@type": "time:Instant",
+                    "time:inXSDDecimal": 10
+                },
+                "time:hasDuration": {
+                    "@type": "time:Duration",
+                    "time:numericDuration": 1,
+                    "time:unitType": {
+                        "@id": "time:unitDay"
+                    }
+                },
+                "apercue:slack": 0,
+                "apercue:isCritical": true
+            }
+        ]
     }
-]
+}
