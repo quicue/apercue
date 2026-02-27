@@ -191,6 +191,47 @@ core_report: """
 	\(evidence.owl_ontology["@graph"][0]["dcterms:title"]) — the graph's type vocabulary as a formal
 	OWL ontology. Loadable in Protégé, validatable by OWL reasoners.
 
+	### Type Vocabulary / SKOS (computed)
+
+	The `#SKOSTaxonomy` pattern projects graph types as a SKOS ConceptScheme
+	with broader/narrower hierarchy:
+
+	```json
+	\(_json.skos_taxonomy)
+	```
+
+	Each `@type` becomes a `skos:Concept` with `skos:broader` linking to
+	parent categories. Types that co-occur on resources are linked via
+	`skos:related`. The scheme is navigable by any SKOS-aware vocabulary
+	browser.
+
+	### Activity Stream (computed)
+
+	The `#ActivityStream` pattern models graph construction as an Activity
+	Streams 2.0 `OrderedCollection`:
+
+	```json
+	\(_json.activity_stream)
+	```
+
+	Each resource creation is a `Create` activity ordered by topological
+	depth. Layer 0 resources (no dependencies) are created first. Dependency
+	edges appear as `context` links.
+
+	### Validation Credential / VC 2.0 (computed)
+
+	The `#ValidationCredential` pattern wraps the SHACL validation result
+	in a W3C Verifiable Credential:
+
+	```json
+	\(_json.verifiable_credential)
+	```
+
+	The credential attests that the graph passed compliance validation.
+	The `credentialSubject` embeds the full `sh:ValidationReport`. This
+	is the VC data model only — cryptographic proof requires an external
+	issuer.
+
 	### Spec Coverage
 
 	\(evidence.spec_counts.implemented) specifications implemented,

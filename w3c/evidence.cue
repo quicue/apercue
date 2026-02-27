@@ -122,6 +122,29 @@ _void: patterns.#VoIDDataset & {
 	Title:      "W3C Evidence Dataset"
 }
 
+// ── Activity Streams ─────────────────────────────────────────────
+
+_activity: patterns.#ActivityStream & {Graph: _graph}
+
+// ── Verifiable Credentials ──────────────────────────────────────
+
+_vc: patterns.#ValidationCredential & {
+	Report:    _compliance.shacl_report
+	ValidFrom: "2026-02-27T00:00:00Z"
+	Subject:   "urn:apercue:w3c-evidence"
+}
+
+// ── SKOS Taxonomy ───────────────────────────────────────────────
+
+_taxonomy: patterns.#SKOSTaxonomy & {
+	Graph:       _graph
+	SchemeTitle: "Research Pipeline Type Taxonomy"
+	Hierarchy: {
+		"ResearchActivity": ["Governance", "Process", "Review"]
+		"ResearchOutput":   ["Dataset", "Publication"]
+	}
+}
+
 // ── OWL Ontology ────────────────────────────────────────────────
 
 _ontology: patterns.#OWLOntology & {
@@ -180,6 +203,15 @@ evidence: {
 	// DCAT catalog
 	dcat_catalog: _catalog.dcat_catalog
 
+	// Activity Streams
+	activity_stream: _activity.stream
+
+	// Verifiable Credentials
+	verifiable_credential: _vc.vc
+
+	// SKOS taxonomy
+	skos_taxonomy: _taxonomy.taxonomy_scheme
+
 	// VoID
 	void_description: _void.void_description
 
@@ -234,6 +266,35 @@ _json: {
 		"dcat:dataset": [
 			for d in _catalog.dcat_catalog["dcat:dataset"]
 			if d["dcterms:title"] == "sensor-dataset" {d},
+		]
+	}), "", "    ")
+
+	// Activity Streams — first two items (compact, no context arrays)
+	activity_stream: json.Indent(json.Marshal({
+		"type":       "OrderedCollection"
+		"totalItems": _activity.stream["totalItems"]
+		"orderedItems": [
+			for i, item in _activity.stream["orderedItems"]
+			if i < 2 {item},
+		]
+	}), "", "    ")
+
+	// Verifiable Credentials — compact (no context arrays)
+	verifiable_credential: json.Indent(json.Marshal({
+		"type":              _vc.vc["type"]
+		"issuer":            _vc.vc["issuer"]
+		"validFrom":         _vc.vc["validFrom"]
+		"credentialSubject": _vc.vc["credentialSubject"]
+	}), "", "    ")
+
+	// SKOS — compact taxonomy (scheme + first 3 concepts)
+	skos_taxonomy: json.Indent(json.Marshal({
+		"@type":          "skos:ConceptScheme"
+		"@id":            _taxonomy.taxonomy_scheme["@id"]
+		"skos:prefLabel": _taxonomy.taxonomy_scheme["skos:prefLabel"]
+		"apercue:concepts": [
+			for i, c in _taxonomy.taxonomy_scheme["apercue:concepts"]
+			if i < 3 {c},
 		]
 	}), "", "    ")
 
