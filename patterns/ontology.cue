@@ -86,15 +86,8 @@ import (
 
 	// ── OWL JSON-LD output ───────────────────────────────────────
 
-	owl_ontology: {
-		"@context": vocab.context["@context"] & {
-			"owl:Class":           {"@id": "owl:Class"}
-			"rdfs:subClassOf":     {"@id": "rdfs:subClassOf", "@type": "@id"}
-			"owl:ObjectProperty":  {"@id": "owl:ObjectProperty"}
-			"rdfs:domain":         {"@id": "rdfs:domain", "@type": "@id"}
-			"rdfs:range":          {"@id": "rdfs:range", "@type": "@id"}
-			"owl:NamedIndividual": {"@id": "owl:NamedIndividual"}
-		}
+	// Ontology metadata node (goes inside @graph)
+	_ontology_node: {
 		"@type": "owl:Ontology"
 		"@id":   Spec.URI
 		if Spec.Title != _|_ {
@@ -106,8 +99,15 @@ import (
 		if Spec.Version != _|_ {
 			"owl:versionInfo": Spec.Version
 		}
+	}
+
+	owl_ontology: {
+		"@context": vocab.context["@context"]
 
 		"@graph": list.Concat([
+			// Ontology metadata
+			[_ontology_node],
+
 			// Classes from graph types
 			[
 				for t, _ in _all_types {
