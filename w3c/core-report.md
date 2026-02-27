@@ -8,10 +8,10 @@
 
 [CUE](https://cuelang.org)'s lattice-based unification simultaneously performs
 SPARQL-class graph pattern matching and SHACL constraint validation at compile
-time. A single typed dependency graph produces 14 W3C
+time. A single typed dependency graph produces 13 W3C
 specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 and Verifiable Credentials — without runtime processors, triplestores, or
-pipelines.
+pipelines. A 14th (Hydra) is implemented downstream.
 
 This report documents the implementation, provides computed evidence from a live
 example graph, and identifies relevance to four W3C Community Groups.
