@@ -53,7 +53,7 @@ views/        Vocabulary projections (SKOS, org)
 examples/     Domain applications (5 examples)
   │           Imports: patterns, charter
   │
-self-charter/ Project models itself (43 nodes, 8 phases)
+self-charter/ Project models itself (41 nodes, 8 phases)
   │           Imports: patterns, charter, vocab
   │
 site/         Static site data projections
@@ -131,7 +131,7 @@ lattice is materialized.
 
 `#Graph` computes transitive closure via recursive struct references. CUE does
 not memoize these — diamond DAGs cause exponential re-evaluation. For the
-self-charter (43 nodes), Python precomputes depth/ancestors/dependents and
+self-charter (41 nodes), Python precomputes depth/ancestors/dependents and
 `#GraphLite` consumes the result. See ADR-007.
 
 ### Scheduling
