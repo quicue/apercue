@@ -212,7 +212,7 @@ and every W3C projection will conform.
 
 The graph output is valid JSON-LD conforming to W3C specifications. This has been submitted as use cases to several W3C Community Groups:
 
-- **[KG-Construct](https://www.w3.org/community/kg-construct/)** — CUE as a declarative KG construction language ([use cases](https://github.com/kg-construct/use-cases/pull/21))
+- **[KG-Construct](https://www.w3.org/community/kg-construct/)** — CUE as a declarative KG construction language ([use cases — merged](https://github.com/kg-construct/use-cases/pull/21))
 - **[Dataspaces](https://www.w3.org/community/dataspaces/)** — Compile-time data governance as a lightweight dataspace primitive ([challenge](https://github.com/w3c-cg/dataspaces/issues/17))
 - **[Context Graphs](https://www.w3.org/community/context-graph/)** — Multi-context resource identity via struct-as-set types
 - **[Physical Asset Attestation (UORA)](https://www.w3.org/community/uora/)** — Asset lifecycle attestation via typed dependency graphs

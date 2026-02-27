@@ -24,13 +24,14 @@ the standards-compliant output.
 | **schema.org** | schema:additionalType | `#SchemaOrgAlignment.schema_graph` | `patterns/schema_alignment.cue` | `cue export -e schema_view.schema_graph` |
 | **VC 2.0** | VerifiableCredential | `#ValidationCredential.vc` | `patterns/credentials.cue` | `cue export -e validation_credential.vc` |
 | **Activity Streams 2.0** | as:OrderedCollection | `#ActivityStream.stream` | `patterns/activity.cue` | `cue export -e activity_stream.stream` |
+| **DCAT 3** | dcat:Catalog, dcat:Dataset | `#DCATCatalog.dcat_catalog` | `patterns/catalog.cue` | `cue export -e catalog.dcat_catalog` |
 
 ## Downstream (in quicue.ca)
 
 | W3C Spec | Pattern | Description |
 |----------|---------|-------------|
 | **Hydra Core** | `#HydraApiDoc` | hydra:ApiDocumentation in quicue.ca operator dashboard |
-| **DCAT 3** | `#DCAT3Catalog`, `#DCATKnowledgeBase` | dcat:Catalog, dcat:Dataset — full catalog and .kb/ projections in quicue.ca |
+| **DCAT 3** | `#DCAT3Catalog`, `#DCATKnowledgeBase` | Extended dcat:Catalog and .kb/ projections in quicue.ca (builds on apercue's `#DCATCatalog`) |
 
 ## How It Works
 
