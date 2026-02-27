@@ -216,6 +216,18 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ OWL Ontology — Formal vocabulary from course types ══════════
+// Export: cue export ./examples/course-prereqs/ -e ontology.owl_ontology --out json
+ontology: patterns.#OWLOntology & {
+	Graph: graph
+	Spec: {
+		URI:         "https://apercue.ca/ontology/courses#"
+		Title:       "Course Prerequisite Ontology"
+		Description: "OWL vocabulary from CS degree prerequisite graph"
+	}
+	Hierarchy: {"Course": ["CoreCourse", "Elective", "LabCourse", "Seminar"]}
+}
+
 // ═══ VoID — Graph Self-Description ═══════════════════════════════
 // Export: cue export ./examples/course-prereqs/ -e void_dataset.void_description --out json
 void_dataset: patterns.#VoIDDataset & {

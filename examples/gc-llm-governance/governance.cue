@@ -397,6 +397,25 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ OWL Ontology — Formal vocabulary from governance types ══════════════════
+// Export: cue export ./examples/gc-llm-governance/ -e _ontology.owl_ontology --out json
+_ontology: patterns.#OWLOntology & {
+	Graph: graph
+	Spec: {
+		URI:         "https://apercue.ca/ontology/gc-governance#"
+		Title:       "GC LLM Governance Ontology"
+		Description: "OWL vocabulary from GC LLM governance dependency graph"
+	}
+	Hierarchy: {
+		"Obligation":  ["Statute", "Directive", "Guide", "SecurityGuidance", "Principle", "Framework"]
+		"Control":     ["ControlObjective", "ComplianceRule", "ImpactLevel"]
+		"Operational": ["LLMProvider", "LLMDeployment", "ClassificationGate", "BilingualGate", "HumanReviewGate"]
+		"Evidence":    ["AuditSink", "ComplianceReport", "VerifiableCredential", "CatalogEntry", "Schedule", "SmokeTest"]
+		"Knowledge":   ["DomainScope", "PolicyFact", "AuthoritativeSource", "TermDefinition"]
+		"Policy":      ["PolicyConstraint"]
+	}
+}
+
 // ═══ VoID — Graph Self-Description ═══════════════════════════════════════════
 // Export: cue export ./examples/gc-llm-governance/ -e void_dataset.void_description --out json
 void_dataset: patterns.#VoIDDataset & {
@@ -662,6 +681,7 @@ projections: {
 	taxonomy: _taxonomy.taxonomy_scheme
 	void:     void_dataset.void_description
 	quality:  _quality.quality_report
+	ontology: _ontology.owl_ontology
 	scheduling: {
 		summary:           cpm.summary
 		critical_sequence: cpm.critical_sequence

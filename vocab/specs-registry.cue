@@ -209,6 +209,28 @@ Specs: {[string]: #SpecEntry} & {
 		coverage: "void:Dataset with class/property partitions, linkset statistics, and vocabulary usage"
 	}
 
+	"Web Annotation": {
+		name:   "Web Annotation"
+		url:    "https://www.w3.org/TR/annotation-model/"
+		status: "Implemented"
+		prefix: "oa"
+		patterns: {"#AnnotationCollection": true}
+		files: {"patterns/annotation.cue": true}
+		exports: {"annotations.annotation_collection": true}
+		coverage: "oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations"
+	}
+
+	"RDFS": {
+		name:   "RDFS"
+		url:    "https://www.w3.org/TR/rdf-schema/"
+		status: "Implemented"
+		prefix: "rdfs"
+		patterns: {"#OWLOntology": true}
+		files: {"patterns/ontology.cue": true}
+		exports: {"ontology.owl_ontology": true}
+		coverage: "rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies"
+	}
+
 	"DQV": {
 		name:   "DQV"
 		url:    "https://www.w3.org/TR/vocab-dqv/"

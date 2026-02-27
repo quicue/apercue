@@ -221,6 +221,21 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ OWL Ontology — Formal vocabulary from task types ═══════════════════════
+// Export: cue export ./examples/project-tracker/ -e ontology.owl_ontology --out json
+ontology: patterns.#OWLOntology & {
+	Graph: plan
+	Spec: {
+		URI:         "https://apercue.ca/ontology/project-tracker#"
+		Title:       "Project Task Ontology"
+		Description: "OWL vocabulary from project task dependency graph"
+	}
+	Hierarchy: {
+		"Engineering": ["Design", "Implementation", "Test"]
+		"Support":     ["Documentation", "DevOps"]
+	}
+}
+
 // ═══ VoID — Graph Self-Description ═══════════════════════════════════════════
 // Export: cue export ./examples/project-tracker/ -e void_dataset.void_description --out json
 void_dataset: patterns.#VoIDDataset & {
