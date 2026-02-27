@@ -290,7 +290,7 @@ private network. See ADR-008.
 The CI workflow (`validate.yml`) runs:
 
 1. `cue vet ./...` — all packages must validate
-2. `python3 tools/validate-w3c.py` — JSON-LD round-trip conformance (35 tests)
+2. `python3 tools/validate-w3c.py` — JSON-LD round-trip conformance (44 tests)
 3. README smoke test — every `cue` command in example READMEs must exit 0
 4. Hardcoded path check — no absolute paths to user directories in markdown
 5. Unicode rejection tests — `#SafeID` / `#SafeLabel` constraints hold

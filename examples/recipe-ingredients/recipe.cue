@@ -276,6 +276,21 @@ _quality: patterns.#DataQualityReport & {
 	MissingTypes:      gaps.missing_type_count
 }
 
+// ═══ DCAT Catalog ════════════════════════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e catalog.dcat_catalog --out json
+catalog: patterns.#DCATCatalog & {
+	Graph: graph
+	Title: "Beef Bourguignon Recipe Catalog"
+}
+
+// ═══ PROV-O Provenance ══════════════════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e provenance.prov_report --out json
+provenance: patterns.#ProvenanceTrace & {Graph: graph}
+
+// ═══ Activity Streams ═══════════════════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e activity_stream.stream --out json
+activity_stream: patterns.#ActivityStream & {Graph: graph}
+
 // ═══ SUMMARY ════════════════════════════════════════════════════════════════════
 gap_summary: {
 	complete:          gaps.complete
