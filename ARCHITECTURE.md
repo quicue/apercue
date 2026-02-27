@@ -42,7 +42,7 @@ vocab/        Core types (#Resource, #TypeRegistry, @context)
   │
 patterns/     Graph analysis + W3C projections
   │           Imports: vocab
-  │           13 files, 63 pattern definitions
+  │           15 files, 67 pattern definitions
   │
 charter/      Constraint-first planning (#Charter, #GapAnalysis)
   │           Imports: patterns, vocab
@@ -167,6 +167,9 @@ Both produce `slack`, `critical`, `critical_sequence`, `summary`, and
 | `#ActivityStream` | activity.cue | AS 2.0 | `as:OrderedCollection` |
 | `#ValidationCredential` | credentials.cue | VC 2.0 | `vc:VerifiableCredential` |
 | `#CatalogDCAT` | catalog.cue | DCAT 3 | `dcat:Catalog`, `dcat:Dataset` |
+| `#DCATDistribution` | catalog.cue | DCAT 3 | `dcat:Distribution`, `dcat:DataService` |
+| `#SHACLShapes` | shapes.cue | SHACL | `sh:NodeShape`, `sh:PropertyShape` |
+| `#SKOSTaxonomy` | taxonomy.cue | SKOS | `skos:broader`, `skos:narrower`, `skos:related` |
 | `#PolicyExpressionODRL` | policy.cue | ODRL | `odrl:Policy` |
 | `#OrgChart` | views/org.cue | W3C Org | `org:Organization` |
 
