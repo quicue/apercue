@@ -107,7 +107,7 @@ apercue.ca@v0
 │   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
     ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
-    ├── pattern-api.md      # Field-level reference for all ~40 pattern types
+    ├── pattern-api.md      # Field-level reference for all 63 pattern types
     ├── api-stability.md    # Stable vs experimental classification
     ├── adapters.md         # Downstream module guide + creating adapters
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
@@ -202,11 +202,22 @@ and every W3C projection will conform.
 ## Documentation
 
 - [Getting Started](docs/getting-started.md) --- standalone walkthrough from empty project to W3C exports
-- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all ~40 pattern types
+- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 63 pattern types
 - [API Stability](docs/api-stability.md) --- stable vs experimental type classification
 - [Adapters](docs/adapters.md) --- downstream module guide + creating your own adapter
 - [ARCHITECTURE.md](ARCHITECTURE.md) --- design principles, data flow, module layers
 - [CONTRIBUTING.md](CONTRIBUTING.md) --- development setup, testing, PR process
+
+## W3C Community Group Engagement
+
+The graph output is valid JSON-LD conforming to W3C specifications. This has been submitted as use cases to several W3C Community Groups:
+
+- **[KG-Construct](https://www.w3.org/community/kg-construct/)** — CUE as a declarative KG construction language ([use cases](https://github.com/kg-construct/use-cases/pull/21))
+- **[Dataspaces](https://www.w3.org/community/dataspaces/)** — Compile-time data governance as a lightweight dataspace primitive ([challenge](https://github.com/w3c-cg/dataspaces/issues/17))
+- **[Context Graphs](https://www.w3.org/community/context-graph/)** — Multi-context resource identity via struct-as-set types
+- **[Physical Asset Attestation (UORA)](https://www.w3.org/community/uora/)** — Asset lifecycle attestation via typed dependency graphs
+
+Submission-ready files: [w3c/submissions/](w3c/submissions/)
 
 ## Downstream
 
