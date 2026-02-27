@@ -109,12 +109,16 @@ import "apercue.ca/vocab"
 		]
 	}
 
-	summary: {
-		total:       len(Annotations)
-		by_motivation: {
-			for a in Annotations {
-				(a.motivation): (*by_motivation[a.motivation] | 0) + 1
-			}
+	// Distinct motivations used
+	_motivations_used: {
+		for a in Annotations {
+			(a.motivation): true
 		}
+	}
+
+	summary: {
+		total:               len(Annotations)
+		distinct_motivations: len(_motivations_used)
+		motivations: [for m, _ in _motivations_used {m}]
 	}
 }
