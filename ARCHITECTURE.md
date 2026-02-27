@@ -42,7 +42,7 @@ vocab/        Core types (#Resource, #TypeRegistry, @context)
   │
 patterns/     Graph analysis + W3C projections
   │           Imports: vocab
-  │           12 files, ~40 pattern types
+  │           13 files, 63 pattern definitions
   │
 charter/      Constraint-first planning (#Charter, #GapAnalysis)
   │           Imports: patterns, vocab
