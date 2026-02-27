@@ -262,6 +262,21 @@ _quality: patterns.#DataQualityReport & {
 	MissingTypes:     gaps.missing_type_count
 }
 
+// ═══ DCAT Catalog ═══════════════════════════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e catalog.dcat_catalog --out json
+catalog: patterns.#DCATCatalog & {
+	Graph: plan
+	Title: "Project Task Catalog"
+}
+
+// ═══ PROV-O Provenance ═════════════════════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e provenance.prov_report --out json
+provenance: patterns.#ProvenanceTrace & {Graph: plan}
+
+// ═══ Activity Streams ══════════════════════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e activity_stream.stream --out json
+activity_stream: patterns.#ActivityStream & {Graph: plan}
+
 // ═══ COMPLIANCE & METRICS ════════════════════════════════════════════════════════
 metrics: patterns.#GraphMetrics & {Graph: plan}
 
