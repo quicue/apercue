@@ -61,7 +61,7 @@ generated.
 ## Evidence: Multiple Projections From One Graph
 
 The same 5-node research publication graph (defined once) produces output in
-14 different W3C specifications. Each projection
+17 different W3C specifications. Each projection
 selects a different context:
 
 **Scheduling context** (OWL-Time):

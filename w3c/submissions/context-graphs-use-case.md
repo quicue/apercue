@@ -74,7 +74,7 @@ operation — it is type unification.
 ## Evidence: Multiple W3C Projections From One Graph
 
 A single 5-node research publication graph (defined once) produces output in
-13 different W3C specifications. Each projection selects a different context
+17 different W3C specifications. Each projection selects a different context
 of the same resources:
 
 | Context | W3C Specification | Projection Expression |

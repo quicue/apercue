@@ -261,6 +261,131 @@ Every resource becomes a `prov:Entity`. Dependency edges become derivation
 links. The full provenance graph includes all 5 resources plus the
 generating `prov:Activity` and `prov:Agent`.
 
+### Graph Self-Description / VoID (computed)
+
+The `#VoIDDataset` pattern produces a VoID dataset description — the graph's
+machine-readable "about" page:
+
+```json
+{
+    "@type": "void:Dataset",
+    "@id": "urn:apercue:w3c-evidence",
+    "dcterms:title": "W3C Evidence Dataset",
+    "void:entities": 5,
+    "void:triples": 24,
+    "void:classes": 5,
+    "void:classPartition": [
+        {
+            "@type": "void:Dataset",
+            "void:class": {
+                "@id": "apercue:Governance"
+            },
+            "void:entities": 1
+        },
+        {
+            "@type": "void:Dataset",
+            "void:class": {
+                "@id": "apercue:Dataset"
+            },
+            "void:entities": 1
+        },
+        {
+            "@type": "void:Dataset",
+            "void:class": {
+                "@id": "apercue:Process"
+            },
+            "void:entities": 1
+        },
+        {
+            "@type": "void:Dataset",
+            "void:class": {
+                "@id": "apercue:Publication"
+            },
+            "void:entities": 1
+        },
+        {
+            "@type": "void:Dataset",
+            "void:class": {
+                "@id": "apercue:Review"
+            },
+            "void:entities": 1
+        }
+    ]
+}
+```
+
+5 entities, 24 triples, 5 classes. Class partitions show
+how many resources belong to each `@type`. This is standard VoID — any LOD
+catalog or SPARQL endpoint description consumer can read it.
+
+### Type Ontology / RDFS+OWL (computed)
+
+The `#OWLOntology` pattern extracts the implicit ontology from the graph's
+type system. Each `@type` becomes an `rdfs:Class`; dependency edges become
+an `owl:ObjectProperty`:
+
+```json
+{
+    "@graph": [
+        {
+            "@type": "owl:Ontology",
+            "@id": "https://apercue.ca/ontology/w3c-evidence#",
+            "dcterms:description": "OWL vocabulary from research publication dependency graph",
+            "dcterms:title": "W3C Evidence Ontology"
+        },
+        {
+            "@type": [
+                "rdfs:Class",
+                "owl:Class"
+            ],
+            "@id": "https://apercue.ca/ontology/w3c-evidence#Governance",
+            "rdfs:label": "Governance"
+        },
+        {
+            "@type": [
+                "rdfs:Class",
+                "owl:Class"
+            ],
+            "@id": "https://apercue.ca/ontology/w3c-evidence#Dataset",
+            "rdfs:label": "Dataset"
+        },
+        {
+            "@type": [
+                "rdfs:Class",
+                "owl:Class"
+            ],
+            "@id": "https://apercue.ca/ontology/w3c-evidence#Process",
+            "rdfs:label": "Process"
+        },
+        {
+            "@type": [
+                "rdfs:Class",
+                "owl:Class"
+            ],
+            "@id": "https://apercue.ca/ontology/w3c-evidence#Publication",
+            "rdfs:label": "Publication"
+        },
+        {
+            "@type": [
+                "rdfs:Class",
+                "owl:Class"
+            ],
+            "@id": "https://apercue.ca/ontology/w3c-evidence#Review",
+            "rdfs:label": "Review"
+        },
+        {
+            "@type": "owl:ObjectProperty",
+            "@id": "dcterms:requires",
+            "rdfs:label": "depends on",
+            "rdfs:comment": "A resource depends on another resource"
+        }
+    ]
+}
+```
+
+W3C Evidence Ontology — the graph's type vocabulary as a formal
+OWL ontology. Loadable in Protégé, validatable by OWL reasoners.
+
 ### Spec Coverage
 
 17 specifications implemented,
@@ -272,22 +397,22 @@ extension). Adding a projection is adding a file, not modifying a framework.
 | W3C Specification | CUE Produces |
 |-------------------|--------------|
 | JSON-LD 1.1 | @context, @type, @id on all resources |
-| SHACL | sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation |
-| SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies |
+| SHACL | sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
+| SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower |
 | EARL | earl:Assertion from smoke test plans |
 | OWL-Time | time:Interval from critical path scheduling |
 | Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
-| PROV-O | prov:Entity + prov:wasDerivedFrom + prov:Plan from charter gates |
+| PROV-O | prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate |
 | schema.org | schema:additionalType annotations via configurable type mapping |
 | ODRL 2.2 | odrl:Set policies with permissions/prohibitions by resource type |
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers |
 | Verifiable Credentials 2.0 | VerifiableCredential wrapping SHACL validation attestation |
 | W3C Org | org:Organization with type-based OrganizationalUnits |
-| DCAT 3 | dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService |
-| VoID | void:Dataset with class/property partitions and linkset statistics |
-| DQV | dqv:QualityMeasurement for completeness, consistency, accessibility |
-| Web Annotation | oa:Annotation with TextualBody and W3C motivations |
-| RDFS/OWL | rdfs:Class + owl:ObjectProperty from graph type hierarchy |
+| VoID | void:Dataset with class/property partitions, linkset statistics, and vocabulary usage |
+| Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations |
+| RDFS | rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies |
+| DQV | dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions |
+| DCAT 3 | dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type |
 
 **Downstream** (1):
 
