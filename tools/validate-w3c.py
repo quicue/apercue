@@ -78,6 +78,27 @@ EXAMPLE_PROJECTIONS: list[Projection] = [
         min_triples=10,
         namespaces=["https://www.w3.org/ns/activitystreams#"],
     ),
+    Projection(
+        name="SHACL Shapes",
+        expression="shape_export.shapes_graph",
+        expected_type="http://www.w3.org/ns/shacl#NodeShape",
+        min_triples=5,
+        namespaces=["http://www.w3.org/ns/shacl#"],
+    ),
+    Projection(
+        name="VoID Dataset",
+        expression="void_dataset.void_description",
+        expected_type="http://rdfs.org/ns/void#Dataset",
+        min_triples=5,
+        namespaces=["http://rdfs.org/ns/void#"],
+    ),
+    Projection(
+        name="OWL Ontology",
+        expression="ontology.owl_ontology",
+        expected_type="http://www.w3.org/2002/07/owl#Ontology",
+        min_triples=5,
+        namespaces=["http://www.w3.org/2000/01/rdf-schema#"],
+    ),
 ]
 
 # Projections from self-charter unified export
