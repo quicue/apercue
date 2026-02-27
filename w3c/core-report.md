@@ -8,7 +8,7 @@
 
 [CUE](https://cuelang.org)'s lattice-based unification simultaneously performs
 SPARQL-class graph pattern matching and SHACL constraint validation at compile
-time. A single typed dependency graph produces 13 W3C
+time. A single typed dependency graph produces 17 W3C
 specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 and Verifiable Credentials — without runtime processors, triplestores, or
 pipelines. A 14th (Hydra) is implemented downstream.
@@ -257,7 +257,7 @@ generating `prov:Activity` and `prov:Agent`.
 
 ### Spec Coverage
 
-13 specifications implemented,
+17 specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 

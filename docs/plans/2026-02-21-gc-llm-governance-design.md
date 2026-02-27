@@ -38,7 +38,7 @@ cannot answer: "prove this LLM followed the Directive."
 ### The Approach
 
 apercue.ca is a constraint-first semantic web framework that models any domain as a typed
-dependency graph and projects it into 13 W3C standard vocabularies at compile time. Combined
+dependency graph and projects it into 17 W3C standard vocabularies at compile time. Combined
 with quicue.ca (operational infrastructure patterns) and quicue-kg (typed knowledge graph
 framework), it forms a complete stack for LLM governance:
 

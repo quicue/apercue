@@ -179,5 +179,5 @@ consistency guarantees.
 ## References
 
 - [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
-- [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — Full evidence with 13 W3C specs
+- [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — Full evidence with 17 W3C specs
 - [apercue.ca](https://apercue.ca) — Project website

@@ -38,7 +38,7 @@ declarations alone:
 }
 ```
 
-The same typed graph simultaneously produces output in 13 W3C specifications
+The same typed graph simultaneously produces output in 17 W3C specifications
 (SHACL, PROV-O, OWL-Time, DCAT, ODRL, EARL, SKOS, Dublin Core, JSON-LD,
 schema.org, org, Verifiable Credentials, and Activity Streams). A 14th (Hydra)
 is implemented downstream.
