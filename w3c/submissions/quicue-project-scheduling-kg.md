@@ -67,7 +67,7 @@ completion.
 
 - **Website:** [apercue.ca](https://apercue.ca)
 - **Data:** Five-node research pipeline (CPM: 285-day duration, 0 slack);
-  43-node self-charter (8 phase gates, all satisfied)
+  41-node self-charter (8 phase gates, all satisfied)
 - **Mappings:** `#Charter`, `#GapAnalysis`, `#CriticalPath`,
   `#CriticalPathPrecomputed`, `#SinglePointsOfFailure` in `patterns/` package
 - **Ontology:** OWL-Time (`time:Interval`, `time:Duration`, `time:Instant`),

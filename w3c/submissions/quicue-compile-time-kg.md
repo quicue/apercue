@@ -81,7 +81,7 @@ vocabulary).
 
 - **Website:** [apercue.ca](https://apercue.ca)
 - **Data:** Five-node research publication pipeline (ethics approval → sensor
-  data → analysis → paper → peer review); 43-node project charter
+  data → analysis → paper → peer review); 41-node project charter
   (self-modeling)
 - **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages —
   63 pattern definitions across 13 files
