@@ -201,6 +201,6 @@ Each uses the identical `#ValidationCredential` + `#ProvenanceTrace` +
 ## References
 
 - [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
-- [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 13 W3C spec evidence
+- [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 17 W3C spec evidence
 - [patterns/credentials.cue](https://github.com/quicue/apercue/blob/main/patterns/credentials.cue) — VC 2.0 pattern source
 - [apercue.ca](https://apercue.ca) — Project website
