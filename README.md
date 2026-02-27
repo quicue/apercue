@@ -64,7 +64,7 @@ apercue.ca@v0
 ├── vocab/                  # Core types
 │   ├── resource.cue        #   #Resource — generic typed node
 │   ├── types.cue           #   #TypeRegistry — extensible type system
-│   ├── context.cue         #   JSON-LD @context (13 W3C namespaces)
+│   ├── context.cue         #   JSON-LD @context (19 W3C namespaces)
 │   └── viz-contract.cue    #   #VizData for D3/visualization
 ├── patterns/               # Graph analysis + W3C projections
 │   ├── graph.cue           #   #Graph — dependency graph engine (30+ patterns)
