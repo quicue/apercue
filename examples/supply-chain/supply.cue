@@ -279,6 +279,48 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ OWL Ontology — Formal vocabulary from graph types ════════════════════
+// Export: cue export ./examples/supply-chain/ -e ontology.owl_ontology --out json
+ontology: patterns.#OWLOntology & {
+	Graph: graph
+	Spec: {
+		URI:         "https://apercue.ca/ontology/supply-chain#"
+		Title:       "Supply Chain Ontology"
+		Description: "OWL vocabulary generated from laptop supply chain graph types"
+	}
+	Hierarchy: {
+		"Material":    ["RawMaterial", "Component"]
+		"Assemblable": ["SubAssembly", "Assembly"]
+	}
+}
+
+// ═══ Web Annotations — Quality notes on supply chain ═════════════════════
+// Export: cue export ./examples/supply-chain/ -e annotations.annotation_collection --out json
+annotations: patterns.#AnnotationCollection & {
+	Graph: graph
+	CollectionLabel: "Supply Chain Quality Annotations"
+	Annotations: [
+		{
+			target:     "silicon-wafer"
+			body:       "Single source supplier — explore secondary wafer sources"
+			motivation: "oa:assessing"
+			tags: ["risk", "single-source"]
+		},
+		{
+			target:     "laptop-assy"
+			body:       "Final assembly depends on 4 inputs — bottleneck risk"
+			motivation: "oa:assessing"
+			tags: ["bottleneck", "critical-path"]
+		},
+		{
+			target:     "lithium-cells"
+			body:       "Longest raw material lead time (21 days) — drives critical path"
+			motivation: "oa:highlighting"
+			tags: ["critical-path", "lead-time"]
+		},
+	]
+}
+
 // ═══ VoID — Graph Self-Description ════════════════════════════════════════
 // Export: cue export ./examples/supply-chain/ -e void_dataset.void_description --out json
 void_dataset: patterns.#VoIDDataset & {
