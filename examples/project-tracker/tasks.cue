@@ -203,6 +203,50 @@ gaps: charter.#GapAnalysis & {
 	Graph:   progress
 }
 
+// ═══ SHACL SHAPES ═══════════════════════════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e shape_export.shapes_graph --out json
+shape_export: patterns.#SHACLShapes & {
+	Graph:     plan
+	Namespace: "https://apercue.ca/shapes/project-tracker#"
+}
+
+// ═══ SKOS TAXONOMY ═══════════════════════════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e _taxonomy.taxonomy_scheme --out json
+_taxonomy: patterns.#SKOSTaxonomy & {
+	Graph:       plan
+	SchemeTitle: "Project Task Type Taxonomy"
+	Hierarchy: {
+		"Engineering": ["Design", "Implementation", "Test"]
+		"Support":     ["Documentation", "DevOps"]
+	}
+}
+
+// ═══ VoID — Graph Self-Description ═══════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e void_dataset.void_description --out json
+void_dataset: patterns.#VoIDDataset & {
+	Graph:      plan
+	DatasetURI: "urn:apercue:project-tracker"
+	Title:      "Project Task Dependency Graph"
+}
+
+// ═══ PROV-O Plan — Charter as Provenance Plan ═══════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e _prov_plan.plan_report --out json
+_prov_plan: patterns.#ProvenancePlan & {
+	Charter:    _charter
+	Graph:      plan
+	GateStatus: gaps.gate_status
+}
+
+// ═══ DQV — Data Quality Report ══════════════════════════════════════════════
+// Export: cue export ./examples/project-tracker/ -e _quality.quality_report --out json
+_quality: patterns.#DataQualityReport & {
+	Graph:      plan
+	DatasetURI: "urn:apercue:project-tracker"
+	GapComplete:      gaps.complete
+	MissingResources: gaps.missing_resource_count
+	MissingTypes:     gaps.missing_type_count
+}
+
 // ═══ COMPLIANCE & METRICS ════════════════════════════════════════════════════════
 metrics: patterns.#GraphMetrics & {Graph: plan}
 
