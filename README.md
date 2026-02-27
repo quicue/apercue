@@ -91,7 +91,7 @@ apercue.ca@v0
 │   ├── course-prereqs/     # University prerequisites (12 courses, 3 gates)
 │   ├── recipe-ingredients/ # Beef bourguignon (17 steps, critical path)
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
-│   ├── supply-chain/       # Laptop assembly (15 parts, 5 tiers)
+│   ├── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
 │   └── gc-llm-governance/  # GC LLM governance (52 nodes, ODRL policies, DCAT catalog)
 ├── self-charter/           # Ecosystem graph — models the project itself
 │   ├── ecosystem.cue       #   10 modules/instances/services as typed resources
@@ -143,7 +143,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [course-prereqs](examples/course-prereqs/) | University curriculum | 12 courses | Charter with 3 gates, SHACL gap analysis, OWL-Time scheduling |
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
-| [supply-chain](examples/supply-chain/) | Manufacturing | 15 parts | 5-tier dependency depth, compliance checks |
+| [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
 | [gc-llm-governance](examples/gc-llm-governance/) | GC AI governance | 52 nodes | ODRL policies, DCAT catalog, compliance rules, fact registry |
 | [self-charter](self-charter/) | Meta — apercue itself | 12 modules | The project models its own development: 4 gates, CPM scheduling, [live visualization](https://apercue.ca/charter.html) |
 
