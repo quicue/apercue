@@ -207,6 +207,6 @@ via shared type definitions published as CUE modules.
 ## References
 
 - [Core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md)
-  — Full implementation evidence with 14 W3C specs
+  — Full implementation evidence with 13 W3C specs
 - [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
 - [docs.quicue.ca](https://docs.quicue.ca) — Module documentation
