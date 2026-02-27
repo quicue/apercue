@@ -11,7 +11,7 @@ SPARQL-class graph pattern matching and SHACL constraint validation at compile
 time. A single typed dependency graph produces 17 W3C
 specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 and Verifiable Credentials — without runtime processors, triplestores, or
-pipelines. A 14th (Hydra) is implemented downstream.
+pipelines. An 18th (Hydra) is implemented downstream.
 
 This report documents the implementation, provides computed evidence from a live
 example graph, and identifies relevance to four W3C Community Groups.
@@ -82,6 +82,12 @@ standard W3C vocabularies:
         "org": "http://www.w3.org/ns/org#",
         "cred": "https://www.w3.org/2018/credentials#",
         "as": "https://www.w3.org/ns/activitystreams#",
+        "void": "http://rdfs.org/ns/void#",
+        "dqv": "http://www.w3.org/ns/dqv#",
+        "oa": "http://www.w3.org/ns/oa#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
         "apercue": "https://apercue.ca/vocab#",
         "charter": "https://apercue.ca/charter#",
         "name": "dcterms:title",
@@ -261,23 +267,27 @@ generating `prov:Activity` and `prov:Agent`.
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 
-**Implemented** (13):
+**Implemented** (17):
 
 | W3C Specification | CUE Produces |
 |-------------------|--------------|
 | JSON-LD 1.1 | @context, @type, @id on all resources |
-| SHACL | sh:ValidationReport from compliance checks and gap analysis |
-| SKOS | skos:ConceptScheme from type vocabularies and lifecycle phases |
+| SHACL | sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation |
+| SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies |
 | EARL | earl:Assertion from smoke test plans |
 | OWL-Time | time:Interval from critical path scheduling |
 | Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
-| PROV-O | prov:Entity + prov:wasDerivedFrom from dependency edges |
+| PROV-O | prov:Entity + prov:wasDerivedFrom + prov:Plan from charter gates |
 | schema.org | schema:additionalType annotations via configurable type mapping |
 | ODRL 2.2 | odrl:Set policies with permissions/prohibitions by resource type |
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers |
 | Verifiable Credentials 2.0 | VerifiableCredential wrapping SHACL validation attestation |
 | W3C Org | org:Organization with type-based OrganizationalUnits |
-| DCAT 3 | dcat:Catalog with dcat:Dataset per resource, dcat:theme from @type |
+| DCAT 3 | dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService |
+| VoID | void:Dataset with class/property partitions and linkset statistics |
+| DQV | dqv:QualityMeasurement for completeness, consistency, accessibility |
+| Web Annotation | oa:Annotation with TextualBody and W3C motivations |
+| RDFS/OWL | rdfs:Class + owl:ObjectProperty from graph type hierarchy |
 
 **Downstream** (1):
 
