@@ -117,6 +117,10 @@ stage_public() {
     done
     # Public data — W3C coverage (no operational data)
     [ -f site/data/specs.json ] && cp site/data/specs.json "$staging/data/"
+    # Self-charter data (metadata about the open-source project — not operational)
+    for f in ecosystem.json charter.json projections.json; do
+        [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
+    done
     # GC governance demo data (sanitized example, not operational)
     for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json phase7-charter.json recipe.json; do
         [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
@@ -144,6 +148,9 @@ case "${1:-all}" in
     public)
         build_specs
         build_examples
+        build_ecosystem
+        build_charter
+        build_projections
         build_recipe
         build_gc_governance
         build_phase7
@@ -163,6 +170,9 @@ case "${1:-all}" in
     stage)
         build_specs
         build_examples
+        build_ecosystem
+        build_charter
+        build_projections
         build_recipe
         build_gc_governance
         build_phase7
