@@ -12,11 +12,26 @@ package patterns
 
 import "apercue.ca/vocab"
 
+// #DCATDistribution — describes how a dataset can be accessed.
+//
+// DCAT 3 requires distributions to specify access method and format.
+// Commonly used with #DCATCatalog to describe export formats.
+#DCATDistribution: {
+	mediaType:  string           // IANA media type (e.g. "application/ld+json")
+	format?:    string           // human-readable format name
+	accessURL?: string           // URL to access the distribution
+	title?:     string           // human-readable title
+	conformsTo?: string          // spec URL this distribution conforms to
+}
+
 // #DCATCatalog — Project a dependency graph as a DCAT 3 data catalog.
 //
 // Each resource → dcat:Dataset with title, description, themes from @type.
 // The graph itself → dcat:Catalog containing all datasets.
 // Dependencies → dcterms:requires (already in the shared @context).
+//
+// Optional: Distributions specify how each dataset can be accessed.
+// Optional: DataService describes the export API.
 #DCATCatalog: {
 	Graph: #AnalyzableGraph
 
@@ -24,6 +39,14 @@ import "apercue.ca/vocab"
 	Title?:       string
 	Description?: string
 	Publisher?:    string
+	License?:     string  // SPDX or URL
+
+	// Optional distributions applied to all datasets
+	Distributions?: [...#DCATDistribution]
+
+	// Optional data service (API endpoint)
+	ServiceEndpoint?: string
+	ServiceTitle?:    string
 
 	_title: string | *"Resource Catalog"
 	if Title != _|_ {
@@ -43,6 +66,23 @@ import "apercue.ca/vocab"
 		if Publisher != _|_ {
 			"dcterms:publisher": {"@id": Publisher}
 		}
+		if License != _|_ {
+			"dcterms:license": {"@id": License}
+		}
+
+		// Data service: describes how to access the catalog programmatically
+		if ServiceEndpoint != _|_ {
+			"dcat:service": {
+				"@type": "dcat:DataService"
+				"dcterms:title": *ServiceTitle | "Graph Export API"
+				"dcat:endpointURL": ServiceEndpoint
+				"dcat:servesDataset": [
+					for name, _ in Graph.resources {
+						{"@id": "urn:resource:" + name}
+					},
+				]
+			}
+		}
 
 		"dcat:dataset": [
 			for name, res in Graph.resources {
@@ -57,7 +97,7 @@ import "apercue.ca/vocab"
 				"dcat:theme": [
 					for t, _ in res["@type"] {
 						{
-							"@type":      "skos:Concept"
+							"@type":          "skos:Concept"
 							"skos:prefLabel": t
 						}
 					},
@@ -68,6 +108,28 @@ import "apercue.ca/vocab"
 					"dcterms:requires": [
 						for dep, _ in res.depends_on {
 							{"@id": "urn:resource:" + dep}
+						},
+					]
+				}
+
+				// Distributions: how to access this dataset
+				if Distributions != _|_ {
+					"dcat:distribution": [
+						for dist in Distributions {
+							"@type":          "dcat:Distribution"
+							"dcat:mediaType": dist.mediaType
+							if dist.format != _|_ {
+								"dcterms:format": dist.format
+							}
+							if dist.accessURL != _|_ {
+								"dcat:accessURL": {"@id": dist.accessURL}
+							}
+							if dist.title != _|_ {
+								"dcterms:title": dist.title
+							}
+							if dist.conformsTo != _|_ {
+								"dcterms:conformsTo": {"@id": dist.conformsTo}
+							}
 						},
 					]
 				}

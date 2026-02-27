@@ -377,6 +377,26 @@ cpm: patterns.#CriticalPathPrecomputed & {
 // ═══ SINGLE POINTS OF FAILURE ════════════════════════════════════════════════
 spof: patterns.#SinglePointsOfFailure & {Graph: graph}
 
+// ═══ SHACL SHAPES — Generate NodeShapes from graph type structure ════════════
+// Export: cue export ./examples/gc-llm-governance/ -e shape_export.shapes_graph --out json
+shape_export: patterns.#SHACLShapes & {
+	Graph:     graph
+	Namespace: "https://apercue.ca/shapes/gc-governance#"
+}
+
+// ═══ SKOS TAXONOMY — Hierarchical type vocabulary ═══════════════════════════
+// Export: cue export ./examples/gc-llm-governance/ -e taxonomy.taxonomy_scheme --out json
+_taxonomy: patterns.#SKOSTaxonomy & {
+	Graph:       graph
+	SchemeTitle: "GC LLM Governance Type Taxonomy"
+	Hierarchy: {
+		"Obligation":  ["Statute", "Directive", "Standard", "Guidance"]
+		"Control":     ["ControlObjective", "ComplianceRule"]
+		"Operational": ["Provider", "Deployment", "Gate", "SmokeTest"]
+		"Evidence":    ["AuditSink", "ComplianceReport", "Credential", "CatalogEntry", "Schedule"]
+	}
+}
+
 // ═══ CHARTER — GC LLM Governance Completeness ═══════════════════════════════
 _charter: charter.#Charter & {
 	name: "gc-llm-governance"
@@ -608,6 +628,8 @@ projections: {
 	dcat:     dcat_catalog
 	vc:       vc_credential.vc
 	skos:     type_vocab.concept_scheme
+	shapes:   shape_export.shapes_graph
+	taxonomy: _taxonomy.taxonomy_scheme
 	scheduling: {
 		summary:           cpm.summary
 		critical_sequence: cpm.critical_sequence

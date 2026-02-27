@@ -263,6 +263,22 @@ provenance: patterns.#ProvenanceTrace & {Graph: graph}
 // Activity Streams — build order as activity stream
 activity_stream: patterns.#ActivityStream & {Graph: graph}
 
+// SHACL Shapes — structural shapes from graph types
+shape_export: patterns.#SHACLShapes & {
+	Graph:     graph
+	Namespace: "https://apercue.ca/shapes/supply-chain#"
+}
+
+// SKOS Taxonomy — supply chain type hierarchy
+_taxonomy: patterns.#SKOSTaxonomy & {
+	Graph:       graph
+	SchemeTitle: "Supply Chain Type Taxonomy"
+	Hierarchy: {
+		"Material":    ["RawMaterial", "Component"]
+		"Assemblable": ["SubAssembly", "Assembly"]
+	}
+}
+
 // ═══ SUMMARY ═══════════════════════════════════════════════════════════════
 // Hidden intermediaries to avoid incomplete field references
 _summary_compliance_total: len(compliance.Rules)
