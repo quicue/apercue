@@ -114,6 +114,25 @@ _catalog: patterns.#DCATCatalog & {
 
 _provenance: patterns.#ProvenanceTrace & {Graph: _graph}
 
+// ── VoID ────────────────────────────────────────────────────────
+
+_void: patterns.#VoIDDataset & {
+	Graph:      _graph
+	DatasetURI: "urn:apercue:w3c-evidence"
+	Title:      "W3C Evidence Dataset"
+}
+
+// ── OWL Ontology ────────────────────────────────────────────────
+
+_ontology: patterns.#OWLOntology & {
+	Graph: _graph
+	Spec: {
+		URI:         "https://apercue.ca/ontology/w3c-evidence#"
+		Title:       "W3C Evidence Ontology"
+		Description: "OWL vocabulary from research publication dependency graph"
+	}
+}
+
 // ── Spec counts from registry ───────────────────────────────────
 
 _spec_counts: {
@@ -160,6 +179,12 @@ evidence: {
 
 	// DCAT catalog
 	dcat_catalog: _catalog.dcat_catalog
+
+	// VoID
+	void_description: _void.void_description
+
+	// OWL
+	owl_ontology: _ontology.owl_ontology
 }
 
 // ── JSON-formatted evidence blocks for report injection ─────────
@@ -210,5 +235,21 @@ _json: {
 			for d in _catalog.dcat_catalog["dcat:dataset"]
 			if d["dcterms:title"] == "sensor-dataset" {d},
 		]
+	}), "", "    ")
+
+	// VoID — compact dataset self-description (no @context)
+	void: json.Indent(json.Marshal({
+		"@type":               "void:Dataset"
+		"@id":                 _void.void_description["@id"]
+		"dcterms:title":       _void.void_description["dcterms:title"]
+		"void:entities":       _void.void_description["void:entities"]
+		"void:triples":        _void.void_description["void:triples"]
+		"void:classes":        _void.void_description["void:classes"]
+		"void:classPartition": _void.void_description["void:classPartition"]
+	}), "", "    ")
+
+	// OWL — compact ontology showing class entries (no @context)
+	owl: json.Indent(json.Marshal({
+		"@graph": _ontology.owl_ontology["@graph"]
 	}), "", "    ")
 }
