@@ -232,7 +232,7 @@ import (
 				"sh:resultSeverity": {"@id": "sh:Violation"}
 				"sh:resultMessage": "Required resource '" + name + "' not present in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredResource"}
-				"sh:sourceShape": {"@id": "apercue:charter/" + Charter.name}
+				"sh:sourceShape": {"@id": "charter:" + Charter.name}
 			},
 		], [
 			for t, _ in missing_types {
@@ -241,7 +241,7 @@ import (
 				"sh:resultSeverity": {"@id": "sh:Violation"}
 				"sh:resultMessage": "Required type '" + t + "' not represented in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredType"}
-				"sh:sourceShape": {"@id": "apercue:charter/" + Charter.name}
+				"sh:sourceShape": {"@id": "charter:" + Charter.name}
 			},
 		]])
 	}
