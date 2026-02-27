@@ -234,6 +234,21 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ OWL Ontology — Formal vocabulary from recipe types ══════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e ontology.owl_ontology --out json
+ontology: patterns.#OWLOntology & {
+	Graph: graph
+	Spec: {
+		URI:         "https://apercue.ca/ontology/recipe#"
+		Title:       "Recipe Ontology"
+		Description: "OWL vocabulary from cooking recipe dependency graph"
+	}
+	Hierarchy: {
+		"Ingredient": ["Protein", "Produce", "Seasoning", "Liquid"]
+		"Step":       ["PrepStep", "CookStep"]
+	}
+}
+
 // ═══ VoID — Graph Self-Description ════════════════════════════════════════════
 // Export: cue export ./examples/recipe-ingredients/ -e void_dataset.void_description --out json
 void_dataset: patterns.#VoIDDataset & {
