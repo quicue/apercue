@@ -386,6 +386,189 @@ an `owl:ObjectProperty`:
 W3C Evidence Ontology — the graph's type vocabulary as a formal
 OWL ontology. Loadable in Protégé, validatable by OWL reasoners.
 
+### Type Vocabulary / SKOS (computed)
+
+The `#SKOSTaxonomy` pattern projects graph types as a SKOS ConceptScheme
+with broader/narrower hierarchy:
+
+```json
+{
+    "@type": "skos:ConceptScheme",
+    "@id": "https://apercue.ca/vocab#TypeTaxonomy",
+    "skos:prefLabel": "Research Pipeline Type Taxonomy",
+    "apercue:concepts": [
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/vocab#Governance",
+            "skos:broader": {
+                "@id": "https://apercue.ca/vocab#ResearchActivity"
+            },
+            "skos:prefLabel": "Governance",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+            },
+            "skos:scopeNote": "Governance — used by 1 resources"
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/vocab#Dataset",
+            "skos:broader": {
+                "@id": "https://apercue.ca/vocab#ResearchOutput"
+            },
+            "skos:prefLabel": "Dataset",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+            },
+            "skos:scopeNote": "Dataset — used by 1 resources"
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/vocab#Process",
+            "skos:broader": {
+                "@id": "https://apercue.ca/vocab#ResearchActivity"
+            },
+            "skos:prefLabel": "Process",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+            },
+            "skos:scopeNote": "Process — used by 1 resources"
+        }
+    ]
+}
+```
+
+Each `@type` becomes a `skos:Concept` with `skos:broader` linking to
+parent categories. Types that co-occur on resources are linked via
+`skos:related`. The scheme is navigable by any SKOS-aware vocabulary
+browser.
+
+### Activity Stream (computed)
+
+The `#ActivityStream` pattern models graph construction as an Activity
+Streams 2.0 `OrderedCollection`:
+
+```json
+{
+    "type": "OrderedCollection",
+    "totalItems": 5,
+    "orderedItems": [
+        {
+            "type": "Create",
+            "actor": {
+                "type": "Application",
+                "name": "apercue"
+            },
+            "object": {
+                "summary": "Institutional review board approval (Protocol #2024-0142)",
+                "type": "Object",
+                "id": "urn:resource:ethics-approval",
+                "name": "ethics-approval",
+                "apercue:depth": 0,
+                "apercue:types": {
+                    "Governance": true
+                }
+            }
+        },
+        {
+            "context": [
+                {
+                    "type": "Link",
+                    "href": "urn:resource:ethics-approval"
+                }
+            ],
+            "type": "Create",
+            "actor": {
+                "type": "Application",
+                "name": "apercue"
+            },
+            "object": {
+                "summary": "Telemetry dataset (embargoed until publication)",
+                "type": "Object",
+                "id": "urn:resource:sensor-dataset",
+                "name": "sensor-dataset",
+                "apercue:depth": 1,
+                "apercue:types": {
+                    "Dataset": true
+                }
+            }
+        }
+    ]
+}
+```
+
+Each resource creation is a `Create` activity ordered by topological
+depth. Layer 0 resources (no dependencies) are created first. Dependency
+edges appear as `context` links.
+
+### Validation Credential / VC 2.0 (computed)
+
+The `#ValidationCredential` pattern wraps the SHACL validation result
+in a W3C Verifiable Credential:
+
+```json
+{
+    "type": [
+        "VerifiableCredential",
+        "ValidationCredential"
+    ],
+    "issuer": "apercue:graph-engine",
+    "validFrom": "2026-02-27T00:00:00Z",
+    "credentialSubject": {
+        "id": "urn:apercue:w3c-evidence",
+        "type": "sh:ValidationReport",
+        "sh:conforms": true,
+        "apercue:violationCount": 0,
+        "apercue:validationReport": {
+            "@type": "sh:ValidationReport",
+            "sh:conforms": true,
+            "@context": {
+                "@base": "urn:resource:",
+                "dcterms": "http://purl.org/dc/terms/",
+                "prov": "http://www.w3.org/ns/prov#",
+                "dcat": "http://www.w3.org/ns/dcat#",
+                "sh": "http://www.w3.org/ns/shacl#",
+                "skos": "http://www.w3.org/2004/02/skos/core#",
+                "schema": "https://schema.org/",
+                "time": "http://www.w3.org/2006/time#",
+                "earl": "http://www.w3.org/ns/earl#",
+                "odrl": "http://www.w3.org/ns/odrl/2/",
+                "org": "http://www.w3.org/ns/org#",
+                "cred": "https://www.w3.org/2018/credentials#",
+                "as": "https://www.w3.org/ns/activitystreams#",
+                "void": "http://rdfs.org/ns/void#",
+                "dqv": "http://www.w3.org/ns/dqv#",
+                "oa": "http://www.w3.org/ns/oa#",
+                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                "owl": "http://www.w3.org/2002/07/owl#",
+                "xsd": "http://www.w3.org/2001/XMLSchema#",
+                "apercue": "https://apercue.ca/vocab#",
+                "charter": "https://apercue.ca/charter#",
+                "name": "dcterms:title",
+                "description": "dcterms:description",
+                "depends_on": {
+                    "@id": "dcterms:requires",
+                    "@type": "@id"
+                },
+                "status": {
+                    "@id": "schema:actionStatus",
+                    "@type": "@id"
+                },
+                "tags": {
+                    "@id": "dcterms:subject",
+                    "@container": "@set"
+                }
+            },
+            "sh:result": []
+        }
+    }
+}
+```
+
+The credential attests that the graph passed compliance validation.
+The `credentialSubject` embeds the full `sh:ValidationReport`. This
+is the VC data model only — cryptographic proof requires an external
+issuer.
+
 ### Spec Coverage
 
 17 specifications implemented,
