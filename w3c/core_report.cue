@@ -40,10 +40,10 @@ core_report: """
 
 	[CUE](https://cuelang.org)'s lattice-based unification simultaneously performs
 	SPARQL-class graph pattern matching and SHACL constraint validation at compile
-	time. A single typed dependency graph produces \(evidence.spec_counts.total) W3C
+	time. A single typed dependency graph produces \(evidence.spec_counts.implemented) W3C
 	specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 	and Verifiable Credentials — without runtime processors, triplestores, or
-	pipelines.
+	pipelines. An \(evidence.spec_counts.total)th (Hydra) is implemented downstream.
 
 	This report documents the implementation, provides computed evidence from a live
 	example graph, and identifies relevance to four W3C Community Groups.
@@ -164,6 +164,32 @@ core_report: """
 	Every resource becomes a `prov:Entity`. Dependency edges become derivation
 	links. The full provenance graph includes all \(evidence.graph_summary.total_resources) resources plus the
 	generating `prov:Activity` and `prov:Agent`.
+
+	### Graph Self-Description / VoID (computed)
+
+	The `#VoIDDataset` pattern produces a VoID dataset description — the graph's
+	machine-readable "about" page:
+
+	```json
+	\(_json.void)
+	```
+
+	\(evidence.void_description["void:entities"]) entities, \(evidence.void_description["void:triples"]) triples, \(evidence.void_description["void:classes"]) classes. Class partitions show
+	how many resources belong to each `@type`. This is standard VoID — any LOD
+	catalog or SPARQL endpoint description consumer can read it.
+
+	### Type Ontology / RDFS+OWL (computed)
+
+	The `#OWLOntology` pattern extracts the implicit ontology from the graph's
+	type system. Each `@type` becomes an `rdfs:Class`; dependency edges become
+	an `owl:ObjectProperty`:
+
+	```json
+	\(_json.owl)
+	```
+
+	\(evidence.owl_ontology["@graph"][0]["dcterms:title"]) — the graph's type vocabulary as a formal
+	OWL ontology. Loadable in Protégé, validatable by OWL reasoners.
 
 	### Spec Coverage
 

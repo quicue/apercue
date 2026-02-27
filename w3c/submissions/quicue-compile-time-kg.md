@@ -40,8 +40,8 @@ declarations alone:
 
 The same typed graph simultaneously produces output in 17 W3C specifications
 (SHACL, PROV-O, OWL-Time, DCAT, ODRL, EARL, SKOS, Dublin Core, JSON-LD,
-schema.org, org, Verifiable Credentials, and Activity Streams). A 14th (Hydra)
-is implemented downstream.
+schema.org, org, Verifiable Credentials, Activity Streams, VoID, DQV, Web
+Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
 
 ## Challenges
 
@@ -92,4 +92,4 @@ is implemented downstream.
 - **Output:** JSON-LD 1.1 with W3C vocabulary terms; SHACL validation reports;
   PROV-O provenance traces; OWL-Time scheduling intervals; DCAT catalogs
 - **Source code:** [github.com/quicue/apercue](https://github.com/quicue/apercue) (Apache 2.0)
-- **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 14 specs, computed JSON evidence
+- **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 17 specs, computed JSON evidence
