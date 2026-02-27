@@ -199,6 +199,23 @@ compliance: patterns.#ComplianceCheck & {
 	]
 }
 
+// ═══ SHACL SHAPES ═══════════════════════════════════════════════════
+// Export: cue export ./examples/course-prereqs/ -e shape_export.shapes_graph --out json
+shape_export: patterns.#SHACLShapes & {
+	Graph:     graph
+	Namespace: "https://apercue.ca/shapes/course-prereqs#"
+}
+
+// ═══ SKOS TAXONOMY ═════════════════════════════════════════════════
+// Export: cue export ./examples/course-prereqs/ -e _taxonomy.taxonomy_scheme --out json
+_taxonomy: patterns.#SKOSTaxonomy & {
+	Graph:       graph
+	SchemeTitle: "Course Type Taxonomy"
+	Hierarchy: {
+		"Course": ["CoreCourse", "Elective", "LabCourse", "Seminar"]
+	}
+}
+
 // ═══ SUMMARY ═══════════════════════════════════════════════════════
 // Hidden intermediaries to avoid incomplete field references
 _summary_compliance_total: len(compliance.Rules)
