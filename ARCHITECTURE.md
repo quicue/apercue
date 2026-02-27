@@ -212,9 +212,9 @@ CUE is a constraint language, not a general-purpose runtime. Three things to
 know:
 
 1. **No memoization.** Recursive struct references re-evaluate on every access.
-   A 20-node graph with diamond dependencies is fine. A 40-node graph can cause
-   CUE to hang. Solution: Python precomputes topology, CUE validates the
-   precomputed result. See `tools/toposort.py`.
+   Wide topologies handle 60+ nodes natively. Dense diamond DAGs hit limits at
+   ~35-40 nodes for full transitive closure. Solution: Python precomputes
+   topology, CUE validates the precomputed result. See `tools/toposort.py`.
 
 2. **Comprehension-level vs. body-level `if`.** A comprehension-level `if`
    filters elements out entirely. A body-level `if` produces an empty struct
@@ -234,7 +234,7 @@ Each domain uses a unique `@base` URI prefix in its `@context`:
 ```
 apercue.ca      → urn:apercue:
 quicue-kg       → urn:quicue-kg:
-cmhc-retrofit   → urn:datacenter:
+cmhc-retrofit   → urn:cmhc-retrofit:
 gc-governance   → urn:gc-governance:
 ```
 
@@ -282,7 +282,7 @@ private network. See ADR-008.
 The CI workflow (`validate.yml`) runs:
 
 1. `cue vet ./...` — all packages must validate
-2. `python3 tools/validate-w3c.py` — JSON-LD round-trip conformance (19 tests)
+2. `python3 tools/validate-w3c.py` — JSON-LD round-trip conformance (21 tests)
 3. README smoke test — every `cue` command in example READMEs must exit 0
 4. Hardcoded path check — no absolute paths to user directories in markdown
 5. Unicode rejection tests — `#SafeID` / `#SafeLabel` constraints hold
