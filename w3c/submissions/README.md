@@ -1,32 +1,41 @@
 # W3C Community Group Submissions
 
-Submission-ready files for four W3C Community Groups.
+Submission-ready files for four W3C Community Groups, plus a CUE community post.
 
-## Files
+## Status (2026-02-27)
 
-| File | Target CG | Format | Where to Submit |
-|------|-----------|--------|-----------------|
-| `quicue-compile-time-kg.md` | KG-Construct | basic-template (Context/Challenges/Resources) | [KG-Construct use-cases repo](https://github.com/kg-construct/use-cases) — PR |
-| `quicue-project-scheduling-kg.md` | KG-Construct | basic-template (Context/Challenges/Resources) | Same repo — second use case |
-| `dataspaces-challenge.md` | Dataspaces | Challenge format (Summary/Description/Discussion) | [Dataspaces CG repo](https://github.com/w3c-cg/dataspaces) — GitHub issue |
-| `context-graphs-use-case.md` | Context Graphs | Founding use case (Problem/Approach/Evidence) | [Context Graphs CG](https://www.w3.org/community/context-graphs/) — email or repo |
+| File | Target CG | Status | Link |
+|------|-----------|--------|------|
+| `quicue-compile-time-kg.md` | KG-Construct | **Submitted** | [PR #21](https://github.com/kg-construct/use-cases/pull/21) |
+| `quicue-project-scheduling-kg.md` | KG-Construct | **Submitted** | Same PR |
+| `dataspaces-challenge.md` | Dataspaces | **Submitted** | [Issue #17](https://github.com/w3c-cg/dataspaces/issues/17) |
+| `context-graphs-use-case.md` | Context Graphs | **Submitted** | Email to chair + mailing list |
+| `uora-use-case.md` | UORA | **Submitted** | Mailing list |
 
-## Submission Steps
+## Submission Channels
 
-### KG-Construct (2 use cases)
-1. Fork [kg-construct/use-cases](https://github.com/kg-construct/use-cases)
-2. Add `quicue-compile-time-kg.md` and `quicue-project-scheduling-kg.md` to the repo
-3. Open a pull request
+### KG-Construct
+- **Repo:** [kg-construct/use-cases](https://github.com/kg-construct/use-cases)
+- **Format:** Fork → add files → PR (basic-template: Context/Challenges/Resources)
+- **Meetings:** Every 2nd Monday, 15h CET
 
 ### Dataspaces
-1. Go to [w3c-cg/dataspaces](https://github.com/w3c-cg/dataspaces)
-2. Open a new issue with the contents of `dataspaces-challenge.md`
-3. Title: "Challenge: Compile-Time Data Governance for Lightweight Dataspaces"
+- **Repo:** [w3c-cg/dataspaces](https://github.com/w3c-cg/dataspaces)
+- **Format:** GitHub issue (challenge format: Summary/Description/Discussion Points)
+- **Mailing list:** public-dataspaces@w3.org
 
 ### Context Graphs
-1. CG is brand new (est. Feb 2026) — check for a repo or mailing list
-2. The use case is self-contained and polished for a founding contribution
-3. Submit via whatever channel is established (likely GitHub repo or W3C CG page)
+- **CG page:** [w3.org/community/context-graph](https://www.w3.org/community/context-graph/)
+- **Mailing list:** public-context-graph@w3.org
+- **Chair:** Ron Itelman
+- **Participants:** 27 (as of Feb 2026)
+- **Note:** CG established Feb 24, 2026 — no repo yet
+
+### UORA (Physical Asset Attestation)
+- **CG page:** [w3.org/community/uora](https://www.w3.org/community/uora/)
+- **Mailing list:** public-uora@w3.org
+- **Chair:** Amir Hameed Mir
+- **Note:** No repo yet
 
 ## Prerequisites
 
