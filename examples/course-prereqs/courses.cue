@@ -216,6 +216,33 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ VoID — Graph Self-Description ═══════════════════════════════
+// Export: cue export ./examples/course-prereqs/ -e void_dataset.void_description --out json
+void_dataset: patterns.#VoIDDataset & {
+	Graph:      graph
+	DatasetURI: "urn:apercue:course-prereqs"
+	Title:      "CS Degree Prerequisite Graph"
+}
+
+// ═══ PROV-O Plan — Charter as Provenance Plan ════════════════════
+// Export: cue export ./examples/course-prereqs/ -e _prov_plan.plan_report --out json
+_prov_plan: patterns.#ProvenancePlan & {
+	Charter:    _charter
+	Graph:      graph
+	GateStatus: gaps.gate_status
+}
+
+// ═══ DQV — Data Quality Report ══════════════════════════════════
+// Export: cue export ./examples/course-prereqs/ -e _quality.quality_report --out json
+_quality: patterns.#DataQualityReport & {
+	Graph:             graph
+	DatasetURI:        "urn:apercue:course-prereqs"
+	ComplianceResults: compliance.results
+	GapComplete:       gaps.complete
+	MissingResources:  gaps.missing_resource_count
+	MissingTypes:      gaps.missing_type_count
+}
+
 // ═══ SUMMARY ═══════════════════════════════════════════════════════
 // Hidden intermediaries to avoid incomplete field references
 _summary_compliance_total: len(compliance.Rules)

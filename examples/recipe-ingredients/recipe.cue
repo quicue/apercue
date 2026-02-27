@@ -216,6 +216,51 @@ compliance: patterns.#ComplianceCheck & {
 	]
 }
 
+// ═══ SHACL SHAPES ═══════════════════════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e shape_export.shapes_graph --out json
+shape_export: patterns.#SHACLShapes & {
+	Graph:     graph
+	Namespace: "https://apercue.ca/shapes/recipe#"
+}
+
+// ═══ SKOS TAXONOMY ═══════════════════════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e _taxonomy.taxonomy_scheme --out json
+_taxonomy: patterns.#SKOSTaxonomy & {
+	Graph:       graph
+	SchemeTitle: "Recipe Type Taxonomy"
+	Hierarchy: {
+		"Ingredient": ["Protein", "Produce", "Seasoning", "Liquid"]
+		"Step":       ["PrepStep", "CookStep"]
+	}
+}
+
+// ═══ VoID — Graph Self-Description ════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e void_dataset.void_description --out json
+void_dataset: patterns.#VoIDDataset & {
+	Graph:      graph
+	DatasetURI: "urn:apercue:recipe"
+	Title:      "Beef Bourguignon Recipe Dependency Graph"
+}
+
+// ═══ PROV-O Plan — Charter as Provenance Plan ════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e _prov_plan.plan_report --out json
+_prov_plan: patterns.#ProvenancePlan & {
+	Charter:    _charter
+	Graph:      graph
+	GateStatus: gaps.gate_status
+}
+
+// ═══ DQV — Data Quality Report ═══════════════════════════════════════════════
+// Export: cue export ./examples/recipe-ingredients/ -e _quality.quality_report --out json
+_quality: patterns.#DataQualityReport & {
+	Graph:             graph
+	DatasetURI:        "urn:apercue:recipe"
+	ComplianceResults: compliance.results
+	GapComplete:       gaps.complete
+	MissingResources:  gaps.missing_resource_count
+	MissingTypes:      gaps.missing_type_count
+}
+
 // ═══ SUMMARY ════════════════════════════════════════════════════════════════════
 gap_summary: {
 	complete:          gaps.complete

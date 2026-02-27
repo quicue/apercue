@@ -128,10 +128,19 @@ Specs: {[string]: #SpecEntry} & {
 		url:    "https://www.w3.org/TR/prov-o/"
 		status: "Implemented"
 		prefix: "prov"
-		patterns: {"#ProvenanceTrace": true}
-		files: {"patterns/provenance.cue": true}
-		exports: {"provenance.prov_report": true}
-		coverage: "prov:Entity + prov:wasDerivedFrom from dependency edges"
+		patterns: {
+			"#ProvenanceTrace": true
+			"#ProvenancePlan":  true
+		}
+		files: {
+			"patterns/provenance.cue":      true
+			"patterns/provenance_plan.cue":  true
+		}
+		exports: {
+			"provenance.prov_report":     true
+			"_prov_plan.plan_report":     true
+		}
+		coverage: "prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate"
 	}
 
 	"schema.org": {
@@ -187,6 +196,28 @@ Specs: {[string]: #SpecEntry} & {
 		files: {"views/org.cue": true}
 		exports: {"structure.org_report": true}
 		coverage: "org:Organization with type-based OrganizationalUnits"
+	}
+
+	"VoID": {
+		name:   "VoID"
+		url:    "https://www.w3.org/TR/void/"
+		status: "Implemented"
+		prefix: "void"
+		patterns: {"#VoIDDataset": true}
+		files: {"patterns/void.cue": true}
+		exports: {"void_dataset.void_description": true}
+		coverage: "void:Dataset with class/property partitions, linkset statistics, and vocabulary usage"
+	}
+
+	"DQV": {
+		name:   "DQV"
+		url:    "https://www.w3.org/TR/vocab-dqv/"
+		status: "Implemented"
+		prefix: "dqv"
+		patterns: {"#DataQualityReport": true}
+		files: {"patterns/quality.cue": true}
+		exports: {"_quality.quality_report": true}
+		coverage: "dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions"
 	}
 
 	// ── Downstream (implemented in quicue.ca) ────────────────────────

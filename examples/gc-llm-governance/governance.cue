@@ -397,6 +397,35 @@ _taxonomy: patterns.#SKOSTaxonomy & {
 	}
 }
 
+// ═══ VoID — Graph Self-Description ═══════════════════════════════════════════
+// Export: cue export ./examples/gc-llm-governance/ -e void_dataset.void_description --out json
+void_dataset: patterns.#VoIDDataset & {
+	Graph:      graph
+	DatasetURI: "urn:gc:llm-governance:dataset"
+	Title:      "GC LLM Governance Dependency Graph"
+	Homepage:   "https://apercue.ca/gc-governance.html"
+}
+
+// ═══ PROV-O Plan — Charter as Provenance Plan ═══════════════════════════════
+// Export: cue export ./examples/gc-llm-governance/ -e _prov_plan.plan_report --out json
+_prov_plan: patterns.#ProvenancePlan & {
+	Charter:    _charter
+	Graph:      graph
+	GateStatus: gaps.gate_status
+	Agent:      "urn:gc:agent:governance-framework"
+}
+
+// ═══ DQV — Data Quality Report ══════════════════════════════════════════════
+// Export: cue export ./examples/gc-llm-governance/ -e _quality.quality_report --out json
+_quality: patterns.#DataQualityReport & {
+	Graph:             graph
+	DatasetURI:        "urn:gc:llm-governance:dataset"
+	ComplianceResults: compliance.results
+	GapComplete:       gaps.complete
+	MissingResources:  gaps.missing_resource_count
+	MissingTypes:      gaps.missing_type_count
+}
+
 // ═══ CHARTER — GC LLM Governance Completeness ═══════════════════════════════
 _charter: charter.#Charter & {
 	name: "gc-llm-governance"
@@ -625,11 +654,14 @@ projections: {
 	owl_time: cpm.time_report
 	odrl:     odrl_policies
 	prov:     provenance
+	prov_plan: _prov_plan.plan_report
 	dcat:     dcat_catalog
 	vc:       vc_credential.vc
 	skos:     type_vocab.concept_scheme
 	shapes:   shape_export.shapes_graph
 	taxonomy: _taxonomy.taxonomy_scheme
+	void:     void_dataset.void_description
+	quality:  _quality.quality_report
 	scheduling: {
 		summary:           cpm.summary
 		critical_sequence: cpm.critical_sequence

@@ -42,7 +42,7 @@ vocab/        Core types (#Resource, #TypeRegistry, @context)
   │
 patterns/     Graph analysis + W3C projections
   │           Imports: vocab
-  │           15 files, 67 pattern definitions
+  │           18 files, 70 pattern definitions
   │
 charter/      Constraint-first planning (#Charter, #GapAnalysis)
   │           Imports: patterns, vocab
@@ -172,6 +172,9 @@ Both produce `slack`, `critical`, `critical_sequence`, `summary`, and
 | `#SKOSTaxonomy` | taxonomy.cue | SKOS | `skos:broader`, `skos:narrower`, `skos:related` |
 | `#PolicyExpressionODRL` | policy.cue | ODRL | `odrl:Policy` |
 | `#OrgChart` | views/org.cue | W3C Org | `org:Organization` |
+| `#VoIDDataset` | void.cue | VoID | `void:Dataset`, `void:Linkset` |
+| `#ProvenancePlan` | provenance_plan.cue | PROV-O | `prov:Plan`, `prov:Activity` |
+| `#DataQualityReport` | quality.cue | DQV | `dqv:QualityMeasurement`, `dqv:Metric` |
 
 All projections share the same `@context` (defined in `vocab/context.cue`),
 so their JSON-LD outputs merge cleanly — different graphs can be combined
