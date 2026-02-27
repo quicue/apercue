@@ -84,7 +84,7 @@ vocabulary).
   data → analysis → paper → peer review); 43-node project charter
   (self-modeling)
 - **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages —
-  ~40 pattern types across 12 files
+  63 pattern definitions across 13 files
 - **Ontology:** JSON-LD `@context` mapping CUE fields to Dublin Core, PROV-O,
   SHACL, SKOS, OWL-Time, DCAT, ODRL, EARL, schema.org, org
 - **Tool(s):** [CUE](https://cuelang.org) v0.15.4, Python toposort for
