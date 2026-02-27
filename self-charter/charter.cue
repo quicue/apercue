@@ -131,7 +131,7 @@ _tasks: {
 	"example-supply-chain": {
 		name: "example-supply-chain"
 		"@type": {Example: true}
-		description: "Laptop assembly supply chain (15 parts, 5 tiers)"
+		description: "Laptop assembly supply chain (14 parts, 5 tiers)"
 		depends_on: {"charter-module": true, "validation-patterns": true, "analysis-patterns": true}
 	}
 
