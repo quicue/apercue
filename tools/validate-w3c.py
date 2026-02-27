@@ -99,6 +99,27 @@ EXAMPLE_PROJECTIONS: list[Projection] = [
         min_triples=5,
         namespaces=["http://www.w3.org/2000/01/rdf-schema#"],
     ),
+    Projection(
+        name="SKOS Taxonomy",
+        expression="_taxonomy.taxonomy_scheme",
+        expected_type="http://www.w3.org/2004/02/skos/core#ConceptScheme",
+        min_triples=5,
+        namespaces=["http://www.w3.org/2004/02/skos/core#"],
+    ),
+    Projection(
+        name="PROV-O Plan",
+        expression="_prov_plan.plan_report",
+        expected_type="http://www.w3.org/ns/prov#Plan",
+        min_triples=5,
+        namespaces=["http://www.w3.org/ns/prov#"],
+    ),
+    Projection(
+        name="DQV Quality",
+        expression="_quality.quality_report",
+        expected_type="http://www.w3.org/ns/dqv#QualityMeasurement",
+        min_triples=5,
+        namespaces=["http://www.w3.org/ns/dqv#"],
+    ),
 ]
 
 # Projections from self-charter unified export
