@@ -107,7 +107,7 @@ apercue.ca@v0
 │   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
     ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
-    ├── pattern-api.md      # Field-level reference for all 63 pattern types
+    ├── pattern-api.md      # Field-level reference for all 75 pattern types
     ├── api-stability.md    # Stable vs experimental classification
     ├── adapters.md         # Downstream module guide + creating adapters
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
@@ -130,6 +130,10 @@ apercue.ca@v0
 | VC 2.0 | `credentials.cue` --- VerifiableCredential wrapping SHACL reports | Implemented |
 | DCAT 3 | `catalog.cue` --- dcat:Catalog, dcat:Dataset per resource | Implemented |
 | Activity Streams 2.0 | `activity.cue` --- as:OrderedCollection of graph construction | Implemented |
+| VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | Implemented |
+| DQV | `quality.cue` --- dqv:QualityMeasurement for completeness, consistency, accessibility | Implemented |
+| Web Annotation | `annotation.cue` --- oa:Annotation with TextualBody and W3C motivations | Implemented |
+| RDFS/OWL | `ontology.cue` --- rdfs:Class, owl:ObjectProperty from graph type hierarchy | Implemented |
 | Hydra Core | Downstream: quicue.ca operator dashboard | Downstream |
 
 See [w3c/README.md](w3c/README.md) for full mapping details.
@@ -202,7 +206,7 @@ and every W3C projection will conform.
 ## Documentation
 
 - [Getting Started](docs/getting-started.md) --- standalone walkthrough from empty project to W3C exports
-- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 63 pattern types
+- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 75 pattern types
 - [API Stability](docs/api-stability.md) --- stable vs experimental type classification
 - [Adapters](docs/adapters.md) --- downstream module guide + creating your own adapter
 - [ARCHITECTURE.md](ARCHITECTURE.md) --- design principles, data flow, module layers
