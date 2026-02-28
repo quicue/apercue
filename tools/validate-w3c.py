@@ -215,6 +215,41 @@ W3C_EVIDENCE_PROJECTIONS: list[Projection] = [
         min_triples=5,
         namespaces=["http://www.w3.org/2004/02/skos/core#"],
     ),
+    Projection(
+        name="EARL Evidence",
+        expression="evidence.earl_report",
+        expected_type="http://www.w3.org/ns/earl#Assertion",
+        min_triples=3,
+        namespaces=["http://www.w3.org/ns/earl#"],
+    ),
+    Projection(
+        name="Schema.org Evidence",
+        expression="evidence.schema_graph",
+        expected_type="",  # uses schema:additionalType, not rdf:type
+        min_triples=5,
+        namespaces=["https://schema.org/"],
+    ),
+    Projection(
+        name="W3C Org Evidence",
+        expression="evidence.org_report",
+        expected_type="http://www.w3.org/ns/org#Organization",
+        min_triples=5,
+        namespaces=["http://www.w3.org/ns/org#"],
+    ),
+    Projection(
+        name="Web Annotation Evidence",
+        expression="evidence.annotation_collection",
+        expected_type="",  # uses plain "type" not "@type" (W3C Anno context)
+        min_triples=3,
+        namespaces=["http://www.w3.org/ns/oa#"],
+    ),
+    Projection(
+        name="DQV Evidence",
+        expression="evidence.quality_report",
+        expected_type="http://www.w3.org/ns/dqv#QualityMeasurement",
+        min_triples=5,
+        namespaces=["http://www.w3.org/ns/dqv#"],
+    ),
 ]
 
 # Federation projections — merged JSON-LD from tests/federation

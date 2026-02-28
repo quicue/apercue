@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 
 	"apercue.ca/patterns@v0"
+	"apercue.ca/views@v0"
 	"apercue.ca/vocab@v0"
 )
 
@@ -156,6 +157,73 @@ _ontology: patterns.#OWLOntology & {
 	}
 }
 
+// ── EARL smoke test ────────────────────────────────────────────
+
+_smoke: patterns.#SmokeTest & {
+	Subject: "urn:apercue:w3c-evidence"
+	checks: [{
+		label:    "graph has 5 resources"
+		command:  "cue export ./w3c/ -e evidence.graph_summary.total_resources"
+		expected: "5"
+	}, {
+		label:    "SHACL report conforms"
+		command:  "cue export ./w3c/ -e evidence.shacl[\"sh:conforms\"]"
+		expected: "true"
+	}, {
+		label:    "critical path exists"
+		command:  "cue export ./w3c/ -e evidence.cpm_summary.critical_count"
+		expected: "5"
+	}]
+}
+
+// ── Schema.org alignment ──────────────────────────────────────
+
+_schema: patterns.#SchemaOrgAlignment & {
+	Graph: _graph
+	TypeMap: {
+		"Governance":  "schema:Action"
+		"Dataset":     "schema:Dataset"
+		"Process":     "schema:SoftwareApplication"
+		"Publication": "schema:ScholarlyArticle"
+		"Review":      "schema:ReviewAction"
+	}
+}
+
+// ── W3C Org ───────────────────────────────────────────────────
+
+_org: views.#OrgStructure & {
+	Graph:   _graph
+	OrgName: "Research Pipeline Organization"
+}
+
+// ── Web Annotation ────────────────────────────────────────────
+
+_annotations: patterns.#AnnotationCollection & {
+	Graph:           _graph
+	CollectionLabel: "Research Pipeline Review Annotations"
+	Annotations: [{
+		target:     "ethics-approval"
+		body:       "IRB protocol approved 2024-01-15"
+		motivation: "oa:assessing"
+	}, {
+		target:     "sensor-dataset"
+		body:       "Data under embargo until publication"
+		motivation: "oa:commenting"
+	}, {
+		target:     "peer-review"
+		body:       "Double-blind review required by venue"
+		motivation: "oa:classifying"
+	}]
+}
+
+// ── DQV quality ───────────────────────────────────────────────
+
+_quality: patterns.#DataQualityReport & {
+	Graph:      _graph
+	DatasetURI: "urn:apercue:w3c-evidence"
+	ComplianceResults: _compliance.results
+}
+
 // ── Spec counts from registry ───────────────────────────────────
 
 _spec_counts: {
@@ -217,6 +285,21 @@ evidence: {
 
 	// OWL
 	owl_ontology: _ontology.owl_ontology
+
+	// EARL
+	earl_report: _smoke.earl_report
+
+	// Schema.org
+	schema_graph: _schema.schema_graph
+
+	// W3C Org
+	org_report: _org.org_report
+
+	// Web Annotation
+	annotation_collection: _annotations.annotation_collection
+
+	// DQV
+	quality_report: _quality.quality_report
 }
 
 // ── JSON-formatted evidence blocks for report injection ─────────
@@ -312,5 +395,50 @@ _json: {
 	// OWL — compact ontology showing class entries (no @context)
 	owl: json.Indent(json.Marshal({
 		"@graph": _ontology.owl_ontology["@graph"]
+	}), "", "    ")
+
+	// EARL — smoke test plan as earl:Assertion (first 2 checks)
+	earl: json.Indent(json.Marshal({
+		"@graph": [
+			for i, a in _smoke.earl_report["@graph"]
+			if i < 2 {a},
+		]
+	}), "", "    ")
+
+	// Schema.org — first 2 resources with schema:additionalType
+	schema: json.Indent(json.Marshal({
+		"@graph": [
+			for i, r in _schema.schema_graph["@graph"]
+			if i < 2 {r},
+		]
+	}), "", "    ")
+
+	// W3C Org — organization with first unit
+	org: json.Indent(json.Marshal({
+		"@type":          "org:Organization"
+		"@id":            _org.org_report["@id"]
+		"skos:prefLabel": _org.org_report["skos:prefLabel"]
+		"org:hasUnit": [
+			_org.org_report["org:hasUnit"][0],
+		]
+	}), "", "    ")
+
+	// Web Annotation — first 2 annotations
+	annotation: json.Indent(json.Marshal({
+		"type":  "AnnotationCollection"
+		"label": _annotations.annotation_collection["label"]
+		"total": _annotations.annotation_collection["total"]
+		"items": [
+			for i, a in _annotations.annotation_collection["items"]
+			if i < 2 {a},
+		]
+	}), "", "    ")
+
+	// DQV — first 3 entries (category + dimension + measurement)
+	dqv: json.Indent(json.Marshal({
+		"@graph": [
+			for i, entry in _quality.quality_report["@graph"]
+			if i < 3 {entry},
+		]
 	}), "", "    ")
 }

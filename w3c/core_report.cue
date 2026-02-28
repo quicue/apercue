@@ -232,6 +232,83 @@ core_report: """
 	is the VC data model only — cryptographic proof requires an external
 	issuer.
 
+	### Data Catalog / DCAT 3 (computed)
+
+	The `#DCATCatalog` pattern projects the graph as a DCAT catalog with one
+	`dcat:Dataset` per resource:
+
+	```json
+	\(_json.dcat)
+	```
+
+	Each resource becomes a dataset entry with Dublin Core metadata. The catalog
+	is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).
+
+	### Test Plan / EARL (computed)
+
+	The `#SmokeTest` pattern produces EARL assertions describing the test plan for
+	graph validation:
+
+	```json
+	\(_json.earl)
+	```
+
+	Each check becomes an `earl:Assertion` with an `earl:TestCriterion` and
+	`earl:TestResult`. Outcomes are `earl:untested` at compile time — the plan
+	is linked data; execution happens at runtime.
+
+	### Schema.org Alignment (computed)
+
+	The `#SchemaOrgAlignment` pattern annotates resources with `schema:additionalType`
+	via a configurable type map:
+
+	```json
+	\(_json.schema)
+	```
+
+	Graph types (`Process`, `Dataset`, etc.) map to schema.org types
+	(`schema:SoftwareApplication`, `schema:Dataset`). This makes the graph
+	discoverable by Google Rich Results and other schema.org consumers.
+
+	### Organizational View / W3C Org (computed)
+
+	The `#OrgStructure` pattern groups resources by `@type` into
+	`org:OrganizationalUnit` within an `org:Organization`:
+
+	```json
+	\(_json.org)
+	```
+
+	Types become departments; resources become members. The same typed
+	graph that drives scheduling and compliance also projects as an
+	organizational hierarchy.
+
+	### Resource Annotations / Web Annotation (computed)
+
+	The `#AnnotationCollection` pattern attaches structured notes to graph
+	resources using the W3C Web Annotation model:
+
+	```json
+	\(_json.annotation)
+	```
+
+	Each annotation carries a `motivation` from the W3C vocabulary (assessing,
+	commenting, classifying). Targets are validated against the graph — an
+	annotation referencing a nonexistent resource fails at CUE evaluation time.
+
+	### Data Quality / DQV (computed)
+
+	The `#DataQualityReport` pattern projects compliance and structural metrics
+	as DQV quality measurements:
+
+	```json
+	\(_json.dqv)
+	```
+
+	Quality dimensions (Completeness, Consistency, Accessibility) organize
+	metrics computed from the graph. Each `dqv:QualityMeasurement` links to
+	its metric, dimension, and the dataset under evaluation.
+
 	### Spec Coverage
 
 	\(evidence.spec_counts.implemented) specifications implemented,
