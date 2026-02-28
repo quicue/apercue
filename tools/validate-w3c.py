@@ -158,6 +158,65 @@ CONTEXT_PROJECTION = Projection(
     ],
 )
 
+# W3C evidence package — the core report's own computed evidence
+W3C_EVIDENCE_PROJECTIONS: list[Projection] = [
+    Projection(
+        name="VoID Evidence",
+        expression="evidence.void_description",
+        expected_type="http://rdfs.org/ns/void#Dataset",
+        min_triples=10,
+        namespaces=["http://rdfs.org/ns/void#"],
+    ),
+    Projection(
+        name="OWL Evidence",
+        expression="evidence.owl_ontology",
+        expected_type="http://www.w3.org/2002/07/owl#Ontology",
+        min_triples=5,
+        namespaces=["http://www.w3.org/2000/01/rdf-schema#"],
+    ),
+    Projection(
+        name="SHACL Evidence",
+        expression="evidence.shacl",
+        expected_type="http://www.w3.org/ns/shacl#ValidationReport",
+        namespaces=["http://www.w3.org/ns/shacl#"],
+    ),
+    Projection(
+        name="PROV-O Evidence",
+        expression="evidence.prov_report",
+        expected_type="http://www.w3.org/ns/prov#Entity",
+        min_triples=10,
+        namespaces=["http://www.w3.org/ns/prov#"],
+    ),
+    Projection(
+        name="DCAT Evidence",
+        expression="evidence.dcat_catalog",
+        expected_type="http://www.w3.org/ns/dcat#Catalog",
+        min_triples=10,
+        namespaces=["http://www.w3.org/ns/dcat#"],
+    ),
+    Projection(
+        name="ODRL Evidence",
+        expression="evidence.odrl_policy",
+        expected_type="http://www.w3.org/ns/odrl/2/Set",
+        min_triples=3,
+        namespaces=["http://www.w3.org/ns/odrl/2/"],
+    ),
+    Projection(
+        name="OWL-Time Evidence",
+        expression="evidence.time_report",
+        expected_type="http://www.w3.org/2006/time#Interval",
+        min_triples=10,
+        namespaces=["http://www.w3.org/2006/time#"],
+    ),
+    Projection(
+        name="SKOS Evidence",
+        expression="evidence.skos_taxonomy",
+        expected_type="http://www.w3.org/2004/02/skos/core#ConceptScheme",
+        min_triples=5,
+        namespaces=["http://www.w3.org/2004/02/skos/core#"],
+    ),
+]
+
 # Federation projections — merged JSON-LD from tests/federation
 FEDERATION_PROJECTIONS: list[Projection] = [
     Projection(
@@ -328,6 +387,13 @@ def main() -> int:
         if federation_test.exists():
             results.extend(
                 validate_directory(str(federation_test), FEDERATION_PROJECTIONS)
+            )
+
+        # W3C evidence package — validate the core report's own evidence
+        w3c_dir = root / "w3c"
+        if w3c_dir.exists():
+            results.extend(
+                validate_directory(str(w3c_dir), W3C_EVIDENCE_PROJECTIONS)
             )
 
     # Report
