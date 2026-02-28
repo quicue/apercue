@@ -569,6 +569,248 @@ The `credentialSubject` embeds the full `sh:ValidationReport`. This
 is the VC data model only — cryptographic proof requires an external
 issuer.
 
+### Data Catalog / DCAT 3 (computed)
+
+The `#DCATCatalog` pattern projects the graph as a DCAT catalog with one
+`dcat:Dataset` per resource:
+
+```json
+{
+    "@type": "dcat:Catalog",
+    "dcterms:title": "Research Publication Pipeline",
+    "dcat:dataset": [
+        {
+            "@type": "dcat:Dataset",
+            "@id": "urn:resource:sensor-dataset",
+            "dcterms:description": "Telemetry dataset (embargoed until publication)",
+            "dcterms:requires": [
+                {
+                    "@id": "urn:resource:ethics-approval"
+                }
+            ],
+            "dcterms:title": "sensor-dataset",
+            "dcat:theme": [
+                {
+                    "@type": "skos:Concept",
+                    "skos:prefLabel": "Dataset"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Each resource becomes a dataset entry with Dublin Core metadata. The catalog
+is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).
+
+### Test Plan / EARL (computed)
+
+The `#SmokeTest` pattern produces EARL assertions describing the test plan for
+graph validation:
+
+```json
+{
+    "@graph": [
+        {
+            "@type": "earl:Assertion",
+            "earl:subject": {
+                "@id": "urn:apercue:w3c-evidence"
+            },
+            "earl:test": {
+                "@type": "earl:TestCriterion",
+                "dcterms:title": "graph has 5 resources",
+                "apercue:command": "cue export ./w3c/ -e evidence.graph_summary.total_resources"
+            },
+            "earl:result": {
+                "@type": "earl:TestResult",
+                "earl:outcome": {
+                    "@id": "earl:untested"
+                },
+                "earl:expected": "5"
+            }
+        },
+        {
+            "@type": "earl:Assertion",
+            "earl:subject": {
+                "@id": "urn:apercue:w3c-evidence"
+            },
+            "earl:test": {
+                "@type": "earl:TestCriterion",
+                "dcterms:title": "SHACL report conforms",
+                "apercue:command": "cue export ./w3c/ -e evidence.shacl[\"sh:conforms\"]"
+            },
+            "earl:result": {
+                "@type": "earl:TestResult",
+                "earl:outcome": {
+                    "@id": "earl:untested"
+                },
+                "earl:expected": "true"
+            }
+        }
+    ]
+}
+```
+
+Each check becomes an `earl:Assertion` with an `earl:TestCriterion` and
+`earl:TestResult`. Outcomes are `earl:untested` at compile time — the plan
+is linked data; execution happens at runtime.
+
+### Schema.org Alignment (computed)
+
+The `#SchemaOrgAlignment` pattern annotates resources with `schema:additionalType`
+via a configurable type map:
+
+```json
+{
+    "@graph": [
+        {
+            "@type": {
+                "Governance": true
+            },
+            "@id": "urn:resource:ethics-approval",
+            "dcterms:description": "Institutional review board approval (Protocol #2024-0142)",
+            "dcterms:title": "ethics-approval",
+            "schema:additionalType": [
+                "schema:Action"
+            ]
+        },
+        {
+            "@type": {
+                "Dataset": true
+            },
+            "@id": "urn:resource:sensor-dataset",
+            "dcterms:description": "Telemetry dataset (embargoed until publication)",
+            "dcterms:title": "sensor-dataset",
+            "schema:additionalType": [
+                "schema:Dataset"
+            ],
+            "schema:isPartOf": [
+                {
+                    "@id": "urn:resource:ethics-approval"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Graph types (`Process`, `Dataset`, etc.) map to schema.org types
+(`schema:SoftwareApplication`, `schema:Dataset`). This makes the graph
+discoverable by Google Rich Results and other schema.org consumers.
+
+### Organizational View / W3C Org (computed)
+
+The `#OrgStructure` pattern groups resources by `@type` into
+`org:OrganizationalUnit` within an `org:Organization`:
+
+```json
+{
+    "@type": "org:Organization",
+    "@id": "https://apercue.ca/org#org",
+    "skos:prefLabel": "Research Pipeline Organization",
+    "org:hasUnit": [
+        {
+            "@type": "org:OrganizationalUnit",
+            "@id": "https://apercue.ca/org#unit/Governance",
+            "skos:prefLabel": "Governance",
+            "org:hasMember": [
+                {
+                    "@id": "urn:resource:ethics-approval",
+                    "dcterms:title": "ethics-approval"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Types become departments; resources become members. The same typed
+graph that drives scheduling and compliance also projects as an
+organizational hierarchy.
+
+### Resource Annotations / Web Annotation (computed)
+
+The `#AnnotationCollection` pattern attaches structured notes to graph
+resources using the W3C Web Annotation model:
+
+```json
+{
+    "type": "AnnotationCollection",
+    "label": "Research Pipeline Review Annotations",
+    "total": 3,
+    "items": [
+        {
+            "type": "Annotation",
+            "motivation": "oa:assessing",
+            "body": {
+                "type": "TextualBody",
+                "value": "IRB protocol approved 2024-01-15",
+                "format": "text/plain"
+            },
+            "target": {
+                "type": "SpecificResource",
+                "source": "urn:resource:ethics-approval"
+            }
+        },
+        {
+            "type": "Annotation",
+            "motivation": "oa:commenting",
+            "body": {
+                "type": "TextualBody",
+                "value": "Data under embargo until publication",
+                "format": "text/plain"
+            },
+            "target": {
+                "type": "SpecificResource",
+                "source": "urn:resource:sensor-dataset"
+            }
+        }
+    ]
+}
+```
+
+Each annotation carries a `motivation` from the W3C vocabulary (assessing,
+commenting, classifying). Targets are validated against the graph — an
+annotation referencing a nonexistent resource fails at CUE evaluation time.
+
+### Data Quality / DQV (computed)
+
+The `#DataQualityReport` pattern projects compliance and structural metrics
+as DQV quality measurements:
+
+```json
+{
+    "@graph": [
+        {
+            "@type": "dqv:Category",
+            "@id": "apercue:quality/Intrinsic",
+            "skos:prefLabel": "Intrinsic Data Quality"
+        },
+        {
+            "@type": "dqv:Dimension",
+            "@id": "apercue:quality/Consistency",
+            "skos:prefLabel": "Consistency",
+            "dqv:inCategory": {
+                "@id": "apercue:quality/Intrinsic"
+            }
+        },
+        {
+            "@type": "dqv:Metric",
+            "@id": "apercue:quality/CompliancePassRate",
+            "skos:prefLabel": "Compliance Pass Rate",
+            "skos:definition": "Percentage of compliance rules that pass",
+            "dqv:inDimension": {
+                "@id": "apercue:quality/Consistency"
+            }
+        }
+    ]
+}
+```
+
+Quality dimensions (Completeness, Consistency, Accessibility) organize
+metrics computed from the graph. Each `dqv:QualityMeasurement` links to
+its metric, dimension, and the dataset under evaluation.
+
 ### Spec Coverage
 
 17 specifications implemented,
