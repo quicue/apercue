@@ -86,10 +86,13 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
 - **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages —
   75 pattern definitions across 20 files
 - **Ontology:** JSON-LD `@context` mapping CUE fields to Dublin Core, PROV-O,
-  SHACL, SKOS, OWL-Time, DCAT, ODRL, EARL, schema.org, org
+  SHACL, SKOS, OWL-Time, DCAT, ODRL, EARL, schema.org, ORG, VoID, DQV,
+  Web Annotation, RDFS/OWL, Verifiable Credentials, Activity Streams
 - **Tool(s):** [CUE](https://cuelang.org) v0.15.4, Python toposort for
   precomputation, D3.js for visualization
-- **Output:** JSON-LD 1.1 with W3C vocabulary terms; SHACL validation reports;
-  PROV-O provenance traces; OWL-Time scheduling intervals; DCAT catalogs
+- **Output:** JSON-LD 1.1 with 17 W3C vocabulary projections; SHACL validation
+  reports; PROV-O provenance; OWL-Time scheduling; DCAT catalogs; ODRL policies;
+  VoID self-descriptions; OWL ontologies; SKOS taxonomies; Activity Streams;
+  Verifiable Credentials; Web Annotations; DQV quality metrics; EARL test plans
 - **Source code:** [github.com/quicue/apercue](https://github.com/quicue/apercue) (Apache 2.0)
 - **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 17 specs, computed JSON evidence
