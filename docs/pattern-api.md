@@ -515,6 +515,115 @@ Propagate health through the graph.
 
 ---
 
+## W3C Projection Patterns (Added Feb 2026)
+
+### #SHACLShapes (`patterns/shapes.cue`)
+
+Generate SHACL NodeShape and PropertyShape definitions from graph structure.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `Namespace: string` — shape IRI prefix (e.g., `"https://apercue.ca/shapes/recipe#"`)
+
+**Output:**
+- `shapes_graph` — JSON-LD with `sh:NodeShape` per `@type`, `sh:PropertyShape` for name/description/depends_on
+- `summary` — `type_count`, `property_count`
+
+### #SKOSTaxonomy (`patterns/taxonomy.cue`)
+
+Hierarchical SKOS ConceptScheme from graph types with broader/narrower/related.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `SchemeTitle?: string`
+- `Hierarchy?: #TypeHierarchy` — `{parent: [children]}` for `skos:broader`
+
+**Output:**
+- `taxonomy_scheme` — JSON-LD `skos:ConceptScheme` with `skos:Concept` per type, `skos:broader`/`narrower` from hierarchy, `skos:related` from co-occurrence
+- `summary` — `total_concepts`, `with_broader`, `related_pairs`
+
+### #VoIDDataset (`patterns/void.cue`)
+
+Graph self-description as a VoID dataset.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `DatasetURI: string` | `*"urn:apercue:dataset"`
+- `Title?, Homepage?, SparqlEndpoint?, DataDump?: string`
+
+**Output:**
+- `void_description` — JSON-LD `void:Dataset` with entity/triple/class counts, `void:classPartition` per type, `void:propertyPartition`, `void:Linkset` for dependency edges
+- `summary` — `entities`, `triples`, `classes`, `links`, `properties`
+
+### #ProvenancePlan (`patterns/provenance_plan.cue`)
+
+Charter gates as PROV-O Plan with Activity per gate.
+
+**Input:**
+- `Charter` — with `gates` (from `charter.#Charter`)
+- `Graph: #AnalyzableGraph`
+- `GateStatus?: {[string]: {satisfied: bool, ...}}` — from gap analysis
+- `Agent?: string`
+
+**Output:**
+- `plan_report` — JSON-LD with `prov:Plan`, `prov:Activity` per gate, `prov:Entity` for charter, `prov:Agent`
+- `summary` — `gates`, `satisfied`, `pending`
+
+### #DataQualityReport (`patterns/quality.cue`)
+
+DQV quality metrics from compliance/gap analysis.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `DatasetURI: string` | `*"urn:apercue:dataset"`
+- `ComplianceResults?: [...]` — from `#ComplianceCheck`
+- `GapComplete?: bool`, `MissingResources?: int`, `MissingTypes?: int` — from `#GapAnalysis`
+
+**Output:**
+- `quality_report` — JSON-LD with `dqv:QualityMeasurement` per metric across 3 dimensions (Completeness, Consistency, Accessibility)
+- `summary` — `dimensions`, `measurements`, `overall_score`
+
+### #AnnotationCollection (`patterns/annotation.cue`)
+
+Web Annotation model for graph resource notes.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `Annotations: [...#ResourceAnnotation]` — target (resource name), body (text), motivation, optional creator/tags
+
+**Output:**
+- `annotation_collection` — JSON-LD with `oa:Annotation` per entry, `oa:TextualBody`, W3C motivations (13 standard values)
+- `summary` — `total`, `by_motivation`, `distinct_targets`
+
+### #OWLOntology (`patterns/ontology.cue`)
+
+Formal OWL vocabulary from graph type hierarchy.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `Spec: #OntologySpec` — URI, Title, Description, Version
+- `Hierarchy?: {[string]: [...string]}` — parent→children for `rdfs:subClassOf`
+- `IncludeIndividuals: bool` | `*false`
+
+**Output:**
+- `owl_ontology` — JSON-LD with `owl:Ontology` metadata, `rdfs:Class` per type, `owl:ObjectProperty` for depends_on, optional `owl:NamedIndividual` per resource
+- `summary` — `ontology_uri`, `classes`, `properties`, optionally `individuals`
+
+### #DCATDistribution (`patterns/catalog.cue`)
+
+Extended DCAT with Distribution and DataService entries.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `Title, Description?: string`
+- `Distributions: [...{title, format, downloadURL, mediaType?}]`
+- `DataServices: [...{title, endpointURL, description?}]`
+
+**Output:**
+- `dcat_catalog` — JSON-LD `dcat:Catalog` with `dcat:Distribution` and `dcat:DataService` entries alongside `dcat:Dataset`
+
+---
+
 ## Federation (`patterns/federation.cue`)
 
 ### #FederatedContext
