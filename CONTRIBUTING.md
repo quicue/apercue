@@ -12,7 +12,7 @@
 git clone git@github.com:quicue/apercue.git
 cd apercue
 cue vet ./...                         # validate everything
-python3 tools/validate-w3c.py -v      # W3C conformance (19 tests)
+python3 tools/validate-w3c.py -v      # W3C conformance (72 tests)
 ```
 
 ## Validation
