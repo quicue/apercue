@@ -25,6 +25,13 @@ the standards-compliant output.
 | **VC 2.0** | VerifiableCredential | `#ValidationCredential.vc` | `patterns/credentials.cue` | `cue export -e validation_credential.vc` |
 | **Activity Streams 2.0** | as:OrderedCollection | `#ActivityStream.stream` | `patterns/activity.cue` | `cue export -e activity_stream.stream` |
 | **DCAT 3** | dcat:Catalog, dcat:Dataset | `#DCATCatalog.dcat_catalog` | `patterns/catalog.cue` | `cue export -e catalog.dcat_catalog` |
+| **SHACL** | sh:NodeShape, sh:PropertyShape | `#SHACLShapes.shapes_graph` | `patterns/shapes.cue` | `cue export -e shape_export.shapes_graph` |
+| **SKOS** | skos:broader, skos:narrower | `#SKOSTaxonomy.taxonomy_scheme` | `patterns/taxonomy.cue` | `cue export -e _taxonomy.taxonomy_scheme` |
+| **VoID** | void:Dataset, void:Linkset | `#VoIDDataset.void_description` | `patterns/void.cue` | `cue export -e void_dataset.void_description` |
+| **PROV-O** | prov:Plan, prov:Activity | `#ProvenancePlan.plan_report` | `patterns/provenance_plan.cue` | `cue export -e _prov_plan.plan_report` |
+| **DQV** | dqv:QualityMeasurement, dqv:Metric | `#DataQualityReport.quality_report` | `patterns/quality.cue` | `cue export -e _quality.quality_report` |
+| **Web Annotation** | oa:Annotation, oa:TextualBody | `#AnnotationCollection.annotation_collection` | `patterns/annotation.cue` | `cue export -e annotations.annotation_collection` |
+| **RDFS/OWL** | rdfs:Class, owl:ObjectProperty | `#OWLOntology.owl_ontology` | `patterns/ontology.cue` | `cue export -e ontology.owl_ontology` |
 
 ## Downstream (in quicue.ca)
 
@@ -63,4 +70,9 @@ different views of the same typed graph, not separate processing stages.
 - [W3C ORG](https://www.w3.org/TR/vocab-org/) — W3C Recommendation
 - [Verifiable Credentials 2.0](https://www.w3.org/TR/vc-data-model-2.0/) — W3C Recommendation
 - [Activity Streams 2.0](https://www.w3.org/TR/activitystreams-core/) — W3C Recommendation
+- [VoID](https://www.w3.org/TR/void/) — W3C Interest Group Note
+- [DQV](https://www.w3.org/TR/vocab-dqv/) — W3C Note
+- [Web Annotation](https://www.w3.org/TR/annotation-model/) — W3C Recommendation
+- [RDF Schema](https://www.w3.org/TR/rdf-schema/) — W3C Recommendation
+- [OWL 2](https://www.w3.org/TR/owl2-overview/) — W3C Recommendation
 - [Hydra Core](https://www.hydra-cg.com/spec/latest/core/) — W3C Community Group
