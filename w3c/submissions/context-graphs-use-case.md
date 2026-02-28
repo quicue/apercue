@@ -79,14 +79,22 @@ of the same resources:
 
 | Context | W3C Specification | Projection Expression |
 |---------|------------------|----------------------|
-| Scheduling | OWL-Time | `cue export -e time_report` |
-| Compliance | SHACL | `cue export -e compliance` |
-| Provenance | PROV-O | `cue export -e provenance` |
-| Access control | ODRL | `cue export -e access_policy` |
-| Cataloging | DCAT | `cue export -e dcat_catalog` |
-| Testing | EARL | `cue export -e test_plan` |
-| Vocabulary | SKOS | `cue export -e type_registry` |
-| Identity | JSON-LD | `cue export -e context` |
+| Scheduling | OWL-Time | `cue export -e cpm.time_report` |
+| Compliance | SHACL | `cue export -e compliance.shacl_report` |
+| Provenance | PROV-O | `cue export -e provenance.prov_report` |
+| Access control | ODRL | `cue export -e access_policy.odrl_policy` |
+| Cataloging | DCAT 3 | `cue export -e catalog.dcat_catalog` |
+| Self-description | VoID | `cue export -e void_dataset.void_description` |
+| Quality | DQV | `cue export -e _quality.quality_report` |
+| Annotation | Web Annotation | `cue export -e annotations.annotation_collection` |
+| Vocabulary | SKOS | `cue export -e _taxonomy.taxonomy_scheme` |
+| Type system | RDFS/OWL | `cue export -e ontology.owl_ontology` |
+| Testing | EARL | `cue export -e smoke.earl_report` |
+| Discovery | schema.org | `cue export -e schema_view.schema_graph` |
+| Organization | W3C Org | `cue export -e structure.org_report` |
+| Activity log | Activity Streams | `cue export -e activity_stream.stream` |
+| Attestation | VC 2.0 | `cue export -e validation_credential.vc` |
+| Identity | JSON-LD 1.1 | `cue export -e context` |
 
 Resource identity (`@id`) is stable across all projections because the graph
 is the single source of truth.
