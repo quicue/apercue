@@ -14,6 +14,12 @@
             "org": "http://www.w3.org/ns/org#",
             "cred": "https://www.w3.org/2018/credentials#",
             "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
             "apercue": "https://apercue.ca/vocab#",
             "charter": "https://apercue.ca/charter#",
             "name": "dcterms:title",
@@ -50,6 +56,12 @@
             "org": "http://www.w3.org/ns/org#",
             "cred": "https://www.w3.org/2018/credentials#",
             "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
             "apercue": "https://apercue.ca/vocab#",
             "charter": "https://apercue.ca/charter#",
             "name": "dcterms:title",
@@ -1229,6 +1241,12 @@
             "org": "http://www.w3.org/ns/org#",
             "cred": "https://www.w3.org/2018/credentials#",
             "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
             "apercue": "https://apercue.ca/vocab#",
             "charter": "https://apercue.ca/charter#",
             "name": "dcterms:title",
@@ -1445,6 +1463,12 @@
             "org": "http://www.w3.org/ns/org#",
             "cred": "https://www.w3.org/2018/credentials#",
             "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
             "apercue": "https://apercue.ca/vocab#",
             "charter": "https://apercue.ca/charter#",
             "name": "dcterms:title",
@@ -1793,6 +1817,990 @@
             }
         ]
     },
+    "prov_plan": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@graph": [
+            {
+                "@type": "prov:Plan",
+                "@id": "urn:plan:gc-llm-governance",
+                "dcterms:title": "gc-llm-governance",
+                "prov:wasAttributedTo": {
+                    "@id": "urn:gc:agent:governance-framework"
+                }
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:obligations-mapped",
+                "dcterms:title": "All legal/policy obligations mapped as graph nodes",
+                "apercue:phase": 1,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:gc-llm-governance-framework"
+                    },
+                    {
+                        "@id": "urn:resource:directive-on-adm"
+                    },
+                    {
+                        "@id": "urn:resource:privacy-act"
+                    },
+                    {
+                        "@id": "urn:resource:official-languages-act"
+                    },
+                    {
+                        "@id": "urn:resource:cccs-itsap-00-041"
+                    },
+                    {
+                        "@id": "urn:resource:genai-guide-v2"
+                    },
+                    {
+                        "@id": "urn:resource:faster-principles"
+                    },
+                    {
+                        "@id": "urn:resource:aia-requirement"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                }
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:controls-defined",
+                "dcterms:title": "AIA impact levels + all control objectives defined",
+                "apercue:phase": 2,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:aia-level-i"
+                    },
+                    {
+                        "@id": "urn:resource:aia-level-ii"
+                    },
+                    {
+                        "@id": "urn:resource:aia-level-iii"
+                    },
+                    {
+                        "@id": "urn:resource:aia-level-iv"
+                    },
+                    {
+                        "@id": "urn:resource:pii-prompt-blocking"
+                    },
+                    {
+                        "@id": "urn:resource:vendor-data-classification"
+                    },
+                    {
+                        "@id": "urn:resource:bilingual-quality-parity"
+                    },
+                    {
+                        "@id": "urn:resource:human-in-loop-gate"
+                    },
+                    {
+                        "@id": "urn:resource:peer-review-mechanism"
+                    },
+                    {
+                        "@id": "urn:resource:bias-testing-framework"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:rules-compilable",
+                "dcterms:title": "All compliance rules pass cue vet, SHACL report exports",
+                "apercue:phase": 3,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:rule-pii-blocking"
+                    },
+                    {
+                        "@id": "urn:resource:rule-classification-enforcement"
+                    },
+                    {
+                        "@id": "urn:resource:rule-bilingual-output"
+                    },
+                    {
+                        "@id": "urn:resource:rule-human-review-level-iii"
+                    },
+                    {
+                        "@id": "urn:resource:rule-peer-review-level-ii"
+                    },
+                    {
+                        "@id": "urn:resource:rule-bias-demographic"
+                    },
+                    {
+                        "@id": "urn:resource:rule-cccs-threat-coverage"
+                    },
+                    {
+                        "@id": "urn:resource:rule-faster-coverage"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:knowledge-grounded",
+                "dcterms:title": "Authoritative knowledge graph validates, domain scopes defined",
+                "apercue:phase": 4,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:knowledge-graph-schema"
+                    },
+                    {
+                        "@id": "urn:resource:policy-fact-registry"
+                    },
+                    {
+                        "@id": "urn:resource:authoritative-source-index"
+                    },
+                    {
+                        "@id": "urn:resource:term-definitions-registry"
+                    },
+                    {
+                        "@id": "urn:resource:domain-scope-procurement"
+                    },
+                    {
+                        "@id": "urn:resource:domain-scope-hr"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:policies-bound",
+                "dcterms:title": "ODRL policies export valid JSON-LD, provider binding resolves",
+                "apercue:phase": 5,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:odrl-unclassified"
+                    },
+                    {
+                        "@id": "urn:resource:odrl-protected-a"
+                    },
+                    {
+                        "@id": "urn:resource:odrl-protected-b"
+                    },
+                    {
+                        "@id": "urn:resource:provider-gc-cloud"
+                    },
+                    {
+                        "@id": "urn:resource:provider-bedrock"
+                    },
+                    {
+                        "@id": "urn:resource:provider-self-hosted"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:deployments-modeled",
+                "dcterms:title": "Reference LLM deployments with full constraint binding",
+                "apercue:phase": 6,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:deployment-procurement-assistant"
+                    },
+                    {
+                        "@id": "urn:resource:deployment-hr-assistant"
+                    },
+                    {
+                        "@id": "urn:resource:deployment-internal-search"
+                    },
+                    {
+                        "@id": "urn:resource:classification-gate"
+                    },
+                    {
+                        "@id": "urn:resource:bilingual-gate"
+                    },
+                    {
+                        "@id": "urn:resource:human-review-gate"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:audit-operational",
+                "dcterms:title": "PROV-O audit trail and EARL smoke tests operational",
+                "apercue:phase": 7,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:audit-sink-prov-o"
+                    },
+                    {
+                        "@id": "urn:resource:smoke-test-bilingual"
+                    },
+                    {
+                        "@id": "urn:resource:smoke-test-pii-blocking"
+                    },
+                    {
+                        "@id": "urn:resource:smoke-test-scope-enforcement"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Activity",
+                "@id": "urn:gate:compliance-demonstrable",
+                "dcterms:title": "Full W3C projection suite — SHACL, VC, DCAT, OWL-Time",
+                "apercue:phase": 8,
+                "prov:qualifiedAssociation": {
+                    "@type": "prov:Association",
+                    "prov:agent": {
+                        "@id": "urn:gc:agent:governance-framework"
+                    },
+                    "prov:hadPlan": {
+                        "@id": "urn:plan:gc-llm-governance"
+                    }
+                },
+                "prov:used": [
+                    {
+                        "@id": "urn:resource:shacl-compliance-report"
+                    },
+                    {
+                        "@id": "urn:resource:vc-compliance-credential"
+                    },
+                    {
+                        "@id": "urn:resource:dcat-ai-register-entry"
+                    },
+                    {
+                        "@id": "urn:resource:owl-time-compliance-schedule"
+                    }
+                ],
+                "prov:wasEndedBy": {
+                    "@type": "prov:Activity",
+                    "dcterms:title": "Gate satisfied"
+                },
+                "prov:wasInformedBy": [
+                    {
+                        "@id": "urn:gate:audit-operational"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:gc-llm-governance-framework",
+                "dcterms:description": "Root: constraint-first LLM governance using apercue/quicue/quicue-kg",
+                "dcterms:title": "gc-llm-governance-framework",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:directive-on-adm",
+                "dcterms:description": "TBS Directive on Automated Decision-Making (compliance deadline: 2026-06-24)",
+                "dcterms:title": "directive-on-adm",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:privacy-act",
+                "dcterms:description": "Privacy Act — s.7 use limitation, s.8 disclosure limitation",
+                "dcterms:title": "privacy-act",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:official-languages-act",
+                "dcterms:description": "Official Languages Act — simultaneous bilingual output, equal quality",
+                "dcterms:title": "official-languages-act",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:cccs-itsap-00-041",
+                "dcterms:description": "CCCS Generative AI guidance — 8 threat categories",
+                "dcterms:title": "cccs-itsap-00-041",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:genai-guide-v2",
+                "dcterms:description": "TBS Guide on the Use of Generative AI (v2) — FASTER principles",
+                "dcterms:title": "genai-guide-v2",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:faster-principles",
+                "dcterms:description": "FASTER: Fair, Accountable, Secure, Transparent, Educated, Relevant",
+                "dcterms:title": "faster-principles",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:aia-requirement",
+                "dcterms:description": "Algorithmic Impact Assessment — mandatory risk assessment before deployment",
+                "dcterms:title": "aia-requirement",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:obligations-mapped"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:aia-level-i",
+                "dcterms:description": "AIA Level I — little/no impact, easily reversible",
+                "dcterms:title": "aia-level-i",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:aia-level-ii",
+                "dcterms:description": "AIA Level II — moderate impact, likely reversible (peer review required)",
+                "dcterms:title": "aia-level-ii",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:aia-level-iii",
+                "dcterms:description": "AIA Level III — high impact, difficult to reverse (human-in-the-loop required)",
+                "dcterms:title": "aia-level-iii",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:aia-level-iv",
+                "dcterms:description": "AIA Level IV — very high, irreversible (TB approval required)",
+                "dcterms:title": "aia-level-iv",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:pii-prompt-blocking",
+                "dcterms:description": "Block PII from entering LLM prompts — Privacy Act s.8 compliance",
+                "dcterms:title": "pii-prompt-blocking",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:vendor-data-classification",
+                "dcterms:description": "Enforce data classification for LLM vendor selection",
+                "dcterms:title": "vendor-data-classification",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:bilingual-quality-parity",
+                "dcterms:description": "EN/FR output quality parity — OLA compliance",
+                "dcterms:title": "bilingual-quality-parity",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:human-in-loop-gate",
+                "dcterms:description": "Human review required for AIA Level III+ decisions",
+                "dcterms:title": "human-in-loop-gate",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:peer-review-mechanism",
+                "dcterms:description": "Qualified peer review for AIA Level II+ systems",
+                "dcterms:title": "peer-review-mechanism",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:bias-testing-framework",
+                "dcterms:description": "Demographic bias testing per Directive Appendix C",
+                "dcterms:title": "bias-testing-framework",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:controls-defined"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-pii-blocking",
+                "dcterms:description": "Block Protected B+ data from commercial LLM prompts",
+                "dcterms:title": "rule-pii-blocking",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-classification-enforcement",
+                "dcterms:description": "Enforce Unclassified/Protected A/B classification on provider selection",
+                "dcterms:title": "rule-classification-enforcement",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-bilingual-output",
+                "dcterms:description": "All public-facing LLM outputs must be available in both EN and FR",
+                "dcterms:title": "rule-bilingual-output",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-human-review-level-iii",
+                "dcterms:description": "AIA Level III+ decisions require documented human review",
+                "dcterms:title": "rule-human-review-level-iii",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-peer-review-level-ii",
+                "dcterms:description": "AIA Level II+ systems require qualified peer review",
+                "dcterms:title": "rule-peer-review-level-ii",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-bias-demographic",
+                "dcterms:description": "Test for unintended demographic biases in LLM outputs",
+                "dcterms:title": "rule-bias-demographic",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-cccs-threat-coverage",
+                "dcterms:description": "Address all 8 CCCS generative AI threat categories",
+                "dcterms:title": "rule-cccs-threat-coverage",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:rule-faster-coverage",
+                "dcterms:description": "Demonstrate coverage of all 6 FASTER principles",
+                "dcterms:title": "rule-faster-coverage",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:rules-compilable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:knowledge-graph-schema",
+                "dcterms:description": "quicue-kg schema for authoritative knowledge grounding",
+                "dcterms:title": "knowledge-graph-schema",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:policy-fact-registry",
+                "dcterms:description": "Verified facts from statutes, directives, and guides",
+                "dcterms:title": "policy-fact-registry",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:authoritative-source-index",
+                "dcterms:description": "Source documents with SHA256 integrity and freshness dates",
+                "dcterms:title": "authoritative-source-index",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:term-definitions-registry",
+                "dcterms:description": "Authoritative term definitions (prevents LLM-invented definitions)",
+                "dcterms:title": "term-definitions-registry",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:domain-scope-procurement",
+                "dcterms:description": "Knowledge boundary for procurement-domain LLM deployments",
+                "dcterms:title": "domain-scope-procurement",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:domain-scope-hr",
+                "dcterms:description": "Knowledge boundary for HR-domain LLM deployments",
+                "dcterms:title": "domain-scope-hr",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:knowledge-grounded"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:odrl-unclassified",
+                "dcterms:description": "ODRL policy for Unclassified data — commercial LLMs permitted",
+                "dcterms:title": "odrl-unclassified",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:odrl-protected-a",
+                "dcterms:description": "ODRL policy for Protected A — GC-controlled infrastructure only",
+                "dcterms:title": "odrl-protected-a",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:odrl-protected-b",
+                "dcterms:description": "ODRL policy for Protected B — GC cloud provider with PII blocking",
+                "dcterms:title": "odrl-protected-b",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:provider-gc-cloud",
+                "dcterms:description": "GC cloud provider — GC-tenant, Protected B capable",
+                "dcterms:title": "provider-gc-cloud",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:provider-bedrock",
+                "dcterms:description": "AWS Bedrock — GC region, Protected A capable",
+                "dcterms:title": "provider-bedrock",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:provider-self-hosted",
+                "dcterms:description": "Self-hosted LLM (Ollama/vLLM) — air-gapped, any classification",
+                "dcterms:title": "provider-self-hosted",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:policies-bound"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:deployment-procurement-assistant",
+                "dcterms:description": "Procurement assistant — GC cloud provider, bilingual, scope-bounded",
+                "dcterms:title": "deployment-procurement-assistant",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:deployment-hr-assistant",
+                "dcterms:description": "HR assistant — GC cloud provider, bilingual, PII-gated",
+                "dcterms:title": "deployment-hr-assistant",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:deployment-internal-search",
+                "dcterms:description": "Internal knowledge search — self-hosted, knowledge-grounded",
+                "dcterms:title": "deployment-internal-search",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:classification-gate",
+                "dcterms:description": "Runtime data classification checkpoint before LLM invocation",
+                "dcterms:title": "classification-gate",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:bilingual-gate",
+                "dcterms:description": "Runtime EN/FR quality validation checkpoint",
+                "dcterms:title": "bilingual-gate",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:human-review-gate",
+                "dcterms:description": "Human review checkpoint for AIA Level III+ decisions",
+                "dcterms:title": "human-review-gate",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:deployments-modeled"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:audit-sink-prov-o",
+                "dcterms:description": "PROV-O audit trail — every LLM response traced to source knowledge",
+                "dcterms:title": "audit-sink-prov-o",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:audit-operational"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:smoke-test-bilingual",
+                "dcterms:description": "EARL smoke test — EN/FR quality parity validation",
+                "dcterms:title": "smoke-test-bilingual",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:audit-operational"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:smoke-test-pii-blocking",
+                "dcterms:description": "EARL smoke test — PII blocked from commercial LLM prompts",
+                "dcterms:title": "smoke-test-pii-blocking",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:audit-operational"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:smoke-test-scope-enforcement",
+                "dcterms:description": "EARL smoke test — LLM stays within domain scope boundaries",
+                "dcterms:title": "smoke-test-scope-enforcement",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:audit-operational"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:shacl-compliance-report",
+                "dcterms:description": "sh:ValidationReport — per-rule conformance for TBS/OAG auditors",
+                "dcterms:title": "shacl-compliance-report",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:compliance-demonstrable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:vc-compliance-credential",
+                "dcterms:description": "VC 2.0 credential attesting compliance (wraps SHACL report)",
+                "dcterms:title": "vc-compliance-credential",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:compliance-demonstrable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:dcat-ai-register-entry",
+                "dcterms:description": "DCAT 3 catalog entry for GC AI Register (machine-readable)",
+                "dcterms:title": "dcat-ai-register-entry",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:compliance-demonstrable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Entity",
+                "@id": "urn:resource:owl-time-compliance-schedule",
+                "dcterms:description": "OWL-Time critical path schedule to June 2026 compliance deadline",
+                "dcterms:title": "owl-time-compliance-schedule",
+                "prov:wasGeneratedBy": [
+                    {
+                        "@id": "urn:gate:compliance-demonstrable"
+                    }
+                ]
+            },
+            {
+                "@type": "prov:Agent",
+                "@id": "urn:gc:agent:governance-framework"
+            }
+        ]
+    },
     "dcat": {
         "@context": {
             "@base": "urn:resource:",
@@ -1808,6 +2816,12 @@
             "org": "http://www.w3.org/ns/org#",
             "cred": "https://www.w3.org/2018/credentials#",
             "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
             "apercue": "https://apercue.ca/vocab#",
             "charter": "https://apercue.ca/charter#",
             "name": "dcterms:title",
@@ -1963,6 +2977,12 @@
                 "org": "http://www.w3.org/ns/org#",
                 "cred": "https://www.w3.org/2018/credentials#",
                 "as": "https://www.w3.org/ns/activitystreams#",
+                "void": "http://rdfs.org/ns/void#",
+                "dqv": "http://www.w3.org/ns/dqv#",
+                "oa": "http://www.w3.org/ns/oa#",
+                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                "owl": "http://www.w3.org/2002/07/owl#",
+                "xsd": "http://www.w3.org/2001/XMLSchema#",
                 "apercue": "https://apercue.ca/vocab#",
                 "charter": "https://apercue.ca/charter#",
                 "name": "dcterms:title",
@@ -2009,6 +3029,12 @@
                     "org": "http://www.w3.org/ns/org#",
                     "cred": "https://www.w3.org/2018/credentials#",
                     "as": "https://www.w3.org/ns/activitystreams#",
+                    "void": "http://rdfs.org/ns/void#",
+                    "dqv": "http://www.w3.org/ns/dqv#",
+                    "oa": "http://www.w3.org/ns/oa#",
+                    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                    "owl": "http://www.w3.org/2002/07/owl#",
+                    "xsd": "http://www.w3.org/2001/XMLSchema#",
                     "apercue": "https://apercue.ca/vocab#",
                     "charter": "https://apercue.ca/charter#",
                     "name": "dcterms:title",
@@ -2045,6 +3071,12 @@
             "org": "http://www.w3.org/ns/org#",
             "cred": "https://www.w3.org/2018/credentials#",
             "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
             "apercue": "https://apercue.ca/vocab#",
             "charter": "https://apercue.ca/charter#",
             "name": "dcterms:title",
@@ -2366,6 +3398,2697 @@
                 "skos:topConceptOf": {
                     "@id": "https://apercue.ca/gc-governance#TypeVocabulary"
                 }
+            }
+        ]
+    },
+    "shapes": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@graph": [
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#FrameworkShape",
+                "sh:targetClass": {
+                    "@id": "apercue:Framework"
+                },
+                "rdfs:label": "Framework Shape",
+                "rdfs:comment": "Structural shape for resources of type Framework (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#DirectiveShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Framework"
+                    },
+                    {
+                        "@id": "apercue:Directive"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:Directive"
+                },
+                "rdfs:label": "Directive Shape",
+                "rdfs:comment": "Structural shape for resources of type Directive (derived from 2 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#StatuteShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Framework"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:Statute"
+                },
+                "rdfs:label": "Statute Shape",
+                "rdfs:comment": "Structural shape for resources of type Statute (derived from 2 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#SecurityGuidanceShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Framework"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:SecurityGuidance"
+                },
+                "rdfs:label": "SecurityGuidance Shape",
+                "rdfs:comment": "Structural shape for resources of type SecurityGuidance (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#GuideShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Directive"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:Guide"
+                },
+                "rdfs:label": "Guide Shape",
+                "rdfs:comment": "Structural shape for resources of type Guide (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#PrincipleShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Guide"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:Principle"
+                },
+                "rdfs:label": "Principle Shape",
+                "rdfs:comment": "Structural shape for resources of type Principle (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#ImpactLevelShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Directive"
+                    },
+                    {
+                        "@id": "apercue:ImpactLevel"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:ImpactLevel"
+                },
+                "rdfs:label": "ImpactLevel Shape",
+                "rdfs:comment": "Structural shape for resources of type ImpactLevel (derived from 4 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#ControlObjectiveShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Statute"
+                    },
+                    {
+                        "@id": "apercue:ImpactLevel"
+                    },
+                    {
+                        "@id": "apercue:Directive"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:ControlObjective"
+                },
+                "rdfs:label": "ControlObjective Shape",
+                "rdfs:comment": "Structural shape for resources of type ControlObjective (derived from 6 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#ComplianceRuleShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ControlObjective"
+                    },
+                    {
+                        "@id": "apercue:SecurityGuidance"
+                    },
+                    {
+                        "@id": "apercue:Principle"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:ComplianceRule"
+                },
+                "rdfs:label": "ComplianceRule Shape",
+                "rdfs:comment": "Structural shape for resources of type ComplianceRule (derived from 8 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#DomainScopeShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:Framework"
+                    },
+                    {
+                        "@id": "apercue:DomainScope"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:DomainScope"
+                },
+                "rdfs:label": "DomainScope Shape",
+                "rdfs:comment": "Structural shape for resources of type DomainScope (derived from 3 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#PolicyFactShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:DomainScope"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:PolicyFact"
+                },
+                "rdfs:label": "PolicyFact Shape",
+                "rdfs:comment": "Structural shape for resources of type PolicyFact (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#AuthoritativeSourceShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:DomainScope"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:AuthoritativeSource"
+                },
+                "rdfs:label": "AuthoritativeSource Shape",
+                "rdfs:comment": "Structural shape for resources of type AuthoritativeSource (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#TermDefinitionShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:DomainScope"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:TermDefinition"
+                },
+                "rdfs:label": "TermDefinition Shape",
+                "rdfs:comment": "Structural shape for resources of type TermDefinition (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#PolicyConstraintShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ComplianceRule"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:PolicyConstraint"
+                },
+                "rdfs:label": "PolicyConstraint Shape",
+                "rdfs:comment": "Structural shape for resources of type PolicyConstraint (derived from 3 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#LLMProviderShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:PolicyConstraint"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:LLMProvider"
+                },
+                "rdfs:label": "LLMProvider Shape",
+                "rdfs:comment": "Structural shape for resources of type LLMProvider (derived from 3 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#LLMDeploymentShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:LLMProvider"
+                    },
+                    {
+                        "@id": "apercue:DomainScope"
+                    },
+                    {
+                        "@id": "apercue:ComplianceRule"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:LLMDeployment"
+                },
+                "rdfs:label": "LLMDeployment Shape",
+                "rdfs:comment": "Structural shape for resources of type LLMDeployment (derived from 3 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#ClassificationGateShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ComplianceRule"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:ClassificationGate"
+                },
+                "rdfs:label": "ClassificationGate Shape",
+                "rdfs:comment": "Structural shape for resources of type ClassificationGate (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#BilingualGateShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ComplianceRule"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:BilingualGate"
+                },
+                "rdfs:label": "BilingualGate Shape",
+                "rdfs:comment": "Structural shape for resources of type BilingualGate (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#HumanReviewGateShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ComplianceRule"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:HumanReviewGate"
+                },
+                "rdfs:label": "HumanReviewGate Shape",
+                "rdfs:comment": "Structural shape for resources of type HumanReviewGate (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#AuditSinkShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:LLMDeployment"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:AuditSink"
+                },
+                "rdfs:label": "AuditSink Shape",
+                "rdfs:comment": "Structural shape for resources of type AuditSink (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#SmokeTestShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:BilingualGate"
+                    },
+                    {
+                        "@id": "apercue:ClassificationGate"
+                    },
+                    {
+                        "@id": "apercue:LLMDeployment"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:SmokeTest"
+                },
+                "rdfs:label": "SmokeTest Shape",
+                "rdfs:comment": "Structural shape for resources of type SmokeTest (derived from 3 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#ComplianceReportShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:AuditSink"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:ComplianceReport"
+                },
+                "rdfs:label": "ComplianceReport Shape",
+                "rdfs:comment": "Structural shape for resources of type ComplianceReport (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#VerifiableCredentialShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ComplianceReport"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:VerifiableCredential"
+                },
+                "rdfs:label": "VerifiableCredential Shape",
+                "rdfs:comment": "Structural shape for resources of type VerifiableCredential (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#CatalogEntryShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:LLMDeployment"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:CatalogEntry"
+                },
+                "rdfs:label": "CatalogEntry Shape",
+                "rdfs:comment": "Structural shape for resources of type CatalogEntry (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            },
+            {
+                "@type": "sh:NodeShape",
+                "@id": "https://apercue.ca/shapes/gc-governance#ScheduleShape",
+                "apercue:dependsOnTypes": [
+                    {
+                        "@id": "apercue:ComplianceReport"
+                    }
+                ],
+                "sh:targetClass": {
+                    "@id": "apercue:Schedule"
+                },
+                "rdfs:label": "Schedule Shape",
+                "rdfs:comment": "Structural shape for resources of type Schedule (derived from 1 resources)",
+                "sh:property": [
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:title"
+                        },
+                        "sh:minCount": 1,
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "name"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "rdf:type"
+                        },
+                        "sh:minCount": 1,
+                        "sh:name": "type"
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:requires"
+                        },
+                        "sh:name": "depends_on",
+                        "sh:nodeKind": {
+                            "@id": "sh:IRI"
+                        }
+                    },
+                    {
+                        "@type": "sh:PropertyShape",
+                        "sh:path": {
+                            "@id": "dcterms:description"
+                        },
+                        "sh:maxCount": 1,
+                        "sh:datatype": {
+                            "@id": "xsd:string"
+                        },
+                        "sh:name": "description"
+                    }
+                ]
+            }
+        ]
+    },
+    "taxonomy": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "skos:ConceptScheme",
+        "@id": "https://apercue.ca/vocab#TypeTaxonomy",
+        "skos:prefLabel": "GC LLM Governance Type Taxonomy",
+        "dcterms:title": "GC LLM Governance Type Taxonomy",
+        "skos:hasTopConcept": [
+            {
+                "@id": "https://apercue.ca/vocab#Framework"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#SecurityGuidance"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#Guide"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#Principle"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#ImpactLevel"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#DomainScope"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#PolicyFact"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#AuthoritativeSource"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#TermDefinition"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#PolicyConstraint"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#LLMProvider"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#LLMDeployment"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#ClassificationGate"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#BilingualGate"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#HumanReviewGate"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#VerifiableCredential"
+            }
+        ],
+        "apercue:concepts": [
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#Framework",
+                "skos:prefLabel": "Framework",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "Framework — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#Directive",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Obligation"
+                },
+                "skos:prefLabel": "Directive",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "Directive — used by 2 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#Statute",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Obligation"
+                },
+                "skos:prefLabel": "Statute",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "Statute — used by 2 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#SecurityGuidance",
+                "skos:prefLabel": "SecurityGuidance",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "SecurityGuidance — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#Guide",
+                "skos:prefLabel": "Guide",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "Guide — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#Principle",
+                "skos:prefLabel": "Principle",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "Principle — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#ImpactLevel",
+                "skos:prefLabel": "ImpactLevel",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "ImpactLevel — used by 4 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#ControlObjective",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Control"
+                },
+                "skos:prefLabel": "ControlObjective",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "ControlObjective — used by 6 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#ComplianceRule",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Control"
+                },
+                "skos:prefLabel": "ComplianceRule",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "ComplianceRule — used by 8 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#DomainScope",
+                "skos:prefLabel": "DomainScope",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "DomainScope — used by 3 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#PolicyFact",
+                "skos:prefLabel": "PolicyFact",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "PolicyFact — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#AuthoritativeSource",
+                "skos:prefLabel": "AuthoritativeSource",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "AuthoritativeSource — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#TermDefinition",
+                "skos:prefLabel": "TermDefinition",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "TermDefinition — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#PolicyConstraint",
+                "skos:prefLabel": "PolicyConstraint",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "PolicyConstraint — used by 3 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#LLMProvider",
+                "skos:prefLabel": "LLMProvider",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "LLMProvider — used by 3 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#LLMDeployment",
+                "skos:prefLabel": "LLMDeployment",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "LLMDeployment — used by 3 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#ClassificationGate",
+                "skos:prefLabel": "ClassificationGate",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "ClassificationGate — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#BilingualGate",
+                "skos:prefLabel": "BilingualGate",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "BilingualGate — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#HumanReviewGate",
+                "skos:prefLabel": "HumanReviewGate",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "HumanReviewGate — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#AuditSink",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Evidence"
+                },
+                "skos:prefLabel": "AuditSink",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "AuditSink — used by 1 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#SmokeTest",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Operational"
+                },
+                "skos:prefLabel": "SmokeTest",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "SmokeTest — used by 3 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#ComplianceReport",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Evidence"
+                },
+                "skos:prefLabel": "ComplianceReport",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "ComplianceReport — used by 1 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#VerifiableCredential",
+                "skos:prefLabel": "VerifiableCredential",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "VerifiableCredential — used by 1 resources",
+                "skos:topConceptOf": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                }
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#CatalogEntry",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Evidence"
+                },
+                "skos:prefLabel": "CatalogEntry",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "CatalogEntry — used by 1 resources"
+            },
+            {
+                "@type": "skos:Concept",
+                "@id": "https://apercue.ca/vocab#Schedule",
+                "skos:broader": {
+                    "@id": "https://apercue.ca/vocab#Evidence"
+                },
+                "skos:prefLabel": "Schedule",
+                "skos:inScheme": {
+                    "@id": "https://apercue.ca/vocab#TypeTaxonomy"
+                },
+                "skos:scopeNote": "Schedule — used by 1 resources"
+            }
+        ]
+    },
+    "void": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@type": "void:Dataset",
+        "@id": "urn:gc:llm-governance:dataset",
+        "dcterms:title": "GC LLM Governance Dependency Graph",
+        "void:entities": 52,
+        "void:homepage": {
+            "@id": "https://apercue.ca/gc-governance.html"
+        },
+        "void:triples": 259,
+        "void:classes": 25,
+        "void:distinctSubjects": 52,
+        "void:properties": 3,
+        "void:classPartition": [
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:Framework"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:Directive"
+                },
+                "void:entities": 2
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:Statute"
+                },
+                "void:entities": 2
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:SecurityGuidance"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:Guide"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:Principle"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:ImpactLevel"
+                },
+                "void:entities": 4
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:ControlObjective"
+                },
+                "void:entities": 6
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:ComplianceRule"
+                },
+                "void:entities": 8
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:DomainScope"
+                },
+                "void:entities": 3
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:PolicyFact"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:AuthoritativeSource"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:TermDefinition"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:PolicyConstraint"
+                },
+                "void:entities": 3
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:LLMProvider"
+                },
+                "void:entities": 3
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:LLMDeployment"
+                },
+                "void:entities": 3
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:ClassificationGate"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:BilingualGate"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:HumanReviewGate"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:AuditSink"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:SmokeTest"
+                },
+                "void:entities": 3
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:ComplianceReport"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:VerifiableCredential"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:CatalogEntry"
+                },
+                "void:entities": 1
+            },
+            {
+                "@type": "void:Dataset",
+                "void:class": {
+                    "@id": "apercue:Schedule"
+                },
+                "void:entities": 1
+            }
+        ],
+        "void:propertyPartition": [
+            {
+                "@type": "void:Dataset",
+                "void:property": {
+                    "@id": "dcterms:title"
+                },
+                "void:triples": 52
+            },
+            {
+                "@type": "void:Dataset",
+                "void:property": {
+                    "@id": "dcterms:requires"
+                },
+                "void:triples": 51
+            },
+            {
+                "@type": "void:Dataset",
+                "void:property": {
+                    "@id": "dcterms:description"
+                },
+                "void:triples": 52
+            }
+        ],
+        "void:subset": {
+            "@type": "void:Linkset",
+            "void:linkPredicate": {
+                "@id": "dcterms:requires"
+            },
+            "void:triples": 51
+        },
+        "void:vocabulary": [
+            {
+                "@id": "http://purl.org/dc/terms/"
+            },
+            {
+                "@id": "https://apercue.ca/vocab#"
+            }
+        ]
+    },
+    "quality": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@graph": [
+            {
+                "@type": "dqv:Category",
+                "@id": "apercue:quality/Intrinsic",
+                "skos:prefLabel": "Intrinsic Data Quality"
+            },
+            {
+                "@type": "dqv:Dimension",
+                "@id": "apercue:quality/Consistency",
+                "skos:prefLabel": "Consistency",
+                "dqv:inCategory": {
+                    "@id": "apercue:quality/Intrinsic"
+                }
+            },
+            {
+                "@type": "dqv:Metric",
+                "@id": "apercue:quality/CompliancePassRate",
+                "skos:prefLabel": "Compliance Pass Rate",
+                "skos:definition": "Percentage of compliance rules that pass",
+                "dqv:inDimension": {
+                    "@id": "apercue:quality/Consistency"
+                }
+            },
+            {
+                "@type": "dqv:QualityMeasurement",
+                "@id": "apercue:quality/measurement/compliance-rate",
+                "dqv:isMeasurementOf": {
+                    "@id": "apercue:quality/CompliancePassRate"
+                },
+                "dqv:computedOn": {
+                    "@id": "urn:gc:llm-governance:dataset"
+                },
+                "dqv:value": 1.0E+2
+            },
+            {
+                "@type": "dqv:Dimension",
+                "@id": "apercue:quality/Completeness",
+                "skos:prefLabel": "Completeness",
+                "dqv:inCategory": {
+                    "@id": "apercue:quality/Intrinsic"
+                }
+            },
+            {
+                "@type": "dqv:Metric",
+                "@id": "apercue:quality/GapCompleteness",
+                "skos:prefLabel": "Charter Gap Completeness",
+                "skos:definition": "Whether all charter gates are satisfied",
+                "dqv:inDimension": {
+                    "@id": "apercue:quality/Completeness"
+                }
+            },
+            {
+                "@type": "dqv:QualityMeasurement",
+                "@id": "apercue:quality/measurement/gap-completeness",
+                "dqv:isMeasurementOf": {
+                    "@id": "apercue:quality/GapCompleteness"
+                },
+                "dqv:computedOn": {
+                    "@id": "urn:gc:llm-governance:dataset"
+                },
+                "dqv:value": true
+            },
+            {
+                "@type": "dqv:Metric",
+                "@id": "apercue:quality/MissingResources",
+                "skos:prefLabel": "Missing Resource Count",
+                "skos:definition": "Number of resources required by charter but absent from graph",
+                "dqv:inDimension": {
+                    "@id": "apercue:quality/Completeness"
+                }
+            },
+            {
+                "@type": "dqv:QualityMeasurement",
+                "@id": "apercue:quality/measurement/missing-resources",
+                "dqv:isMeasurementOf": {
+                    "@id": "apercue:quality/MissingResources"
+                },
+                "dqv:computedOn": {
+                    "@id": "urn:gc:llm-governance:dataset"
+                },
+                "dqv:value": 0
+            },
+            {
+                "@type": "dqv:Dimension",
+                "@id": "apercue:quality/Accessibility",
+                "skos:prefLabel": "Accessibility",
+                "dqv:inCategory": {
+                    "@id": "apercue:quality/Intrinsic"
+                }
+            },
+            {
+                "@type": "dqv:Metric",
+                "@id": "apercue:quality/DependencyCoverage",
+                "skos:prefLabel": "Dependency Coverage",
+                "skos:definition": "Percentage of resources with at least one dependency",
+                "dqv:inDimension": {
+                    "@id": "apercue:quality/Accessibility"
+                }
+            },
+            {
+                "@type": "dqv:QualityMeasurement",
+                "@id": "apercue:quality/measurement/dep-coverage",
+                "dqv:isMeasurementOf": {
+                    "@id": "apercue:quality/DependencyCoverage"
+                },
+                "dqv:computedOn": {
+                    "@id": "urn:gc:llm-governance:dataset"
+                },
+                "dqv:value": 98.07692307692307692307692307692308
+            },
+            {
+                "@type": "dqv:Metric",
+                "@id": "apercue:quality/GraphDepth",
+                "skos:prefLabel": "Graph Depth",
+                "skos:definition": "Number of topology layers in the dependency graph",
+                "dqv:inDimension": {
+                    "@id": "apercue:quality/Accessibility"
+                }
+            },
+            {
+                "@type": "dqv:QualityMeasurement",
+                "@id": "apercue:quality/measurement/graph-depth",
+                "dqv:isMeasurementOf": {
+                    "@id": "apercue:quality/GraphDepth"
+                },
+                "dqv:computedOn": {
+                    "@id": "urn:gc:llm-governance:dataset"
+                },
+                "dqv:value": 10
+            }
+        ]
+    },
+    "ontology": {
+        "@context": {
+            "@base": "urn:resource:",
+            "dcterms": "http://purl.org/dc/terms/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "dcat": "http://www.w3.org/ns/dcat#",
+            "sh": "http://www.w3.org/ns/shacl#",
+            "skos": "http://www.w3.org/2004/02/skos/core#",
+            "schema": "https://schema.org/",
+            "time": "http://www.w3.org/2006/time#",
+            "earl": "http://www.w3.org/ns/earl#",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "org": "http://www.w3.org/ns/org#",
+            "cred": "https://www.w3.org/2018/credentials#",
+            "as": "https://www.w3.org/ns/activitystreams#",
+            "void": "http://rdfs.org/ns/void#",
+            "dqv": "http://www.w3.org/ns/dqv#",
+            "oa": "http://www.w3.org/ns/oa#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "apercue": "https://apercue.ca/vocab#",
+            "charter": "https://apercue.ca/charter#",
+            "name": "dcterms:title",
+            "description": "dcterms:description",
+            "depends_on": {
+                "@id": "dcterms:requires",
+                "@type": "@id"
+            },
+            "status": {
+                "@id": "schema:actionStatus",
+                "@type": "@id"
+            },
+            "tags": {
+                "@id": "dcterms:subject",
+                "@container": "@set"
+            }
+        },
+        "@graph": [
+            {
+                "@type": "owl:Ontology",
+                "@id": "https://apercue.ca/ontology/gc-governance#",
+                "dcterms:description": "OWL vocabulary from GC LLM governance dependency graph",
+                "dcterms:title": "GC LLM Governance Ontology"
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Framework",
+                "rdfs:label": "Framework",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Obligation"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Directive",
+                "rdfs:label": "Directive",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Obligation"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Statute",
+                "rdfs:label": "Statute",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Obligation"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#SecurityGuidance",
+                "rdfs:label": "SecurityGuidance",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Obligation"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Guide",
+                "rdfs:label": "Guide",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Obligation"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Principle",
+                "rdfs:label": "Principle",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Obligation"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#ImpactLevel",
+                "rdfs:label": "ImpactLevel",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Control"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#ControlObjective",
+                "rdfs:label": "ControlObjective",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Control"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#ComplianceRule",
+                "rdfs:label": "ComplianceRule",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Control"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#DomainScope",
+                "rdfs:label": "DomainScope",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Knowledge"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#PolicyFact",
+                "rdfs:label": "PolicyFact",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Knowledge"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#AuthoritativeSource",
+                "rdfs:label": "AuthoritativeSource",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Knowledge"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#TermDefinition",
+                "rdfs:label": "TermDefinition",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Knowledge"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#PolicyConstraint",
+                "rdfs:label": "PolicyConstraint",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Policy"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#LLMProvider",
+                "rdfs:label": "LLMProvider",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Operational"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#LLMDeployment",
+                "rdfs:label": "LLMDeployment",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Operational"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#ClassificationGate",
+                "rdfs:label": "ClassificationGate",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Operational"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#BilingualGate",
+                "rdfs:label": "BilingualGate",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Operational"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#HumanReviewGate",
+                "rdfs:label": "HumanReviewGate",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Operational"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#AuditSink",
+                "rdfs:label": "AuditSink",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Evidence"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#SmokeTest",
+                "rdfs:label": "SmokeTest",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Evidence"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#ComplianceReport",
+                "rdfs:label": "ComplianceReport",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Evidence"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#VerifiableCredential",
+                "rdfs:label": "VerifiableCredential",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Evidence"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#CatalogEntry",
+                "rdfs:label": "CatalogEntry",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Evidence"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Schedule",
+                "rdfs:label": "Schedule",
+                "rdfs:subClassOf": {
+                    "@id": "https://apercue.ca/ontology/gc-governance#Evidence"
+                }
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Obligation",
+                "rdfs:label": "Obligation"
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Control",
+                "rdfs:label": "Control"
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Operational",
+                "rdfs:label": "Operational"
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Evidence",
+                "rdfs:label": "Evidence"
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Knowledge",
+                "rdfs:label": "Knowledge"
+            },
+            {
+                "@type": [
+                    "rdfs:Class",
+                    "owl:Class"
+                ],
+                "@id": "https://apercue.ca/ontology/gc-governance#Policy",
+                "rdfs:label": "Policy"
+            },
+            {
+                "@type": "owl:ObjectProperty",
+                "@id": "dcterms:requires",
+                "rdfs:label": "depends on",
+                "rdfs:comment": "A resource depends on another resource"
             }
         ]
     },

@@ -10,14 +10,14 @@
         "spec_name": "SHACL",
         "url": "https://www.w3.org/TR/shacl/",
         "status": "Implemented",
-        "coverage": "sh:ValidationReport from compliance checks and gap analysis",
+        "coverage": "sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types",
         "prefix": "sh"
     },
     "SKOS": {
         "spec_name": "SKOS",
         "url": "https://www.w3.org/TR/skos-reference/",
         "status": "Implemented",
-        "coverage": "skos:ConceptScheme from type vocabularies and lifecycle phases",
+        "coverage": "skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower",
         "prefix": "skos"
     },
     "EARL": {
@@ -45,7 +45,7 @@
         "spec_name": "PROV-O",
         "url": "https://www.w3.org/TR/prov-o/",
         "status": "Implemented",
-        "coverage": "prov:Entity + prov:wasDerivedFrom from dependency edges",
+        "coverage": "prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate",
         "prefix": "prov"
     },
     "schema.org": {
@@ -83,6 +83,34 @@
         "coverage": "org:Organization with type-based OrganizationalUnits",
         "prefix": "org"
     },
+    "VoID": {
+        "spec_name": "VoID",
+        "url": "https://www.w3.org/TR/void/",
+        "status": "Implemented",
+        "coverage": "void:Dataset with class/property partitions, linkset statistics, and vocabulary usage",
+        "prefix": "void"
+    },
+    "Web Annotation": {
+        "spec_name": "Web Annotation",
+        "url": "https://www.w3.org/TR/annotation-model/",
+        "status": "Implemented",
+        "coverage": "oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations",
+        "prefix": "oa"
+    },
+    "RDFS": {
+        "spec_name": "RDFS",
+        "url": "https://www.w3.org/TR/rdf-schema/",
+        "status": "Implemented",
+        "coverage": "rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies",
+        "prefix": "rdfs"
+    },
+    "DQV": {
+        "spec_name": "DQV",
+        "url": "https://www.w3.org/TR/vocab-dqv/",
+        "status": "Implemented",
+        "coverage": "dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions",
+        "prefix": "dqv"
+    },
     "Hydra Core": {
         "spec_name": "Hydra Core",
         "url": "https://www.hydra-cg.com/spec/latest/core/",
@@ -94,7 +122,7 @@
         "spec_name": "DCAT 3",
         "url": "https://www.w3.org/TR/vocab-dcat-3/",
         "status": "Implemented",
-        "coverage": "dcat:Catalog with dcat:Dataset per resource, dcat:theme from @type",
+        "coverage": "dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type",
         "prefix": "dcat"
     }
 }
