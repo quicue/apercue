@@ -145,29 +145,8 @@ is not a runtime error — it is a type error caught before any output is
 generated.</p>
 <h2 id="evidence-multiple-projections-from-one-graph">Evidence: Multiple Projections From One Graph</h2>
 <p>The same 5-node research publication graph (defined once) produces output in
-13 different W3C specifications. Each projection
+17 different W3C specifications. Each projection
 selects a different context:</p>
-<table>
-<thead>
-<tr>
-<th>Context</th>
-<th>W3C Specification</th>
-<th>Projection Expression</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>Scheduling</td><td>OWL-Time</td><td><code>cue export -e time_report</code></td></tr>
-<tr><td>Compliance</td><td>SHACL</td><td><code>cue export -e compliance</code></td></tr>
-<tr><td>Provenance</td><td>PROV-O</td><td><code>cue export -e provenance</code></td></tr>
-<tr><td>Access control</td><td>ODRL</td><td><code>cue export -e access_policy</code></td></tr>
-<tr><td>Cataloging</td><td>DCAT</td><td><code>cue export -e dcat_catalog</code></td></tr>
-<tr><td>Testing</td><td>EARL</td><td><code>cue export -e test_plan</code></td></tr>
-<tr><td>Vocabulary</td><td>SKOS</td><td><code>cue export -e type_registry</code></td></tr>
-<tr><td>Identity</td><td>JSON-LD</td><td><code>cue export -e context</code></td></tr>
-</tbody>
-</table>
-<p>Resource identity (<code>@id</code>) is stable across all projections because the graph
-is the single source of truth.</p>
 <p><strong>Scheduling context</strong> (OWL-Time):</p>
 <pre><code class="language-json">{
     &quot;@type&quot;: &quot;time:Interval&quot;,
@@ -312,21 +291,11 @@ context membership is field presence.</p>
 </table>
 <p>The same <code>#Graph</code> pattern, the same set intersection dispatch. The contexts
 are domain-specific; the mechanism is universal.</p>
-<h2 id="discussion">Discussion</h2>
-<p>This approach treats context as a first-class property of resources rather than
-an external annotation. The key trade-off is expressiveness vs. guarantees:
-CUE's closed-world lattice semantics provide strong consistency guarantees but
-cannot model open-world context discovery.</p>
-<p>For the Context Graphs CG's investigations into how context affects graph
-structure and querying, the struct-as-set pattern offers a concrete,
-implemented example of compile-time multi-context identity with formal
-consistency guarantees.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>Closed-world: contexts must be declared, not discovered</li>
 <li>Flat namespace: no hierarchical context inheritance (by design — keeps dispatch simple)</li>
 <li>Boolean membership only: no weighted or probabilistic context participation</li>
-<li>Static: context assignment is compile-time, not dynamic</li>
 </ul>
 <h2 id="references">References</h2>
 <ul>
