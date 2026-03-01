@@ -66,16 +66,23 @@ apercue.ca@v0
 │   ├── types.cue           #   #TypeRegistry — extensible type system
 │   ├── context.cue         #   JSON-LD @context (19 W3C namespaces)
 │   └── viz-contract.cue    #   #VizData for D3/visualization
-├── patterns/               # Graph analysis + W3C projections
-│   ├── graph.cue           #   #Graph — dependency graph engine (30+ patterns)
+├── patterns/               # Graph analysis + W3C projections (20 files, 75 definitions)
+│   ├── graph.cue           #   #Graph — dependency graph engine
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
 │   ├── lifecycle.cue       #   #BootstrapPlan, #DriftReport, #SmokeTest → SKOS, EARL
 │   ├── provenance.cue      #   #ProvenanceTrace → prov:Entity, prov:wasDerivedFrom
+│   ├── provenance_plan.cue #   #ProvenancePlan → prov:Plan from charters
 │   ├── policy.cue          #   #ODRLPolicy → odrl:Set, odrl:Permission
 │   ├── credentials.cue     #   #ValidationCredential → VerifiableCredential
 │   ├── activity.cue        #   #ActivityStream → as:OrderedCollection
 │   ├── catalog.cue         #   #DCATCatalog → dcat:Catalog, dcat:Dataset
+│   ├── void.cue            #   #VoIDDataset → void:Dataset with class/property partitions
+│   ├── ontology.cue        #   #OWLOntology → rdfs:Class, owl:ObjectProperty
+│   ├── taxonomy.cue        #   #SKOSTaxonomy → skos:ConceptScheme with broader/narrower
+│   ├── annotation.cue      #   #AnnotationCollection → oa:Annotation with motivations
+│   ├── quality.cue         #   #DataQualityReport → dqv:QualityMeasurement
+│   ├── shapes.cue          #   #SHACLShapes → sh:NodeShape descriptions
 │   ├── federation.cue      #   #FederatedContext, #FederatedMerge — multi-domain merge
 │   ├── schema_alignment.cue #  #SchemaOrgAlignment → schema:additionalType
 │   ├── type-contracts.cue  #   #ApplyTypeContracts, #ValidateTypes
@@ -94,13 +101,13 @@ apercue.ca@v0
 │   ├── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
 │   └── gc-llm-governance/  # GC LLM governance (52 nodes, ODRL policies, DCAT catalog)
 ├── self-charter/           # Ecosystem graph — models the project itself
-│   ├── ecosystem.cue       #   10 modules/instances/services as typed resources
-│   ├── charter.cue         #   4-gate charter for ecosystem completeness
+│   ├── ecosystem.cue       #   41 nodes across 10 ecosystem components
+│   ├── charter.cue         #   8-phase charter, all gates satisfied
 │   └── export.cue          #   D3 visualization export
 ├── site/                   # Static site (deployed to apercue.ca via CF Pages)
 │   ├── index.html          #   Landing page
 │   ├── explorer.html       #   D3 ecosystem graph explorer
-│   ├── playground.html     #   Interactive W3C projection playground (6 projections)
+│   ├── playground.html     #   Interactive W3C projection playground
 │   └── data/               #   Pre-computed JSON from cue export
 ├── tests/                  # Validation test suites
 │   ├── federation/         #   Multi-domain merge tests (2 domains, 5 resources)
@@ -149,7 +156,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
 | [gc-llm-governance](examples/gc-llm-governance/) | GC AI governance | 52 nodes | ODRL policies, DCAT catalog, compliance rules, fact registry |
-| [self-charter](self-charter/) | Meta — apercue itself | 12 modules | The project models its own development: 4 gates, CPM scheduling, [live visualization](https://apercue.ca/charter.html) |
+| [self-charter](self-charter/) | Meta — apercue itself | 41 nodes | The project models its own development: 8 phases, all gates satisfied, [live visualization](https://apercue.ca/charter.html) |
 
 ```bash
 # SHACL validation report
