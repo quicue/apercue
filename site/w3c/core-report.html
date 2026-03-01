@@ -112,7 +112,7 @@ SPARQL-class graph pattern matching and SHACL constraint validation at compile
 time. A single typed dependency graph produces 17 W3C
 specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 and Verifiable Credentials — without runtime processors, triplestores, or
-pipelines. A 14th (Hydra) is implemented downstream.</p>
+pipelines. An 18th (Hydra) is implemented downstream.</p>
 <p>This report documents the implementation, provides computed evidence from a live
 example graph, and identifies relevance to four W3C Community Groups.</p>
 <p><strong>All evidence below is computed, not hand-written.</strong> Each JSON block is
@@ -167,6 +167,12 @@ standard W3C vocabularies:</p>
         &quot;org&quot;: &quot;http://www.w3.org/ns/org#&quot;,
         &quot;cred&quot;: &quot;https://www.w3.org/2018/credentials#&quot;,
         &quot;as&quot;: &quot;https://www.w3.org/ns/activitystreams#&quot;,
+        &quot;void&quot;: &quot;http://rdfs.org/ns/void#&quot;,
+        &quot;dqv&quot;: &quot;http://www.w3.org/ns/dqv#&quot;,
+        &quot;oa&quot;: &quot;http://www.w3.org/ns/oa#&quot;,
+        &quot;rdfs&quot;: &quot;http://www.w3.org/2000/01/rdf-schema#&quot;,
+        &quot;owl&quot;: &quot;http://www.w3.org/2002/07/owl#&quot;,
+        &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
         &quot;apercue&quot;: &quot;https://apercue.ca/vocab#&quot;,
         &quot;charter&quot;: &quot;https://apercue.ca/charter#&quot;,
         &quot;name&quot;: &quot;dcterms:title&quot;,
@@ -315,11 +321,506 @@ relations:</p>
 <p>Every resource becomes a <code>prov:Entity</code>. Dependency edges become derivation
 links. The full provenance graph includes all 5 resources plus the
 generating <code>prov:Activity</code> and <code>prov:Agent</code>.</p>
+<h3 id="graph-self-description-void-computed">Graph Self-Description / VoID (computed)</h3>
+<p>The <code>#VoIDDataset</code> pattern produces a VoID dataset description — the graph's
+machine-readable "about" page:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;void:Dataset&quot;,
+    &quot;@id&quot;: &quot;urn:apercue:w3c-evidence&quot;,
+    &quot;dcterms:title&quot;: &quot;W3C Evidence Dataset&quot;,
+    &quot;void:entities&quot;: 5,
+    &quot;void:triples&quot;: 24,
+    &quot;void:classes&quot;: 5,
+    &quot;void:classPartition&quot;: [
+        {
+            &quot;@type&quot;: &quot;void:Dataset&quot;,
+            &quot;void:class&quot;: {
+                &quot;@id&quot;: &quot;apercue:Governance&quot;
+            },
+            &quot;void:entities&quot;: 1
+        },
+        {
+            &quot;@type&quot;: &quot;void:Dataset&quot;,
+            &quot;void:class&quot;: {
+                &quot;@id&quot;: &quot;apercue:Dataset&quot;
+            },
+            &quot;void:entities&quot;: 1
+        },
+        {
+            &quot;@type&quot;: &quot;void:Dataset&quot;,
+            &quot;void:class&quot;: {
+                &quot;@id&quot;: &quot;apercue:Process&quot;
+            },
+            &quot;void:entities&quot;: 1
+        },
+        {
+            &quot;@type&quot;: &quot;void:Dataset&quot;,
+            &quot;void:class&quot;: {
+                &quot;@id&quot;: &quot;apercue:Publication&quot;
+            },
+            &quot;void:entities&quot;: 1
+        },
+        {
+            &quot;@type&quot;: &quot;void:Dataset&quot;,
+            &quot;void:class&quot;: {
+                &quot;@id&quot;: &quot;apercue:Review&quot;
+            },
+            &quot;void:entities&quot;: 1
+        }
+    ]
+}
+</code></pre>
+<p>5 entities, 24 triples, 5 classes. Class partitions show
+how many resources belong to each <code>@type</code>. This is standard VoID — any LOD
+catalog or SPARQL endpoint description consumer can read it.</p>
+<h3 id="type-ontology-rdfsowl-computed">Type Ontology / RDFS+OWL (computed)</h3>
+<p>The <code>#OWLOntology</code> pattern extracts the implicit ontology from the graph's
+type system. Each <code>@type</code> becomes an <code>rdfs:Class</code>; dependency edges become
+an <code>owl:ObjectProperty</code>:</p>
+<pre><code class="language-json">{
+    &quot;@graph&quot;: [
+        {
+            &quot;@type&quot;: &quot;owl:Ontology&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#&quot;,
+            &quot;dcterms:description&quot;: &quot;OWL vocabulary from research publication dependency graph&quot;,
+            &quot;dcterms:title&quot;: &quot;W3C Evidence Ontology&quot;
+        },
+        {
+            &quot;@type&quot;: [
+                &quot;rdfs:Class&quot;,
+                &quot;owl:Class&quot;
+            ],
+            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Governance&quot;,
+            &quot;rdfs:label&quot;: &quot;Governance&quot;
+        },
+        {
+            &quot;@type&quot;: [
+                &quot;rdfs:Class&quot;,
+                &quot;owl:Class&quot;
+            ],
+            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Dataset&quot;,
+            &quot;rdfs:label&quot;: &quot;Dataset&quot;
+        },
+        {
+            &quot;@type&quot;: [
+                &quot;rdfs:Class&quot;,
+                &quot;owl:Class&quot;
+            ],
+            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Process&quot;,
+            &quot;rdfs:label&quot;: &quot;Process&quot;
+        },
+        {
+            &quot;@type&quot;: [
+                &quot;rdfs:Class&quot;,
+                &quot;owl:Class&quot;
+            ],
+            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Publication&quot;,
+            &quot;rdfs:label&quot;: &quot;Publication&quot;
+        },
+        {
+            &quot;@type&quot;: [
+                &quot;rdfs:Class&quot;,
+                &quot;owl:Class&quot;
+            ],
+            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Review&quot;,
+            &quot;rdfs:label&quot;: &quot;Review&quot;
+        },
+        {
+            &quot;@type&quot;: &quot;owl:ObjectProperty&quot;,
+            &quot;@id&quot;: &quot;dcterms:requires&quot;,
+            &quot;rdfs:label&quot;: &quot;depends on&quot;,
+            &quot;rdfs:comment&quot;: &quot;A resource depends on another resource&quot;
+        }
+    ]
+}
+</code></pre>
+<p>W3C Evidence Ontology — the graph's type vocabulary as a formal
+OWL ontology. Loadable in Protégé, validatable by OWL reasoners.</p>
+<h3 id="type-vocabulary-skos-computed">Type Vocabulary / SKOS (computed)</h3>
+<p>The <code>#SKOSTaxonomy</code> pattern projects graph types as a SKOS ConceptScheme
+with broader/narrower hierarchy:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;skos:ConceptScheme&quot;,
+    &quot;@id&quot;: &quot;https://apercue.ca/vocab#TypeTaxonomy&quot;,
+    &quot;skos:prefLabel&quot;: &quot;Research Pipeline Type Taxonomy&quot;,
+    &quot;apercue:concepts&quot;: [
+        {
+            &quot;@type&quot;: &quot;skos:Concept&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Governance&quot;,
+            &quot;skos:broader&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#ResearchActivity&quot;
+            },
+            &quot;skos:prefLabel&quot;: &quot;Governance&quot;,
+            &quot;skos:inScheme&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#TypeTaxonomy&quot;
+            },
+            &quot;skos:scopeNote&quot;: &quot;Governance — used by 1 resources&quot;
+        },
+        {
+            &quot;@type&quot;: &quot;skos:Concept&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Dataset&quot;,
+            &quot;skos:broader&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#ResearchOutput&quot;
+            },
+            &quot;skos:prefLabel&quot;: &quot;Dataset&quot;,
+            &quot;skos:inScheme&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#TypeTaxonomy&quot;
+            },
+            &quot;skos:scopeNote&quot;: &quot;Dataset — used by 1 resources&quot;
+        },
+        {
+            &quot;@type&quot;: &quot;skos:Concept&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Process&quot;,
+            &quot;skos:broader&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#ResearchActivity&quot;
+            },
+            &quot;skos:prefLabel&quot;: &quot;Process&quot;,
+            &quot;skos:inScheme&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#TypeTaxonomy&quot;
+            },
+            &quot;skos:scopeNote&quot;: &quot;Process — used by 1 resources&quot;
+        }
+    ]
+}
+</code></pre>
+<p>Each <code>@type</code> becomes a <code>skos:Concept</code> with <code>skos:broader</code> linking to
+parent categories. Types that co-occur on resources are linked via
+<code>skos:related</code>. The scheme is navigable by any SKOS-aware vocabulary
+browser.</p>
+<h3 id="activity-stream-computed">Activity Stream (computed)</h3>
+<p>The <code>#ActivityStream</code> pattern models graph construction as an Activity
+Streams 2.0 <code>OrderedCollection</code>:</p>
+<pre><code class="language-json">{
+    &quot;type&quot;: &quot;OrderedCollection&quot;,
+    &quot;totalItems&quot;: 5,
+    &quot;orderedItems&quot;: [
+        {
+            &quot;type&quot;: &quot;Create&quot;,
+            &quot;actor&quot;: {
+                &quot;type&quot;: &quot;Application&quot;,
+                &quot;name&quot;: &quot;apercue&quot;
+            },
+            &quot;object&quot;: {
+                &quot;summary&quot;: &quot;Institutional review board approval (Protocol #2024-0142)&quot;,
+                &quot;type&quot;: &quot;Object&quot;,
+                &quot;id&quot;: &quot;urn:resource:ethics-approval&quot;,
+                &quot;name&quot;: &quot;ethics-approval&quot;,
+                &quot;apercue:depth&quot;: 0,
+                &quot;apercue:types&quot;: {
+                    &quot;Governance&quot;: true
+                }
+            }
+        },
+        {
+            &quot;context&quot;: [
+                {
+                    &quot;type&quot;: &quot;Link&quot;,
+                    &quot;href&quot;: &quot;urn:resource:ethics-approval&quot;
+                }
+            ],
+            &quot;type&quot;: &quot;Create&quot;,
+            &quot;actor&quot;: {
+                &quot;type&quot;: &quot;Application&quot;,
+                &quot;name&quot;: &quot;apercue&quot;
+            },
+            &quot;object&quot;: {
+                &quot;summary&quot;: &quot;Telemetry dataset (embargoed until publication)&quot;,
+                &quot;type&quot;: &quot;Object&quot;,
+                &quot;id&quot;: &quot;urn:resource:sensor-dataset&quot;,
+                &quot;name&quot;: &quot;sensor-dataset&quot;,
+                &quot;apercue:depth&quot;: 1,
+                &quot;apercue:types&quot;: {
+                    &quot;Dataset&quot;: true
+                }
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Each resource creation is a <code>Create</code> activity ordered by topological
+depth. Layer 0 resources (no dependencies) are created first. Dependency
+edges appear as <code>context</code> links.</p>
+<h3 id="validation-credential-vc-20-computed">Validation Credential / VC 2.0 (computed)</h3>
+<p>The <code>#ValidationCredential</code> pattern wraps the SHACL validation result
+in a W3C Verifiable Credential:</p>
+<pre><code class="language-json">{
+    &quot;type&quot;: [
+        &quot;VerifiableCredential&quot;,
+        &quot;ValidationCredential&quot;
+    ],
+    &quot;issuer&quot;: &quot;apercue:graph-engine&quot;,
+    &quot;validFrom&quot;: &quot;2026-02-27T00:00:00Z&quot;,
+    &quot;credentialSubject&quot;: {
+        &quot;id&quot;: &quot;urn:apercue:w3c-evidence&quot;,
+        &quot;type&quot;: &quot;sh:ValidationReport&quot;,
+        &quot;sh:conforms&quot;: true,
+        &quot;apercue:violationCount&quot;: 0,
+        &quot;apercue:validationReport&quot;: {
+            &quot;@type&quot;: &quot;sh:ValidationReport&quot;,
+            &quot;sh:conforms&quot;: true,
+            &quot;@context&quot;: {
+                &quot;@base&quot;: &quot;urn:resource:&quot;,
+                &quot;dcterms&quot;: &quot;http://purl.org/dc/terms/&quot;,
+                &quot;prov&quot;: &quot;http://www.w3.org/ns/prov#&quot;,
+                &quot;dcat&quot;: &quot;http://www.w3.org/ns/dcat#&quot;,
+                &quot;sh&quot;: &quot;http://www.w3.org/ns/shacl#&quot;,
+                &quot;skos&quot;: &quot;http://www.w3.org/2004/02/skos/core#&quot;,
+                &quot;schema&quot;: &quot;https://schema.org/&quot;,
+                &quot;time&quot;: &quot;http://www.w3.org/2006/time#&quot;,
+                &quot;earl&quot;: &quot;http://www.w3.org/ns/earl#&quot;,
+                &quot;odrl&quot;: &quot;http://www.w3.org/ns/odrl/2/&quot;,
+                &quot;org&quot;: &quot;http://www.w3.org/ns/org#&quot;,
+                &quot;cred&quot;: &quot;https://www.w3.org/2018/credentials#&quot;,
+                &quot;as&quot;: &quot;https://www.w3.org/ns/activitystreams#&quot;,
+                &quot;void&quot;: &quot;http://rdfs.org/ns/void#&quot;,
+                &quot;dqv&quot;: &quot;http://www.w3.org/ns/dqv#&quot;,
+                &quot;oa&quot;: &quot;http://www.w3.org/ns/oa#&quot;,
+                &quot;rdfs&quot;: &quot;http://www.w3.org/2000/01/rdf-schema#&quot;,
+                &quot;owl&quot;: &quot;http://www.w3.org/2002/07/owl#&quot;,
+                &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
+                &quot;apercue&quot;: &quot;https://apercue.ca/vocab#&quot;,
+                &quot;charter&quot;: &quot;https://apercue.ca/charter#&quot;,
+                &quot;name&quot;: &quot;dcterms:title&quot;,
+                &quot;description&quot;: &quot;dcterms:description&quot;,
+                &quot;depends_on&quot;: {
+                    &quot;@id&quot;: &quot;dcterms:requires&quot;,
+                    &quot;@type&quot;: &quot;@id&quot;
+                },
+                &quot;status&quot;: {
+                    &quot;@id&quot;: &quot;schema:actionStatus&quot;,
+                    &quot;@type&quot;: &quot;@id&quot;
+                },
+                &quot;tags&quot;: {
+                    &quot;@id&quot;: &quot;dcterms:subject&quot;,
+                    &quot;@container&quot;: &quot;@set&quot;
+                }
+            },
+            &quot;sh:result&quot;: []
+        }
+    }
+}
+</code></pre>
+<p>The credential attests that the graph passed compliance validation.
+The <code>credentialSubject</code> embeds the full <code>sh:ValidationReport</code>. This
+is the VC data model only — cryptographic proof requires an external
+issuer.</p>
+<h3 id="data-catalog-dcat-3-computed">Data Catalog / DCAT 3 (computed)</h3>
+<p>The <code>#DCATCatalog</code> pattern projects the graph as a DCAT catalog with one
+<code>dcat:Dataset</code> per resource:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;dcat:Catalog&quot;,
+    &quot;dcterms:title&quot;: &quot;Research Publication Pipeline&quot;,
+    &quot;dcat:dataset&quot;: [
+        {
+            &quot;@type&quot;: &quot;dcat:Dataset&quot;,
+            &quot;@id&quot;: &quot;urn:resource:sensor-dataset&quot;,
+            &quot;dcterms:description&quot;: &quot;Telemetry dataset (embargoed until publication)&quot;,
+            &quot;dcterms:requires&quot;: [
+                {
+                    &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;
+                }
+            ],
+            &quot;dcterms:title&quot;: &quot;sensor-dataset&quot;,
+            &quot;dcat:theme&quot;: [
+                {
+                    &quot;@type&quot;: &quot;skos:Concept&quot;,
+                    &quot;skos:prefLabel&quot;: &quot;Dataset&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>Each resource becomes a dataset entry with Dublin Core metadata. The catalog
+is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).</p>
+<h3 id="test-plan-earl-computed">Test Plan / EARL (computed)</h3>
+<p>The <code>#SmokeTest</code> pattern produces EARL assertions describing the test plan for
+graph validation:</p>
+<pre><code class="language-json">{
+    &quot;@graph&quot;: [
+        {
+            &quot;@type&quot;: &quot;earl:Assertion&quot;,
+            &quot;earl:subject&quot;: {
+                &quot;@id&quot;: &quot;urn:apercue:w3c-evidence&quot;
+            },
+            &quot;earl:test&quot;: {
+                &quot;@type&quot;: &quot;earl:TestCriterion&quot;,
+                &quot;dcterms:title&quot;: &quot;graph has 5 resources&quot;,
+                &quot;apercue:command&quot;: &quot;cue export ./w3c/ -e evidence.graph_summary.total_resources&quot;
+            },
+            &quot;earl:result&quot;: {
+                &quot;@type&quot;: &quot;earl:TestResult&quot;,
+                &quot;earl:outcome&quot;: {
+                    &quot;@id&quot;: &quot;earl:untested&quot;
+                },
+                &quot;earl:expected&quot;: &quot;5&quot;
+            }
+        },
+        {
+            &quot;@type&quot;: &quot;earl:Assertion&quot;,
+            &quot;earl:subject&quot;: {
+                &quot;@id&quot;: &quot;urn:apercue:w3c-evidence&quot;
+            },
+            &quot;earl:test&quot;: {
+                &quot;@type&quot;: &quot;earl:TestCriterion&quot;,
+                &quot;dcterms:title&quot;: &quot;SHACL report conforms&quot;,
+                &quot;apercue:command&quot;: &quot;cue export ./w3c/ -e evidence.shacl[\&quot;sh:conforms\&quot;]&quot;
+            },
+            &quot;earl:result&quot;: {
+                &quot;@type&quot;: &quot;earl:TestResult&quot;,
+                &quot;earl:outcome&quot;: {
+                    &quot;@id&quot;: &quot;earl:untested&quot;
+                },
+                &quot;earl:expected&quot;: &quot;true&quot;
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Each check becomes an <code>earl:Assertion</code> with an <code>earl:TestCriterion</code> and
+<code>earl:TestResult</code>. Outcomes are <code>earl:untested</code> at compile time — the plan
+is linked data; execution happens at runtime.</p>
+<h3 id="schemaorg-alignment-computed">Schema.org Alignment (computed)</h3>
+<p>The <code>#SchemaOrgAlignment</code> pattern annotates resources with <code>schema:additionalType</code>
+via a configurable type map:</p>
+<pre><code class="language-json">{
+    &quot;@graph&quot;: [
+        {
+            &quot;@type&quot;: {
+                &quot;Governance&quot;: true
+            },
+            &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;,
+            &quot;dcterms:description&quot;: &quot;Institutional review board approval (Protocol #2024-0142)&quot;,
+            &quot;dcterms:title&quot;: &quot;ethics-approval&quot;,
+            &quot;schema:additionalType&quot;: [
+                &quot;schema:Action&quot;
+            ]
+        },
+        {
+            &quot;@type&quot;: {
+                &quot;Dataset&quot;: true
+            },
+            &quot;@id&quot;: &quot;urn:resource:sensor-dataset&quot;,
+            &quot;dcterms:description&quot;: &quot;Telemetry dataset (embargoed until publication)&quot;,
+            &quot;dcterms:title&quot;: &quot;sensor-dataset&quot;,
+            &quot;schema:additionalType&quot;: [
+                &quot;schema:Dataset&quot;
+            ],
+            &quot;schema:isPartOf&quot;: [
+                {
+                    &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>Graph types (<code>Process</code>, <code>Dataset</code>, etc.) map to schema.org types
+(<code>schema:SoftwareApplication</code>, <code>schema:Dataset</code>). This makes the graph
+discoverable by Google Rich Results and other schema.org consumers.</p>
+<h3 id="organizational-view-w3c-org-computed">Organizational View / W3C Org (computed)</h3>
+<p>The <code>#OrgStructure</code> pattern groups resources by <code>@type</code> into
+<code>org:OrganizationalUnit</code> within an <code>org:Organization</code>:</p>
+<pre><code class="language-json">{
+    &quot;@type&quot;: &quot;org:Organization&quot;,
+    &quot;@id&quot;: &quot;https://apercue.ca/org#org&quot;,
+    &quot;skos:prefLabel&quot;: &quot;Research Pipeline Organization&quot;,
+    &quot;org:hasUnit&quot;: [
+        {
+            &quot;@type&quot;: &quot;org:OrganizationalUnit&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/org#unit/Governance&quot;,
+            &quot;skos:prefLabel&quot;: &quot;Governance&quot;,
+            &quot;org:hasMember&quot;: [
+                {
+                    &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;,
+                    &quot;dcterms:title&quot;: &quot;ethics-approval&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>Types become departments; resources become members. The same typed
+graph that drives scheduling and compliance also projects as an
+organizational hierarchy.</p>
+<h3 id="resource-annotations-web-annotation-computed">Resource Annotations / Web Annotation (computed)</h3>
+<p>The <code>#AnnotationCollection</code> pattern attaches structured notes to graph
+resources using the W3C Web Annotation model:</p>
+<pre><code class="language-json">{
+    &quot;type&quot;: &quot;AnnotationCollection&quot;,
+    &quot;label&quot;: &quot;Research Pipeline Review Annotations&quot;,
+    &quot;total&quot;: 3,
+    &quot;items&quot;: [
+        {
+            &quot;type&quot;: &quot;Annotation&quot;,
+            &quot;motivation&quot;: &quot;oa:assessing&quot;,
+            &quot;body&quot;: {
+                &quot;type&quot;: &quot;TextualBody&quot;,
+                &quot;value&quot;: &quot;IRB protocol approved 2024-01-15&quot;,
+                &quot;format&quot;: &quot;text/plain&quot;
+            },
+            &quot;target&quot;: {
+                &quot;type&quot;: &quot;SpecificResource&quot;,
+                &quot;source&quot;: &quot;urn:resource:ethics-approval&quot;
+            }
+        },
+        {
+            &quot;type&quot;: &quot;Annotation&quot;,
+            &quot;motivation&quot;: &quot;oa:commenting&quot;,
+            &quot;body&quot;: {
+                &quot;type&quot;: &quot;TextualBody&quot;,
+                &quot;value&quot;: &quot;Data under embargo until publication&quot;,
+                &quot;format&quot;: &quot;text/plain&quot;
+            },
+            &quot;target&quot;: {
+                &quot;type&quot;: &quot;SpecificResource&quot;,
+                &quot;source&quot;: &quot;urn:resource:sensor-dataset&quot;
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Each annotation carries a <code>motivation</code> from the W3C vocabulary (assessing,
+commenting, classifying). Targets are validated against the graph — an
+annotation referencing a nonexistent resource fails at CUE evaluation time.</p>
+<h3 id="data-quality-dqv-computed">Data Quality / DQV (computed)</h3>
+<p>The <code>#DataQualityReport</code> pattern projects compliance and structural metrics
+as DQV quality measurements:</p>
+<pre><code class="language-json">{
+    &quot;@graph&quot;: [
+        {
+            &quot;@type&quot;: &quot;dqv:Category&quot;,
+            &quot;@id&quot;: &quot;apercue:quality/Intrinsic&quot;,
+            &quot;skos:prefLabel&quot;: &quot;Intrinsic Data Quality&quot;
+        },
+        {
+            &quot;@type&quot;: &quot;dqv:Dimension&quot;,
+            &quot;@id&quot;: &quot;apercue:quality/Consistency&quot;,
+            &quot;skos:prefLabel&quot;: &quot;Consistency&quot;,
+            &quot;dqv:inCategory&quot;: {
+                &quot;@id&quot;: &quot;apercue:quality/Intrinsic&quot;
+            }
+        },
+        {
+            &quot;@type&quot;: &quot;dqv:Metric&quot;,
+            &quot;@id&quot;: &quot;apercue:quality/CompliancePassRate&quot;,
+            &quot;skos:prefLabel&quot;: &quot;Compliance Pass Rate&quot;,
+            &quot;skos:definition&quot;: &quot;Percentage of compliance rules that pass&quot;,
+            &quot;dqv:inDimension&quot;: {
+                &quot;@id&quot;: &quot;apercue:quality/Consistency&quot;
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Quality dimensions (Completeness, Consistency, Accessibility) organize
+metrics computed from the graph. Each <code>dqv:QualityMeasurement</code> links to
+its metric, dimension, and the dataset under evaluation.</p>
 <h3 id="spec-coverage">Spec Coverage</h3>
 <p>17 specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.</p>
-<p><strong>Implemented</strong> (13):</p>
+<p><strong>Implemented</strong> (17):</p>
 <table>
 <thead>
 <tr>
@@ -334,11 +835,11 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>SHACL</td>
-<td>sh:ValidationReport from compliance checks and gap analysis</td>
+<td>sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types</td>
 </tr>
 <tr>
 <td>SKOS</td>
-<td>skos:ConceptScheme from type vocabularies and lifecycle phases</td>
+<td>skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower</td>
 </tr>
 <tr>
 <td>EARL</td>
@@ -354,7 +855,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>PROV-O</td>
-<td>prov:Entity + prov:wasDerivedFrom from dependency edges</td>
+<td>prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate</td>
 </tr>
 <tr>
 <td>schema.org</td>
@@ -377,8 +878,24 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <td>org:Organization with type-based OrganizationalUnits</td>
 </tr>
 <tr>
+<td>VoID</td>
+<td>void:Dataset with class/property partitions, linkset statistics, and vocabulary usage</td>
+</tr>
+<tr>
+<td>Web Annotation</td>
+<td>oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations</td>
+</tr>
+<tr>
+<td>RDFS</td>
+<td>rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies</td>
+</tr>
+<tr>
+<td>DQV</td>
+<td>dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions</td>
+</tr>
+<tr>
 <td>DCAT 3</td>
-<td>dcat:Catalog with dcat:Dataset per resource, dcat:theme from @type</td>
+<td>dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type</td>
 </tr>
 </tbody>
 </table>
