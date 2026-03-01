@@ -141,7 +141,7 @@ import (
 			if IncludeIndividuals {
 				[
 					for name, res in Graph.resources {
-						"@type":       ["owl:NamedIndividual"] + [for t, _ in res["@type"] {Spec.URI + t}]
+						"@type":       list.Concat([["owl:NamedIndividual"], [for t, _ in res["@type"] {Spec.URI + t}]])
 						"@id":         "urn:resource:" + name
 						"rdfs:label":  name
 						if res.description != _|_ {
