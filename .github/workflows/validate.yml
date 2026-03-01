@@ -64,6 +64,9 @@ jobs:
       - name: W3C round-trip conformance
         run: python3 tools/validate-w3c.py -v
 
+      - name: Validate documentation counts
+        run: bash tools/validate-counts.sh
+
       - name: No hardcoded absolute paths in markdown
         run: |
           # Catch /home/*, /Users/*, /tmp/* paths that sneak into docs.

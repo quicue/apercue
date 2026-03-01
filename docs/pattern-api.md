@@ -622,6 +622,64 @@ Extended DCAT with Distribution and DataService entries.
 **Output:**
 - `dcat_catalog` — JSON-LD `dcat:Catalog` with `dcat:Distribution` and `dcat:DataService` entries alongside `dcat:Dataset`
 
+### #SchemaOrgAlignment (`patterns/schema_alignment.cue`)
+
+Map graph resource types to schema.org vocabulary. Produces JSON-LD with
+`schema:additionalType` annotations, consumable by Google Rich Results.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+- `TypeMap: {[string]: string}` — maps graph `@type` keys to schema.org types (e.g., `{Database: "schema:Dataset"}`)
+- `Fallback: string` | `*"schema:Thing"` — type for unmapped resources
+
+**Output:**
+- `schema_graph` — JSON-LD `@graph` with `schema:additionalType` per resource, `schema:isPartOf` for dependencies
+
+---
+
+## Type Contract Validation (`patterns/type-contracts.cue`)
+
+Types are contracts: declaring `@type` means required fields must exist,
+actions are auto-derived, and structural dependencies are inferred.
+
+### #ApplyTypeContracts
+
+Validate a single resource against its declared types and derive fields.
+
+**Input:**
+- `Input` — a resource with `@type`, required fields for each type
+
+**Output:**
+- `Output` — validated resource with auto-populated `depends_on` from `structural_deps` and merged explicit deps
+- `grants` — `{[string]: true}` — all actions granted by the resource's types
+
+Validation is via CUE unification — if a required field is missing, `cue vet` fails.
+
+### #ValidateTypes
+
+Apply type contracts to all resources in a graph input.
+
+**Input:**
+- `Input: {[string]: resource}` — resource map
+
+**Output:**
+- `Output: {[string]: resource}` — validated resources with derived dependencies
+- `resourceCount: int`
+- `validated: true` — if evaluation reaches this field, all contracts passed
+
+### #TypeRequirements
+
+Extract merged requirements for a set of types. Useful for understanding
+what a multi-type resource needs.
+
+**Input:**
+- `Types: [...string]` — type names from `#TypeRegistry`
+
+**Output:**
+- `requires: {[string]: _}` — merged required fields from all types
+- `grants: {[string]: true}` — all granted actions
+- `structural_deps: {[string]: true}` — fields that auto-create `depends_on` edges
+
 ---
 
 ## Federation (`patterns/federation.cue`)

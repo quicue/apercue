@@ -64,7 +64,7 @@ apercue.ca@v0
 ├── vocab/                  # Core types
 │   ├── resource.cue        #   #Resource — generic typed node
 │   ├── types.cue           #   #TypeRegistry — extensible type system
-│   ├── context.cue         #   JSON-LD @context (19 W3C namespaces)
+│   ├── context.cue         #   JSON-LD @context (24 W3C namespaces)
 │   └── viz-contract.cue    #   #VizData for D3/visualization
 ├── patterns/               # Graph analysis + W3C projections (20 files, 75 definitions)
 │   ├── graph.cue           #   #Graph — dependency graph engine
@@ -101,7 +101,7 @@ apercue.ca@v0
 │   ├── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
 │   └── gc-llm-governance/  # GC LLM governance (52 nodes, ODRL policies, DCAT catalog)
 ├── self-charter/           # Ecosystem graph — models the project itself
-│   ├── ecosystem.cue       #   41 nodes across 10 ecosystem components
+│   ├── ecosystem.cue       #   10 nodes across 10 ecosystem components
 │   ├── charter.cue         #   8-phase charter, all gates satisfied
 │   └── export.cue          #   D3 visualization export
 ├── site/                   # Static site (deployed to apercue.ca via CF Pages)
@@ -156,7 +156,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
 | [gc-llm-governance](examples/gc-llm-governance/) | GC AI governance | 52 nodes | ODRL policies, DCAT catalog, compliance rules, fact registry |
-| [self-charter](self-charter/) | Meta — apercue itself | 41 nodes | The project models its own development: 8 phases, all gates satisfied, [live visualization](https://apercue.ca/charter.html) |
+| [self-charter](self-charter/) | Meta — apercue itself | 10 nodes | The project models its own development: 8 phases, all gates satisfied, [live visualization](https://apercue.ca/charter.html) |
 
 ```bash
 # SHACL validation report
