@@ -47,8 +47,12 @@ import (
 		},
 	]
 
-	// Fail validation if duplicates exist
-	// Creates impossible constraint that CUE catches at eval time
+	// Fail validation if duplicates exist.
+	// CUE requires consistent values for a field. Assigning both true
+	// and false to _fail creates an impossible constraint — CUE reports
+	// it as an evaluation error naming this exact field. This is how we
+	// surface validation failures as CUE-native errors without needing
+	// a separate assertion library.
 	for dup in _duplicates {
 		(dup.resources[0] + "_" + dup.resources[1] + "_" + _field + "_duplicate"): {
 			_error: dup.message
