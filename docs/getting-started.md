@@ -7,6 +7,12 @@ W3C-standard JSON-LD — all from CUE, no runtime.
 
 - [CUE](https://cuelang.org/docs/install/) v0.15.4+
 
+> **CUE commands quick reference:**
+>
+> - `cue vet` — validate constraints (no output means pass)
+> - `cue eval` — evaluate and print human-readable CUE output
+> - `cue export` — evaluate and produce strict JSON/YAML
+
 ## 1. Create a project
 
 ```bash
@@ -67,6 +73,11 @@ _tasks: {
 
 Every resource needs `name` (ASCII-safe) and `@type` (struct-as-set).
 Dependencies are `depends_on: {"other-resource": true}`.
+
+`@type` and `depends_on` use **struct-as-set** — `{Key: true}` instead of arrays.
+This gives O(1) membership testing, clean merging via CUE unification, and no
+duplicates. When you see `resource["@type"]["Planning"] != _|_` in pattern code,
+that's a field existence check — CUE's `_|_` ("bottom") means undefined.
 
 ## 3. Build the graph
 
@@ -183,3 +194,34 @@ cue export . -e compliance.shacl_report --out json
 - See [ARCHITECTURE.md](../ARCHITECTURE.md) for design principles and module layers
 - See [docs/pattern-api.md](pattern-api.md) for the full pattern type reference
 - See [CONTRIBUTING.md](../CONTRIBUTING.md) for development setup
+
+## Scaling past small graphs
+
+`#Graph` computes transitive closure (ancestors, descendants) recursively in CUE.
+This works well for graphs up to ~30 nodes with simple topologies. For dense
+diamond-shaped DAGs above ~35 nodes, evaluation time grows exponentially.
+
+**The fix: `#GraphLite` with precomputed data.**
+
+```bash
+# Generate precomputed depth/ancestors/dependents
+python3 tools/toposort.py your-file.cue
+
+# This creates precomputed.cue — feed it to #GraphLite instead of #Graph
+```
+
+```cue
+// Instead of:
+// graph: patterns.#Graph & {Input: _tasks}
+
+// Use:
+graph: patterns.#GraphLite & {
+    Input:       _tasks
+    Precomputed: _precomputed
+}
+```
+
+`#GraphLite` accepts the same interface as `#Graph` (both satisfy `#AnalyzableGraph`)
+so all downstream patterns — `#CriticalPath`, `#GapAnalysis`, `#ComplianceCheck` —
+work with either. The self-charter in this repo uses `#GraphLite` with 40+ nodes and
+evaluates in ~33ms.
