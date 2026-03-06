@@ -28,7 +28,7 @@ import "apercue.ca/vocab"
 	Graph: #AnalyzableGraph
 
 	// Dataset identifier for the quality measurements
-	DatasetURI: string | *"urn:apercue:dataset"
+	DatasetURI: string | *"urn:dataset:default"
 
 	// Compliance results (from #ComplianceCheck)
 	ComplianceResults?: [...{
@@ -81,32 +81,32 @@ import "apercue.ca/vocab"
 			// ── Category: Intrinsic ──────────────────────────────
 			{
 				"@type":          "dqv:Category"
-				"@id":            "apercue:quality/Intrinsic"
+				"@id":            "urn:dqv:Intrinsic"
 				"skos:prefLabel": "Intrinsic Data Quality"
 			},
 
 			// ── Dimension: Consistency ───────────────────────────
 			{
 				"@type":          "dqv:Dimension"
-				"@id":            "apercue:quality/Consistency"
+				"@id":            "urn:dqv:Consistency"
 				"skos:prefLabel": "Consistency"
-				"dqv:inCategory": {"@id": "apercue:quality/Intrinsic"}
+				"dqv:inCategory": {"@id": "urn:dqv:Intrinsic"}
 			},
 
 			// Metric: compliance pass rate
 			{
 				"@type":          "dqv:Metric"
-				"@id":            "apercue:quality/CompliancePassRate"
+				"@id":            "urn:dqv:CompliancePassRate"
 				"skos:prefLabel": "Compliance Pass Rate"
 				"skos:definition": "Percentage of compliance rules that pass"
-				"dqv:inDimension": {"@id": "apercue:quality/Consistency"}
+				"dqv:inDimension": {"@id": "urn:dqv:Consistency"}
 			},
 
 			// Measurement: compliance pass rate value
 			{
 				"@type":             "dqv:QualityMeasurement"
-				"@id":               "apercue:quality/measurement/compliance-rate"
-				"dqv:isMeasurementOf": {"@id": "apercue:quality/CompliancePassRate"}
+				"@id":               "urn:dqv:measurement/compliance-rate"
+				"dqv:isMeasurementOf": {"@id": "urn:dqv:CompliancePassRate"}
 				"dqv:computedOn":    {"@id": DatasetURI}
 				"dqv:value":         _compliance_rate
 			},
@@ -114,25 +114,25 @@ import "apercue.ca/vocab"
 			// ── Dimension: Completeness ──────────────────────────
 			{
 				"@type":          "dqv:Dimension"
-				"@id":            "apercue:quality/Completeness"
+				"@id":            "urn:dqv:Completeness"
 				"skos:prefLabel": "Completeness"
-				"dqv:inCategory": {"@id": "apercue:quality/Intrinsic"}
+				"dqv:inCategory": {"@id": "urn:dqv:Intrinsic"}
 			},
 
 			// Metric: gap completeness
 			{
 				"@type":          "dqv:Metric"
-				"@id":            "apercue:quality/GapCompleteness"
+				"@id":            "urn:dqv:GapCompleteness"
 				"skos:prefLabel": "Charter Gap Completeness"
 				"skos:definition": "Whether all charter gates are satisfied"
-				"dqv:inDimension": {"@id": "apercue:quality/Completeness"}
+				"dqv:inDimension": {"@id": "urn:dqv:Completeness"}
 			},
 
 			// Measurement: gap completeness value
 			{
 				"@type":             "dqv:QualityMeasurement"
-				"@id":               "apercue:quality/measurement/gap-completeness"
-				"dqv:isMeasurementOf": {"@id": "apercue:quality/GapCompleteness"}
+				"@id":               "urn:dqv:measurement/gap-completeness"
+				"dqv:isMeasurementOf": {"@id": "urn:dqv:GapCompleteness"}
 				"dqv:computedOn":    {"@id": DatasetURI}
 				if GapComplete != _|_ {
 					"dqv:value": GapComplete
@@ -145,17 +145,17 @@ import "apercue.ca/vocab"
 			// Metric: missing resource count
 			{
 				"@type":          "dqv:Metric"
-				"@id":            "apercue:quality/MissingResources"
+				"@id":            "urn:dqv:MissingResources"
 				"skos:prefLabel": "Missing Resource Count"
 				"skos:definition": "Number of resources required by charter but absent from graph"
-				"dqv:inDimension": {"@id": "apercue:quality/Completeness"}
+				"dqv:inDimension": {"@id": "urn:dqv:Completeness"}
 			},
 
 			// Measurement: missing resources
 			{
 				"@type":             "dqv:QualityMeasurement"
-				"@id":               "apercue:quality/measurement/missing-resources"
-				"dqv:isMeasurementOf": {"@id": "apercue:quality/MissingResources"}
+				"@id":               "urn:dqv:measurement/missing-resources"
+				"dqv:isMeasurementOf": {"@id": "urn:dqv:MissingResources"}
 				"dqv:computedOn":    {"@id": DatasetURI}
 				"dqv:value":         *(MissingResources) | 0
 			},
@@ -163,25 +163,25 @@ import "apercue.ca/vocab"
 			// ── Dimension: Accessibility ─────────────────────────
 			{
 				"@type":          "dqv:Dimension"
-				"@id":            "apercue:quality/Accessibility"
+				"@id":            "urn:dqv:Accessibility"
 				"skos:prefLabel": "Accessibility"
-				"dqv:inCategory": {"@id": "apercue:quality/Intrinsic"}
+				"dqv:inCategory": {"@id": "urn:dqv:Intrinsic"}
 			},
 
 			// Metric: dependency coverage
 			{
 				"@type":          "dqv:Metric"
-				"@id":            "apercue:quality/DependencyCoverage"
+				"@id":            "urn:dqv:DependencyCoverage"
 				"skos:prefLabel": "Dependency Coverage"
 				"skos:definition": "Percentage of resources with at least one dependency"
-				"dqv:inDimension": {"@id": "apercue:quality/Accessibility"}
+				"dqv:inDimension": {"@id": "urn:dqv:Accessibility"}
 			},
 
 			// Measurement: dependency coverage value
 			{
 				"@type":             "dqv:QualityMeasurement"
-				"@id":               "apercue:quality/measurement/dep-coverage"
-				"dqv:isMeasurementOf": {"@id": "apercue:quality/DependencyCoverage"}
+				"@id":               "urn:dqv:measurement/dep-coverage"
+				"dqv:isMeasurementOf": {"@id": "urn:dqv:DependencyCoverage"}
 				"dqv:computedOn":    {"@id": DatasetURI}
 				"dqv:value":         _dep_coverage
 			},
@@ -189,17 +189,17 @@ import "apercue.ca/vocab"
 			// Metric: graph depth
 			{
 				"@type":          "dqv:Metric"
-				"@id":            "apercue:quality/GraphDepth"
+				"@id":            "urn:dqv:GraphDepth"
 				"skos:prefLabel": "Graph Depth"
 				"skos:definition": "Number of topology layers in the dependency graph"
-				"dqv:inDimension": {"@id": "apercue:quality/Accessibility"}
+				"dqv:inDimension": {"@id": "urn:dqv:Accessibility"}
 			},
 
 			// Measurement: graph depth value
 			{
 				"@type":             "dqv:QualityMeasurement"
-				"@id":               "apercue:quality/measurement/graph-depth"
-				"dqv:isMeasurementOf": {"@id": "apercue:quality/GraphDepth"}
+				"@id":               "urn:dqv:measurement/graph-depth"
+				"dqv:isMeasurementOf": {"@id": "urn:dqv:GraphDepth"}
 				"dqv:computedOn":    {"@id": DatasetURI}
 				"dqv:value":         _layer_count
 			},

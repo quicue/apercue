@@ -22,7 +22,7 @@ import "apercue.ca/vocab"
 	// Optional: who/what constructed the graph
 	Agent?: string
 
-	_agent_id: string | *"apercue:graph-engine"
+	_agent_id: string | *"urn:agent:graph-engine"
 	if Agent != _|_ {
 		_agent_id: Agent
 	}
@@ -43,13 +43,13 @@ import "apercue.ca/vocab"
 					]
 				}
 				"prov:wasAttributedTo": {"@id": _agent_id}
-				"prov:wasGeneratedBy": {"@id": "apercue:graph-construction"}
+				"prov:wasGeneratedBy": {"@id": "urn:activity:graph-construction"}
 			},
 
 			// The graph construction activity
 			{
 				"@type":         "prov:Activity"
-				"@id":           "apercue:graph-construction"
+				"@id":           "urn:activity:graph-construction"
 				"dcterms:title": "Graph construction"
 				"prov:wasAssociatedWith": {"@id": _agent_id}
 				"prov:generated": [

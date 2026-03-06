@@ -45,7 +45,6 @@ import "apercue.ca/vocab"
 					"id":            "urn:resource:" + name
 					"name":          name
 					"apercue:depth": res._depth
-					"apercue:types": res["@type"]
 					if res.description != _|_ {
 						"summary": res.description
 					}

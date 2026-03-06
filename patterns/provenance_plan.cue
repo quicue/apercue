@@ -49,7 +49,7 @@ import "apercue.ca/vocab"
 	// Optional: who created the plan
 	Agent?: string
 
-	_agent_id: string | *"apercue:planner"
+	_agent_id: string | *"urn:agent:planner"
 	if Agent != _|_ {
 		_agent_id: Agent
 	}

@@ -29,7 +29,7 @@ import "apercue.ca/vocab"
 	}
 
 	// Credential metadata
-	Issuer:    string | *"apercue:graph-engine"
+	Issuer:    string | *"urn:agent:graph-engine"
 	ValidFrom: string // ISO 8601 datetime
 	Subject?:  string // IRI of the graph or system under test
 
@@ -49,12 +49,7 @@ import "apercue.ca/vocab"
 			"type":        "sh:ValidationReport"
 			"sh:conforms": Report["sh:conforms"]
 
-			// Include violation count for quick assessment
-			let _results = *Report["sh:result"] | []
-			"apercue:violationCount": len(_results)
-
-			// Include the full report
-			"apercue:validationReport": Report
+			"sh:result": Report["sh:result"]
 		}
 	}
 }

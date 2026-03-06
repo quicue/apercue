@@ -61,22 +61,16 @@ W3C Verifiable Credential 2.0 envelope:
         {
             "dcterms": "http://purl.org/dc/terms/",
             "prov": "http://www.w3.org/ns/prov#",
-            "sh": "http://www.w3.org/ns/shacl#",
-            "apercue": "https://apercue.ca/vocab#"
+            "sh": "http://www.w3.org/ns/shacl#"
         }
     ],
     "type": ["VerifiableCredential", "ValidationCredential"],
-    "issuer": "apercue:graph-engine",
+    "issuer": "urn:agent:graph-engine",
     "validFrom": "2026-02-26T00:00:00Z",
     "credentialSubject": {
         "type": "sh:ValidationReport",
         "sh:conforms": true,
-        "apercue:violationCount": 0,
-        "apercue:validationReport": {
-            "@type": "sh:ValidationReport",
-            "sh:conforms": true,
-            "sh:result": []
-        }
+        "sh:result": []
     }
 }
 ```
@@ -102,7 +96,7 @@ The `#ProvenanceTrace` pattern computes PROV-O from dependency edges:
         {"@id": "urn:resource:manufacturing"}
     ],
     "prov:wasGeneratedBy": {
-        "@id": "apercue:graph-construction"
+        "@id": "urn:activity:graph-construction"
     }
 }
 ```
@@ -118,11 +112,11 @@ The `#ODRLPolicy` pattern produces ODRL 2.2 policy sets:
 ```json
 {
     "@type": "odrl:Set",
-    "odrl:uid": "apercue:graph-policy",
+    "odrl:uid": "urn:policy:graph-policy",
     "odrl:permission": [
         {"odrl:action": {"@id": "odrl:read"}},
         {"odrl:action": {"@id": "odrl:execute"},
-         "odrl:assignee": {"@id": "apercue:operator"}}
+         "odrl:assignee": {"@id": "urn:role:operator"}}
     ],
     "odrl:prohibition": []
 }

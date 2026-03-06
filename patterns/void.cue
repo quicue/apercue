@@ -26,7 +26,8 @@ import "apercue.ca/vocab"
 	Graph: #AnalyzableGraph
 
 	// Dataset metadata
-	DatasetURI: string | *"urn:apercue:dataset"
+	DatasetURI: string | *"urn:dataset:default"
+	VocabBase:  string | *"urn:type:"
 	Title?:     string
 	Homepage?:  string
 
@@ -102,7 +103,7 @@ import "apercue.ca/vocab"
 		"void:classPartition": [
 			for t, _ in _all_types {
 				"@type":           "void:Dataset"
-				"void:class":      {"@id": "apercue:" + t}
+				"void:class":      {"@id": VocabBase + t}
 				"void:entities":   _type_counts[t]
 			},
 		]
