@@ -89,22 +89,6 @@ build_w3c_reports() {
     python3 tools/render-w3c-reports.py
 }
 
-build_gc_governance() {
-    echo "Building GC LLM governance data..."
-    # Viz data for D3 charter viewer
-    cue export ./examples/gc-llm-governance/ -e viz --out json > site/data/gc-llm-governance.json
-    echo "  site/data/gc-llm-governance.json ($(wc -l < site/data/gc-llm-governance.json) lines)"
-    # SHACL compliance report
-    cue export ./examples/gc-llm-governance/ -e compliance.shacl_report --out json > site/data/gc-llm-governance-shacl.json
-    echo "  site/data/gc-llm-governance-shacl.json"
-    # CPM critical path sequence
-    cue export ./examples/gc-llm-governance/ -e cpm.critical_sequence --out json > site/data/gc-llm-governance-cpm.json
-    echo "  site/data/gc-llm-governance-cpm.json"
-    # W3C projections bundle
-    cue export ./examples/gc-llm-governance/ -e projections --out json > site/data/gc-llm-governance-projections.json
-    echo "  site/data/gc-llm-governance-projections.json"
-}
-
 stage_public() {
     echo "Staging public site for deploy..."
     local staging="${1:-_public}"
@@ -112,17 +96,13 @@ stage_public() {
     mkdir -p "$staging/data" "$staging/vocab" "$staging/w3c"
     # Public HTML — landing page and interactive demos
     cp site/index.html "$staging/"
-    for html in explorer.html charter.html playground.html gc-governance.html phase7.html recipe.html; do
+    for html in explorer.html charter.html playground.html phase7.html recipe.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage (no operational data)
     [ -f site/data/specs.json ] && cp site/data/specs.json "$staging/data/"
     # Self-charter data (metadata about the open-source project — not operational)
-    for f in ecosystem.json charter.json projections.json; do
-        [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
-    done
-    # GC governance demo data (sanitized example, not operational)
-    for f in gc-llm-governance.json gc-llm-governance-projections.json gc-llm-governance-shacl.json gc-llm-governance-cpm.json phase7-charter.json recipe.json; do
+    for f in ecosystem.json charter.json projections.json phase7-charter.json recipe.json; do
         [ -f "site/data/$f" ] && cp "site/data/$f" "$staging/data/"
     done
     # Vocab — JSON-LD context
@@ -142,7 +122,6 @@ case "${1:-all}" in
     vocab)          build_vocab ;;
     projections)    build_projections ;;
     recipe)         build_recipe ;;
-    gc-governance)  build_gc_governance ;;
     phase7)         build_phase7 ;;
     w3c-reports)    build_w3c_reports ;;
     public)
@@ -152,7 +131,6 @@ case "${1:-all}" in
         build_charter
         build_projections
         build_recipe
-        build_gc_governance
         build_phase7
         build_vocab
         build_w3c_reports
@@ -163,7 +141,6 @@ case "${1:-all}" in
         build_charter
         build_projections
         build_recipe
-        build_gc_governance
         build_phase7
         echo "Done. Local/private site data regenerated."
         ;;
@@ -174,7 +151,6 @@ case "${1:-all}" in
         build_charter
         build_projections
         build_recipe
-        build_gc_governance
         build_phase7
         build_vocab
         build_w3c_reports
@@ -189,13 +165,12 @@ case "${1:-all}" in
         build_vocab
         build_projections
         build_recipe
-        build_gc_governance
         build_phase7
         build_w3c_reports
         echo "Done. All site data regenerated."
         ;;
     *)
-        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|recipe|ecosystem|charter|phase7|vocab|projections|gc-governance|w3c-reports}"
+        echo "Usage: $0 {all|public|local|stage [dir]|specs|examples|recipe|ecosystem|charter|phase7|vocab|projections|w3c-reports}"
         exit 1
         ;;
 esac

@@ -243,7 +243,6 @@ Each domain uses a unique `@base` URI prefix in its `@context`:
 apercue.ca      → urn:apercue:
 quicue-kg       → urn:quicue-kg:
 cmhc-retrofit   → urn:cmhc-retrofit:
-gc-governance   → urn:gc-governance:
 ```
 
 When graphs from different domains merge, their `@id` values are globally
