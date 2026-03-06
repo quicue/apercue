@@ -7,7 +7,7 @@ Every W3C artifact --- JSON-LD, SHACL, SKOS, OWL-Time --- is a zero-cost
 projection of the same typed graph. No triplestore. No SPARQL. No runtime validators.
 Just `cue export`.
 
-**Live:** [apercue.ca](https://apercue.ca) | [GC Governance Demo](https://apercue.ca/gc-governance.html) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
+**Live:** [apercue.ca](https://apercue.ca) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
 
 ## Quick Start
 
@@ -98,8 +98,7 @@ apercue.ca@v0
 │   ├── course-prereqs/     # University prerequisites (12 courses, 3 gates)
 │   ├── recipe-ingredients/ # Beef bourguignon (17 steps, critical path)
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
-│   ├── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
-│   └── gc-llm-governance/  # GC LLM governance (52 nodes, ODRL policies, DCAT catalog)
+│   └── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
 ├── self-charter/           # Ecosystem graph — models the project itself
 │   ├── ecosystem.cue       #   10 nodes across 10 ecosystem components
 │   ├── charter.cue         #   8-phase charter, all gates satisfied
@@ -155,7 +154,6 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
-| [gc-llm-governance](examples/gc-llm-governance/) | GC AI governance | 52 nodes | ODRL policies, DCAT catalog, compliance rules, fact registry |
 | [self-charter](self-charter/) | Meta — apercue itself | 10 nodes | The project models its own development: 8 phases, all gates satisfied, [live visualization](https://apercue.ca/charter.html) |
 
 ```bash
