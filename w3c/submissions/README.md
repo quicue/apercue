@@ -1,16 +1,17 @@
 # W3C Community Group Submissions
 
-Submission-ready files for four W3C Community Groups, plus a CUE community post.
+Submission-ready files for five W3C Community Groups.
 
-## Status (2026-02-27)
+## Status (2026-03-05)
 
 | File | Target CG | Status | Link |
 |------|-----------|--------|------|
-| `quicue-compile-time-kg.md` | KG-Construct | **Submitted** | [PR #21](https://github.com/kg-construct/use-cases/pull/21) |
-| `quicue-project-scheduling-kg.md` | KG-Construct | **Submitted** | Same PR |
+| `quicue-compile-time-kg.md` | KG-Construct | **Merged** | [PR #21](https://github.com/kg-construct/use-cases/pull/21) |
+| `quicue-project-scheduling-kg.md` | KG-Construct | **Merged** | Same PR |
 | `dataspaces-challenge.md` | Dataspaces | **Submitted** | [Issue #17](https://github.com/w3c-cg/dataspaces/issues/17) |
 | `context-graphs-use-case.md` | Context Graphs | **Submitted** | Email to chair + mailing list |
 | `uora-use-case.md` | UORA | **Submitted** | Mailing list |
+| `pm-kr-use-case.md` | PM-KR | **Ready** | Pending CG opening (April 2026) |
 
 ## Submission Channels
 
@@ -36,6 +37,11 @@ Submission-ready files for four W3C Community Groups, plus a CUE community post.
 - **Mailing list:** public-uora@w3.org
 - **Chair:** Amir Hameed Mir
 - **Note:** No repo yet
+
+### PM-KR (Project Management for Knowledge Representation)
+- **CG page:** Not yet established (opening April 2026)
+- **Format:** Use case submission (charter framework + CPM + EARL)
+- **Note:** Submission ready, awaiting CG launch
 
 ## Prerequisites
 

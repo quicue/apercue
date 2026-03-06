@@ -13,6 +13,8 @@
 
 package patterns
 
+import "strings"
+
 import "apercue.ca/vocab"
 
 // #SHACLShapes — Generate SHACL NodeShapes from a typed dependency graph.
@@ -35,7 +37,10 @@ import "apercue.ca/vocab"
 	Graph: #AnalyzableGraph
 
 	// Shape namespace — prefix for shape IRIs
-	Namespace: string | *"https://apercue.ca/shapes#"
+	Namespace: string | *"urn:shapes:"
+
+	// Vocabulary namespace — prefix for type class IRIs
+	VocabBase: string | *"urn:type:"
 
 	// Collect all types used across the graph
 	_all_types: {
@@ -95,7 +100,7 @@ import "apercue.ca/vocab"
 		for tname, profile in _type_profiles {
 			"@type": "sh:NodeShape"
 			"@id":   Namespace + tname + "Shape"
-			"sh:targetClass": {"@id": "apercue:" + tname}
+			"sh:targetClass": {"@id": VocabBase + tname}
 			"rdfs:label": tname + " Shape"
 			"rdfs:comment": "Structural shape for resources of type " + tname +
 				" (derived from " + "\(profile.count)" + " resources)"
@@ -152,11 +157,9 @@ import "apercue.ca/vocab"
 
 			// If this type's members depend on specific types, document it
 			if len([for dt, _ in profile._dep_types {dt}]) > 0 {
-				"apercue:dependsOnTypes": [
-					for dt, _ in profile._dep_types {
-						{"@id": "apercue:" + dt}
-					},
-				]
+				"sh:description": "Dependencies target types: " + strings.Join([
+					for dt, _ in profile._dep_types {dt},
+				], ", ")
 			}
 		},
 	]

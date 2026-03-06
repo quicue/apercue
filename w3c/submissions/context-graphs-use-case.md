@@ -124,7 +124,7 @@ is the single source of truth.
     "@type": "prov:Entity",
     "@id": "urn:resource:analysis-code",
     "prov:wasDerivedFrom": [{"@id": "urn:resource:sensor-dataset"}],
-    "prov:wasGeneratedBy": {"@id": "apercue:graph-construction"}
+    "prov:wasGeneratedBy": {"@id": "urn:activity:graph-construction"}
 }
 ```
 
@@ -135,7 +135,7 @@ is the single source of truth.
     "@type": "odrl:Set",
     "odrl:permission": [
         {"odrl:action": {"@id": "odrl:read"}},
-        {"odrl:action": {"@id": "odrl:execute"}, "odrl:assignee": {"@id": "apercue:operator"}}
+        {"odrl:action": {"@id": "odrl:execute"}, "odrl:assignee": {"@id": "urn:role:operator"}}
     ]
 }
 ```

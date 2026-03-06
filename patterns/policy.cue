@@ -29,7 +29,7 @@ import "apercue.ca/vocab"
 	Graph: #AnalyzableGraph
 
 	// Policy metadata
-	PolicyID: string | *"apercue:graph-policy"
+	PolicyID: string | *"urn:policy:graph-policy"
 	Profile?: string
 
 	// Rules — user declares these

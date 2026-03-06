@@ -209,7 +209,7 @@ policy set:
 ```json
 {
     "@type": "odrl:Set",
-    "odrl:uid": "apercue:graph-policy",
+    "odrl:uid": "urn:policy:graph-policy",
     "odrl:permission": [
         {
             "odrl:action": {
@@ -244,7 +244,7 @@ relations:
     "@id": "urn:resource:analysis-code",
     "dcterms:title": "analysis-code",
     "prov:wasAttributedTo": {
-        "@id": "apercue:graph-engine"
+        "@id": "urn:agent:graph-engine"
     },
     "prov:wasDerivedFrom": [
         {
@@ -252,7 +252,7 @@ relations:
         }
     ],
     "prov:wasGeneratedBy": {
-        "@id": "apercue:graph-construction"
+        "@id": "urn:activity:graph-construction"
     }
 }
 ```
@@ -278,35 +278,35 @@ machine-readable "about" page:
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "apercue:Governance"
+                "@id": "urn:type:Governance"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "apercue:Dataset"
+                "@id": "urn:type:Dataset"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "apercue:Process"
+                "@id": "urn:type:Process"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "apercue:Publication"
+                "@id": "urn:type:Publication"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "apercue:Review"
+                "@id": "urn:type:Review"
             },
             "void:entities": 1
         }
@@ -396,7 +396,7 @@ with broader/narrower hierarchy:
     "@type": "skos:ConceptScheme",
     "@id": "https://apercue.ca/vocab#TypeTaxonomy",
     "skos:prefLabel": "Research Pipeline Type Taxonomy",
-    "apercue:concepts": [
+    "skos:member": [
         {
             "@type": "skos:Concept",
             "@id": "https://apercue.ca/vocab#Governance",
@@ -463,10 +463,7 @@ Streams 2.0 `OrderedCollection`:
                 "type": "Object",
                 "id": "urn:resource:ethics-approval",
                 "name": "ethics-approval",
-                "apercue:depth": 0,
-                "apercue:types": {
-                    "Governance": true
-                }
+                "apercue:depth": 0
             }
         },
         {
@@ -486,10 +483,7 @@ Streams 2.0 `OrderedCollection`:
                 "type": "Object",
                 "id": "urn:resource:sensor-dataset",
                 "name": "sensor-dataset",
-                "apercue:depth": 1,
-                "apercue:types": {
-                    "Dataset": true
-                }
+                "apercue:depth": 1
             }
         }
     ]
@@ -511,55 +505,13 @@ in a W3C Verifiable Credential:
         "VerifiableCredential",
         "ValidationCredential"
     ],
-    "issuer": "apercue:graph-engine",
+    "issuer": "urn:agent:graph-engine",
     "validFrom": "2026-02-27T00:00:00Z",
     "credentialSubject": {
         "id": "urn:apercue:w3c-evidence",
         "type": "sh:ValidationReport",
         "sh:conforms": true,
-        "apercue:violationCount": 0,
-        "apercue:validationReport": {
-            "@type": "sh:ValidationReport",
-            "sh:conforms": true,
-            "@context": {
-                "@base": "urn:resource:",
-                "dcterms": "http://purl.org/dc/terms/",
-                "prov": "http://www.w3.org/ns/prov#",
-                "dcat": "http://www.w3.org/ns/dcat#",
-                "sh": "http://www.w3.org/ns/shacl#",
-                "skos": "http://www.w3.org/2004/02/skos/core#",
-                "schema": "https://schema.org/",
-                "time": "http://www.w3.org/2006/time#",
-                "earl": "http://www.w3.org/ns/earl#",
-                "odrl": "http://www.w3.org/ns/odrl/2/",
-                "org": "http://www.w3.org/ns/org#",
-                "cred": "https://www.w3.org/2018/credentials#",
-                "as": "https://www.w3.org/ns/activitystreams#",
-                "void": "http://rdfs.org/ns/void#",
-                "dqv": "http://www.w3.org/ns/dqv#",
-                "oa": "http://www.w3.org/ns/oa#",
-                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-                "owl": "http://www.w3.org/2002/07/owl#",
-                "xsd": "http://www.w3.org/2001/XMLSchema#",
-                "apercue": "https://apercue.ca/vocab#",
-                "charter": "https://apercue.ca/charter#",
-                "name": "dcterms:title",
-                "description": "dcterms:description",
-                "depends_on": {
-                    "@id": "dcterms:requires",
-                    "@type": "@id"
-                },
-                "status": {
-                    "@id": "schema:actionStatus",
-                    "@type": "@id"
-                },
-                "tags": {
-                    "@id": "dcterms:subject",
-                    "@container": "@set"
-                }
-            },
-            "sh:result": []
-        }
+        "sh:result": []
     }
 }
 ```
@@ -783,24 +735,24 @@ as DQV quality measurements:
     "@graph": [
         {
             "@type": "dqv:Category",
-            "@id": "apercue:quality/Intrinsic",
+            "@id": "urn:dqv:Intrinsic",
             "skos:prefLabel": "Intrinsic Data Quality"
         },
         {
             "@type": "dqv:Dimension",
-            "@id": "apercue:quality/Consistency",
+            "@id": "urn:dqv:Consistency",
             "skos:prefLabel": "Consistency",
             "dqv:inCategory": {
-                "@id": "apercue:quality/Intrinsic"
+                "@id": "urn:dqv:Intrinsic"
             }
         },
         {
             "@type": "dqv:Metric",
-            "@id": "apercue:quality/CompliancePassRate",
+            "@id": "urn:dqv:CompliancePassRate",
             "skos:prefLabel": "Compliance Pass Rate",
             "skos:definition": "Percentage of compliance rules that pass",
             "dqv:inDimension": {
-                "@id": "apercue:quality/Consistency"
+                "@id": "urn:dqv:Consistency"
             }
         }
     ]

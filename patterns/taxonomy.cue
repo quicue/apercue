@@ -171,7 +171,7 @@ import (
 				{"@id": BaseIRI + tname}
 			},
 		]
-		"apercue:concepts": _concepts
+		"skos:member": _concepts
 	}
 
 	summary: {
