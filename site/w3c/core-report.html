@@ -276,7 +276,7 @@ in the <code>apercue:</code> namespace.</p>
 policy set:</p>
 <pre><code class="language-json">{
     &quot;@type&quot;: &quot;odrl:Set&quot;,
-    &quot;odrl:uid&quot;: &quot;apercue:graph-policy&quot;,
+    &quot;odrl:uid&quot;: &quot;urn:policy:graph-policy&quot;,
     &quot;odrl:permission&quot;: [
         {
             &quot;odrl:action&quot;: {
@@ -306,7 +306,7 @@ relations:</p>
     &quot;@id&quot;: &quot;urn:resource:analysis-code&quot;,
     &quot;dcterms:title&quot;: &quot;analysis-code&quot;,
     &quot;prov:wasAttributedTo&quot;: {
-        &quot;@id&quot;: &quot;apercue:graph-engine&quot;
+        &quot;@id&quot;: &quot;urn:agent:graph-engine&quot;
     },
     &quot;prov:wasDerivedFrom&quot;: [
         {
@@ -314,7 +314,7 @@ relations:</p>
         }
     ],
     &quot;prov:wasGeneratedBy&quot;: {
-        &quot;@id&quot;: &quot;apercue:graph-construction&quot;
+        &quot;@id&quot;: &quot;urn:activity:graph-construction&quot;
     }
 }
 </code></pre>
@@ -335,35 +335,35 @@ machine-readable "about" page:</p>
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;apercue:Governance&quot;
+                &quot;@id&quot;: &quot;urn:type:Governance&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;apercue:Dataset&quot;
+                &quot;@id&quot;: &quot;urn:type:Dataset&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;apercue:Process&quot;
+                &quot;@id&quot;: &quot;urn:type:Process&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;apercue:Publication&quot;
+                &quot;@id&quot;: &quot;urn:type:Publication&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;apercue:Review&quot;
+                &quot;@id&quot;: &quot;urn:type:Review&quot;
             },
             &quot;void:entities&quot;: 1
         }
@@ -443,7 +443,7 @@ with broader/narrower hierarchy:</p>
     &quot;@type&quot;: &quot;skos:ConceptScheme&quot;,
     &quot;@id&quot;: &quot;https://apercue.ca/vocab#TypeTaxonomy&quot;,
     &quot;skos:prefLabel&quot;: &quot;Research Pipeline Type Taxonomy&quot;,
-    &quot;apercue:concepts&quot;: [
+    &quot;skos:member&quot;: [
         {
             &quot;@type&quot;: &quot;skos:Concept&quot;,
             &quot;@id&quot;: &quot;https://apercue.ca/vocab#Governance&quot;,
@@ -505,10 +505,7 @@ Streams 2.0 <code>OrderedCollection</code>:</p>
                 &quot;type&quot;: &quot;Object&quot;,
                 &quot;id&quot;: &quot;urn:resource:ethics-approval&quot;,
                 &quot;name&quot;: &quot;ethics-approval&quot;,
-                &quot;apercue:depth&quot;: 0,
-                &quot;apercue:types&quot;: {
-                    &quot;Governance&quot;: true
-                }
+                &quot;apercue:depth&quot;: 0
             }
         },
         {
@@ -528,10 +525,7 @@ Streams 2.0 <code>OrderedCollection</code>:</p>
                 &quot;type&quot;: &quot;Object&quot;,
                 &quot;id&quot;: &quot;urn:resource:sensor-dataset&quot;,
                 &quot;name&quot;: &quot;sensor-dataset&quot;,
-                &quot;apercue:depth&quot;: 1,
-                &quot;apercue:types&quot;: {
-                    &quot;Dataset&quot;: true
-                }
+                &quot;apercue:depth&quot;: 1
             }
         }
     ]
@@ -548,55 +542,13 @@ in a W3C Verifiable Credential:</p>
         &quot;VerifiableCredential&quot;,
         &quot;ValidationCredential&quot;
     ],
-    &quot;issuer&quot;: &quot;apercue:graph-engine&quot;,
+    &quot;issuer&quot;: &quot;urn:agent:graph-engine&quot;,
     &quot;validFrom&quot;: &quot;2026-02-27T00:00:00Z&quot;,
     &quot;credentialSubject&quot;: {
         &quot;id&quot;: &quot;urn:apercue:w3c-evidence&quot;,
         &quot;type&quot;: &quot;sh:ValidationReport&quot;,
         &quot;sh:conforms&quot;: true,
-        &quot;apercue:violationCount&quot;: 0,
-        &quot;apercue:validationReport&quot;: {
-            &quot;@type&quot;: &quot;sh:ValidationReport&quot;,
-            &quot;sh:conforms&quot;: true,
-            &quot;@context&quot;: {
-                &quot;@base&quot;: &quot;urn:resource:&quot;,
-                &quot;dcterms&quot;: &quot;http://purl.org/dc/terms/&quot;,
-                &quot;prov&quot;: &quot;http://www.w3.org/ns/prov#&quot;,
-                &quot;dcat&quot;: &quot;http://www.w3.org/ns/dcat#&quot;,
-                &quot;sh&quot;: &quot;http://www.w3.org/ns/shacl#&quot;,
-                &quot;skos&quot;: &quot;http://www.w3.org/2004/02/skos/core#&quot;,
-                &quot;schema&quot;: &quot;https://schema.org/&quot;,
-                &quot;time&quot;: &quot;http://www.w3.org/2006/time#&quot;,
-                &quot;earl&quot;: &quot;http://www.w3.org/ns/earl#&quot;,
-                &quot;odrl&quot;: &quot;http://www.w3.org/ns/odrl/2/&quot;,
-                &quot;org&quot;: &quot;http://www.w3.org/ns/org#&quot;,
-                &quot;cred&quot;: &quot;https://www.w3.org/2018/credentials#&quot;,
-                &quot;as&quot;: &quot;https://www.w3.org/ns/activitystreams#&quot;,
-                &quot;void&quot;: &quot;http://rdfs.org/ns/void#&quot;,
-                &quot;dqv&quot;: &quot;http://www.w3.org/ns/dqv#&quot;,
-                &quot;oa&quot;: &quot;http://www.w3.org/ns/oa#&quot;,
-                &quot;rdfs&quot;: &quot;http://www.w3.org/2000/01/rdf-schema#&quot;,
-                &quot;owl&quot;: &quot;http://www.w3.org/2002/07/owl#&quot;,
-                &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
-                &quot;apercue&quot;: &quot;https://apercue.ca/vocab#&quot;,
-                &quot;charter&quot;: &quot;https://apercue.ca/charter#&quot;,
-                &quot;name&quot;: &quot;dcterms:title&quot;,
-                &quot;description&quot;: &quot;dcterms:description&quot;,
-                &quot;depends_on&quot;: {
-                    &quot;@id&quot;: &quot;dcterms:requires&quot;,
-                    &quot;@type&quot;: &quot;@id&quot;
-                },
-                &quot;status&quot;: {
-                    &quot;@id&quot;: &quot;schema:actionStatus&quot;,
-                    &quot;@type&quot;: &quot;@id&quot;
-                },
-                &quot;tags&quot;: {
-                    &quot;@id&quot;: &quot;dcterms:subject&quot;,
-                    &quot;@container&quot;: &quot;@set&quot;
-                }
-            },
-            &quot;sh:result&quot;: []
-        }
+        &quot;sh:result&quot;: []
     }
 }
 </code></pre>
@@ -790,24 +742,24 @@ as DQV quality measurements:</p>
     &quot;@graph&quot;: [
         {
             &quot;@type&quot;: &quot;dqv:Category&quot;,
-            &quot;@id&quot;: &quot;apercue:quality/Intrinsic&quot;,
+            &quot;@id&quot;: &quot;urn:dqv:Intrinsic&quot;,
             &quot;skos:prefLabel&quot;: &quot;Intrinsic Data Quality&quot;
         },
         {
             &quot;@type&quot;: &quot;dqv:Dimension&quot;,
-            &quot;@id&quot;: &quot;apercue:quality/Consistency&quot;,
+            &quot;@id&quot;: &quot;urn:dqv:Consistency&quot;,
             &quot;skos:prefLabel&quot;: &quot;Consistency&quot;,
             &quot;dqv:inCategory&quot;: {
-                &quot;@id&quot;: &quot;apercue:quality/Intrinsic&quot;
+                &quot;@id&quot;: &quot;urn:dqv:Intrinsic&quot;
             }
         },
         {
             &quot;@type&quot;: &quot;dqv:Metric&quot;,
-            &quot;@id&quot;: &quot;apercue:quality/CompliancePassRate&quot;,
+            &quot;@id&quot;: &quot;urn:dqv:CompliancePassRate&quot;,
             &quot;skos:prefLabel&quot;: &quot;Compliance Pass Rate&quot;,
             &quot;skos:definition&quot;: &quot;Percentage of compliance rules that pass&quot;,
             &quot;dqv:inDimension&quot;: {
-                &quot;@id&quot;: &quot;apercue:quality/Consistency&quot;
+                &quot;@id&quot;: &quot;urn:dqv:Consistency&quot;
             }
         }
     ]

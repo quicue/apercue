@@ -10,29 +10,31 @@
 [CUE](https://cuelang.org) — a constraint language with lattice-based type
 semantics — to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
-single `cue export` invocation. No mapping language, no runtime pipeline, no
-triplestore.
+single `cue export` invocation, without a separate mapping language, runtime
+pipeline, or triplestore.
 
-This submission demonstrates CUE as a KG construction language and explains how
-it relates to the KG-Construct CG's work on declarative KG construction.
+This submission demonstrates CUE as a KG construction language for constrained
+domains and explains how it relates to the KG-Construct CG's work on declarative
+KG construction.
 
 ## The Construction Pipeline (One Step)
 
-Traditional KG construction requires a multi-stage pipeline:
+Traditional KG construction uses a multi-stage pipeline:
 
 ```
 Source Data → Mapping (R2RML/RML) → RDF Store → SHACL Validation → Serialization
 ```
 
-CUE collapses this to:
+For domains where the resource set is bounded and the schema is known, CUE can
+serve these roles in a single evaluation step:
 
 ```
 Source Data (CUE structs) → cue export -e <projection>
 ```
 
-The "mapping" is CUE type unification. The "validation" is CUE constraint
-resolution. The "serialization" is JSON-LD context injection. All three happen
-during evaluation — there is no separate step for any of them.
+CUE type unification handles the mapping role. CUE constraint resolution handles
+validation. JSON-LD context injection handles serialization. All three happen
+during evaluation rather than as separate pipeline stages.
 
 ## Example: Research Publication Pipeline
 
