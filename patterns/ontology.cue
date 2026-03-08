@@ -135,6 +135,8 @@ import (
 				"@id":          "dcterms:requires"
 				"rdfs:label":   "depends on"
 				"rdfs:comment": "A resource depends on another resource"
+				"rdfs:domain":  {"@id": "rdfs:Resource"}
+				"rdfs:range":   {"@id": "rdfs:Resource"}
 			}],
 
 			// Individuals (optional)

@@ -84,7 +84,7 @@ apercue.ca@v0
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
 │   ├── lifecycle.cue       #   #BootstrapPlan, #DriftReport, #SmokeTest → SKOS, EARL
-│   ├── provenance.cue      #   #ProvenanceTrace → prov:Entity, prov:wasDerivedFrom
+│   ├── provenance.cue      #   #ProvenanceTrace → prov:Entity, Generation, SoftwareAgent
 │   ├── provenance_plan.cue #   #ProvenancePlan → prov:Plan from charters
 │   ├── policy.cue          #   #ODRLPolicy → odrl:Set, odrl:Permission
 │   ├── credentials.cue     #   #ValidationCredential → VerifiableCredential
@@ -138,26 +138,28 @@ apercue.ca@v0
 
 ## W3C Spec Coverage
 
-| Spec | CUE Pattern | Status |
-|------|-------------|--------|
-| JSON-LD 1.1 | `vocab/context.cue` --- @context, @type, @id | Implemented |
-| SHACL | `validation.cue`, `charter.cue` --- sh:ValidationReport | Implemented |
-| SKOS | `views/skos.cue`, `lifecycle.cue` --- skos:ConceptScheme | Implemented |
-| EARL | `lifecycle.cue` --- earl:Assertion test plans | Implemented |
-| OWL-Time | `analysis.cue` --- time:Interval scheduling | Implemented |
-| Dublin Core | `vocab/context.cue` --- dcterms:requires (every edge), dcterms:title, dcterms:conformsTo | Implemented |
-| PROV-O | `provenance.cue` --- prov:Entity, prov:wasDerivedFrom derivation chains | Implemented |
-| ODRL 2.2 | `policy.cue` --- odrl:Policy, odrl:Permission, odrl:Prohibition | Implemented |
-| ORG | `views/org.cue` --- org:Organization, org:OrganizationalUnit by @type | Implemented |
-| schema.org | `schema_alignment.cue` --- schema:additionalType mapping | Implemented |
-| VC 2.0 | `credentials.cue` --- VerifiableCredential wrapping SHACL reports | Implemented |
-| DCAT 3 | `catalog.cue` --- dcat:Catalog, dcat:Dataset per resource | Implemented |
-| Activity Streams 2.0 | `activity.cue` --- as:OrderedCollection of graph construction | Implemented |
-| VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | Implemented |
-| DQV | `quality.cue` --- dqv:QualityMeasurement for completeness, consistency, accessibility | Implemented |
-| Web Annotation | `annotation.cue` --- oa:Annotation with TextualBody and W3C motivations | Implemented |
-| RDFS/OWL | `ontology.cue` --- rdfs:Class, owl:ObjectProperty from graph type hierarchy | Implemented |
-| Hydra Core | Downstream: quicue.ca operator dashboard | Downstream |
+| Spec | CUE Pattern | Depth | Status |
+|------|-------------|-------|--------|
+| JSON-LD 1.1 | `vocab/context.cue` --- @context, @type, @id, namespace federation | full | Implemented |
+| SHACL | `validation.cue`, `charter.cue` --- conformant sh:ValidationReport + sh:NodeShape | full | Implemented |
+| SKOS | `views/skos.cue`, `taxonomy.cue` --- skos:ConceptScheme with broader/narrower | full | Implemented |
+| EARL | `lifecycle.cue` --- earl:Assertion, earl:TestCase, earl:Software assertor | full | Implemented |
+| OWL-Time | `analysis.cue` --- time:Interval from critical path scheduling | full | Implemented |
+| PROV-O | `provenance.cue` --- prov:Entity, Agent, Generation, Plan with qualifiedAssociation | full | Implemented |
+| VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | full | Implemented |
+| DCAT 3 | `catalog.cue` --- dcat:Catalog, Dataset, Distribution, DataService | full | Implemented |
+| DQV | `quality.cue` --- dqv:QualityMeasurement for completeness, consistency, accessibility | full | Implemented |
+| ODRL 2.2 | `policy.cue` --- odrl:Set permission/prohibition matrix by resource type | partial | Implemented |
+| Activity Streams 2.0 | `activity.cue` --- as:OrderedCollection of Create activities | partial | Implemented |
+| Web Annotation | `annotation.cue` --- oa:Annotation with TextualBody and W3C motivations | partial | Implemented |
+| W3C Org | `views/org.cue` --- org:Organization with type-based OrganizationalUnits | partial | Implemented |
+| RDFS | `ontology.cue` --- rdfs:Class, rdfs:subClassOf, rdfs:domain/range | partial | Implemented |
+| Dublin Core | `vocab/context.cue` --- dcterms:title, dcterms:description, dcterms:requires | vocabulary | Implemented |
+| schema.org | `schema_alignment.cue` --- schema:additionalType mapping | vocabulary | Implemented |
+| VC 2.0 | `credentials.cue` --- VerifiableCredential structure wrapping SHACL reports | structural | Implemented |
+| Hydra Core | quicue.ca operator dashboard | partial | Downstream |
+
+**Depth key:** full = conformant round-trip output; partial = core terms, missing advanced features; vocabulary = namespace terms in @context; structural = spec-shaped JSON-LD, key features out of scope.
 
 See [w3c/README.md](w3c/README.md) for full mapping details.
 

@@ -25,10 +25,10 @@ constraint consistency) are more valuable than runtime flexibility.
 | **SKOS** | skos:ConceptScheme | `#LifecyclePhasesSKOS` | `patterns/lifecycle.cue` | `cue export -e lifecycle_skos` |
 | **SKOS** | skos:ConceptScheme | `#TypeVocabulary` | `views/skos.cue` | `cue export -e type_vocab` |
 | **SKOS** | skos:broader, skos:narrower | `#SKOSTaxonomy.taxonomy_scheme` | `patterns/taxonomy.cue` | `cue export -e _taxonomy.taxonomy_scheme` |
-| **EARL** | earl:Assertion | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
+| **EARL** | earl:Assertion, earl:TestCase, earl:Software | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
 | **OWL-Time** | time:Interval | `#CriticalPath.time_report` | `patterns/analysis.cue` | `cue export -e cpm.time_report` |
 | **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural — present in all JSON-LD output |
-| **PROV-O** | prov:Entity, prov:wasDerivedFrom | `#ProvenanceTrace.prov_report` | `patterns/provenance.cue` | `cue export -e provenance.prov_report` |
+| **PROV-O** | prov:Entity, prov:Generation, prov:SoftwareAgent | `#ProvenanceTrace.prov_report` | `patterns/provenance.cue` | `cue export -e provenance.prov_report` |
 | **PROV-O** | prov:Plan, prov:Activity | `#ProvenancePlan.plan_report` | `patterns/provenance_plan.cue` | `cue export -e _prov_plan.plan_report` |
 | **ODRL 2.2** | odrl:Set, odrl:Permission | `#ODRLPolicy.odrl_policy` | `patterns/policy.cue` | `cue export -e access_policy.odrl_policy` |
 | **W3C ORG** | org:Organization, org:OrganizationalUnit | `#OrgStructure.org_report` | `views/org.cue` | `cue export -e structure.org_report` |
@@ -39,7 +39,7 @@ constraint consistency) are more valuable than runtime flexibility.
 | **VoID** | void:Dataset, void:Linkset | `#VoIDDataset.void_description` | `patterns/void.cue` | `cue export -e void_dataset.void_description` |
 | **DQV** | dqv:QualityMeasurement, dqv:Metric | `#DataQualityReport.quality_report` | `patterns/quality.cue` | `cue export -e _quality.quality_report` |
 | **Web Annotation** | oa:Annotation, oa:TextualBody | `#AnnotationCollection.annotation_collection` | `patterns/annotation.cue` | `cue export -e annotations.annotation_collection` |
-| **RDFS/OWL** | rdfs:Class, owl:ObjectProperty | `#OWLOntology.owl_ontology` | `patterns/ontology.cue` | `cue export -e ontology.owl_ontology` |
+| **RDFS** | rdfs:Class, rdfs:subClassOf, rdfs:domain/range | `#OWLOntology.owl_ontology` | `patterns/ontology.cue` | `cue export -e ontology.owl_ontology` |
 
 ## Downstream (in quicue.ca)
 

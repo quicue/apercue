@@ -207,13 +207,22 @@ _lifecyclePhaseList: ["package", "bootstrap", "bind", "deploy", "verify", "drift
 	earl_report: {
 		"@context": vocab.context["@context"]
 		"@graph": [
+			// Assertor (the software performing the tests)
+			{
+				"@type":         "earl:Software"
+				"@id":           "urn:agent:graph-engine"
+				"dcterms:title": "apercue graph engine"
+			},
+
 			for c in checks {
 				"@type": "earl:Assertion"
+				"earl:assertedBy": {"@id": "urn:agent:graph-engine"}
+				"earl:mode": {"@id": "earl:automatic"}
 				if Subject != _|_ {
 					"earl:subject": {"@id": Subject}
 				}
 				"earl:test": {
-					"@type":           "earl:TestCriterion"
+					"@type":           "earl:TestCase"
 					"dcterms:title":   c.label
 					"apercue:command": c.command
 				}

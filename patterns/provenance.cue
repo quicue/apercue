@@ -44,6 +44,15 @@ import "apercue.ca/vocab"
 				}
 				"prov:wasAttributedTo": {"@id": _agent_id}
 				"prov:wasGeneratedBy": {"@id": "urn:activity:graph-construction"}
+				"prov:qualifiedGeneration": {"@id": "urn:generation:" + name}
+			},
+
+			// Qualified generation events (prov:Generation per entity)
+			for name, _ in Graph.resources {
+				"@type":          "prov:Generation"
+				"@id":            "urn:generation:" + name
+				"prov:entity":   {"@id": "urn:resource:" + name}
+				"prov:activity": {"@id": "urn:activity:graph-construction"}
 			},
 
 			// The graph construction activity
@@ -59,9 +68,9 @@ import "apercue.ca/vocab"
 				]
 			},
 
-			// The agent
+			// The agent (prov:SoftwareAgent when automated)
 			{
-				"@type": "prov:Agent"
+				"@type": ["prov:Agent", "prov:SoftwareAgent"]
 				"@id":   _agent_id
 			},
 		]

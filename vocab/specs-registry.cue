@@ -11,7 +11,14 @@
 package vocab
 
 // #SpecStatus — Implementation lifecycle.
-#SpecStatus: "Implemented" | "Namespace" | "Downstream"
+#SpecStatus: "Implemented" | "Projection" | "Namespace" | "Downstream"
+
+// #SpecDepth — How deep is the coverage?
+//   full:       Produces conformant output that round-trips through spec-aware tools
+//   partial:    Produces recognizable output using core spec terms; missing advanced features
+//   vocabulary: Uses namespace prefixes and terms in @context; no standalone spec artifact
+//   structural: Produces spec-shaped JSON-LD structure; key spec features out of scope
+#SpecDepth: "full" | "partial" | "vocabulary" | "structural"
 
 // #SpecEntry — One W3C specification and how apercue covers it.
 #SpecEntry: {
@@ -27,6 +34,7 @@ package vocab
 
 	// Human-readable summary of what's covered
 	coverage: string
+	depth:    #SpecDepth
 }
 
 // Specs — The registry. Keys are W3C spec display names.
@@ -37,17 +45,19 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "JSON-LD 1.1"
 		url:    "https://www.w3.org/TR/json-ld11/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "jsonld"
 		patterns: {"context": true}
 		files: {"vocab/context.cue": true}
 		exports: {"context": true}
-		coverage: "@context, @type, @id on all resources"
+		coverage: "@context, @type, @id on all resources; namespace collision detection via federation"
 	}
 
 	"SHACL": {
 		name:   "SHACL"
 		url:    "https://www.w3.org/TR/shacl/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "sh"
 		patterns: {
 			"#ComplianceCheck": true
@@ -64,13 +74,14 @@ Specs: {[string]: #SpecEntry} & {
 			"gaps.shacl_report":           true
 			"shape_export.shapes_graph":   true
 		}
-		coverage: "sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types"
+		coverage: "Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types"
 	}
 
 	"SKOS": {
 		name:   "SKOS"
 		url:    "https://www.w3.org/TR/skos-reference/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "skos"
 		patterns: {
 			"#LifecyclePhasesSKOS": true
@@ -94,17 +105,19 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "EARL"
 		url:    "https://www.w3.org/TR/EARL10-Schema/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "earl"
 		patterns: {"#SmokeTest": true}
 		files: {"patterns/lifecycle.cue": true}
 		exports: {"smoke.earl_report": true}
-		coverage: "earl:Assertion from smoke test plans"
+		coverage: "earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode"
 	}
 
 	"OWL-Time": {
 		name:   "OWL-Time"
 		url:    "https://www.w3.org/TR/owl-time/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "time"
 		patterns: {"#CriticalPath": true}
 		files: {"patterns/analysis.cue": true}
@@ -116,6 +129,7 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "Dublin Core"
 		url:    "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
 		status: "Implemented"
+		depth:  "vocabulary"
 		prefix: "dcterms"
 		patterns: {"context": true}
 		files: {"vocab/context.cue": true}
@@ -127,6 +141,7 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "PROV-O"
 		url:    "https://www.w3.org/TR/prov-o/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "prov"
 		patterns: {
 			"#ProvenanceTrace": true
@@ -140,13 +155,14 @@ Specs: {[string]: #SpecEntry} & {
 			"provenance.prov_report":     true
 			"_prov_plan.plan_report":     true
 		}
-		coverage: "prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate"
+		coverage: "prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion"
 	}
 
 	"schema.org": {
 		name:   "schema.org"
 		url:    "https://schema.org/"
 		status: "Implemented"
+		depth:  "vocabulary"
 		prefix: "schema"
 		patterns: {"#SchemaOrgAlignment": true}
 		files: {"patterns/schema_alignment.cue": true}
@@ -158,50 +174,55 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "ODRL 2.2"
 		url:    "https://www.w3.org/TR/odrl-model/"
 		status: "Implemented"
+		depth:  "partial"
 		prefix: "odrl"
 		patterns: {"#ODRLPolicy": true}
 		files: {"patterns/policy.cue": true}
 		exports: {"access_policy.odrl_policy": true}
-		coverage: "odrl:Set policies with permissions/prohibitions by resource type"
+		coverage: "odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling"
 	}
 
 	"Activity Streams 2.0": {
 		name:   "Activity Streams 2.0"
 		url:    "https://www.w3.org/TR/activitystreams-core/"
 		status: "Implemented"
+		depth:  "partial"
 		prefix: "as"
 		patterns: {"#ActivityStream": true}
 		files: {"patterns/activity.cue": true}
 		exports: {"activity_stream.stream": true}
-		coverage: "as:OrderedCollection of Create activities from topology layers"
+		coverage: "as:OrderedCollection of Create activities from topology layers; no actor model or delivery"
 	}
 
 	"Verifiable Credentials 2.0": {
 		name:   "Verifiable Credentials 2.0"
 		url:    "https://www.w3.org/TR/vc-data-model-2.0/"
 		status: "Implemented"
+		depth:  "structural"
 		prefix: "cred"
 		patterns: {"#ValidationCredential": true}
 		files: {"patterns/credentials.cue": true}
 		exports: {"validation_credential.vc": true}
-		coverage: "VerifiableCredential wrapping SHACL validation attestation"
+		coverage: "VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope"
 	}
 
 	"W3C Org": {
 		name:   "W3C Org"
 		url:    "https://www.w3.org/TR/vocab-org/"
 		status: "Implemented"
+		depth:  "partial"
 		prefix: "org"
 		patterns: {"#OrgStructure": true}
 		files: {"views/org.cue": true}
 		exports: {"structure.org_report": true}
-		coverage: "org:Organization with type-based OrganizationalUnits"
+		coverage: "org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role"
 	}
 
 	"VoID": {
 		name:   "VoID"
 		url:    "https://www.w3.org/TR/void/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "void"
 		patterns: {"#VoIDDataset": true}
 		files: {"patterns/void.cue": true}
@@ -213,28 +234,31 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "Web Annotation"
 		url:    "https://www.w3.org/TR/annotation-model/"
 		status: "Implemented"
+		depth:  "partial"
 		prefix: "oa"
 		patterns: {"#AnnotationCollection": true}
 		files: {"patterns/annotation.cue": true}
 		exports: {"annotations.annotation_collection": true}
-		coverage: "oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations"
+		coverage: "oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states"
 	}
 
 	"RDFS": {
 		name:   "RDFS"
 		url:    "https://www.w3.org/TR/rdf-schema/"
 		status: "Implemented"
+		depth:  "partial"
 		prefix: "rdfs"
 		patterns: {"#OWLOntology": true}
 		files: {"patterns/ontology.cue": true}
 		exports: {"ontology.owl_ontology": true}
-		coverage: "rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies"
+		coverage: "rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning"
 	}
 
 	"DQV": {
 		name:   "DQV"
 		url:    "https://www.w3.org/TR/vocab-dqv/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "dqv"
 		patterns: {"#DataQualityReport": true}
 		files: {"patterns/quality.cue": true}
@@ -248,6 +272,7 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "Hydra Core"
 		url:    "https://www.hydra-cg.com/spec/latest/core/"
 		status: "Downstream"
+		depth:  "partial"
 		prefix: "hydra"
 		patterns: {"#HydraApiDoc": true}
 		files: {}
@@ -259,6 +284,7 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "DCAT 3"
 		url:    "https://www.w3.org/TR/vocab-dcat-3/"
 		status: "Implemented"
+		depth:  "full"
 		prefix: "dcat"
 		patterns: {
 			"#DCATCatalog":      true
