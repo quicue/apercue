@@ -21,24 +21,22 @@ Every change must pass these checks before merge. CI runs them automatically
 on push to `main` and on pull requests.
 
 ```bash
-# 1. All CUE packages validate
-cue vet ./vocab/
-cue vet ./patterns/
-cue vet ./charter/
-cue vet ./views/
-cue vet ./self-charter/
-for d in examples/*/; do cue vet "./$d"; done
+# 1. All CUE packages validate (includes tools/ schemas)
+cue vet ./...
 
-# 2. W3C round-trip conformance
+# 2. Full cross-package validation
+cue cmd vet-all
+
+# 3. W3C round-trip conformance
 python3 tools/validate-w3c.py -v
 
-# 3. README smoke test — every cue command in example READMEs exits 0
+# 4. README smoke test — every cue command in example READMEs exits 0
 #    (runs automatically in CI)
 
-# 4. No hardcoded absolute paths in markdown
+# 5. No hardcoded absolute paths in markdown
 #    grep for absolute user-directory paths — must find nothing
 
-# 5. Unicode rejection tests — #SafeID/#SafeLabel constraints hold
+# 6. Unicode rejection tests — #SafeID/#SafeLabel constraints hold
 for f in tests/unicode-rejection/*.cue; do
     cue vet "$f" 2>/dev/null && echo "FAIL: $f" || echo "PASS: $f"
 done
@@ -112,10 +110,23 @@ The precomputed file contains `depth`, `ancestors`, `dependents`, `earliest`,
 `latest`, and `duration` maps. `#GraphLite` and `#CriticalPathPrecomputed`
 consume these directly.
 
+## Adding a Tool Spec
+
+Tool specs live in `tools/` and are imported as `apercue.ca/tools@v0`.
+
+1. Define the schema in `tools/` (e.g., `#MySpec`) with regex-constrained fields
+2. Wire it in a `_tool.cue` file: `_my_spec: tools.#MySpec & {actual: "values"}`
+3. Add `command: "my-command": { ... }` using `tool/exec`, `tool/file`, `tool/cli`
+4. Run `cue vet ./...` to verify the spec catches bad values at eval time
+5. Test with intentionally bad values to confirm constraints fire
+
+Tool schemas are importable by downstream repos — they provide compile-time
+validation for any project's workflow commands.
+
 ## Project Structure
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for module layers, data flow, and the
-full pattern catalog.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for module layers, data flow, workflow
+commands, and the full pattern catalog.
 
 ## Commit Messages
 

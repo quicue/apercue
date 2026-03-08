@@ -187,12 +187,70 @@ compliance: patterns.#ComplianceCheck & {
 cue export . -e compliance.shacl_report --out json
 ```
 
+## 7. Add workflow commands
+
+For projects that need repeatable build/deploy/validate pipelines, import
+the tool schemas from `apercue.ca/tools@v0`:
+
+Create a `build_tool.cue` (note: must be `_tool.cue` suffix for `cue cmd`):
+
+```cue
+package main
+
+import (
+    "tool/exec"
+    "tool/file"
+    "tool/cli"
+
+    "apercue.ca/tools@v0"
+)
+
+_build_spec: tools.#BuildSpec & {
+    exports: {
+        main: {
+            package_path: "./"
+            expression:   "cpm.time_report"
+            output:       "output/schedule.json"
+        }
+    }
+}
+
+command: build: {
+    $short: "Export scheduling data"
+
+    run: exec.Run & {
+        cmd: ["cue", "export",
+            _build_spec.exports.main.package_path,
+            "-e", _build_spec.exports.main.expression,
+            "--out", "json"]
+        stdout: string
+    }
+    write: file.Create & {
+        filename: _build_spec.exports.main.output
+        contents: run.stdout
+    }
+    done: cli.Print & {
+        text: "Build complete."
+        $after: write
+    }
+}
+```
+
+The `#BuildSpec` constraint validates all paths and expressions at `cue vet`
+time. A typo like `package_path: "no-dot-slash"` fails immediately with a
+clear error — before the command ever runs.
+
+```bash
+cue cmd build
+```
+
 ## What's next
 
 - See [examples/](../examples/) for domain-specific graphs (courses, recipes,
   supply chains, governance frameworks)
-- See [ARCHITECTURE.md](../ARCHITECTURE.md) for design principles and module layers
+- See [ARCHITECTURE.md](../ARCHITECTURE.md) for design principles, workflow commands, and module layers
 - See [docs/pattern-api.md](pattern-api.md) for the full pattern type reference
+- See [docs/adapters.md](adapters.md) for downstream module guide and creating adapters
 - See [CONTRIBUTING.md](../CONTRIBUTING.md) for development setup
 
 ## Scaling past small graphs

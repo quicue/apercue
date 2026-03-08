@@ -50,6 +50,11 @@ charter/      Constraint-first planning (#Charter, #GapAnalysis)
 views/        Vocabulary projections (SKOS, org)
   │           Imports: vocab
   │
+tools/        Workflow command schemas (#BuildSpec, #DeploySpec, #ValidateSpec)
+  │           No imports. Importable by downstream repos.
+  │           Validated at `cue vet` time — catches bad paths, expressions,
+  │           and output targets before any command runs.
+  │
 examples/     Domain applications (5 examples)
   │           Imports: patterns, charter
   │
@@ -61,13 +66,11 @@ site/         Static site data projections
   │
 w3c/          W3C Community Group evidence
   │           Imports: patterns, vocab
-  │
-tools/        Python toposort, build scripts, validation
-              No CUE imports (standalone)
 ```
 
-Dependencies flow strictly downward. No circular imports. `vocab/` is the root;
-`tools/` is a leaf that operates on CUE output, not CUE types.
+Dependencies flow strictly downward. No circular imports. `vocab/` is the root.
+`tools/` is a peer of `vocab/` — no CUE imports, importable by any downstream
+module for compile-time validation of workflow command configuration.
 
 ## Data Flow
 
@@ -257,7 +260,55 @@ uses CUE unification (if two domains claim the same namespace, the struct
 produces conflicting values and evaluation fails). See ADR-018 and
 `patterns/federation.cue`.
 
-## Build Pipeline
+## Workflow Commands
+
+All build, deploy, and validation tasks are CUE workflow commands (`cue cmd`).
+Each command validates its configuration at `cue vet` time before it runs.
+
+```bash
+cue cmd build          # Export all site data (8 CUE exports + examples + W3C reports)
+cue cmd build-public   # Build + stage public site for CF Pages deployment
+cue cmd deploy         # Precompute topology → vet → build pipeline
+cue cmd serve          # Local preview server (port 8384, or -t port=N)
+cue cmd validate       # Verify documentation counts match CUE data
+cue cmd vet-all        # Full cross-package validation
+cue cmd gap-analysis   # Export SHACL gap analysis report as JSON
+cue cmd critical-path  # Export CPM critical path summary as JSON
+```
+
+### Tool Architecture (Two Layers)
+
+CUE's `tool/*` packages can only be imported in `_tool.cue` files — they are
+invisible to `cue vet` and `cue export`. This creates a two-layer architecture:
+
+```
+Layer 1: tools/ package (importable schemas)
+─────────────────────────────────────────────
+tools/build.cue      #BuildSpec, #ExportSpec, #StagingSpec, #PythonStep
+tools/deploy.cue     #DeploySpec
+tools/validate.cue   #ValidateSpec, #AnalysisExport
+
+  Regex constraints validate at `cue vet` time:
+  · package_path: =~"^\\./"       (must be relative)
+  · output: =~"\\.(json|...)$"   (must have extension)
+  · expression: =~"^[a-zA-Z_]"   (valid CUE identifier)
+
+Layer 2: _tool.cue files (exec wiring)
+──────────────────────────────────────
+build_tool.cue       imports tools.#BuildSpec, wires exec.Run tasks
+deploy_tool.cue      imports tools.#DeploySpec, wires toposort → vet → build
+validate_tool.cue    imports tools.#ValidateSpec, wires analysis commands
+
+  Each file: import "apercue.ca/tools@v0"
+  Then:      _build_spec: tools.#BuildSpec & {exports: {...}}
+  Then:      command: build: {specs: exec.Run & {cmd: [... _build_spec.exports.specs.package_path ...]}}
+```
+
+Downstream repos import the same schemas and wire their own `_tool.cue` files.
+A bad path like `"no-dot-slash"` or `"missing-extension"` fails at `cue vet`
+time with a clear error pointing to both the constraint and the value.
+
+### Build Pipeline
 
 ```
 tools/toposort.py           Python precomputes graph topology + CPM
@@ -266,16 +317,17 @@ tools/toposort.py           Python precomputes graph topology + CPM
 self-charter/precomputed.cue   CUE-formatted precomputed data
         │
         ▼
-cue vet ./...               Validates all packages
+cue vet ./...               Validates all packages + tool specs
         │
         ▼
-tools/build-site.sh         Orchestrates cue export → JSON
-        │                   Modes: all | public | local | stage
+cue cmd build               Orchestrates cue export → JSON
+        │                   (8 named exports + examples aggregation + W3C reports)
         ▼
 site/data/*.json            D3-consumable JSON artifacts
 site/vocab/context.jsonld   Canonical JSON-LD context
         │
         ▼
+cue cmd build-public        Stages public files to _public/
 _public/                    Staged for Cloudflare Pages (public only)
 homelab network                Private dashboards (charter, explorer, projections)
 ```

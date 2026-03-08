@@ -11,6 +11,7 @@ import (
     "apercue.ca/charter@v0"
     "apercue.ca/vocab@v0"
     "apercue.ca/views@v0"
+    "apercue.ca/tools@v0"     // Workflow command schemas (use in _tool.cue files)
 )
 ```
 
@@ -720,3 +721,86 @@ fails at compile time. See ADR-018.
 - `_namespace_ownership` — maps `Namespace → domain`; duplicate namespaces cause CUE unification conflict
 - `_id_ownership` — maps `@id → domain`; duplicate `@id` values cause conflict
 - `_cross_edge_errors` — validates all cross-edge references resolve (uses comprehension-level `if` per ADR-003)
+
+---
+
+## Workflow Command Schemas (tools/)
+
+Schemas for `cue cmd` workflow commands. Import as `apercue.ca/tools@v0` in
+`_tool.cue` files. All fields with regex constraints are validated at `cue vet`
+time — bad paths, expressions, or output targets are caught before commands run.
+
+### #ExportSpec
+
+Single CUE export definition.
+
+| Field | Type | Constraint | Description |
+|-------|------|-----------|-------------|
+| `package_path` | `string` | `=~"^\\./"` | CUE package path (must be relative) |
+| `expression` | `string` | `=~"^[a-zA-Z_][a-zA-Z0-9_.]*$"` | CUE expression to evaluate |
+| `output` | `string` | `=~"\\.(json\|jsonld\|yaml\|txt)$"` | Output file path |
+| `format` | `string` | `*"json" \| "yaml" \| "text"` | Output format |
+
+### #BuildSpec
+
+Build pipeline configuration.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `exports` | `{[string]: #ExportSpec}` | Named CUE exports |
+| `python_steps` | `{[string]: #PythonStep}` | Named Python script steps |
+| `staging` | `#StagingSpec \| *null` | Public site staging config |
+
+### #StagingSpec
+
+Public site staging.
+
+| Field | Type | Constraint | Description |
+|-------|------|-----------|-------------|
+| `dir` | `string` | `*"_public"` | Staging directory |
+| `html_files` | `[...string]` | `=~"\\.html$"` | HTML files to copy |
+| `data_files` | `[...string]` | `=~"\\.(json\|jsonld)$"` | Data files to copy |
+| `extra_dirs` | `[...string]` | | Additional directories |
+
+### #PythonStep
+
+Python script step.
+
+| Field | Type | Constraint | Description |
+|-------|------|-----------|-------------|
+| `script` | `string` | `=~"\\.py$"` | Python script path |
+| `args` | `[...string]` | | Optional arguments |
+| `optional` | `bool` | `*false` | Whether failure is non-fatal |
+
+### #DeploySpec
+
+Deploy pipeline (toposort → vet → build).
+
+| Field | Type | Constraint | Description |
+|-------|------|-----------|-------------|
+| `toposort_source` | `string` | `=~"\\.cue$"` | CUE file for toposort.py input |
+| `precomputed_output` | `string` | `=~"\\.cue$"` | Where to write precomputed topology |
+| `vet_packages` | `[_, ...string]` | at least one | Packages to validate |
+| `build_command` | `string` | `*"build"` | Build command name |
+| `serve_port` | `string` | `*"8384" \| =~"^[0-9]+$"` | Local preview server port |
+
+### #ValidateSpec
+
+Validation pipeline.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `count_script` | `string \| *null` | Script for count-based validation |
+| `vet_packages` | `[...string]` | Packages to vet (relative paths) |
+| `analyses` | `{[string]: #AnalysisExport}` | Named analysis projections |
+
+### #AnalysisExport
+
+Single analysis projection.
+
+| Field | Type | Constraint | Description |
+|-------|------|-----------|-------------|
+| `package_path` | `string` | `=~"^\\./"` | CUE package path |
+| `expression` | `string` | `=~"^[a-zA-Z_][a-zA-Z0-9_.]*$"` | CUE expression |
+| `description` | `string` | | Human-readable description |
+| `w3c_type` | `string` | `*""` | Expected W3C output type |

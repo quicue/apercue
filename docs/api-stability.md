@@ -73,6 +73,17 @@ These types work correctly but their interfaces may evolve.
 | `#SchemaOrgAlignment` | v0.4 | schema.org mappings |
 | `#OrgChart` | v0.4 | W3C Org projection |
 
+### tools/
+| Type | Since | Notes |
+|------|-------|-------|
+| `#BuildSpec` | v0.9 | Build pipeline configuration (exports, staging, python steps) |
+| `#ExportSpec` | v0.9 | Single CUE export definition (package_path, expression, output) |
+| `#StagingSpec` | v0.9 | Public site staging (html_files, data_files, extra_dirs) |
+| `#PythonStep` | v0.9 | Python script step in build pipeline |
+| `#DeploySpec` | v0.9 | Deploy pipeline (toposort → vet → build) |
+| `#ValidateSpec` | v0.9 | Validation pipeline (count checks, vet packages, analyses) |
+| `#AnalysisExport` | v0.9 | Single analysis projection definition |
+
 ## Publishing
 
 The module is `apercue.ca@v0` with `source: kind: "self"` (no external

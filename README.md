@@ -105,6 +105,10 @@ apercue.ca@v0
 ├── views/                  # Vocabulary projections
 │   ├── skos.cue            #   #TypeVocabulary → skos:ConceptScheme
 │   └── org.cue             #   #OrgChart → org:Organization, org:OrganizationalUnit
+├── tools/                  # Workflow command schemas (importable by downstream)
+│   ├── build.cue           #   #BuildSpec, #ExportSpec, #StagingSpec
+│   ├── deploy.cue          #   #DeploySpec (toposort → vet → build pipeline)
+│   └── validate.cue        #   #ValidateSpec, #AnalysisExport
 ├── w3c/                    # Spec coverage index
 │   └── README.md
 ├── examples/

@@ -2,6 +2,25 @@
 
 Projects that import apercue patterns for domain-specific use.
 
+## Import Paths
+
+Downstream repos import apercue's public packages:
+
+```cue
+import (
+    "apercue.ca/patterns@v0"   // Graph analysis + W3C projections
+    "apercue.ca/charter@v0"    // Constraint-first planning
+    "apercue.ca/vocab@v0"      // Core types, @context, specs-registry
+    "apercue.ca/views@v0"      // SKOS, Org projections
+    "apercue.ca/tools@v0"      // Workflow command schemas (#BuildSpec, #DeploySpec, #ValidateSpec)
+)
+```
+
+The `tools/` package provides compile-time validation for `cue cmd` workflow
+commands. Import it in your `_tool.cue` files to get constraint checking on
+paths, expressions, and output targets at `cue vet` time. See
+[ARCHITECTURE.md](../ARCHITECTURE.md#tool-architecture-two-layers) for details.
+
 ## Downstream Modules
 
 ### quicue.ca
@@ -12,13 +31,16 @@ Infrastructure dependency management for the quicue ecosystem.
 |---|---|
 | **Module** | `quicue.ca@v0` |
 | **CUE** | v0.15.4 |
-| **Imports** | `apercue.ca/patterns`, `apercue.ca/vocab`, `apercue.ca/charter` |
+| **Imports** | `apercue.ca/patterns`, `apercue.ca/vocab`, `apercue.ca/charter`, `apercue.ca/tools` |
 | **Patterns used** | `#GraphLite`, `#CriticalPathPrecomputed`, `#ComplianceCheck`, `#GapAnalysis`, `#VizData` |
+| **Tool schemas** | `#BuildSpec`, `#DeploySpec` |
 | **@base** | `https://infra.example.com/resources/` |
 | **Nodes** | ~30 (infrastructure services, databases, networks) |
 
 Manages infrastructure as a typed dependency graph. Uses `#GraphLite` with
-Python precomputation because the graph exceeds 20 nodes.
+Python precomputation because the graph exceeds 20 nodes. Workflow commands
+(`cue cmd build`, `cue cmd deploy`) validate their configuration against
+`apercue.ca/tools@v0` schemas.
 
 ### quicue-kg
 
@@ -99,6 +121,41 @@ across domains.
        }]
    }
    ```
+
+6. **Add workflow commands** with type-checked configuration:
+   ```cue
+   // In your _tool.cue file:
+   import "apercue.ca/tools@v0"
+
+   _build_spec: tools.#BuildSpec & {
+       exports: {
+           main: {
+               package_path: "./"
+               expression:   "viz"
+               output:       "site/data/main.json"
+           }
+       }
+   }
+   ```
+
+   If `package_path` doesn't start with `./`, or `output` has no file
+   extension, `cue vet` will catch it before the command ever runs.
+
+## Vendoring
+
+Until OCI registry publishing (CUE v0.16+), downstream repos vendor apercue:
+
+```bash
+# Option 1: symlink (local dev)
+mkdir -p cue.mod/pkg
+ln -s /path/to/apercue cue.mod/pkg/apercue.ca
+
+# Option 2: copy (CI / shared)
+cp -r /path/to/apercue cue.mod/pkg/apercue.ca@v0/
+```
+
+The `tools/` package must be included in the vendor copy. CI environments
+also need the CUE module cache populated — see `.github/populate-cue-cache.sh`.
 
 See [docs/getting-started.md](getting-started.md) for the full walkthrough and
 [docs/pattern-api.md](pattern-api.md) for all available patterns.
