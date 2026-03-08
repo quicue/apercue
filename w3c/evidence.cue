@@ -375,8 +375,8 @@ _json: {
 		"@type":          "skos:ConceptScheme"
 		"@id":            _taxonomy.taxonomy_scheme["@id"]
 		"skos:prefLabel": _taxonomy.taxonomy_scheme["skos:prefLabel"]
-		"apercue:concepts": [
-			for i, c in _taxonomy.taxonomy_scheme["apercue:concepts"]
+		"skos:member": [
+			for i, c in _taxonomy.taxonomy_scheme["skos:member"]
 			if i < 3 {c},
 		]
 	}), "", "    ")

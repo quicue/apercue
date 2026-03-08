@@ -109,7 +109,7 @@ selects a different context:
     "@id": "urn:resource:analysis-code",
     "dcterms:title": "analysis-code",
     "prov:wasAttributedTo": {
-        "@id": "apercue:graph-engine"
+        "@id": "urn:agent:graph-engine"
     },
     "prov:wasDerivedFrom": [
         {
@@ -117,7 +117,7 @@ selects a different context:
         }
     ],
     "prov:wasGeneratedBy": {
-        "@id": "apercue:graph-construction"
+        "@id": "urn:activity:graph-construction"
     }
 }
 ```
@@ -127,14 +127,16 @@ selects a different context:
 ```json
 {
     "@type": "odrl:Set",
-    "odrl:uid": "apercue:graph-policy",
+    "odrl:uid": "urn:policy:graph-policy",
     "odrl:permission": [
         {
+            "@type": "odrl:Permission",
             "odrl:action": {
                 "@id": "odrl:read"
             }
         },
         {
+            "@type": "odrl:Permission",
             "odrl:action": {
                 "@id": "odrl:execute"
             },

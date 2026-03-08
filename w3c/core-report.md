@@ -212,11 +212,13 @@ policy set:
     "odrl:uid": "urn:policy:graph-policy",
     "odrl:permission": [
         {
+            "@type": "odrl:Permission",
             "odrl:action": {
                 "@id": "odrl:read"
             }
         },
         {
+            "@type": "odrl:Permission",
             "odrl:action": {
                 "@id": "odrl:execute"
             },
@@ -253,13 +255,17 @@ relations:
     ],
     "prov:wasGeneratedBy": {
         "@id": "urn:activity:graph-construction"
+    },
+    "prov:qualifiedGeneration": {
+        "@id": "urn:generation:analysis-code"
     }
 }
 ```
 
-Every resource becomes a `prov:Entity`. Dependency edges become derivation
-links. The full provenance graph includes all 5 resources plus the
-generating `prov:Activity` and `prov:Agent`.
+Every resource becomes a `prov:Entity` with a qualified `prov:Generation` event.
+Dependency edges become derivation links. The full provenance graph includes all
+5 resources, 5 generation events, the generating `prov:Activity`, and a
+`prov:SoftwareAgent`.
 
 ### Graph Self-Description / VoID (computed)
 
@@ -564,12 +570,23 @@ graph validation:
 {
     "@graph": [
         {
+            "@type": "earl:Software",
+            "@id": "urn:agent:graph-engine",
+            "dcterms:title": "apercue graph engine"
+        },
+        {
             "@type": "earl:Assertion",
+            "earl:assertedBy": {
+                "@id": "urn:agent:graph-engine"
+            },
+            "earl:mode": {
+                "@id": "earl:automatic"
+            },
             "earl:subject": {
                 "@id": "urn:apercue:w3c-evidence"
             },
             "earl:test": {
-                "@type": "earl:TestCriterion",
+                "@type": "earl:TestCase",
                 "dcterms:title": "graph has 5 resources",
                 "apercue:command": "cue export ./w3c/ -e evidence.graph_summary.total_resources"
             },
@@ -580,30 +597,13 @@ graph validation:
                 },
                 "earl:expected": "5"
             }
-        },
-        {
-            "@type": "earl:Assertion",
-            "earl:subject": {
-                "@id": "urn:apercue:w3c-evidence"
-            },
-            "earl:test": {
-                "@type": "earl:TestCriterion",
-                "dcterms:title": "SHACL report conforms",
-                "apercue:command": "cue export ./w3c/ -e evidence.shacl[\"sh:conforms\"]"
-            },
-            "earl:result": {
-                "@type": "earl:TestResult",
-                "earl:outcome": {
-                    "@id": "earl:untested"
-                },
-                "earl:expected": "true"
-            }
         }
     ]
 }
 ```
 
-Each check becomes an `earl:Assertion` with an `earl:TestCriterion` and
+The `earl:Software` assertor identifies the engine. Each check becomes an
+`earl:Assertion` with `earl:TestCase`, `earl:automatic` mode, and
 `earl:TestResult`. Outcomes are `earl:untested` at compile time — the plan
 is linked data; execution happens at runtime.
 
@@ -616,9 +616,9 @@ via a configurable type map:
 {
     "@graph": [
         {
-            "@type": {
-                "Governance": true
-            },
+            "@type": [
+                "schema:Action"
+            ],
             "@id": "urn:resource:ethics-approval",
             "dcterms:description": "Institutional review board approval (Protocol #2024-0142)",
             "dcterms:title": "ethics-approval",
@@ -627,9 +627,9 @@ via a configurable type map:
             ]
         },
         {
-            "@type": {
-                "Dataset": true
-            },
+            "@type": [
+                "schema:Dataset"
+            ],
             "@id": "urn:resource:sensor-dataset",
             "dcterms:description": "Telemetry dataset (embargoed until publication)",
             "dcterms:title": "sensor-dataset",
@@ -776,18 +776,18 @@ extension). Adding a projection is adding a file, not modifying a framework.
 | JSON-LD 1.1 | @context, @type, @id on all resources |
 | SHACL | sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
 | SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower |
-| EARL | earl:Assertion from smoke test plans |
+| EARL | earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode |
 | OWL-Time | time:Interval from critical path scheduling |
 | Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
-| PROV-O | prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate |
+| PROV-O | prov:Entity, prov:Activity, prov:SoftwareAgent with wasDerivedFrom chains and prov:Generation; prov:Plan from charter gates with qualifiedAssociation |
 | schema.org | schema:additionalType annotations via configurable type mapping |
-| ODRL 2.2 | odrl:Set policies with permissions/prohibitions by resource type |
+| ODRL 2.2 | odrl:Set permission/prohibition matrix by resource type |
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers |
-| Verifiable Credentials 2.0 | VerifiableCredential wrapping SHACL validation attestation |
+| Verifiable Credentials 2.0 | VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope |
 | W3C Org | org:Organization with type-based OrganizationalUnits |
 | VoID | void:Dataset with class/property partitions, linkset statistics, and vocabulary usage |
 | Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations |
-| RDFS | rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies |
+| RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from graph type hierarchy with owl:ObjectProperty |
 | DQV | dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions |
 | DCAT 3 | dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type |
 

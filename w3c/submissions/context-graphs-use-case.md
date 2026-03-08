@@ -105,6 +105,7 @@ is the single source of truth.
 {
     "@type": "time:Interval",
     "@id": "urn:resource:analysis-code",
+    "dcterms:title": "analysis-code",
     "time:hasBeginning": {"@type": "time:Instant", "time:inXSDDecimal": 150},
     "time:hasEnd": {"@type": "time:Instant", "time:inXSDDecimal": 195},
     "time:hasDuration": {
@@ -123,6 +124,8 @@ is the single source of truth.
 {
     "@type": "prov:Entity",
     "@id": "urn:resource:analysis-code",
+    "dcterms:title": "analysis-code",
+    "prov:wasAttributedTo": {"@id": "urn:agent:graph-engine"},
     "prov:wasDerivedFrom": [{"@id": "urn:resource:sensor-dataset"}],
     "prov:wasGeneratedBy": {"@id": "urn:activity:graph-construction"}
 }
@@ -133,10 +136,12 @@ is the single source of truth.
 ```json
 {
     "@type": "odrl:Set",
+    "odrl:uid": "urn:policy:graph-policy",
     "odrl:permission": [
-        {"odrl:action": {"@id": "odrl:read"}},
-        {"odrl:action": {"@id": "odrl:execute"}, "odrl:assignee": {"@id": "urn:role:operator"}}
-    ]
+        {"@type": "odrl:Permission", "odrl:action": {"@id": "odrl:read"}},
+        {"@type": "odrl:Permission", "odrl:action": {"@id": "odrl:execute"}, "odrl:assignee": {"@id": "apercue:operator"}}
+    ],
+    "odrl:prohibition": []
 }
 ```
 
