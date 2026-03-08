@@ -82,10 +82,16 @@ def parse_cue_tasks(filepath: str) -> dict:
 
             # Extract depends_on keys
             deps = {}
+            # Multi-key: depends_on: {"a": true, "b": true}
             deps_match = re.search(r'depends_on:\s*\{([^}]*)\}', block)
             if deps_match:
                 for dep_key in re.findall(r'"([^"]+)":\s*true', deps_match.group(1)):
                     deps[dep_key] = True
+            else:
+                # Single-key shorthand: depends_on: "key": true
+                deps_short = re.search(r'depends_on:\s*"([^"]+)":\s*true', block)
+                if deps_short:
+                    deps[deps_short.group(1)] = True
 
             # Extract @type keys
             types = {}
