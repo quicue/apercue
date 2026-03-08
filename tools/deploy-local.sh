@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# DEPRECATED: Use `cue cmd deploy` and `cue cmd serve` instead.
+# Kept for reference. Will be removed in a future cleanup.
+#
 # Deploy private site data to local homelab network.
 #
 # Builds charter, ecosystem, and projections from CUE,

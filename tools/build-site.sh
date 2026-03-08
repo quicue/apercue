@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# DEPRECATED: Use `cue cmd build` or `cue cmd build-public` instead.
+# Kept for reference. Will be removed in a future cleanup.
+#
 # Build site data from CUE exports.
 #
 # Aggregates example summaries (separate CUE packages) and spec data

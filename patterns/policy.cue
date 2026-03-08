@@ -47,6 +47,7 @@ import "apercue.ca/vocab"
 		"odrl:permission": [
 			for rule in permissions {
 				_entry: {
+					"@type":        "odrl:Permission"
 					"odrl:action": {"@id": "odrl:" + rule.action}
 					if rule.assignee != _|_ {
 						"odrl:assignee": {"@id": rule.assignee}
@@ -78,6 +79,7 @@ import "apercue.ca/vocab"
 		"odrl:prohibition": [
 			for rule in prohibitions {
 				_entry: {
+					"@type":        "odrl:Prohibition"
 					"odrl:action": {"@id": "odrl:" + rule.action}
 					if rule.assignee != _|_ {
 						"odrl:assignee": {"@id": rule.assignee}

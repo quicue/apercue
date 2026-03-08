@@ -31,17 +31,21 @@ import "apercue.ca/vocab"
 		}
 		"@graph": [
 			for name, res in Graph.resources {
-				"@type":         res["@type"]
+				// Map graph types to schema.org for @type
+				let _mapped = [
+					for t, _ in res["@type"] if TypeMap[t] != _|_ {TypeMap[t]},
+				]
+				"@type": [
+					if len(_mapped) > 0 for m in _mapped {m},
+					if len(_mapped) == 0 {Fallback},
+				]
 				"@id":           "urn:resource:" + name
 				"dcterms:title": name
 				if res.description != _|_ {
 					"dcterms:description": res.description
 				}
 
-				// Map each graph type to schema.org
-				let _mapped = [
-					for t, _ in res["@type"] if TypeMap[t] != _|_ {TypeMap[t]},
-				]
+				// Also expose as schema:additionalType for consumers that read it
 				"schema:additionalType": [
 					if len(_mapped) > 0 for m in _mapped {m},
 					if len(_mapped) == 0 {Fallback},

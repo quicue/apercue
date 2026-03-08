@@ -1,0 +1,117 @@
+{
+    "@context": {
+        "@base": "urn:resource:",
+        "dcterms": "http://purl.org/dc/terms/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "sh": "http://www.w3.org/ns/shacl#",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "schema": "https://schema.org/",
+        "time": "http://www.w3.org/2006/time#",
+        "earl": "http://www.w3.org/ns/earl#",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "org": "http://www.w3.org/ns/org#",
+        "cred": "https://www.w3.org/2018/credentials#",
+        "as": "https://www.w3.org/ns/activitystreams#",
+        "void": "http://rdfs.org/ns/void#",
+        "dqv": "http://www.w3.org/ns/dqv#",
+        "oa": "http://www.w3.org/ns/oa#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "apercue": "https://apercue.ca/vocab#",
+        "charter": "https://apercue.ca/charter#",
+        "name": "dcterms:title",
+        "description": "dcterms:description",
+        "depends_on": {
+            "@id": "dcterms:requires",
+            "@type": "@id"
+        },
+        "status": {
+            "@id": "schema:actionStatus",
+            "@type": "@id"
+        },
+        "tags": {
+            "@id": "dcterms:subject",
+            "@container": "@set"
+        }
+    },
+    "@type": "skos:ConceptScheme",
+    "@id": "https://apercue.ca/charter#TaskTypes",
+    "skos:prefLabel": "Charter Task Type Vocabulary",
+    "dcterms:title": "Charter Task Type Vocabulary",
+    "skos:hasTopConcept": [
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/charter#Schema",
+            "skos:prefLabel": "Schema",
+            "skos:definition": "Schema or type definition task",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            },
+            "skos:topConceptOf": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            }
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/charter#Pattern",
+            "skos:prefLabel": "Pattern",
+            "skos:definition": "Reusable computational pattern",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            },
+            "skos:topConceptOf": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            }
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/charter#Projection",
+            "skos:prefLabel": "Projection",
+            "skos:definition": "W3C standard output projection",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            },
+            "skos:topConceptOf": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            }
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/charter#Example",
+            "skos:prefLabel": "Example",
+            "skos:definition": "Example or demonstration",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            },
+            "skos:topConceptOf": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            }
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/charter#CI",
+            "skos:prefLabel": "CI",
+            "skos:definition": "Continuous integration or automation",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            },
+            "skos:topConceptOf": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            }
+        },
+        {
+            "@type": "skos:Concept",
+            "@id": "https://apercue.ca/charter#Documentation",
+            "skos:prefLabel": "Documentation",
+            "skos:definition": "Documentation or knowledge base entry",
+            "skos:inScheme": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            },
+            "skos:topConceptOf": {
+                "@id": "https://apercue.ca/charter#TaskTypes"
+            }
+        }
+    ]
+}
