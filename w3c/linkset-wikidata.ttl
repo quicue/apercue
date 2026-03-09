@@ -1,0 +1,52 @@
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix apercue: <https://apercue.ca/vocab#> .
+@prefix wd:      <http://www.wikidata.org/entity/> .
+
+# ─────────────────────────────────────────────────
+# Wikidata Alignments — owl:equivalentClass to global knowledge graph
+# ─────────────────────────────────────────────────
+# Ported from qc-eco/quicue-semantic/rdf/linkset-wikidata.ttl
+# with additions for types unique to the apercue vocabulary.
+#
+# Coverage: 25/26 classes mapped (ManagementService has no Wikidata equivalent)
+
+# ─── Core classes ───
+apercue:Resource        owl:equivalentClass wd:Q771906 .      # System resource
+apercue:Application     owl:equivalentClass wd:Q166142 .      # Application software
+apercue:Actor           owl:equivalentClass wd:Q421957 .      # Actor (UML)
+
+# ─── Infrastructure types ───
+apercue:DNSServer       owl:equivalentClass wd:Q131212 .      # DNS
+apercue:Database        owl:equivalentClass wd:Q8513 .        # Database
+apercue:DockerContainer owl:equivalentClass wd:Q105674379 .   # OS-level virtualization (container)
+apercue:VirtualMachine  owl:equivalentClass wd:Q185831 .      # Virtual machine
+apercue:ReverseProxy    owl:equivalentClass wd:Q304582 .      # Reverse proxy
+apercue:LoadBalancer    owl:equivalentClass wd:Q1503135 .     # Load balancing
+
+# ─── Network types ───
+apercue:Router          owl:equivalentClass wd:Q11282 .       # Router
+apercue:Network         owl:equivalentClass wd:Q1301371 .     # Computer network
+
+# ─── Service types ───
+apercue:MailServer      owl:equivalentClass wd:Q188860 .      # Mail server
+apercue:MonitoringServer owl:equivalentClass wd:Q1363782 .    # Network monitoring
+apercue:ObjectStorage   owl:equivalentClass wd:Q2642158 .     # Object storage
+apercue:AuthServer      owl:equivalentClass wd:Q5369055 .     # Authentication server
+apercue:APIServer       owl:equivalentClass wd:Q165194 .      # Web service
+apercue:LicenseServer   owl:equivalentClass wd:Q596774 .      # License manager
+apercue:SecurityService owl:equivalentClass wd:Q189900 .      # Information security (approx)
+apercue:TimeService     owl:equivalentClass wd:Q217491 .      # Network Time Protocol (approx)
+apercue:ExternalService owl:equivalentClass wd:Q193424 .      # Web service (approx)
+
+# ─── Compute types ───
+apercue:LXCContainer    owl:equivalentClass wd:Q16960893 .    # LXC
+apercue:DevelopmentWorkstation owl:equivalentClass wd:Q192525 . # Workstation (approx)
+
+# ─── Source control ───
+apercue:SourceControlManagement owl:equivalentClass wd:Q846309 . # Version control
+
+# ─── Actor types ───
+apercue:UserGroup       owl:equivalentClass wd:Q2085069 .     # User group
+
+# ─── Not mapped ───
+# apercue:ManagementService — no suitable Wikidata entity found
