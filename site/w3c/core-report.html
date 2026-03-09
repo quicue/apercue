@@ -279,11 +279,13 @@ policy set:</p>
     &quot;odrl:uid&quot;: &quot;urn:policy:graph-policy&quot;,
     &quot;odrl:permission&quot;: [
         {
+            &quot;@type&quot;: &quot;odrl:Permission&quot;,
             &quot;odrl:action&quot;: {
                 &quot;@id&quot;: &quot;odrl:read&quot;
             }
         },
         {
+            &quot;@type&quot;: &quot;odrl:Permission&quot;,
             &quot;odrl:action&quot;: {
                 &quot;@id&quot;: &quot;odrl:execute&quot;
             },
@@ -315,12 +317,16 @@ relations:</p>
     ],
     &quot;prov:wasGeneratedBy&quot;: {
         &quot;@id&quot;: &quot;urn:activity:graph-construction&quot;
+    },
+    &quot;prov:qualifiedGeneration&quot;: {
+        &quot;@id&quot;: &quot;urn:generation:analysis-code&quot;
     }
 }
 </code></pre>
-<p>Every resource becomes a <code>prov:Entity</code>. Dependency edges become derivation
-links. The full provenance graph includes all 5 resources plus the
-generating <code>prov:Activity</code> and <code>prov:Agent</code>.</p>
+<p>Every resource becomes a <code>prov:Entity</code> with a qualified <code>prov:Generation</code> event.
+Dependency edges become derivation links. The full provenance graph includes all
+5 resources, 5 generation events, the generating <code>prov:Activity</code>, and a
+<code>prov:SoftwareAgent</code>.</p>
 <h3 id="graph-self-description-void-computed">Graph Self-Description / VoID (computed)</h3>
 <p>The <code>#VoIDDataset</code> pattern produces a VoID dataset description — the graph's
 machine-readable "about" page:</p>
@@ -591,12 +597,23 @@ graph validation:</p>
 <pre><code class="language-json">{
     &quot;@graph&quot;: [
         {
+            &quot;@type&quot;: &quot;earl:Software&quot;,
+            &quot;@id&quot;: &quot;urn:agent:graph-engine&quot;,
+            &quot;dcterms:title&quot;: &quot;apercue graph engine&quot;
+        },
+        {
             &quot;@type&quot;: &quot;earl:Assertion&quot;,
+            &quot;earl:assertedBy&quot;: {
+                &quot;@id&quot;: &quot;urn:agent:graph-engine&quot;
+            },
+            &quot;earl:mode&quot;: {
+                &quot;@id&quot;: &quot;earl:automatic&quot;
+            },
             &quot;earl:subject&quot;: {
                 &quot;@id&quot;: &quot;urn:apercue:w3c-evidence&quot;
             },
             &quot;earl:test&quot;: {
-                &quot;@type&quot;: &quot;earl:TestCriterion&quot;,
+                &quot;@type&quot;: &quot;earl:TestCase&quot;,
                 &quot;dcterms:title&quot;: &quot;graph has 5 resources&quot;,
                 &quot;apercue:command&quot;: &quot;cue export ./w3c/ -e evidence.graph_summary.total_resources&quot;
             },
@@ -607,29 +624,12 @@ graph validation:</p>
                 },
                 &quot;earl:expected&quot;: &quot;5&quot;
             }
-        },
-        {
-            &quot;@type&quot;: &quot;earl:Assertion&quot;,
-            &quot;earl:subject&quot;: {
-                &quot;@id&quot;: &quot;urn:apercue:w3c-evidence&quot;
-            },
-            &quot;earl:test&quot;: {
-                &quot;@type&quot;: &quot;earl:TestCriterion&quot;,
-                &quot;dcterms:title&quot;: &quot;SHACL report conforms&quot;,
-                &quot;apercue:command&quot;: &quot;cue export ./w3c/ -e evidence.shacl[\&quot;sh:conforms\&quot;]&quot;
-            },
-            &quot;earl:result&quot;: {
-                &quot;@type&quot;: &quot;earl:TestResult&quot;,
-                &quot;earl:outcome&quot;: {
-                    &quot;@id&quot;: &quot;earl:untested&quot;
-                },
-                &quot;earl:expected&quot;: &quot;true&quot;
-            }
         }
     ]
 }
 </code></pre>
-<p>Each check becomes an <code>earl:Assertion</code> with an <code>earl:TestCriterion</code> and
+<p>The <code>earl:Software</code> assertor identifies the engine. Each check becomes an
+<code>earl:Assertion</code> with <code>earl:TestCase</code>, <code>earl:automatic</code> mode, and
 <code>earl:TestResult</code>. Outcomes are <code>earl:untested</code> at compile time — the plan
 is linked data; execution happens at runtime.</p>
 <h3 id="schemaorg-alignment-computed">Schema.org Alignment (computed)</h3>
@@ -638,9 +638,9 @@ via a configurable type map:</p>
 <pre><code class="language-json">{
     &quot;@graph&quot;: [
         {
-            &quot;@type&quot;: {
-                &quot;Governance&quot;: true
-            },
+            &quot;@type&quot;: [
+                &quot;schema:Action&quot;
+            ],
             &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;,
             &quot;dcterms:description&quot;: &quot;Institutional review board approval (Protocol #2024-0142)&quot;,
             &quot;dcterms:title&quot;: &quot;ethics-approval&quot;,
@@ -649,9 +649,9 @@ via a configurable type map:</p>
             ]
         },
         {
-            &quot;@type&quot;: {
-                &quot;Dataset&quot;: true
-            },
+            &quot;@type&quot;: [
+                &quot;schema:Dataset&quot;
+            ],
             &quot;@id&quot;: &quot;urn:resource:sensor-dataset&quot;,
             &quot;dcterms:description&quot;: &quot;Telemetry dataset (embargoed until publication)&quot;,
             &quot;dcterms:title&quot;: &quot;sensor-dataset&quot;,
@@ -769,7 +769,7 @@ as DQV quality measurements:</p>
 metrics computed from the graph. Each <code>dqv:QualityMeasurement</code> links to
 its metric, dimension, and the dataset under evaluation.</p>
 <h3 id="spec-coverage">Spec Coverage</h3>
-<p>17 specifications implemented,
+<p>17 specifications implemented (9 full conformance, 5 partial, 2 vocabulary-only, 1 structural),
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.</p>
 <p><strong>Implemented</strong> (17):</p>
@@ -795,7 +795,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>EARL</td>
-<td>earl:Assertion from smoke test plans</td>
+<td>earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode</td>
 </tr>
 <tr>
 <td>OWL-Time</td>
@@ -807,7 +807,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>PROV-O</td>
-<td>prov:Entity + prov:wasDerivedFrom from dependency edges; prov:Plan from charter gates with prov:Activity per gate</td>
+<td>prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains and prov:Generation; prov:Plan from charter gates with qualifiedAssociation</td>
 </tr>
 <tr>
 <td>schema.org</td>
@@ -815,7 +815,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>ODRL 2.2</td>
-<td>odrl:Set policies with permissions/prohibitions by resource type</td>
+<td>odrl:Set permission/prohibition matrix by resource type</td>
 </tr>
 <tr>
 <td>Activity Streams 2.0</td>
@@ -823,7 +823,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>Verifiable Credentials 2.0</td>
-<td>VerifiableCredential wrapping SHACL validation attestation</td>
+<td>VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope</td>
 </tr>
 <tr>
 <td>W3C Org</td>
@@ -839,7 +839,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>RDFS</td>
-<td>rdfs:Class and rdfs:subClassOf from graph type hierarchy with owl:ObjectProperty for dependencies</td>
+<td>rdfs:Class, rdfs:subClassOf, rdfs:domain/range from graph type hierarchy</td>
 </tr>
 <tr>
 <td>DQV</td>

@@ -115,10 +115,6 @@ command: build: {
 		cmd: ["cue", "export", "./examples/course-prereqs/", "-e", "summary", "--out", "json"]
 		stdout: string
 	}
-	ex_cra_genni: exec.Run & {
-		cmd: ["cue", "export", "./examples/cra-genni/", "-e", "summary", "--out", "json"]
-		stdout: string
-	}
 	ex_project: exec.Run & {
 		cmd: ["cue", "export", "./examples/project-tracker/", "-e", "summary", "--out", "json"]
 		stdout: string
@@ -140,7 +136,6 @@ command: build: {
 			print(json.dumps(examples, indent=2))
 			""",
 			"course-prereqs", ex_course.stdout,
-			"cra-genni", ex_cra_genni.stdout,
 			"project-tracker", ex_project.stdout,
 			"recipe-ingredients", ex_recipe.stdout,
 			"supply-chain", ex_supply.stdout,
