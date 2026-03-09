@@ -145,7 +145,7 @@ apercue.ca@v0
 | SKOS | `views/skos.cue`, `taxonomy.cue` --- skos:ConceptScheme with broader/narrower | full | Implemented |
 | EARL | `lifecycle.cue` --- earl:Assertion, earl:TestCase, earl:Software assertor | full | Implemented |
 | OWL-Time | `analysis.cue` --- time:Interval from critical path scheduling | full | Implemented |
-| PROV-O | `provenance.cue` --- prov:Entity, Agent, Generation, Plan with qualifiedAssociation | full | Implemented |
+| PROV-O | `provenance.cue` --- prov:Entity, Activity, Agent with wasDerivedFrom chains; Generation, Plan with qualifiedAssociation | full | Implemented |
 | VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | full | Implemented |
 | DCAT 3 | `catalog.cue` --- dcat:Catalog, Dataset, Distribution, DataService | full | Implemented |
 | DQV | `quality.cue` --- dqv:QualityMeasurement for completeness, consistency, accessibility | full | Implemented |

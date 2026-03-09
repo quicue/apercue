@@ -765,7 +765,7 @@ its metric, dimension, and the dataset under evaluation.
 
 ### Spec Coverage
 
-17 specifications implemented,
+17 specifications implemented (9 full conformance, 5 partial, 2 vocabulary-only, 1 structural),
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 
@@ -779,7 +779,7 @@ extension). Adding a projection is adding a file, not modifying a framework.
 | EARL | earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode |
 | OWL-Time | time:Interval from critical path scheduling |
 | Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
-| PROV-O | prov:Entity, prov:Activity, prov:SoftwareAgent with wasDerivedFrom chains and prov:Generation; prov:Plan from charter gates with qualifiedAssociation |
+| PROV-O | prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains and prov:Generation; prov:Plan from charter gates with qualifiedAssociation |
 | schema.org | schema:additionalType annotations via configurable type mapping |
 | ODRL 2.2 | odrl:Set permission/prohibition matrix by resource type |
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers |
@@ -787,7 +787,7 @@ extension). Adding a projection is adding a file, not modifying a framework.
 | W3C Org | org:Organization with type-based OrganizationalUnits |
 | VoID | void:Dataset with class/property partitions, linkset statistics, and vocabulary usage |
 | Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations |
-| RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from graph type hierarchy with owl:ObjectProperty |
+| RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from graph type hierarchy |
 | DQV | dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions |
 | DCAT 3 | dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type |
 
