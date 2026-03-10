@@ -251,7 +251,7 @@ _tasks: {
 	"homelab-mirror": {
 		name: "homelab-mirror"
 		"@type": {CI: true}
-		description: "Push to git.example.com as primary, GitHub as mirror"
+		description: "Push to git.infra.example.com as primary, GitHub as mirror"
 		depends_on: {"github-repo": true}
 	}
 
@@ -265,7 +265,7 @@ _tasks: {
 	"homelab-site-deploy": {
 		name: "homelab-site-deploy"
 		"@type": {CI: true}
-		description: "Deploy private site data to homelab network with Caddy static serve"
+		description: "Deploy private site data to local network with Caddy static serve"
 		depends_on: {"site-data-locality": true, "homelab-mirror": true}
 	}
 	"charter-cpm-overlay": {
@@ -400,16 +400,16 @@ _charter: charter.#Charter & {
 				"quicue-semantic-sync":    true
 				"ci-auto-deploy":          true
 				"kb-charter-bridge":       true
-				"homelab-mirror":             true
+				"homelab-mirror":           true
 			}
 			depends_on: {"projections-complete": true}
 		}
 		"local-hardening": {
 			phase:       8
-			description: "Real data local on homelab, public site clean, projections dashboard live"
+			description: "Real data local on private network, public site clean, projections dashboard live"
 			requires: {
 				"site-data-locality":    true
-				"homelab-site-deploy":      true
+				"homelab-site-deploy":   true
 				"charter-cpm-overlay":   true
 				"projections-dashboard": true
 			}

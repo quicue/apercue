@@ -2,7 +2,7 @@
 # DEPRECATED: Use `cue cmd deploy` and `cue cmd serve` instead.
 # Kept for reference. Will be removed in a future cleanup.
 #
-# Deploy private site data to local homelab network.
+# Deploy private site data to local network.
 #
 # Builds charter, ecosystem, and projections from CUE,
 # then syncs the full site (including private data) to
@@ -14,7 +14,7 @@
 #   ./tools/deploy-local.sh sync TARGET  # build + rsync to TARGET
 #
 # The sync target should be an rsync-compatible path, e.g.:
-#   root@198.51.100.10:/var/www/apercue/   (node-1 via Caddy)
+#   root@198.51.100.10:/var/www/apercue/  (node-1 via Caddy)
 #   /srv/apercue/                        (local directory)
 #
 # Environment:
