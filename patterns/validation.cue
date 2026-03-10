@@ -16,8 +16,9 @@ import (
 	"apercue.ca/vocab"
 )
 
-// #UniqueFieldValidation ensures a field is unique across all resources
-// Creates CUE evaluation errors if duplicates found
+// #UniqueFieldValidation ensures a field is unique across all resources.
+// Uses O(n) struct-as-set detection: build a value→name map and check
+// for collisions, instead of O(n²) pair comparison.
 #UniqueFieldValidation: {
 	// Input: resources collection and field to validate
 	_resources: [string]: vocab.#Resource
@@ -32,32 +33,34 @@ import (
 		}
 	}
 
-	// Build list of names for iteration
-	_names: [for n, _ in _values {n}]
-
-	// Detect duplicates by comparing all pairs
+	// O(n) duplicate detection via struct-as-set.
+	// For each value, collect all resource names that share it.
+	// Any value with 2+ names is a duplicate.
+	_by_value: {
+		for name, val in _values {
+			("\(val)"): names: (name): true
+		}
+	}
 	_duplicates: [
-		for i, nameA in _names
-		for j, nameB in _names
-		if i < j && _values[nameA] == _values[nameB] {
-			field: _field
-			value: _values[nameA]
-			resources: [nameA, nameB]
-			message: "Duplicate " + _field + ": '" + "\(_values[nameA])" + "' used by " + nameA + " and " + nameB
+		for val, entry in _by_value
+		let _names = [for n, _ in entry.names {n}]
+		if len(_names) > 1 {
+			field:     _field
+			value:     val
+			resources: _names
+			message:   "Duplicate " + _field + ": '" + val + "' shared by " + strings.Join(_names, ", ")
 		},
 	]
 
 	// Fail validation if duplicates exist.
-	// CUE requires consistent values for a field. Assigning both true
-	// and false to _fail creates an impossible constraint — CUE reports
-	// it as an evaluation error naming this exact field. This is how we
-	// surface validation failures as CUE-native errors without needing
-	// a separate assertion library.
+	// Assigning both true and false to _fail creates an impossible
+	// constraint that CUE reports as an evaluation error.
 	for dup in _duplicates {
-		(dup.resources[0] + "_" + dup.resources[1] + "_" + _field + "_duplicate"): {
-			_error: dup.message
-			_fail:  true
-			_fail:  false // Impossible: creates validation error
+		(strings.Join(dup.resources, "_") + "_" + _field + "_duplicate"): {
+			_checkName: "UniqueFieldValidation"
+			_error:     dup.message
+			_fail:      true
+			_fail:      false
 		}
 	}
 
@@ -91,9 +94,10 @@ import (
 	// Fail validation if missing references exist
 	for missing in _missingRefs {
 		(missing.source + "_" + _refField + "_missing_ref"): {
-			_error: missing.message
-			_fail:  true
-			_fail:  false
+			_checkName: "ReferenceValidation"
+			_error:     missing.message
+			_fail:      true
+			_fail:      false
 		}
 	}
 
@@ -122,9 +126,10 @@ import (
 	// Fail validation if missing fields exist
 	for missing in _missingFields {
 		(missing.resource + "_missing_" + missing.field): {
-			_error: missing.message
-			_fail:  true
-			_fail:  false
+			_checkName: "RequiredFieldsValidation"
+			_error:     missing.message
+			_fail:      true
+			_fail:      false
 		}
 	}
 
@@ -153,9 +158,10 @@ import (
 	// Fail validation if broken dependencies exist
 	for broken in _brokenDeps {
 		(broken.source + "_broken_dep_" + broken.dependency): {
-			_error: broken.message
-			_fail:  true
-			_fail:  false
+			_checkName: "DependencyValidation"
+			_error:     broken.message
+			_fail:      true
+			_fail:      false
 		}
 	}
 
@@ -237,12 +243,19 @@ import (
 	match_types: {[string]: true}
 
 	// Assertions (all optional — set one or more)
-	requires_dependent_type?: {[string]: true} // must have a dependent of this type
-	requires_dependency_type?: {[string]: true} // must depend on something of this type
+	requires_dependent_type?: {[string]: true}              // must have a dependent of this type
+	requires_dependency_type?: {[string]: true}             // must depend on something of this type (direct)
+	requires_transitive_dependency_type?: {[string]: true}  // must transitively reach something of this type (via precomputed _ancestors)
 	must_not_be_root?: true // must depend on something
 	must_not_be_leaf?: true // something must depend on it
 	min_dependents?:   int  // minimum number of dependents
 	max_depth?:        int  // maximum allowed depth
+
+	// Optional: override severity when all matched resources share a tag
+	conditional_severity?: {
+		when_tagged:   string
+		then_severity: "warning" | "critical" | "info"
+	}
 }
 
 // #Violation — a single compliance check failure.
@@ -353,14 +366,55 @@ import (
 				for rname, _ in _match
 				if rule.max_depth != _|_
 				if Graph.resources[rname]._depth > rule.max_depth {
-					{resource: rname, check: "max_depth", actual: Graph.resources[rname]._depth, limit: rule.max_depth}
+					{resource: rname, check: "max_depth", actual: Graph.resources[rname]._depth, required: rule.max_depth}
 				},
 			]
 
-			let _allViolations = list.Concat([_v1, _v2, _v3, _v4, _v5, _v6])
+			// Check: requires_transitive_dependency_type
+			// Uses precomputed _ancestors (O(1) per resource) instead of
+			// recursive traversal. _ancestors contains the full transitive
+			// closure of depends_on, computed once by toposort.py.
+			let _v7 = [
+				for rname, _ in _match
+				if rule.requires_transitive_dependency_type != _|_
+				let _has = len([
+					for ancestor, _ in Graph.resources[rname]._ancestors
+					if Graph.resources[ancestor] != _|_
+					for t, _ in Graph.resources[ancestor]["@type"]
+					if rule.requires_transitive_dependency_type[t] != _|_ {1},
+				]) > 0
+				if !_has {
+					resource: rname
+					check:    "requires_transitive_dependency_type"
+				},
+			]
+
+			let _allViolations = list.Concat([_v1, _v2, _v3, _v4, _v5, _v6, _v7])
+
+			// Compute effective severity: if conditional_severity is set and
+			// ALL matched resources carry the specified tag, use the override.
+			let _effectiveSeverity = {
+				if rule.conditional_severity != _|_ {
+					let _tagged = len([
+						for rname, _ in _match
+						for t, _ in Graph.resources[rname]["@type"]
+						if t == rule.conditional_severity.when_tagged {1},
+					])
+					let _total = len([for m, _ in _match {m}])
+					if _tagged == _total && _total > 0 {
+						out: rule.conditional_severity.then_severity
+					}
+					if _tagged != _total || _total == 0 {
+						out: rule.severity
+					}
+				}
+				if rule.conditional_severity == _|_ {
+					out: rule.severity
+				}
+			}
 
 			name:     rule.name
-			severity: rule.severity
+			severity: _effectiveSeverity.out
 			matching: len([for m, _ in _match {m}])
 			violations: _allViolations
 			passed:     len(_allViolations) == 0
@@ -399,6 +453,22 @@ import (
 				"sh:resultSeverity": {"@id": _severity_iri[r.severity]}
 				"sh:resultMessage": r.name + ": " + v.check + " on " + v.resource
 				"sh:sourceShape": {"@id": "apercue:rule/" + r.name}
+
+				// SHACL 1.2 §4.7: attach rule metadata as annotation
+				"sh:resultAnnotation": {
+					"@type":                 "sh:ResultAnnotation"
+					"sh:annotationProperty": {"@id": "dcterms:source"}
+					"sh:annotationValue":    r.name
+				}
+
+				// SHACL 1.2 §2.7: structured detail for quantitative violations
+				if v.actual != _|_ {
+					"sh:detail": {
+						"@type":             "sh:ValidationResult"
+						"sh:resultMessage":  "actual: \(v.actual), required: \(v.required)"
+						"sh:resultSeverity": {"@id": _severity_iri[r.severity]}
+					}
+				}
 			},
 		]
 	}

@@ -708,11 +708,11 @@ code {
     <div class="code-block reveal" style="margin-top: 28px;">
       <span class="comment"># Every spec is one export expression</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e compliance.shacl_report</span> <span class="flag">--out json</span>  <span class="comment"># SHACL</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e type_vocabulary.skos</span> <span class="flag">--out json</span>   <span class="comment"># SKOS</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e ontology</span> <span class="flag">--out json</span>               <span class="comment"># RDFS/OWL</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e cpm.time_report</span> <span class="flag">--out json</span>       <span class="comment"># OWL-Time</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e provenance.prov_report</span> <span class="flag">--out json</span> <span class="comment"># PROV-O</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e access_policy.odrl_policy</span> <span class="flag">--out json</span>  <span class="comment"># ODRL</span><br>
-      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e validation_credential.vc</span> <span class="flag">--out json</span>  <span class="comment"># VC 2.0</span>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e catalog</span> <span class="flag">--out json</span>                <span class="comment"># DCAT 3</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e activity_stream</span> <span class="flag">--out json</span>        <span class="comment"># Activity Streams</span>
     </div>
   </div>
 </section>
@@ -966,8 +966,8 @@ code {
       <div class="novel-item">
         <h3>Unification replaces SHACL engines</h3>
         <p>Shape validation isn't a separate runtime step. CUE's type system <em>is</em>
-           the SHACL engine. If a graph compiles, its shapes are valid. Constraint
-           violations are compile errors, not runtime exceptions.</p>
+           the SHACL engine. If a graph evaluates, its shapes are valid. Constraint
+           violations are evaluation errors, not runtime exceptions.</p>
       </div>
       <div class="novel-item">
         <h3>One file per standard</h3>
