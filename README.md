@@ -78,8 +78,9 @@ apercue.ca@v0
 │   ├── resource.cue        #   #Resource — generic typed node
 │   ├── types.cue           #   #TypeRegistry — extensible type system
 │   ├── context.cue         #   JSON-LD @context (24 W3C namespaces)
+│   ├── context_event.cue   #   #ContextEvent — federation boundary crossing type
 │   └── viz-contract.cue    #   #VizData for D3/visualization
-├── patterns/               # Graph analysis + W3C projections (20 files, 75 definitions)
+├── patterns/               # Graph analysis + W3C projections (22 files, 77 definitions)
 │   ├── graph.cue           #   #Graph — dependency graph engine
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
@@ -97,6 +98,8 @@ apercue.ca@v0
 │   ├── quality.cue         #   #DataQualityReport → dqv:QualityMeasurement
 │   ├── shapes.cue          #   #SHACLShapes → sh:NodeShape descriptions
 │   ├── federation.cue      #   #FederatedContext, #FederatedMerge — multi-domain merge
+│   ├── context_event.cue   #   #ContextEventLog → prov:Activity + time:Instant audit trail
+│   ├── form.cue            #   #FormProjection → UI form definitions from #TypeRegistry
 │   ├── schema_alignment.cue #  #SchemaOrgAlignment → schema:additionalType
 │   ├── type-contracts.cue  #   #ApplyTypeContracts, #ValidateTypes
 │   └── visualization.cue   #   Graphviz DOT, Mermaid, dependency matrix
@@ -144,8 +147,8 @@ apercue.ca@v0
 | SHACL | `validation.cue`, `charter.cue` --- conformant sh:ValidationReport + sh:NodeShape | full | Implemented |
 | SKOS | `views/skos.cue`, `taxonomy.cue` --- skos:ConceptScheme with broader/narrower | full | Implemented |
 | EARL | `lifecycle.cue` --- earl:Assertion, earl:TestCase, earl:Software assertor | full | Implemented |
-| OWL-Time | `analysis.cue` --- time:Interval from critical path scheduling | full | Implemented |
-| PROV-O | `provenance.cue` --- prov:Entity, Activity, Agent with wasDerivedFrom chains; Generation, Plan with qualifiedAssociation | full | Implemented |
+| OWL-Time | `analysis.cue`, `context_event.cue` --- time:Interval from critical path; time:Instant on federation events | full | Implemented |
+| PROV-O | `provenance.cue`, `context_event.cue` --- prov:Entity, Activity, Agent, Generation, Plan; prov:Collection event log for federation | full | Implemented |
 | VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | full | Implemented |
 | DCAT 3 | `catalog.cue` --- dcat:Catalog, Dataset, Distribution, DataService | full | Implemented |
 | DQV | `quality.cue` --- dqv:QualityMeasurement for completeness, consistency, accessibility | full | Implemented |
@@ -173,7 +176,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
-| [self-charter](self-charter/) | Meta — apercue itself | 10 nodes | The project models its own development: 8 phases, all gates satisfied, [live visualization](https://apercue.ca/charter.html) |
+| [self-charter](self-charter/) | Meta — apercue itself | 41 nodes | The project models its own development: 8 phases, all gates satisfied, federation event log, [live visualization](https://apercue.ca/charter.html) |
 
 ```bash
 # SHACL validation report

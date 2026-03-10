@@ -56,6 +56,21 @@ For type names and tags. Slightly stricter than `#SafeID` (no dots).
 Domain vocabulary. Each entry has `description`, optional `requires`, `grants`,
 `structural_deps`. Used by `#TypeVocabulary` for SKOS projection.
 
+### #ContextEvent
+
+Timestamped record of a federation boundary crossing.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `timestamp` | `string` | yes | RFC 3339 datetime |
+| `type` | `#EventType` | yes | `"merge"` \| `"validate"` \| `"project"` \| `"export"` |
+| `source_domain` | `#SafeID` | yes | Domain initiating the operation |
+| `target_domain` | `#SafeID` | yes | Domain affected by the operation |
+| `resources` | `[...#SafeID]` | yes | Resources that crossed the boundary |
+| `outcome` | `#EventOutcome` | yes | `"success"` \| `"conflict"` \| `"partial"` |
+| `provenance_ref` | `string` | no | Link to a `#ProvenanceTrace` `@id` |
+| `description` | `string` | no | What happened |
+
 ---
 
 ## Graph Construction (patterns/)
@@ -622,6 +637,53 @@ Extended DCAT with Distribution and DataService entries.
 
 **Output:**
 - `dcat_catalog` — JSON-LD `dcat:Catalog` with `dcat:Distribution` and `dcat:DataService` entries alongside `dcat:Dataset`
+
+### #ContextEventLog (`patterns/context_event.cue`)
+
+Federation audit trail as PROV-O Activities with OWL-Time timestamps. Each event
+records a boundary crossing (merge, validate, project, export) between domains.
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `Events` | `[...vocab.#ContextEvent]` | yes | Event records |
+| `Agent` | `string` | no | Agent IRI (default `"urn:agent:federation-controller"`) |
+
+**Output:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `event_report` | JSON-LD | `@graph` with `prov:Activity` per event, `prov:Entity` per domain, `prov:Collection` log, `prov:Agent` |
+| `summary` | struct | `total_events`, `domains`, `by_type`, `by_outcome` |
+
+Each event produces:
+- `prov:Activity` with `apercue:ContextEvent` type
+- `time:Instant` with `time:inXSDDateTimeStamp`
+- `prov:used` for source domain + affected resources
+- `prov:generated` for target domain
+- `dcterms:type` for event kind (not a custom term)
+- `apercue:outcome` (success/conflict/partial, no W3C equivalent)
+
+### #FormProjection (`patterns/form.cue`)
+
+Generate UI form definitions from `#TypeRegistry` metadata.
+
+**Input:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `Types` | `vocab.#TypeRegistry` | yes | Type registry entries |
+
+**Output:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `form_definitions` | JSON-LD | `@graph` with `apercue:FormDefinition` per type, each with `apercue:fields` |
+| `summary` | struct | `total_forms` |
+
+Each form includes base `#Resource` fields (name, description, depends_on, tags)
+plus type-specific fields from `requires` (required) and `structural_deps` (reference).
 
 ### #SchemaOrgAlignment (`patterns/schema_alignment.cue`)
 

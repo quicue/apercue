@@ -72,6 +72,15 @@ These types work correctly but their interfaces may evolve.
 | `#HealthStatus` | v0.3 | Health propagation |
 | `#SchemaOrgAlignment` | v0.4 | schema.org mappings |
 | `#OrgChart` | v0.4 | W3C Org projection |
+| `#ContextEventLog` | v0.10 | Federation audit trail (PROV-O + OWL-Time) |
+| `#FormProjection` | v0.10 | UI form definitions from #TypeRegistry |
+
+### vocab/
+| Type | Since | Notes |
+|------|-------|-------|
+| `#ContextEvent` | v0.10 | Federation boundary crossing record |
+| `#EventType` | v0.10 | merge \| validate \| project \| export |
+| `#EventOutcome` | v0.10 | success \| conflict \| partial |
 
 ### tools/
 | Type | Since | Notes |

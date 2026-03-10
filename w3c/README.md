@@ -27,9 +27,11 @@ constraint consistency) are more valuable than runtime flexibility.
 | **SKOS** | skos:broader, skos:narrower | `#SKOSTaxonomy.taxonomy_scheme` | `patterns/taxonomy.cue` | `cue export -e _taxonomy.taxonomy_scheme` |
 | **EARL** | earl:Assertion, earl:TestCase, earl:Software | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
 | **OWL-Time** | time:Interval | `#CriticalPath.time_report` | `patterns/analysis.cue` | `cue export -e cpm.time_report` |
+| **OWL-Time** | time:Instant | `#ContextEventLog.event_report` | `patterns/context_event.cue` | `cue export -e event_log.event_report` |
 | **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural — present in all JSON-LD output |
 | **PROV-O** | prov:Entity, prov:Generation, prov:SoftwareAgent | `#ProvenanceTrace.prov_report` | `patterns/provenance.cue` | `cue export -e provenance.prov_report` |
 | **PROV-O** | prov:Plan, prov:Activity | `#ProvenancePlan.plan_report` | `patterns/provenance_plan.cue` | `cue export -e _prov_plan.plan_report` |
+| **PROV-O** | prov:Activity, prov:Collection | `#ContextEventLog.event_report` | `patterns/context_event.cue` | `cue export -e event_log.event_report` |
 | **ODRL 2.2** | odrl:Set, odrl:Permission | `#ODRLPolicy.odrl_policy` | `patterns/policy.cue` | `cue export -e access_policy.odrl_policy` |
 | **W3C ORG** | org:Organization, org:OrganizationalUnit | `#OrgStructure.org_report` | `views/org.cue` | `cue export -e structure.org_report` |
 | **schema.org** | schema:additionalType | `#SchemaOrgAlignment.schema_graph` | `patterns/schema_alignment.cue` | `cue export -e schema_view.schema_graph` |
