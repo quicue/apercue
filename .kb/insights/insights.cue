@@ -192,6 +192,70 @@ i014: core.#Insight & {
 	implication: "Projections that use @graph arrays are JSON-LD conformant. Projections that use flat keyed objects are CUE-convenient but not JSON-LD round-trippable. The fix is wrapping each resource in {@id, @type, ...} inside a @graph array."
 }
 
+i015: core.#Insight & {
+	id:        "INSIGHT-015"
+	statement: "Kurt Cagle's four-layer holon (interior graph, shapes graph, projection graph, context graph) maps 1:1 to apercue's CUE architecture (source definitions, constraint types, projection views, federated merge)"
+	evidence: [
+		"Interior graph = CUE source definitions (vocab.cue, resources). Data as authored.",
+		"Shapes graph = CUE types (#Resource, #Charter, #ComplianceCheck). Constraints that prevent invalid data.",
+		"Projection graph = views/*.cue (SHACL, SKOS, PROV-O, DCAT, etc). Same data, different W3C lens.",
+		"Context graph = #FederatedMerge. Cross-domain boundary with collision detection and provenance.",
+		"Kurt's March 2026 articles describe this architecture using SHACL 1.2 named graphs. apercue implements the same layers with CUE unification.",
+	]
+	method:     "cross_reference"
+	confidence: "high"
+	discovered: "2026-03-09"
+	implication: "apercue already implements Kurt's ideal architecture, but with compile-time prevention instead of runtime validation. The gap is temporal event streams (ContextEvents) and RDF 1.2 reification, which are output-format concerns, not architectural ones."
+}
+
+i016: core.#Insight & {
+	id:        "INSIGHT-016"
+	statement: "apercue's structural federation handles collision detection and provenance but does not model temporal event streams as Kurt describes for context graphs"
+	evidence: [
+		"#FederatedMerge validates namespace/id collisions and tracks domain ownership at compile time",
+		"#ProvenanceTrace produces prov:wasDerivedFrom chains across boundaries",
+		"Kurt's ContextEvent is a timestamped, append-only boundary crossing record written by a control plane",
+		"apercue has no temporal event log for federation operations, only structural validation results",
+		"The gap is well-scoped: add a #ContextEvent pattern that logs merge operations with timestamps",
+	]
+	method:     "cross_reference"
+	confidence: "high"
+	discovered: "2026-03-09"
+	implication: "Adding #ContextEvent to apercue would complete the context graph layer. It is an append-only audit trail of federation operations, not a replacement for structural validation."
+}
+
+i017: core.#Insight & {
+	id:        "INSIGHT-017"
+	statement: "#ContextEventLog completes the three-layer federation architecture: structural validation, derivation provenance, and temporal event audit"
+	evidence: [
+		"#FederatedMerge handles compile-time collision detection (structural layer)",
+		"#ProvenanceTrace handles prov:wasDerivedFrom chains (derivation layer)",
+		"#ContextEventLog handles timestamped boundary crossing records (temporal layer)",
+		"Kurt Cagle describes ContextEvents as append-only records written by a control plane, readable by authorized parties",
+		"The pattern uses prov:Activity + time:Instant per event, prov:Collection for the log, matching both PROV-O and OWL-Time specs",
+		"Three apercue: extension terms registered (ContextEvent, ContextEventLog, outcome); eventType replaced by dcterms:type, sourceDomain/targetDomain replaced by prov:used/prov:generated",
+	]
+	method:     "cross_reference"
+	confidence: "high"
+	discovered: "2026-03-09"
+	implication: "The context graph layer is now complete. #FederatedMerge prevents bad merges, #ProvenanceTrace explains where data came from, and #ContextEventLog records when and how domains interacted. This matches Kurt's four-layer holon architecture."
+}
+
+i018: core.#Insight & {
+	id:        "INSIGHT-018"
+	statement: "#FormProjection generates UI form definitions from CUE type metadata without requiring SHACL shapes"
+	evidence: [
+		"#TypeRegistry entries contain requires (field constraints) and structural_deps (edge-creating fields)",
+		"Form fields derived directly from type metadata, not from SHACL NodeShapes",
+		"#Resource base fields (name, description, depends_on, tags) appear on every form",
+		"Output is JSON-LD with apercue:FormDefinition type, suitable for frontend consumption",
+	]
+	method:     "cross_reference"
+	confidence: "medium"
+	discovered: "2026-03-09"
+	implication: "CUE types carry enough metadata to drive UI generation. This parallels SHACL 1.2 form generation but uses compile-time type information instead of runtime shape introspection."
+}
+
 i012: core.#Insight & {
 	id:        "INSIGHT-012"
 	statement: "A stray cue.mod directory isolates CUE files from the root module, preventing import resolution"

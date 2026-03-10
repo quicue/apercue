@@ -31,6 +31,7 @@ site_specs: {
 			spec_name: s.name
 			url:       s.url
 			status:    s.status
+			depth:     s.depth
 			coverage:  s.coverage
 			if s.prefix != _|_ {
 				prefix: s.prefix
@@ -41,7 +42,11 @@ site_specs: {
 
 site_spec_counts: {
 	implemented: len([for _, s in vocab.Specs if s.status == "Implemented" {s}])
-	namespace: len([for _, s in vocab.Specs if s.status == "Namespace" {s}])
-	downstream: len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
-	total: len(vocab.Specs)
+	downstream:  len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
+	total:       len(vocab.Specs)
+	// Depth breakdown
+	full:       len([for _, s in vocab.Specs if s.depth == "full" {s}])
+	partial:    len([for _, s in vocab.Specs if s.depth == "partial" {s}])
+	vocabulary: len([for _, s in vocab.Specs if s.depth == "vocabulary" {s}])
+	structural: len([for _, s in vocab.Specs if s.depth == "structural" {s}])
 }

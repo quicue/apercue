@@ -106,6 +106,50 @@ _extension_terms: [...#ExtensionTerm] & [
 		"rdfs:comment": "Named compliance rule that produces SHACL validation results. Each rule defines a check (e.g., type coverage, orphan detection, dependency integrity) that evaluates against graph resources. sh:sourceShape references instances of this class."
 		"rdfs:isDefinedBy": {"@id": "apercue:pattern/ComplianceCheck"}
 	},
+
+	// ── Context Events (patterns/context_event.cue) ─────────────────
+
+	{
+		"@id":          "apercue:ContextEvent"
+		"@type":        "rdfs:Class"
+		"rdfs:label":   "Context Event"
+		"rdfs:comment": "A timestamped record of a federation boundary crossing. Append-only audit trail entry recording merges, validations, projections, or exports across domain boundaries."
+		"rdfs:isDefinedBy": {"@id": "apercue:pattern/ContextEventLog"}
+	},
+	{
+		"@id":          "apercue:ContextEventLog"
+		"@type":        "rdfs:Class"
+		"rdfs:label":   "Context Event Log"
+		"rdfs:comment": "A prov:Collection of ContextEvent activities forming the temporal audit trail of federation operations."
+		"rdfs:isDefinedBy": {"@id": "apercue:pattern/ContextEventLog"}
+	},
+	{
+		"@id":          "apercue:outcome"
+		"@type":        "owl:DatatypeProperty"
+		"rdfs:label":   "event outcome"
+		"rdfs:comment": "Result of the federation operation: success, conflict, or partial. No W3C property covers this: earl:outcome has its own enum (passed/failed), prov:value is too generic."
+		"rdfs:domain":  {"@id": "apercue:ContextEvent"}
+		"rdfs:range":   {"@id": "xsd:string"}
+		"rdfs:isDefinedBy": {"@id": "apercue:pattern/ContextEventLog"}
+	},
+
+	// ── Form Projection (patterns/form.cue) ─────────────────────────
+
+	{
+		"@id":          "apercue:FormDefinition"
+		"@type":        "rdfs:Class"
+		"rdfs:label":   "Form Definition"
+		"rdfs:comment": "A UI form definition generated from CUE type metadata. Contains field definitions with names, types, and constraints derived from #TypeRegistry entries."
+		"rdfs:isDefinedBy": {"@id": "apercue:pattern/FormProjection"}
+	},
+	{
+		"@id":          "apercue:fields"
+		"@type":        "owl:ObjectProperty"
+		"rdfs:label":   "form fields"
+		"rdfs:comment": "Ordered list of field definitions for a FormDefinition. Each field has a name, type, required flag, and optional help text."
+		"rdfs:domain":  {"@id": "apercue:FormDefinition"}
+		"rdfs:isDefinedBy": {"@id": "apercue:pattern/FormProjection"}
+	},
 ]
 
 // OWL ontology projection of the extension vocabulary.
@@ -119,7 +163,7 @@ extensions_owl: {
 	"@type": "owl:Ontology"
 	"@id":   "https://apercue.ca/vocab"
 	"rdfs:label": "apercue Extension Vocabulary"
-	"rdfs:comment": "Formal definitions for terms in the apercue: namespace that extend W3C vocabularies. These terms cover critical path scheduling (CPM), graph topology, lifecycle management, and compliance validation — domains where no existing W3C property exists."
+	"rdfs:comment": "Formal definitions for terms in the apercue: namespace that extend W3C vocabularies. These terms cover critical path scheduling (CPM), graph topology, lifecycle management, compliance validation, and federation event logging — domains where no existing W3C property exists."
 	"owl:versionInfo": "0.1.0"
 	"owl:imports": [
 		{"@id": "http://www.w3.org/2006/time"},

@@ -119,10 +119,19 @@ Specs: {[string]: #SpecEntry} & {
 		status: "Implemented"
 		depth:  "full"
 		prefix: "time"
-		patterns: {"#CriticalPath": true}
-		files: {"patterns/analysis.cue": true}
-		exports: {"cpm.time_report": true}
-		coverage: "time:Interval from critical path scheduling"
+		patterns: {
+			"#CriticalPath":    true
+			"#ContextEventLog": true
+		}
+		files: {
+			"patterns/analysis.cue":       true
+			"patterns/context_event.cue":  true
+		}
+		exports: {
+			"cpm.time_report":        true
+			"event_log.event_report": true
+		}
+		coverage: "time:Interval from critical path scheduling; time:Instant timestamps on federation context events"
 	}
 
 	"Dublin Core": {
@@ -144,18 +153,21 @@ Specs: {[string]: #SpecEntry} & {
 		depth:  "full"
 		prefix: "prov"
 		patterns: {
-			"#ProvenanceTrace": true
-			"#ProvenancePlan":  true
+			"#ProvenanceTrace":    true
+			"#ProvenancePlan":     true
+			"#ContextEventLog":    true
 		}
 		files: {
-			"patterns/provenance.cue":      true
-			"patterns/provenance_plan.cue":  true
+			"patterns/provenance.cue":       true
+			"patterns/provenance_plan.cue":   true
+			"patterns/context_event.cue":     true
 		}
 		exports: {
 			"provenance.prov_report":     true
 			"_prov_plan.plan_report":     true
+			"event_log.event_report":     true
 		}
-		coverage: "prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion"
+		coverage: "prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings"
 	}
 
 	"schema.org": {

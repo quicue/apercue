@@ -481,4 +481,8 @@ _kb_annotations: {
 	"homelab-site-deploy": [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
 	"charter-cpm-overlay": [{type: "decision", id: "ADR-007", title: "#AnalyzableGraph + precomputed CPM"}]
 	"projections-dashboard": [{type: "decision", id: "ADR-008", title: "Public/private site split"}]
+	"kb-charter-bridge": [
+		{type: "decision", id: "ADR-006", title: "_planned field for gap analysis filtering"},
+		{type: "insight", id: "INSIGHT-017", title: "Three-layer federation architecture"},
+	]
 }

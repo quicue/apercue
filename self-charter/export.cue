@@ -5,6 +5,7 @@ import (
 	"strings"
 	"strconv"
 	"apercue.ca/vocab@v0"
+	"apercue.ca/patterns@v0"
 )
 
 // Reverse-map topology to get actual depth per resource.
@@ -172,6 +173,68 @@ type_vocabulary: {
 			"skos:definition": entry.description
 			"skos:inScheme": {"@id": "https://apercue.ca/charter#TaskTypes"}
 			"skos:topConceptOf": {"@id": "https://apercue.ca/charter#TaskTypes"}
+		},
+	]
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONTEXT EVENTS — Federation audit trail for the build process.
+//
+// Each event records a boundary crossing during the apercue build:
+// code pushed to GitHub (export), patterns synced to quicue.ca (merge),
+// projections validated against W3C specs (validate).
+//
+// Export: cue export ./self-charter/ -e context_events.event_report --out json
+// ═══════════════════════════════════════════════════════════════════════════
+
+context_events: patterns.#ContextEventLog & {
+	Agent: "urn:agent:apercue-build"
+	Events: [
+		{
+			timestamp:     "2026-02-15T10:00:00Z"
+			type:          "export"
+			source_domain: "apercue"
+			target_domain: "github"
+			resources: ["repo-scaffold", "resource-schema", "jsonld-context"]
+			outcome:       "success"
+			description:   "Initial scaffold and vocab pushed to github.com/quicue/apercue"
+		},
+		{
+			timestamp:     "2026-02-20T14:30:00Z"
+			type:          "merge"
+			source_domain: "apercue"
+			target_domain: "quicue-ca"
+			resources: ["graph-engine", "analysis-patterns", "validation-patterns"]
+			outcome:       "success"
+			description:   "Core patterns vendored into quicue.ca as apercue.ca@v0 dependency"
+		},
+		{
+			timestamp:     "2026-03-01T09:00:00Z"
+			type:          "validate"
+			source_domain: "apercue"
+			target_domain: "w3c"
+			resources: ["shacl-projection", "skos-projection", "owl-time-projection", "earl-projection"]
+			outcome:       "success"
+			description:   "All W3C projections validated: 64 passed, 0 failed"
+		},
+		{
+			timestamp:     "2026-03-05T16:00:00Z"
+			type:          "merge"
+			source_domain: "apercue"
+			target_domain: "quicue-ca"
+			resources: ["specs-registry"]
+			outcome:       "success"
+			description:   "W3C vocab alignment synced to quicue.ca downstream"
+		},
+		{
+			timestamp:     "2026-03-09T12:00:00Z"
+			type:          "validate"
+			source_domain: "apercue"
+			target_domain: "oxigraph"
+			resources: ["shacl-projection"]
+			outcome:       "success"
+			provenance_ref: "urn:activity:graph-construction"
+			description:   "SHACL shapes round-tripped through Oxigraph: 58 NodeShapes, 530 triples"
 		},
 	]
 }
