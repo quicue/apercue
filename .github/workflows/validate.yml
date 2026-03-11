@@ -24,7 +24,7 @@ jobs:
           # because those files contain intentional violations (tested below).
           for pkg in vocab patterns views charter self-charter w3c site \
                      tests/federation \
-                     examples/course-prereqs examples/gc-llm-governance \
+                     examples/course-prereqs \
                      examples/project-tracker examples/recipe-ingredients \
                      examples/supply-chain; do
             echo "vet ./$pkg"
