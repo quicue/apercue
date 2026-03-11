@@ -99,7 +99,7 @@ stage_public() {
     mkdir -p "$staging/data" "$staging/vocab" "$staging/w3c"
     # Public HTML — landing page and interactive demos
     cp site/index.html "$staging/"
-    for html in explorer.html charter.html playground.html phase7.html recipe.html; do
+    for html in explorer.html charter.html playground.html phase7.html recipe.html plan.html; do
         [ -f "site/$html" ] && cp "site/$html" "$staging/"
     done
     # Public data — W3C coverage (no operational data)
