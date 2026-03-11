@@ -250,7 +250,7 @@ Submission-ready files: [w3c/submissions/](w3c/submissions/)
 
 ## Downstream
 
-- **[quicue.ca](https://quicue.ca)** --- Infrastructure-specific patterns (40+ types, 29 providers). Imports apercue for generic graph/charter patterns.
+- **[quicue.ca](https://quicue.ca)** --- Infrastructure-specific patterns (40+ types, 33 providers). Imports apercue for generic graph/charter patterns.
 - **[cmhc-retrofit](https://cmhc-retrofit.quicue.ca)** --- CMHC housing retrofit graphs
 - **[kg.quicue.ca](https://kg.quicue.ca)** --- Knowledge graph framework
 
