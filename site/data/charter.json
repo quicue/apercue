@@ -37,7 +37,7 @@
         }
     },
     "@type": "apercue:CharterVisualization",
-    "dct:conformsTo": {
+    "dcterms:conformsTo": {
         "@id": "https://apercue.ca/charter"
     },
     "nodes": [
@@ -755,7 +755,18 @@
             "depth": 10,
             "description": "Design .kb entries as charter node annotations with provenance",
             "planned": false,
-            "kb": [],
+            "kb": [
+                {
+                    "type": "decision",
+                    "id": "ADR-006",
+                    "title": "_planned field for gap analysis filtering"
+                },
+                {
+                    "type": "insight",
+                    "id": "INSIGHT-017",
+                    "title": "Three-layer federation architecture"
+                }
+            ],
             "earliest": 10,
             "latest": 11,
             "duration": 1,
@@ -770,7 +781,7 @@
                 "CI"
             ],
             "depth": 7,
-            "description": "Push to git.example.com as primary, GitHub as mirror",
+            "description": "Push to git.infra.example.com as primary, GitHub as mirror",
             "planned": false,
             "kb": [],
             "earliest": 7,
@@ -811,7 +822,7 @@
                 "CI"
             ],
             "depth": 10,
-            "description": "Deploy private site data to homelab network with Caddy static serve",
+            "description": "Deploy private site data to local network with Caddy static serve",
             "planned": false,
             "kb": [
                 {
@@ -1214,7 +1225,7 @@
         },
         "local-hardening": {
             "phase": 8,
-            "description": "Real data local on homelab, public site clean, projections dashboard live",
+            "description": "Real data local on private network, public site clean, projections dashboard live",
             "satisfied": true,
             "resources": [
                 "site-data-locality",

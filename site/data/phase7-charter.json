@@ -227,11 +227,11 @@
             }
         },
         {
-            "name": "homelab-symlink",
+            "name": "grdn-symlink",
             "types": {
                 "Setup": true
             },
-            "description": "Add apercue.ca@v0 transitive symlink to homelab cue.mod/pkg/",
+            "description": "Add apercue.ca@v0 transitive symlink to grdn cue.mod/pkg/",
             "status": "pending",
             "depth": 9,
             "earliest": 9,
@@ -242,33 +242,33 @@
             }
         },
         {
-            "name": "homelab-vet",
+            "name": "grdn-vet",
             "types": {
                 "Verification": true
             },
-            "description": "cue vet passes on homelab (transitive dependency through quicue)",
+            "description": "cue vet passes on grdn (transitive dependency through quicue)",
             "status": "pending",
             "depth": 10,
             "earliest": 10,
             "latest": 10,
             "slack": 0,
             "depends_on": {
-                "homelab-symlink": true
+                "grdn-symlink": true
             }
         },
         {
-            "name": "homelab-exports-diff",
+            "name": "grdn-exports-diff",
             "types": {
                 "Verification": true
             },
-            "description": "homelab exports unchanged after integration",
+            "description": "grdn exports unchanged after integration",
             "status": "pending",
             "depth": 11,
             "earliest": 11,
             "latest": 11,
             "slack": 0,
             "depends_on": {
-                "homelab-vet": true
+                "grdn-vet": true
             }
         },
         {
@@ -284,7 +284,7 @@
             "slack": 0,
             "depends_on": {
                 "quicue-interop": true,
-                "homelab-exports-diff": true
+                "grdn-exports-diff": true
             }
         },
         {
@@ -440,11 +440,11 @@
             }
         },
         {
-            "name": "homelab-w3c-surface",
+            "name": "grdn-w3c-surface",
             "types": {
                 "Migration": true
             },
-            "description": "Surface inherited W3C projections in homelab docs and exports",
+            "description": "Surface inherited W3C projections in grdn docs and exports",
             "status": "pending",
             "depth": 16,
             "earliest": 16,
@@ -491,7 +491,7 @@
             "latest": 17,
             "slack": 0,
             "depends_on": {
-                "homelab-w3c-surface": true,
+                "grdn-w3c-surface": true,
                 "kg-skos-federation": true
             }
         },
@@ -586,22 +586,22 @@
         },
         {
             "from": "quicue-vet",
-            "to": "homelab-symlink"
+            "to": "grdn-symlink"
         },
         {
-            "from": "homelab-symlink",
-            "to": "homelab-vet"
+            "from": "grdn-symlink",
+            "to": "grdn-vet"
         },
         {
-            "from": "homelab-vet",
-            "to": "homelab-exports-diff"
+            "from": "grdn-vet",
+            "to": "grdn-exports-diff"
         },
         {
             "from": "quicue-interop",
             "to": "downstream-check"
         },
         {
-            "from": "homelab-exports-diff",
+            "from": "grdn-exports-diff",
             "to": "downstream-check"
         },
         {
@@ -654,27 +654,27 @@
         },
         {
             "from": "phase7-jsonld",
-            "to": "homelab-w3c-surface"
+            "to": "grdn-w3c-surface"
         },
         {
             "from": "phase7-skos-types",
-            "to": "homelab-w3c-surface"
+            "to": "grdn-w3c-surface"
         },
         {
             "from": "phase7-owl-time",
-            "to": "homelab-w3c-surface"
+            "to": "grdn-w3c-surface"
         },
         {
             "from": "quicue-export-context",
-            "to": "homelab-w3c-surface"
+            "to": "grdn-w3c-surface"
         },
         {
             "from": "quicue-earl-gaps",
-            "to": "homelab-w3c-surface"
+            "to": "grdn-w3c-surface"
         },
         {
             "from": "quicue-owl-time-fix",
-            "to": "homelab-w3c-surface"
+            "to": "grdn-w3c-surface"
         },
         {
             "from": "phase7-jsonld",
@@ -701,7 +701,7 @@
             "to": "kg-skos-federation"
         },
         {
-            "from": "homelab-w3c-surface",
+            "from": "grdn-w3c-surface",
             "to": "w3c-review"
         },
         {
@@ -733,8 +733,8 @@
             "phase": 4,
             "satisfied": false,
             "missing": {
-                "homelab-vet": true,
-                "homelab-exports-diff": true,
+                "grdn-vet": true,
+                "grdn-exports-diff": true,
                 "downstream-check": true
             }
         },
@@ -757,7 +757,7 @@
                 "quicue-export-context": true,
                 "quicue-earl-gaps": true,
                 "quicue-owl-time-fix": true,
-                "homelab-w3c-surface": true,
+                "grdn-w3c-surface": true,
                 "kg-skos-federation": true,
                 "w3c-review": true,
                 "w3c-sweep-complete": true
@@ -778,9 +778,9 @@
             "quicue-cpm-upgrade",
             "quicue-shacl-fix",
             "quicue-vet",
-            "homelab-symlink",
-            "homelab-vet",
-            "homelab-exports-diff",
+            "grdn-symlink",
+            "grdn-vet",
+            "grdn-exports-diff",
             "downstream-check",
             "quicue-charter-update",
             "memory-update",
@@ -792,7 +792,7 @@
             "quicue-export-context",
             "quicue-earl-gaps",
             "quicue-owl-time-fix",
-            "homelab-w3c-surface",
+            "grdn-w3c-surface",
             "kg-skos-federation",
             "w3c-review",
             "w3c-sweep-complete"
@@ -804,9 +804,9 @@
         "completed": 15,
         "complete": false,
         "missing": {
-            "homelab-symlink": true,
-            "homelab-vet": true,
-            "homelab-exports-diff": true,
+            "grdn-symlink": true,
+            "grdn-vet": true,
+            "grdn-exports-diff": true,
             "downstream-check": true,
             "quicue-charter-update": true,
             "memory-update": true,
@@ -818,7 +818,7 @@
             "quicue-export-context": true,
             "quicue-earl-gaps": true,
             "quicue-owl-time-fix": true,
-            "homelab-w3c-surface": true,
+            "grdn-w3c-surface": true,
             "kg-skos-federation": true,
             "w3c-review": true,
             "w3c-sweep-complete": true

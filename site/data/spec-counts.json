@@ -1,6 +1,9 @@
 {
     "implemented": 17,
-    "namespace": 0,
     "downstream": 1,
-    "total": 18
+    "total": 18,
+    "full": 9,
+    "partial": 6,
+    "vocabulary": 2,
+    "structural": 1
 }

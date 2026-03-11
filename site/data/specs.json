@@ -3,6 +3,7 @@
         "spec_name": "JSON-LD 1.1",
         "url": "https://www.w3.org/TR/json-ld11/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "@context, @type, @id on all resources; namespace collision detection via federation",
         "prefix": "jsonld"
     },
@@ -10,6 +11,7 @@
         "spec_name": "SHACL",
         "url": "https://www.w3.org/TR/shacl/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types",
         "prefix": "sh"
     },
@@ -17,6 +19,7 @@
         "spec_name": "SKOS",
         "url": "https://www.w3.org/TR/skos-reference/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower",
         "prefix": "skos"
     },
@@ -24,6 +27,7 @@
         "spec_name": "EARL",
         "url": "https://www.w3.org/TR/EARL10-Schema/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode",
         "prefix": "earl"
     },
@@ -31,13 +35,15 @@
         "spec_name": "OWL-Time",
         "url": "https://www.w3.org/TR/owl-time/",
         "status": "Implemented",
-        "coverage": "time:Interval from critical path scheduling",
+        "depth": "full",
+        "coverage": "time:Interval from critical path scheduling; time:Instant timestamps on federation context events",
         "prefix": "time"
     },
     "Dublin Core": {
         "spec_name": "Dublin Core",
         "url": "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/",
         "status": "Implemented",
+        "depth": "vocabulary",
         "coverage": "dcterms:title, dcterms:description, dcterms:requires on all resources",
         "prefix": "dcterms"
     },
@@ -45,13 +51,15 @@
         "spec_name": "PROV-O",
         "url": "https://www.w3.org/TR/prov-o/",
         "status": "Implemented",
-        "coverage": "prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion",
+        "depth": "full",
+        "coverage": "prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings",
         "prefix": "prov"
     },
     "schema.org": {
         "spec_name": "schema.org",
         "url": "https://schema.org/",
         "status": "Implemented",
+        "depth": "vocabulary",
         "coverage": "schema:additionalType annotations via configurable type mapping",
         "prefix": "schema"
     },
@@ -59,6 +67,7 @@
         "spec_name": "ODRL 2.2",
         "url": "https://www.w3.org/TR/odrl-model/",
         "status": "Implemented",
+        "depth": "partial",
         "coverage": "odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling",
         "prefix": "odrl"
     },
@@ -66,6 +75,7 @@
         "spec_name": "Activity Streams 2.0",
         "url": "https://www.w3.org/TR/activitystreams-core/",
         "status": "Implemented",
+        "depth": "partial",
         "coverage": "as:OrderedCollection of Create activities from topology layers; no actor model or delivery",
         "prefix": "as"
     },
@@ -73,6 +83,7 @@
         "spec_name": "Verifiable Credentials 2.0",
         "url": "https://www.w3.org/TR/vc-data-model-2.0/",
         "status": "Implemented",
+        "depth": "structural",
         "coverage": "VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope",
         "prefix": "cred"
     },
@@ -80,6 +91,7 @@
         "spec_name": "W3C Org",
         "url": "https://www.w3.org/TR/vocab-org/",
         "status": "Implemented",
+        "depth": "partial",
         "coverage": "org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role",
         "prefix": "org"
     },
@@ -87,6 +99,7 @@
         "spec_name": "VoID",
         "url": "https://www.w3.org/TR/void/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "void:Dataset with class/property partitions, linkset statistics, and vocabulary usage",
         "prefix": "void"
     },
@@ -94,6 +107,7 @@
         "spec_name": "Web Annotation",
         "url": "https://www.w3.org/TR/annotation-model/",
         "status": "Implemented",
+        "depth": "partial",
         "coverage": "oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states",
         "prefix": "oa"
     },
@@ -101,6 +115,7 @@
         "spec_name": "RDFS",
         "url": "https://www.w3.org/TR/rdf-schema/",
         "status": "Implemented",
+        "depth": "partial",
         "coverage": "rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning",
         "prefix": "rdfs"
     },
@@ -108,6 +123,7 @@
         "spec_name": "DQV",
         "url": "https://www.w3.org/TR/vocab-dqv/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions",
         "prefix": "dqv"
     },
@@ -115,6 +131,7 @@
         "spec_name": "Hydra Core",
         "url": "https://www.hydra-cg.com/spec/latest/core/",
         "status": "Downstream",
+        "depth": "partial",
         "coverage": "hydra:ApiDocumentation in quicue.ca operator dashboard",
         "prefix": "hydra"
     },
@@ -122,6 +139,7 @@
         "spec_name": "DCAT 3",
         "url": "https://www.w3.org/TR/vocab-dcat-3/",
         "status": "Implemented",
+        "depth": "full",
         "coverage": "dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type",
         "prefix": "dcat"
     }

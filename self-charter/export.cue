@@ -35,7 +35,7 @@ _charter_depth_map: {
 charter_viz: {
 	"@context": vocab.context["@context"]
 	"@type":    "apercue:CharterVisualization"
-	"dct:conformsTo": {"@id": "https://apercue.ca/charter"}
+	"dcterms:conformsTo": {"@id": "https://apercue.ca/charter"}
 	nodes: [
 		for rname, raw in _tasks {
 			id:   rname
@@ -97,7 +97,7 @@ charter_viz: {
 projections: {
 	"@context": vocab.context["@context"]
 	"@type":    "apercue:ProjectionSet"
-	"dct:conformsTo": {"@id": "https://apercue.ca/vocab"}
+	"dcterms:conformsTo": {"@id": "https://apercue.ca/vocab"}
 	// SHACL — gap analysis as validation report
 	shacl: gaps.shacl_report
 
@@ -117,7 +117,7 @@ projections: {
 eco_viz: {
 	"@context": vocab.context["@context"]
 	"@type":    "apercue:EcosystemVisualization"
-	"dct:conformsTo": {"@id": "https://apercue.ca/charter"}
+	"dcterms:conformsTo": {"@id": "https://apercue.ca/charter"}
 	nodes: [
 		for rname, raw in _ecosystem {
 			id:   rname

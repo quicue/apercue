@@ -37,7 +37,7 @@
         }
     },
     "@type": "apercue:ProjectionSet",
-    "dct:conformsTo": {
+    "dcterms:conformsTo": {
         "@id": "https://apercue.ca/vocab"
     },
     "shacl": {

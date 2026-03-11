@@ -382,7 +382,7 @@ core_report: """
 	| Research data mgmt | 5 resources, 3 types | Provenance, embargo, scheduling |
 	| IT infrastructure | 30 nodes, 29 providers | Full stack (654 CLI commands) |
 	| University curricula | 12 CS courses | Critical path, compliance, charter |
-	| Construction PM | 18 work packages | 5 DAG gates, CMHC retrofit phases |
+	| Construction PM | 18 work packages | 5 DAG gates, phased construction PM |
 
 	Same `#Graph`, same `#CriticalPath`, same `#ComplianceCheck`. The domain is
 	data; the patterns are generic.

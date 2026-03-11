@@ -84,7 +84,7 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
   data → analysis → paper → peer review); 41-node project charter
   (self-modeling)
 - **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages —
-  75 pattern definitions across 20 files
+  78 pattern definitions across 22 files
 - **Ontology:** JSON-LD `@context` mapping CUE fields to Dublin Core, PROV-O,
   SHACL, SKOS, OWL-Time, DCAT, ODRL, EARL, schema.org, ORG, VoID, DQV,
   Web Annotation, RDFS/OWL, Verifiable Credentials, Activity Streams

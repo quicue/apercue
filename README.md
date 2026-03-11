@@ -7,7 +7,7 @@ Every W3C artifact --- JSON-LD, SHACL, SKOS, OWL-Time --- is a zero-cost
 projection of the same typed graph. No triplestore. No SPARQL. No runtime validators.
 Just `cue export`.
 
-**Live:** [apercue.ca](https://apercue.ca) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
+**Live:** [apercue.ca](https://apercue.ca/projections.html) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
 
 ## Quick Start
 
@@ -133,7 +133,7 @@ apercue.ca@v0
 │   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
     ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
-    ├── pattern-api.md      # Field-level reference for all 75 pattern types
+    ├── pattern-api.md      # Field-level reference for all 78 pattern types
     ├── api-stability.md    # Stable vs experimental classification
     ├── adapters.md         # Downstream module guide + creating adapters
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
@@ -176,7 +176,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
-| [self-charter](self-charter/) | Meta — apercue itself | 41 nodes | The project models its own development: 8 phases, all gates satisfied, federation event log, [live visualization](https://apercue.ca/charter.html) |
+| [self-charter](self-charter/) | Meta — apercue itself | 41 nodes | The project models its own development: 8 phases, all gates satisfied, federation event log, [live visualization](https://apercue.ca/projections.html) |
 
 ```bash
 # SHACL validation report
@@ -207,7 +207,7 @@ cue eval ./self-charter/ -e ecosystem.summary
 cue eval ./self-charter/ -e ecosystem.gaps.complete
 ```
 
-Live visualization: [apercue.ca/charter.html](https://apercue.ca/charter.html)
+Live visualization: [apercue.ca/projections.html](https://apercue.ca/projections.html)
 
 This is the proof that the framework works: the project that defines charter
 patterns uses those same patterns to track itself.
@@ -233,7 +233,7 @@ and every W3C projection will conform.
 ## Documentation
 
 - [Getting Started](docs/getting-started.md) --- standalone walkthrough from empty project to W3C exports
-- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 75 pattern types
+- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 78 pattern types
 - [API Stability](docs/api-stability.md) --- stable vs experimental type classification
 - [Adapters](docs/adapters.md) --- downstream module guide + creating your own adapter
 - [ARCHITECTURE.md](ARCHITECTURE.md) --- design principles, data flow, module layers
