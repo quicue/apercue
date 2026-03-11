@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Plan — apercue.ca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --bg-raised: #0f1319;
+  --bg-code: #0d1117;
+  --border: #1e2733;
+  --border-bright: #2a3545;
+  --text: #b8c4d0;
+  --text-dim: #5c6978;
+  --text-bright: #e8ecf1;
+  --accent: #3ddc84;
+  --accent-dim: rgba(61, 220, 132, 0.12);
+  --accent-glow: rgba(61, 220, 132, 0.06);
+  --red: #e05555;
+  --red-dim: rgba(224, 85, 85, 0.12);
+  --blue: #5b9cf6;
+  --purple: #c084fc;
+  --orange: #f09070;
+  --teal: #34d1bf;
+  --amber: #f0c040;
+  --body: 'Atkinson Hyperlegible Next', sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono', monospace;
+
+  /* Phase palette */
+  --phase-1: #3ddc84;
+  --phase-2: #5b9cf6;
+  --phase-3: #c084fc;
+  --phase-4: #f09070;
+  --phase-5: #f0c040;
+  --phase-6: #34d1bf;
+  --phase-7: #e05555;
+  --phase-8: #5bbd6b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(61, 220, 132, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page { position: relative; z-index: 1; }
+
+.container {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border);
+}
+section:last-of-type { border-bottom: none; }
+
+h1, h2, h3 {
+  font-family: var(--body);
+  color: var(--text-bright);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+p { max-width: 640px; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(61, 220, 132, 0.3);
+  transition: border-color 0.2s;
+}
+a:hover { border-color: var(--accent); }
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 2px;
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  border: 1px solid rgba(61, 220, 132, 0.25);
+  background: var(--accent-dim);
+  padding: 3px 10px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+/* ── Hero ────────────────────────────────────── */
+.hero {
+  padding: 80px 0 64px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.hero h1 { margin-bottom: 20px; }
+.hero h1 .accent { color: var(--accent); }
+
+.hero-sub {
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 28px;
+  max-width: 600px;
+  line-height: 1.75;
+}
+
+.hero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.hero-nav a {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.hero-nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Animations ──────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow { animation: fade-up 0.5s ease both; }
+.hero h1 { animation: fade-up 0.5s ease 0.08s both; }
+.hero-sub { animation: fade-up 0.5s ease 0.16s both; }
+.hero-nav { animation: fade-up 0.5s ease 0.24s both; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Elevator (what is this) ─────────────────── */
+.elevator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.elevator-panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.elevator-panel.before { border-left: 3px solid var(--red); }
+.elevator-panel.after { border-left: 3px solid var(--accent); }
+
+.elevator-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+}
+
+.elevator-panel.before .elevator-label { color: var(--red); }
+.elevator-panel.after .elevator-label { color: var(--accent); }
+
+.elevator-panel p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.65;
+  max-width: none;
+}
+
+/* ── Module map ──────────────────────────────── */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.module-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.module-card h3 {
+  font-family: var(--mono);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.module-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  max-width: none;
+}
+
+.module-card .file-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.module-card .file-count strong {
+  color: var(--accent);
+}
+
+/* ── Phase timeline ──────────────────────────── */
+.phase-timeline {
+  margin-top: 24px;
+}
+
+.phase-block {
+  position: relative;
+  padding-left: 40px;
+  padding-bottom: 32px;
+}
+
+.phase-block:last-child { padding-bottom: 0; }
+
+/* vertical line */
+.phase-block::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.phase-block:last-child::before {
+  bottom: calc(100% - 28px);
+}
+
+/* dot */
+.phase-block::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--phase-color, var(--accent));
+  background: var(--bg);
+}
+
+.phase-block.complete::after {
+  background: var(--phase-color, var(--accent));
+}
+
+.phase-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.phase-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.phase-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.phase-deliverables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.deliverable {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text);
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.deliverable.critical {
+  border-color: rgba(61, 220, 132, 0.3);
+  color: var(--accent);
+}
+
+/* ── CUE concepts ────────────────────────────── */
+.concept-list {
+  list-style: none;
+  margin-top: 24px;
+}
+
+.concept-item {
+  padding: 20px 24px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.concept-item h3 {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.concept-item p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.65;
+  max-width: none;
+}
+
+.concept-item .example {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  background: var(--bg-code);
+  padding: 10px 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  margin-top: 10px;
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+/* ── Commands ────────────────────────────────── */
+.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.75;
+  margin: 16px 0;
+}
+
+.code-block .prompt { color: var(--text-dim); user-select: none; }
+.code-block .cmd { color: var(--accent); }
+.code-block .flag { color: var(--blue); }
+.code-block .comment { color: var(--text-dim); font-style: italic; }
+.code-block .output { color: var(--text-dim); }
+
+/* ── Provider grid ────────────────────────────── */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.provider-category {
+  margin-bottom: 24px;
+}
+
+.provider-category-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.provider-chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 2px;
+  margin: 0 4px 4px 0;
+}
+
+/* ── Layer diagram ───────────────────────────── */
+.layer-stack {
+  margin-top: 24px;
+}
+
+.layer-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.layer-row:last-child { border-bottom: none; }
+
+.layer-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.layer-desc {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+  max-width: none;
+}
+
+.layer-desc strong {
+  color: var(--text-bright);
+}
+
+/* ── Live demo cards ─────────────────────────── */
+.live-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.live-card {
+  display: block;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.live-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.live-card .live-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.live-card:nth-child(1) .live-label { color: var(--accent); }
+.live-card:nth-child(2) .live-label { color: var(--blue); }
+.live-card:nth-child(3) .live-label { color: var(--amber); }
+.live-card:nth-child(4) .live-label { color: var(--teal); }
+
+.live-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.live-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  max-width: none;
+}
+
+.live-url {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Stat row ────────────────────────────────── */
+.stat-row {
+  display: flex;
+  gap: 32px;
+  margin: 24px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-item {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.stat-item strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+/* ── Ecosystem ───────────────────────────────── */
+.eco-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.eco-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.eco-card h3 { font-size: 15px; margin-bottom: 6px; }
+
+.eco-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  max-width: none;
+}
+
+.eco-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.eco-card:nth-child(1) .eco-label { color: var(--accent); }
+.eco-card:nth-child(2) .eco-label { color: var(--blue); }
+.eco-card:nth-child(3) .eco-label { color: var(--purple); }
+
+/* ── W3C mini table ──────────────────────────── */
+.spec-mini {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+.spec-mini th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-bright);
+}
+
+.spec-mini td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.spec-mini tr:last-child td { border-bottom: none; }
+
+.spec-mini .name {
+  color: var(--text-bright);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.spec-mini .depth {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.depth.full { color: var(--accent); background: var(--accent-dim); }
+.depth.partial { color: var(--amber); background: rgba(240, 192, 64, 0.12); }
+.depth.vocabulary { color: var(--teal); background: rgba(52, 209, 191, 0.12); }
+.depth.structural { color: var(--purple); background: rgba(192, 132, 252, 0.12); }
+
+.spec-mini .export-expr {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+}
+
+/* ── Footer ──────────────────────────────────── */
+.footer {
+  padding: 40px 0;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer a {
+  color: var(--text-dim);
+  border-bottom: 1px solid transparent;
+}
+.footer a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 700px) {
+  .elevator-grid { grid-template-columns: 1fr; }
+  .module-grid { grid-template-columns: 1fr; }
+  .eco-grid { grid-template-columns: 1fr; }
+  .live-grid { grid-template-columns: 1fr; }
+  .layer-row { grid-template-columns: 1fr; }
+  .stat-row { flex-wrap: wrap; gap: 20px; }
+  .container { padding: 0 20px; }
+  section { padding: 56px 0; }
+}
+
+@media (max-width: 520px) {
+  .module-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ═══ HERO ═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">onboarding / project plan</div>
+    <h1>apercue.ca + quicue.ca<br><span class="accent">the full stack</span></h1>
+    <p class="hero-sub">
+      Two CUE modules. One generic graph engine with 17 W3C specs (apercue).
+      One infrastructure platform with 35 providers and a static API (quicue).
+      This page covers both: architecture, build plan, live demos, and how they fit together.
+    </p>
+    <nav class="hero-nav">
+      <a href="#what">What is this</a>
+      <a href="#structure">apercue modules</a>
+      <a href="#plan">8-phase plan</a>
+      <a href="#cue">CUE concepts</a>
+      <a href="#w3c">W3C specs</a>
+      <a href="#quicue">quicue.ca</a>
+      <a href="#providers">35 providers</a>
+      <a href="#live">Live demos</a>
+      <a href="#commands">Commands</a>
+      <a href="#ecosystem">Ecosystem</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ═══ WHAT IS THIS ═══════════════════════════════════════ -->
+<section id="what">
+  <div class="container">
+    <div class="tag">Start here</div>
+    <h2>What apercue does</h2>
+    <p style="margin-bottom: 24px;">
+      apercue is a <a href="https://cuelang.org">CUE</a> module that turns typed dependency graphs
+      into W3C-standard linked data. You define resources and their dependencies.
+      CUE computes everything else: topology, critical paths, compliance checks, gap analysis.
+      Every W3C artifact is a different <code>cue export -e</code> expression on the same graph.
+    </p>
+    <div class="elevator-grid reveal">
+      <div class="elevator-panel before">
+        <div class="elevator-label">Traditional semantic web</div>
+        <p>
+          Model data in RDF triples. Load into a triplestore. Write SPARQL queries per view.
+          Run a SHACL processor to validate shapes. Serialize to JSON-LD.
+          Five runtime components. Five failure points. Five things to deploy and monitor.
+        </p>
+      </div>
+      <div class="elevator-panel after">
+        <div class="elevator-label">apercue.ca</div>
+        <p>
+          Define typed resources in CUE. Run <code>cue export -e &lt;projection&gt;</code>.
+          One binary. Zero servers. 17 W3C projections.
+          CUE's constraint lattice does both the querying (replaces SPARQL) and the validation
+          (replaces SHACL) in a single evaluation pass.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MODULE MAP ═════════════════════════════════════════ -->
+<section id="structure">
+  <div class="container">
+    <div class="tag">Architecture</div>
+    <h2>What's in each directory</h2>
+    <div class="module-grid reveal">
+      <div class="module-card">
+        <h3>vocab/</h3>
+        <p>Core types. <code>#Resource</code> is the base node type. <code>#TypeRegistry</code>
+           manages the type system. <code>context.cue</code> defines the JSON-LD @context
+           with 19 W3C namespace prefixes.</p>
+        <div class="file-count"><strong>7</strong> files</div>
+      </div>
+      <div class="module-card">
+        <h3>patterns/</h3>
+        <p>The engine. Graph analysis (topology, depth, critical path, cycle detection)
+           and W3C projections (SHACL, PROV-O, DCAT, ODRL, etc.). Each file is one
+           projection of the same graph.</p>
+        <div class="file-count"><strong>22</strong> files, <strong>78</strong> definitions</div>
+      </div>
+      <div class="module-card">
+        <h3>charter/</h3>
+        <p>Constraint-first planning. <code>#Charter</code> declares what "done" looks like
+           with phase gates. <code>#GapAnalysis</code> evaluates a graph against a charter
+           and emits a SHACL <code>sh:ValidationReport</code>.</p>
+        <div class="file-count"><strong>1</strong> file</div>
+      </div>
+      <div class="module-card">
+        <h3>views/</h3>
+        <p>Vocabulary projections. <code>#TypeVocabulary</code> emits SKOS ConceptSchemes.
+           <code>#OrgChart</code> emits W3C Org structures. Both project from the
+           type registry, not the graph directly.</p>
+        <div class="file-count"><strong>2</strong> files</div>
+      </div>
+      <div class="module-card">
+        <h3>examples/</h3>
+        <p>Four complete, working examples: university course prerequisites (12 courses),
+           beef bourguignon recipe (17 steps), software release tracker (10 tasks),
+           laptop supply chain (14 parts). Each uses the same patterns.</p>
+        <div class="file-count"><strong>4</strong> examples</div>
+      </div>
+      <div class="module-card">
+        <h3>self-charter/</h3>
+        <p>The project models itself. 41 deliverables across 8 phases.
+           Uses <code>#GraphLite</code> with precomputed topology (because 41 nodes
+           would timeout the recursive graph engine).</p>
+        <div class="file-count"><strong>41</strong> nodes, <strong>8</strong> phases</div>
+      </div>
+      <div class="module-card">
+        <h3>w3c/</h3>
+        <p>Evidence package for W3C Community Group engagement. Generates conformance
+           evidence for all 17 specs. 64 validation tests pass.
+           Export with <code>cue export ./w3c/ -e evidence.&lt;field&gt;</code>.</p>
+        <div class="file-count"><strong>64</strong> tests passing</div>
+      </div>
+      <div class="module-card">
+        <h3>site/</h3>
+        <p>Static site deployed to apercue.ca via Cloudflare Pages. HTML + D3 visualizations.
+           Data files in <code>site/data/</code> are pre-exported from CUE.
+           You're reading this page right now.</p>
+        <div class="file-count"><strong>8</strong> pages</div>
+      </div>
+      <div class="module-card">
+        <h3>tools/</h3>
+        <p>Build scripts and validators. <code>toposort.py</code> precomputes topology
+           for large graphs. <code>build-site.sh</code> exports all site data.
+           <code>validate-w3c.py</code> checks JSON-LD output against specs.</p>
+        <div class="file-count"><strong>11</strong> tools</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8-PHASE PLAN ═══════════════════════════════════════ -->
+<section id="plan">
+  <div class="container">
+    <div class="tag">Build plan</div>
+    <h2>8 phases, 41 deliverables, all satisfied</h2>
+    <p style="margin-bottom: 32px;">
+      The project tracks its own build using <code>#Charter</code> and <code>#GapAnalysis</code>.
+      Every phase has a gate. Every gate lists its required deliverables.
+      All 8 gates are satisfied. This timeline shows what was built, in order.
+    </p>
+    <div class="phase-timeline reveal">
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-1)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-1); background: rgba(61,220,132,0.12);">Phase 1</span>
+          <span class="phase-title">Foundation</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          Core type system. Every resource gets a name, @type (struct-as-set), and optional depends_on.
+          JSON-LD @context wires up W3C namespace prefixes. Viz contract defines the D3 data shape.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable critical">resource-schema</span>
+          <span class="deliverable critical">type-registry</span>
+          <span class="deliverable critical">jsonld-context</span>
+          <span class="deliverable">repo-scaffold</span>
+          <span class="deliverable">viz-contract</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-2)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-2); background: rgba(91,156,246,0.12);">Phase 2</span>
+          <span class="phase-title">Engine</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          The graph engine: <code>#Graph</code> computes topology, depth, ancestors, roots, leaves.
+          Analysis patterns add critical path (CPM), cycle detection, connected components.
+          Validation patterns produce <code>sh:ValidationReport</code>. Charter module adds gap analysis.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable critical">graph-engine</span>
+          <span class="deliverable critical">analysis-patterns</span>
+          <span class="deliverable critical">validation-patterns</span>
+          <span class="deliverable">lifecycle-patterns</span>
+          <span class="deliverable">charter-module</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-3)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-3); background: rgba(192,132,252,0.12);">Phase 3</span>
+          <span class="phase-title">W3C Projections</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          Each W3C spec gets a single CUE file that projects the graph into that standard's format.
+          SHACL for validation reports. SKOS for type taxonomies. OWL-Time for scheduling.
+          EARL for test assertions. Same graph, different <code>-e</code> expression.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable critical">shacl-projection</span>
+          <span class="deliverable critical">skos-projection</span>
+          <span class="deliverable critical">owl-time-projection</span>
+          <span class="deliverable">earl-projection</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-4)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-4); background: rgba(240,144,112,0.12);">Phase 4</span>
+          <span class="phase-title">Domain Examples</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          Four examples prove domain-agnosticism. Course prerequisites (education),
+          beef bourguignon (cooking), project tracker (PM), laptop assembly (manufacturing).
+          All four use the same patterns. All four produce valid SHACL reports.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable">example-course-prereqs</span>
+          <span class="deliverable">example-recipe</span>
+          <span class="deliverable">example-project-tracker</span>
+          <span class="deliverable">example-supply-chain</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-5)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-5); background: rgba(240,192,64,0.12);">Phase 5</span>
+          <span class="phase-title">Publish</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          Documentation, GitHub repo, Cloudflare Pages deployment.
+          The novelty doc explains what's new in three tones (academic, practitioner, executive).
+          Knowledge base tracks architectural decisions (18 ADRs).
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable">docs-readme</span>
+          <span class="deliverable">docs-w3c-index</span>
+          <span class="deliverable">docs-novelty</span>
+          <span class="deliverable">kb-setup</span>
+          <span class="deliverable">github-repo</span>
+          <span class="deliverable">cf-pages</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-6)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-6); background: rgba(52,209,191,0.12);">Phase 6</span>
+          <span class="phase-title">Hardening</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          SafeID constraints ensure all identifiers are ASCII-safe.
+          CI workflow validates on every push. Specs-registry tracks W3C coverage
+          as a single source of truth. Regen-check catches stale exports.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable">safeid-constraints</span>
+          <span class="deliverable">ci-workflow</span>
+          <span class="deliverable">specs-registry</span>
+          <span class="deliverable">site-build</span>
+          <span class="deliverable">ci-regen-check</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-7)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-7); background: rgba(224,85,85,0.12);">Phase 7</span>
+          <span class="phase-title">Wire the Stack</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          apercue becomes a shared library. quicue.ca imports it for infrastructure-specific patterns.
+          Canonical URL context, live charter visualization, homelab mirror, CI auto-deploy.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable">w3c-namespace-cleanup</span>
+          <span class="deliverable">context-canonical-url</span>
+          <span class="deliverable">charter-status-tracking</span>
+          <span class="deliverable">charter-live-viz</span>
+          <span class="deliverable">quicue-semantic-sync</span>
+          <span class="deliverable">ci-auto-deploy</span>
+          <span class="deliverable">kb-charter-bridge</span>
+          <span class="deliverable">homelab-mirror</span>
+        </div>
+      </div>
+
+      <div class="phase-block complete" style="--phase-color: var(--phase-8)">
+        <div class="phase-header">
+          <span class="phase-num" style="color: var(--phase-8); background: rgba(91,189,107,0.12);">Phase 8</span>
+          <span class="phase-title">Dashboards</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">
+          Site data locality (pre-exported JSON instead of runtime CUE eval in browser).
+          Homelab site deployment. CPM overlay on charter graph. Projections dashboard
+          showing SHACL + OWL-Time + CPM together.
+        </p>
+        <div class="phase-deliverables">
+          <span class="deliverable">site-data-locality</span>
+          <span class="deliverable">homelab-site-deploy</span>
+          <span class="deliverable">charter-cpm-overlay</span>
+          <span class="deliverable">projections-dashboard</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CUE CONCEPTS ═══════════════════════════════════════ -->
+<section id="cue">
+  <div class="container">
+    <div class="tag">Language</div>
+    <h2>CUE concepts you need</h2>
+    <p style="margin-bottom: 24px;">
+      CUE is a constraint-based configuration language. If you know JSON and a typed language,
+      you can read CUE. These six patterns appear everywhere in apercue.
+    </p>
+    <div class="concept-list reveal">
+      <div class="concept-item">
+        <h3>struct-as-set</h3>
+        <p>Instead of arrays, apercue uses structs with <code>true</code> values for set membership.
+           O(1) lookup, clean merging via unification, no duplicates possible.</p>
+        <div class="example">"@type": {Database: true, Monitored: true}
+depends_on: {"design": true, "review": true}
+
+// check membership:
+if resource["@type"]["Database"] != _|_ { ... }</div>
+      </div>
+      <div class="concept-item">
+        <h3>comprehensions</h3>
+        <p>CUE's <code>for</code> loops build structs or lists at eval time. These replace SPARQL queries.
+           They're deterministic and fully resolved before any output.</p>
+        <div class="example">// all resources of type "Database"
+databases: {
+    for name, r in graph.resources
+    if r["@type"]["Database"] != _|_ {
+        (name): r
+    }
+}</div>
+      </div>
+      <div class="concept-item">
+        <h3>_|_ (bottom)</h3>
+        <p>CUE's "undefined" value. <code>field != _|_</code> means "this field exists."
+           Used for existence checks, optional field detection, and error handling.
+           If two constraints conflict, the result is <code>_|_</code>.</p>
+        <div class="example">// does this resource have ancestors?
+if r._ancestors[target] != _|_ { "yes, it's a descendant" }</div>
+      </div>
+      <div class="concept-item">
+        <h3>hidden fields ( _ prefix)</h3>
+        <p>Fields starting with <code>_</code> are private to the package. They don't appear in
+           <code>cue export</code> output. Use them for intermediate computations.
+           Public fields are the API surface.</p>
+        <div class="example">_tasks: { ... }           // private: input data
+_charter: charter.#Charter  // private: charter config
+gaps: charter.#GapAnalysis  // public: exported result</div>
+      </div>
+      <div class="concept-item">
+        <h3>unification ( & )</h3>
+        <p>CUE merges two values by intersecting their constraints. This is how you apply
+           a pattern to data. If the data doesn't satisfy the pattern, evaluation fails.</p>
+        <div class="example">// apply the #Graph pattern to your input
+graph: patterns.#Graph & {Input: _tasks}
+
+// apply critical path analysis to the graph
+cpm: patterns.#CriticalPath & {
+    Graph: graph
+    Weights: {for name, t in _tasks {(name): t.time_days}}
+}</div>
+      </div>
+      <div class="concept-item">
+        <h3>definitions ( # prefix)</h3>
+        <p>Types (schemas) in CUE are called definitions. <code>#Graph</code>, <code>#Charter</code>,
+           <code>#Resource</code> are definitions. They constrain what fields are allowed and what
+           values they can hold. They're never exported directly.</p>
+        <div class="example">// in patterns/graph.cue:
+#Graph: {
+    Input: {[string]: vocab.#Resource}
+    // ... computed fields
+}
+
+// in your code:
+graph: patterns.#Graph & {Input: _tasks}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ W3C SPECS ══════════════════════════════════════════ -->
+<section id="w3c">
+  <div class="container">
+    <div class="tag">Standards</div>
+    <h2>17 W3C specs, one graph</h2>
+    <p style="margin-bottom: 16px;">
+      Each spec is a CUE projection. The <code>-e</code> flag selects which one.
+      "Full" means conformant round-trip output. "Partial" means core terms are covered.
+    </p>
+    <table class="spec-mini reveal">
+      <thead>
+        <tr><th>Spec</th><th>Depth</th><th>Export expression (from w3c/)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">JSON-LD 1.1</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.context</td></tr>
+        <tr><td class="name">SHACL</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.shacl</td></tr>
+        <tr><td class="name">SKOS</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.skos_taxonomy</td></tr>
+        <tr><td class="name">EARL</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.earl_report</td></tr>
+        <tr><td class="name">OWL-Time</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.time_report</td></tr>
+        <tr><td class="name">PROV-O</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.prov_report</td></tr>
+        <tr><td class="name">VoID</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.void_description</td></tr>
+        <tr><td class="name">DCAT 3</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.dcat_catalog</td></tr>
+        <tr><td class="name">DQV</td><td><span class="depth full">Full</span></td><td class="export-expr">evidence.quality_report</td></tr>
+        <tr><td class="name">ODRL 2.2</td><td><span class="depth partial">Partial</span></td><td class="export-expr">evidence.odrl_policy</td></tr>
+        <tr><td class="name">Activity Streams</td><td><span class="depth partial">Partial</span></td><td class="export-expr">evidence.activity_stream</td></tr>
+        <tr><td class="name">Web Annotation</td><td><span class="depth partial">Partial</span></td><td class="export-expr">evidence.annotation_collection</td></tr>
+        <tr><td class="name">W3C Org</td><td><span class="depth partial">Partial</span></td><td class="export-expr">evidence.org_report</td></tr>
+        <tr><td class="name">RDFS/OWL</td><td><span class="depth partial">Partial</span></td><td class="export-expr">evidence.owl_ontology</td></tr>
+        <tr><td class="name">Dublin Core</td><td><span class="depth vocabulary">Vocab</span></td><td class="export-expr">(in @context)</td></tr>
+        <tr><td class="name">schema.org</td><td><span class="depth vocabulary">Vocab</span></td><td class="export-expr">evidence.schema_graph</td></tr>
+        <tr><td class="name">VC 2.0</td><td><span class="depth structural">Structural</span></td><td class="export-expr">evidence.verifiable_credential</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ QUICUE.CA ══════════════════════════════════════════ -->
+<section id="quicue">
+  <div class="container">
+    <div class="tag">Infrastructure layer</div>
+    <h2>quicue.ca: infrastructure on apercue</h2>
+    <p style="margin-bottom: 16px;">
+      quicue.ca imports apercue's generic graph engine and adds infrastructure-specific
+      types, 35 provider templates, and a static API. Same patterns, different domain.
+      The relationship: apercue is the library, quicue.ca is the application.
+    </p>
+
+    <div class="stat-row reveal">
+      <div class="stat-item"><strong>107</strong>pattern definitions</div>
+      <div class="stat-item"><strong>40+</strong>resource types</div>
+      <div class="stat-item"><strong>35</strong>provider templates</div>
+      <div class="stat-item"><strong>19</strong>examples</div>
+      <div class="stat-item"><strong>654</strong>pre-computed API responses</div>
+    </div>
+
+    <h3>Four-layer architecture</h3>
+    <div class="layer-stack reveal">
+      <div class="layer-row">
+        <div class="layer-label" style="color: var(--accent); background: var(--accent-dim);">Definition</div>
+        <div class="layer-desc">
+          <strong>vocab/ + patterns/</strong> &mdash; Core schemas (<code>#Resource</code> with identity, network, hosting, dependencies)
+          and graph algorithms (<code>#InfraGraph</code>, <code>#ImpactQuery</code>, <code>#BlastRadius</code>,
+          <code>#SinglePointsOfFailure</code>, <code>#DeploymentPlan</code>).
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label" style="color: var(--blue); background: rgba(91,156,246,0.12);">Template</div>
+        <div class="layer-desc">
+          <strong>template/*/</strong> &mdash; 35 provider-specific action registries. Each provider maps resource types
+          to executable commands. Proxmox, Docker, VyOS, Vault, GitLab, Caddy, etc. Commands have
+          <code>{host}</code> and <code>{container_id}</code> placeholders filled at compile time.
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label" style="color: var(--purple); background: rgba(192,132,252,0.12);">Value</div>
+        <div class="layer-desc">
+          <strong>examples/*/</strong> &mdash; 19 concrete infrastructure graphs. The datacenter example has 30 resources
+          with 654 resolved commands. Each example is a complete, working graph with impact queries,
+          SPOF detection, and deployment plans.
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label" style="color: var(--amber); background: rgba(240,192,64,0.12);">Interaction</div>
+        <div class="layer-desc">
+          <strong>ou/</strong> &mdash; Role-scoped views (ops/dev/readonly) with W3C Hydra JSON-LD API.
+          <strong>server/</strong> builds a static API: CUE pre-computes all 654 responses, served from Cloudflare Pages.
+          Zero runtime graph traversal.
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 32px;">Key patterns (beyond apercue)</h3>
+    <div class="module-grid reveal" style="margin-top: 16px;">
+      <div class="module-card">
+        <h3>#ImpactQuery</h3>
+        <p>"What breaks if X goes down?" Computes transitive dependents
+           of any resource. Returns the blast radius as a subgraph.</p>
+      </div>
+      <div class="module-card">
+        <h3>#BlastRadius</h3>
+        <p>Failure propagation analysis. Given a failed node, which layers
+           are affected? How many resources are unreachable?</p>
+      </div>
+      <div class="module-card">
+        <h3>#SinglePointsOfFailure</h3>
+        <p>Finds resources where failure cascades to multiple dependents.
+           The nodes you need redundancy on.</p>
+      </div>
+      <div class="module-card">
+        <h3>#DeploymentPlan</h3>
+        <p>Layer-by-layer startup ordering. Which resources can start in parallel
+           at each depth level? Computed from the topology.</p>
+      </div>
+      <div class="module-card">
+        <h3>#BindCluster</h3>
+        <p>Provider matching by <code>@type</code> overlap. Selects the right command templates
+           for each resource based on its types. No if-then cascades.</p>
+      </div>
+      <div class="module-card">
+        <h3>#RollbackPlan</h3>
+        <p>If layer N fails during deployment, what's the undo sequence?
+           Reverse of the deployment plan, scoped to affected layers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROVIDERS ══════════════════════════════════════════ -->
+<section id="providers">
+  <div class="container">
+    <div class="tag">Templates</div>
+    <h2>35 provider templates</h2>
+    <p style="margin-bottom: 24px;">
+      Each provider has metadata, an action registry (what commands it supports per resource type),
+      and a working example. Provider selection happens by <code>@type</code> set intersection,
+      not configuration switches.
+    </p>
+    <div class="reveal">
+      <div class="provider-category">
+        <div class="provider-category-label">Compute</div>
+        <span class="provider-chip">proxmox</span>
+        <span class="provider-chip">govc</span>
+        <span class="provider-chip">powercli</span>
+        <span class="provider-chip">kubevirt</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">Container / Orchestration</div>
+        <span class="provider-chip">docker</span>
+        <span class="provider-chip">incus</span>
+        <span class="provider-chip">k3d</span>
+        <span class="provider-chip">kubectl</span>
+        <span class="provider-chip">argocd</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">CI/CD</div>
+        <span class="provider-chip">dagger</span>
+        <span class="provider-chip">gitlab</span>
+        <span class="provider-chip">woodpecker</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">Networking</div>
+        <span class="provider-chip">vyos</span>
+        <span class="provider-chip">caddy</span>
+        <span class="provider-chip">nginx</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">DNS</div>
+        <span class="provider-chip">cloudflare</span>
+        <span class="provider-chip">powerdns</span>
+        <span class="provider-chip">technitium</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">Identity / Secrets</div>
+        <span class="provider-chip">vault</span>
+        <span class="provider-chip">keycloak</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">Monitoring</div>
+        <span class="provider-chip">zabbix</span>
+        <span class="provider-chip">grafana</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">IaC / Automation</div>
+        <span class="provider-chip">terraform</span>
+        <span class="provider-chip">opentofu</span>
+        <span class="provider-chip">ansible</span>
+        <span class="provider-chip">awx</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">Backup / Storage</div>
+        <span class="provider-chip">restic</span>
+        <span class="provider-chip">pbs</span>
+        <span class="provider-chip">garage</span>
+        <span class="provider-chip">harbor</span>
+      </div>
+      <div class="provider-category">
+        <div class="provider-category-label">Database / DCIM / Provisioning</div>
+        <span class="provider-chip">postgresql</span>
+        <span class="provider-chip">netbox</span>
+        <span class="provider-chip">foreman</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIVE DEMOS ═════════════════════════════════════════ -->
+<section id="live">
+  <div class="container">
+    <div class="tag">Deployed</div>
+    <h2>Live right now</h2>
+    <p style="margin-bottom: 24px;">
+      These are running on Cloudflare Pages. The API serves 654 pre-computed responses.
+      No backend. No database. CUE exported everything at build time.
+    </p>
+    <div class="live-grid reveal">
+      <a href="https://demo.quicue.ca" class="live-card">
+        <div class="live-label">Operator Dashboard</div>
+        <h3>D3 Infrastructure Graph</h3>
+        <p>Interactive dependency graph with deployment planner, resource browser,
+           impact queries, and Hydra API explorer. Click any node to see its
+           blast radius and upstream dependencies.</p>
+        <span class="live-url">demo.quicue.ca</span>
+      </a>
+      <a href="https://api.quicue.ca" class="live-card">
+        <div class="live-label">Static API</div>
+        <h3>654 Pre-Computed Endpoints</h3>
+        <p>Every API response is a static JSON file generated by CUE at build time.
+           Swagger UI, OpenAPI spec, Hydra JSON-LD. Zero runtime cost.
+           The API is a directory of files.</p>
+        <span class="live-url">api.quicue.ca</span>
+      </a>
+      <a href="https://api.quicue.ca/api/v1/hydra" class="live-card">
+        <div class="live-label">Hydra JSON-LD</div>
+        <h3>Self-Describing API</h3>
+        <p>W3C Hydra vocabulary on top of the static API. Clients discover
+           available operations by following links. The API describes itself
+           in standards-compliant linked data.</p>
+        <span class="live-url">api.quicue.ca/api/v1/hydra</span>
+      </a>
+      <a href="https://apercue.ca" class="live-card">
+        <div class="live-label">Project Site</div>
+        <h3>apercue.ca</h3>
+        <p>Landing page, W3C playground, recipe graph demo, ecosystem explorer,
+           projection coverage matrix, and this plan page. All static HTML + D3.</p>
+        <span class="live-url">apercue.ca</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMMANDS ═══════════════════════════════════════════ -->
+<section id="commands">
+  <div class="container">
+    <div class="tag">Workflow</div>
+    <h2>Commands to start with</h2>
+
+    <h3 style="margin-top: 16px;">Validate</h3>
+    <div class="code-block reveal">
+      <span class="comment"># validate everything (cross-package)</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue vet</span> <span class="flag">./... -c</span><br><br>
+      <span class="comment"># validate a single example</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue vet</span> <span class="flag">./examples/course-prereqs/</span>
+    </div>
+
+    <h3>Explore</h3>
+    <div class="code-block reveal">
+      <span class="comment"># human-readable summary</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue eval</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e summary</span><br><br>
+      <span class="comment"># charter gap analysis (is everything done?)</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue eval</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e gaps.complete</span><br><br>
+      <span class="comment"># critical path summary</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue eval</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e cpm.summary</span>
+    </div>
+
+    <h3>Export W3C JSON-LD</h3>
+    <div class="code-block reveal">
+      <span class="comment"># SHACL validation report</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e gaps.shacl_report</span> <span class="flag">--out json</span><br><br>
+      <span class="comment"># OWL-Time schedule</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e cpm.time_report</span> <span class="flag">--out json</span><br><br>
+      <span class="comment"># critical path sequence</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./examples/course-prereqs/</span> <span class="flag">-e cpm.critical_sequence</span> <span class="flag">--out json</span>
+    </div>
+
+    <h3>Build site data</h3>
+    <div class="code-block reveal">
+      <span class="comment"># rebuild all site JSON from CUE</span><br>
+      <span class="prompt">$ </span><span class="cmd">bash</span> <span class="flag">tools/build-site.sh stage _public</span><br><br>
+      <span class="comment"># local preview</span><br>
+      <span class="prompt">$ </span><span class="cmd">bash</span> <span class="flag">tools/deploy-local.sh serve</span>
+    </div>
+
+    <h3>W3C evidence (all 17 specs)</h3>
+    <div class="code-block reveal">
+      <span class="comment"># export any spec evidence (from project root)</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./w3c/</span> <span class="flag">-e evidence.dcat_catalog</span> <span class="flag">--out json</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./w3c/</span> <span class="flag">-e evidence.shacl</span> <span class="flag">--out json</span><br>
+      <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./w3c/</span> <span class="flag">-e evidence.prov_report</span> <span class="flag">--out json</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ECOSYSTEM ══════════════════════════════════════════ -->
+<section id="ecosystem">
+  <div class="container">
+    <div class="tag">Full picture</div>
+    <h2>How it all fits together</h2>
+    <p style="margin-bottom: 24px;">
+      apercue is the library. Everything else imports it and adds domain-specific types.
+      The generic graph engine and W3C projections are shared across all downstream modules.
+    </p>
+    <div class="elevator-grid reveal">
+      <div class="elevator-panel after">
+        <div class="elevator-label">apercue.ca (generic)</div>
+        <p>
+          Graph engine, W3C projections, charter planning.
+          78 pattern definitions. 17 W3C specs. Domain-agnostic.
+          <code>import "apercue.ca/patterns@v0"</code>
+        </p>
+      </div>
+      <div class="elevator-panel after" style="border-left-color: var(--blue);">
+        <div class="elevator-label" style="color: var(--blue);">quicue.ca (infrastructure)</div>
+        <p>
+          107 pattern definitions. 35 providers. 40+ resource types.
+          Static API with 654 endpoints. Hydra JSON-LD.
+          <code>import "quicue.ca/patterns@v0"</code>
+        </p>
+      </div>
+    </div>
+    <div class="eco-grid reveal" style="margin-top: 16px;">
+      <div class="eco-card">
+        <div class="eco-label">Knowledge graph</div>
+        <h3>quicue-kg</h3>
+        <p>Knowledge graph framework with reasoning and
+           federation patterns on top of apercue.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-label">Housing</div>
+        <h3>cmhc-retrofit</h3>
+        <p>CMHC housing retrofit graphs. Imports apercue
+           for charter-based tracking of retrofit programs.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-label">Additional modules</div>
+        <h3>orche / boot / cab</h3>
+        <p>Multi-site federation, bootstrap sequencing, and
+           Change Advisory Board reporting. All import quicue.ca.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span>apercue.ca &mdash; Apache 2.0</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="playground.html">Playground</a>
+        <a href="recipe.html">Recipe Demo</a>
+        <a href="explorer.html">Explorer</a>
+        <a href="w3c/core-report.html">W3C Evidence</a>
+        <a href="https://github.com/quicue/apercue">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
