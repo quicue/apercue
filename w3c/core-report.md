@@ -262,10 +262,9 @@ relations:
 }
 ```
 
-Every resource becomes a `prov:Entity` with a qualified `prov:Generation` event.
-Dependency edges become derivation links. The full provenance graph includes all
-5 resources, 5 generation events, the generating `prov:Activity`, and a
-`prov:SoftwareAgent`.
+Every resource becomes a `prov:Entity`. Dependency edges become derivation
+links. The full provenance graph includes all 5 resources plus the
+generating `prov:Activity` and `prov:Agent`.
 
 ### Graph Self-Description / VoID (computed)
 
@@ -383,7 +382,13 @@ an `owl:ObjectProperty`:
             "@type": "owl:ObjectProperty",
             "@id": "dcterms:requires",
             "rdfs:label": "depends on",
-            "rdfs:comment": "A resource depends on another resource"
+            "rdfs:comment": "A resource depends on another resource",
+            "rdfs:domain": {
+                "@id": "rdfs:Resource"
+            },
+            "rdfs:range": {
+                "@id": "rdfs:Resource"
+            }
         }
     ]
 }
@@ -602,8 +607,7 @@ graph validation:
 }
 ```
 
-The `earl:Software` assertor identifies the engine. Each check becomes an
-`earl:Assertion` with `earl:TestCase`, `earl:automatic` mode, and
+Each check becomes an `earl:Assertion` with an `earl:TestCriterion` and
 `earl:TestResult`. Outcomes are `earl:untested` at compile time — the plan
 is linked data; execution happens at runtime.
 
@@ -765,7 +769,7 @@ its metric, dimension, and the dataset under evaluation.
 
 ### Spec Coverage
 
-17 specifications implemented (9 full conformance, 5 partial, 2 vocabulary-only, 1 structural),
+17 specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 
@@ -773,23 +777,23 @@ extension). Adding a projection is adding a file, not modifying a framework.
 
 | W3C Specification | CUE Produces |
 |-------------------|--------------|
-| JSON-LD 1.1 | @context, @type, @id on all resources |
-| SHACL | sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
+| JSON-LD 1.1 | @context, @type, @id on all resources; namespace collision detection via federation |
+| SHACL | Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
 | SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower |
 | EARL | earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode |
-| OWL-Time | time:Interval from critical path scheduling |
+| OWL-Time | time:Interval from critical path scheduling; time:Instant timestamps on federation context events |
 | Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
-| PROV-O | prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains and prov:Generation; prov:Plan from charter gates with qualifiedAssociation |
+| PROV-O | prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings |
 | schema.org | schema:additionalType annotations via configurable type mapping |
-| ODRL 2.2 | odrl:Set permission/prohibition matrix by resource type |
-| Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers |
+| ODRL 2.2 | odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling |
+| Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers; no actor model or delivery |
 | Verifiable Credentials 2.0 | VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope |
-| W3C Org | org:Organization with type-based OrganizationalUnits |
+| W3C Org | org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role |
 | VoID | void:Dataset with class/property partitions, linkset statistics, and vocabulary usage |
-| Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations |
-| RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from graph type hierarchy |
+| Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states |
+| RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning |
 | DQV | dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions |
-| DCAT 3 | dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type |
+| DCAT 3 | dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured |
 
 **Downstream** (1):
 
@@ -865,7 +869,9 @@ data; the patterns are generic.
   definition in our target domains.
 - **Performance ceiling.** CUE's recursive struct references don't memoize.
   For graphs exceeding ~40 nodes, pre-compute transitive closure externally
-  (solved: 95s to 33ms for a 40-node project charter).
+  and feed the result as a flat lookup. A 40-node project charter dropped
+  from 95s to 33ms with this approach (pre-computed ancestors via script,
+  consumed as a CUE value).
 - **Not a general RDF toolkit.** This approach targets constrained domains
   where schema control is a given.
 
@@ -885,6 +891,17 @@ data; the patterns are generic.
   lightweight dataspace primitives with structural governance.
   Each knowledge base entry validates against typed schemas at
   evaluation time.
+
+## Conformance Status
+
+Outputs have been validated as follows:
+
+- **JSON-LD:** Verified against the [JSON-LD Playground](https://json-ld.org/playground/) (context expansion, compaction, framing).
+- **SHACL:** `sh:ValidationReport` structure validated manually against the SHACL spec. No pyshacl/Jena round-trip yet.
+- **OWL:** Ontology output loaded in Protege without errors.
+- **All other projections:** Structural conformance verified by inspection against the relevant W3C spec. Automated conformance testing against official W3C test suites is planned but not yet executed.
+
+CUE's type system catches structural violations (missing required fields, wrong types) at evaluation time. This provides compile-time structural conformance but does not replace spec-level validation suites.
 
 ## References
 

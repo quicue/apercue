@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>apercue.ca — compile-time W3C linked data</title>
-<meta name="description" content="One typed dependency graph. 17 W3C standards. Zero servers. CUE comprehensions replace the entire traditional semantic web stack.">
+<meta name="description" content="One typed dependency graph. 17 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
 <meta property="og:title" content="apercue.ca — compile-time W3C linked data">
-<meta property="og:description" content="One typed dependency graph. 17 W3C standards. Zero servers. CUE comprehensions replace the entire traditional semantic web stack.">
+<meta property="og:description" content="One typed dependency graph. 17 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://apercue.ca">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="apercue.ca — compile-time W3C linked data">
-<meta name="twitter:description" content="Typed dependency graphs → W3C linked data at compile time. No SPARQL, no triplestore, no runtime.">
+<meta name="twitter:description" content="Typed dependency graphs → W3C linked data at compile time. No SPARQL, no triplestore, no server runtime.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
@@ -548,6 +548,35 @@ code {
   background: rgba(91, 156, 246, 0.12);
 }
 
+.spec-depth {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.spec-depth.full {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.spec-depth.partial {
+  color: var(--amber);
+  background: rgba(240, 192, 64, 0.12);
+}
+
+.spec-depth.vocabulary {
+  color: var(--teal);
+  background: rgba(52, 209, 191, 0.12);
+}
+
+.spec-depth.structural {
+  color: var(--purple);
+  background: rgba(192, 132, 252, 0.12);
+}
+
 .spec-group-label td {
   font-family: var(--mono);
   font-size: 10px;
@@ -661,8 +690,8 @@ code {
     <h1>One typed graph.<br><span class="accent">17 W3C standards.</span><br>Zero servers.</h1>
     <p class="hero-sub">
       CUE comprehensions precompute every query. CUE unification enforces every shape.
-      17 W3C specifications&mdash;from JSON-LD to Verifiable Credentials&mdash;as
-      zero-cost projections of the same typed dependency graph.
+      17 W3C specifications (9 full, 5 partial, 2 vocabulary, 1 structural) as
+      compile-time projections of the same typed dependency graph.
       No triplestore. No SPARQL. Just&nbsp;<code>cue&nbsp;export</code>.
     </p>
     <div class="hero-links">
@@ -683,7 +712,7 @@ code {
 <section id="compare">
   <div class="container">
     <div class="tag">The argument</div>
-    <h2>What it replaces</h2>
+    <h2>What it replaces for constrained domains</h2>
     <div class="compare reveal">
       <div class="compare-panel old">
         <div class="compare-label">Traditional semantic web</div>
@@ -849,101 +878,120 @@ code {
         <tr>
           <th>Spec</th>
           <th>CUE Pattern</th>
+          <th>Depth</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="spec-group-label"><td colspan="3">Core projections</td></tr>
+        <tr class="spec-group-label"><td colspan="4">Core projections</td></tr>
         <tr>
           <td class="spec-name">JSON-LD 1.1</td>
           <td class="spec-pattern">vocab/context.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">SHACL</td>
           <td class="spec-pattern">validation.cue, charter.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">SKOS</td>
           <td class="spec-pattern">views/skos.cue, lifecycle.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">EARL</td>
           <td class="spec-pattern">lifecycle.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">OWL-Time</td>
           <td class="spec-pattern">analysis.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">Dublin Core</td>
           <td class="spec-pattern">vocab/context.cue</td>
+          <td><span class="spec-depth vocabulary">Vocabulary</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
-        <tr class="spec-group-label"><td colspan="3">Extended projections</td></tr>
+        <tr class="spec-group-label"><td colspan="4">Extended projections</td></tr>
         <tr>
           <td class="spec-name">PROV-O</td>
           <td class="spec-pattern">provenance.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">schema.org</td>
           <td class="spec-pattern">schema_alignment.cue</td>
+          <td><span class="spec-depth vocabulary">Vocabulary</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">ODRL 2.2</td>
           <td class="spec-pattern">policy.cue</td>
+          <td><span class="spec-depth partial">Partial</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">Activity Streams 2.0</td>
           <td class="spec-pattern">activity.cue</td>
+          <td><span class="spec-depth partial">Partial</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">Verifiable Credentials 2.0</td>
           <td class="spec-pattern">credentials.cue</td>
+          <td><span class="spec-depth structural">Structural</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">W3C Org</td>
           <td class="spec-pattern">views/org.cue</td>
+          <td><span class="spec-depth partial">Partial</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">VoID</td>
           <td class="spec-pattern">void.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">RDFS/OWL</td>
           <td class="spec-pattern">ontology.cue</td>
+          <td><span class="spec-depth partial">Partial</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">Web Annotation</td>
           <td class="spec-pattern">annotation.cue</td>
+          <td><span class="spec-depth partial">Partial</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">DQV</td>
           <td class="spec-pattern">quality.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
           <td class="spec-name">DCAT 3</td>
           <td class="spec-pattern">catalog.cue</td>
+          <td><span class="spec-depth full">Full</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
-        <tr class="spec-group-label"><td colspan="3">Downstream (in quicue.ca)</td></tr>
+        <tr class="spec-group-label"><td colspan="4">Downstream (in quicue.ca)</td></tr>
         <tr>
           <td class="spec-name">Hydra Core</td>
           <td class="spec-pattern">quicue.ca operator</td>
+          <td><span class="spec-depth partial">Partial</span></td>
           <td><span class="spec-status downstream">Downstream</span></td>
         </tr>
       </tbody>

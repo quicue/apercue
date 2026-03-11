@@ -304,6 +304,6 @@ Specs: {[string]: #SpecEntry} & {
 		}
 		files: {"patterns/catalog.cue": true}
 		exports: {"catalog.dcat_catalog": true}
-		coverage: "dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type"
+		coverage: "dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured"
 	}
 }

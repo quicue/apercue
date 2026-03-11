@@ -395,7 +395,9 @@ core_report: """
 	  definition in our target domains.
 	- **Performance ceiling.** CUE's recursive struct references don't memoize.
 	  For graphs exceeding ~40 nodes, pre-compute transitive closure externally
-	  (solved: 95s to 33ms for a 40-node project charter).
+	  and feed the result as a flat lookup. A 40-node project charter dropped
+	  from 95s to 33ms with this approach (pre-computed ancestors via script,
+	  consumed as a CUE value).
 	- **Not a general RDF toolkit.** This approach targets constrained domains
 	  where schema control is a given.
 
@@ -415,6 +417,17 @@ core_report: """
 	  lightweight dataspace primitives with structural governance.
 	  Each knowledge base entry validates against typed schemas at
 	  evaluation time.
+
+	## Conformance Status
+
+	Outputs have been validated as follows:
+
+	- **JSON-LD:** Verified against the [JSON-LD Playground](https://json-ld.org/playground/) (context expansion, compaction, framing).
+	- **SHACL:** `sh:ValidationReport` structure validated manually against the SHACL spec. No pyshacl/Jena round-trip yet.
+	- **OWL:** Ontology output loaded in Protege without errors.
+	- **All other projections:** Structural conformance verified by inspection against the relevant W3C spec. Automated conformance testing against official W3C test suites is planned but not yet executed.
+
+	CUE's type system catches structural violations (missing required fields, wrong types) at evaluation time. This provides compile-time structural conformance but does not replace spec-level validation suites.
 
 	## References
 
