@@ -29,7 +29,7 @@ _build_spec: tools.#BuildSpec & {
 	}
 	staging: {
 		dir: "_public"
-		html_files: ["index.html", "explorer.html", "charter.html", "playground.html", "phase7.html", "recipe.html"]
+		html_files: ["index.html", "explorer.html", "charter.html", "playground.html", "phase7.html", "recipe.html", "plan.html"]
 		data_files: ["specs.json", "ecosystem.json", "charter.json", "projections.json", "phase7-charter.json", "recipe.json", "examples.json"]
 		extra_dirs: ["w3c"]
 	}
