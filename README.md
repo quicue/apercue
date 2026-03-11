@@ -80,7 +80,7 @@ apercue.ca@v0
 │   ├── context.cue         #   JSON-LD @context (24 W3C namespaces)
 │   ├── context_event.cue   #   #ContextEvent — federation boundary crossing type
 │   └── viz-contract.cue    #   #VizData for D3/visualization
-├── patterns/               # Graph analysis + W3C projections (22 files, 77 definitions)
+├── patterns/               # Graph analysis + W3C projections (22 files, 78 definitions)
 │   ├── graph.cue           #   #Graph — dependency graph engine
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
