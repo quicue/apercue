@@ -7,7 +7,7 @@
 ## Abstract
 
 [CUE](https://cuelang.org)'s lattice-based unification simultaneously performs
-SPARQL-class graph pattern matching and SHACL constraint validation at compile
+basic graph pattern matching and SHACL-compatible validation reporting at compile
 time. A single typed dependency graph produces 17 W3C
 specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 and Verifiable Credentials — without runtime processors, triplestores, or
@@ -404,9 +404,9 @@ with broader/narrower hierarchy:
 
 ```json
 {
-    "@type": "skos:ConceptScheme",
-    "@id": "https://apercue.ca/vocab#TypeTaxonomy",
-    "skos:prefLabel": "Research Pipeline Type Taxonomy",
+    "@type": "skos:Collection",
+    "@id": "https://apercue.ca/vocab#TypeTaxonomy/collection",
+    "skos:prefLabel": "Research Pipeline Type Taxonomy — all concepts",
     "skos:member": [
         {
             "@type": "skos:Concept",
@@ -775,8 +775,8 @@ extension). Adding a projection is adding a file, not modifying a framework.
 
 **Implemented** (17):
 
-| W3C Specification | CUE Produces |
-|-------------------|--------------|
+| Specification | CUE Produces |
+|---------------|--------------|
 | JSON-LD 1.1 | @context, @type, @id on all resources; namespace collision detection via federation |
 | SHACL | Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
 | SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower |
@@ -797,8 +797,8 @@ extension). Adding a projection is adding a file, not modifying a framework.
 
 **Downstream** (1):
 
-| W3C Specification | CUE Produces |
-|-------------------|--------------|
+| Specification | CUE Produces |
+|---------------|--------------|
 | Hydra Core | hydra:ApiDocumentation in quicue.ca operator dashboard |
 
 ## Key Mechanisms

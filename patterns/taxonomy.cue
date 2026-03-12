@@ -171,6 +171,14 @@ import (
 				{"@id": BaseIRI + tname}
 			},
 		]
+	}
+
+	// skos:member belongs on skos:Collection, not ConceptScheme
+	taxonomy_collection: {
+		"@context": vocab.context["@context"]
+		"@type":    "skos:Collection"
+		"@id":      BaseIRI + "TypeTaxonomy/collection"
+		"skos:prefLabel": _scheme_title + " — all concepts"
 		"skos:member": _concepts
 	}
 

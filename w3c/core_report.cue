@@ -39,7 +39,7 @@ core_report: """
 	## Abstract
 
 	[CUE](https://cuelang.org)'s lattice-based unification simultaneously performs
-	SPARQL-class graph pattern matching and SHACL constraint validation at compile
+	basic graph pattern matching and SHACL-compatible validation reporting at compile
 	time. A single typed dependency graph produces \(evidence.spec_counts.implemented) W3C
 	specification outputs — including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL,
 	and Verifiable Credentials — without runtime processors, triplestores, or
@@ -317,14 +317,14 @@ core_report: """
 
 	**Implemented** (\(evidence.spec_counts.implemented)):
 
-	| W3C Specification | CUE Produces |
-	|-------------------|--------------|
+	| Specification | CUE Produces |
+	|---------------|--------------|
 	\(strings.Join(_spec_rows, "\n"))
 
 	**Downstream** (\(evidence.spec_counts.downstream)):
 
-	| W3C Specification | CUE Produces |
-	|-------------------|--------------|
+	| Specification | CUE Produces |
+	|---------------|--------------|
 	\(strings.Join(_downstream_rows, "\n"))
 
 	## Key Mechanisms

@@ -277,8 +277,9 @@ evidence: {
 	// Verifiable Credentials
 	verifiable_credential: _vc.vc
 
-	// SKOS taxonomy
-	skos_taxonomy: _taxonomy.taxonomy_scheme
+	// SKOS taxonomy (scheme + collection)
+	skos_taxonomy_scheme: _taxonomy.taxonomy_scheme
+	skos_taxonomy_collection: _taxonomy.taxonomy_collection
 
 	// VoID
 	void_description: _void.void_description
@@ -370,13 +371,13 @@ _json: {
 		"credentialSubject": _vc.vc["credentialSubject"]
 	}), "", "    ")
 
-	// SKOS — compact taxonomy (scheme + first 3 concepts)
+	// SKOS — compact taxonomy (collection + first 3 concepts)
 	skos_taxonomy: json.Indent(json.Marshal({
-		"@type":          "skos:ConceptScheme"
-		"@id":            _taxonomy.taxonomy_scheme["@id"]
-		"skos:prefLabel": _taxonomy.taxonomy_scheme["skos:prefLabel"]
+		"@type":          "skos:Collection"
+		"@id":            _taxonomy.taxonomy_collection["@id"]
+		"skos:prefLabel": _taxonomy.taxonomy_collection["skos:prefLabel"]
 		"skos:member": [
-			for i, c in _taxonomy.taxonomy_scheme["skos:member"]
+			for i, c in _taxonomy.taxonomy_collection["skos:member"]
 			if i < 3 {c},
 		]
 	}), "", "    ")
