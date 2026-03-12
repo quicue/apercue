@@ -323,10 +323,9 @@ relations:</p>
     }
 }
 </code></pre>
-<p>Every resource becomes a <code>prov:Entity</code> with a qualified <code>prov:Generation</code> event.
-Dependency edges become derivation links. The full provenance graph includes all
-5 resources, 5 generation events, the generating <code>prov:Activity</code>, and a
-<code>prov:SoftwareAgent</code>.</p>
+<p>Every resource becomes a <code>prov:Entity</code>. Dependency edges become derivation
+links. The full provenance graph includes all 5 resources plus the
+generating <code>prov:Activity</code> and <code>prov:Agent</code>.</p>
 <h3 id="graph-self-description-void-computed">Graph Self-Description / VoID (computed)</h3>
 <p>The <code>#VoIDDataset</code> pattern produces a VoID dataset description — the graph's
 machine-readable "about" page:</p>
@@ -435,7 +434,13 @@ an <code>owl:ObjectProperty</code>:</p>
             &quot;@type&quot;: &quot;owl:ObjectProperty&quot;,
             &quot;@id&quot;: &quot;dcterms:requires&quot;,
             &quot;rdfs:label&quot;: &quot;depends on&quot;,
-            &quot;rdfs:comment&quot;: &quot;A resource depends on another resource&quot;
+            &quot;rdfs:comment&quot;: &quot;A resource depends on another resource&quot;,
+            &quot;rdfs:domain&quot;: {
+                &quot;@id&quot;: &quot;rdfs:Resource&quot;
+            },
+            &quot;rdfs:range&quot;: {
+                &quot;@id&quot;: &quot;rdfs:Resource&quot;
+            }
         }
     ]
 }
@@ -628,8 +633,7 @@ graph validation:</p>
     ]
 }
 </code></pre>
-<p>The <code>earl:Software</code> assertor identifies the engine. Each check becomes an
-<code>earl:Assertion</code> with <code>earl:TestCase</code>, <code>earl:automatic</code> mode, and
+<p>Each check becomes an <code>earl:Assertion</code> with an <code>earl:TestCriterion</code> and
 <code>earl:TestResult</code>. Outcomes are <code>earl:untested</code> at compile time — the plan
 is linked data; execution happens at runtime.</p>
 <h3 id="schemaorg-alignment-computed">Schema.org Alignment (computed)</h3>
@@ -769,7 +773,7 @@ as DQV quality measurements:</p>
 metrics computed from the graph. Each <code>dqv:QualityMeasurement</code> links to
 its metric, dimension, and the dataset under evaluation.</p>
 <h3 id="spec-coverage">Spec Coverage</h3>
-<p>17 specifications implemented (9 full conformance, 5 partial, 2 vocabulary-only, 1 structural),
+<p>17 specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.</p>
 <p><strong>Implemented</strong> (17):</p>
@@ -783,11 +787,11 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <tbody>
 <tr>
 <td>JSON-LD 1.1</td>
-<td>@context, @type, @id on all resources</td>
+<td>@context, @type, @id on all resources; namespace collision detection via federation</td>
 </tr>
 <tr>
 <td>SHACL</td>
-<td>sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types</td>
+<td>Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types</td>
 </tr>
 <tr>
 <td>SKOS</td>
@@ -799,7 +803,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>OWL-Time</td>
-<td>time:Interval from critical path scheduling</td>
+<td>time:Interval from critical path scheduling; time:Instant timestamps on federation context events</td>
 </tr>
 <tr>
 <td>Dublin Core</td>
@@ -807,7 +811,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>PROV-O</td>
-<td>prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains and prov:Generation; prov:Plan from charter gates with qualifiedAssociation</td>
+<td>prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings</td>
 </tr>
 <tr>
 <td>schema.org</td>
@@ -815,11 +819,11 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>ODRL 2.2</td>
-<td>odrl:Set permission/prohibition matrix by resource type</td>
+<td>odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling</td>
 </tr>
 <tr>
 <td>Activity Streams 2.0</td>
-<td>as:OrderedCollection of Create activities from topology layers</td>
+<td>as:OrderedCollection of Create activities from topology layers; no actor model or delivery</td>
 </tr>
 <tr>
 <td>Verifiable Credentials 2.0</td>
@@ -827,7 +831,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>W3C Org</td>
-<td>org:Organization with type-based OrganizationalUnits</td>
+<td>org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role</td>
 </tr>
 <tr>
 <td>VoID</td>
@@ -835,11 +839,11 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>Web Annotation</td>
-<td>oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations</td>
+<td>oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states</td>
 </tr>
 <tr>
 <td>RDFS</td>
-<td>rdfs:Class, rdfs:subClassOf, rdfs:domain/range from graph type hierarchy</td>
+<td>rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning</td>
 </tr>
 <tr>
 <td>DQV</td>
@@ -847,7 +851,7 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 </tr>
 <tr>
 <td>DCAT 3</td>
-<td>dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type</td>
+<td>dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured</td>
 </tr>
 </tbody>
 </table>
@@ -927,7 +931,7 @@ error.</p>
 <tr>
 <td>Construction PM</td>
 <td>18 work packages</td>
-<td>5 DAG gates, CMHC retrofit phases</td>
+<td>5 DAG gates, phased construction PM</td>
 </tr>
 </tbody>
 </table>
@@ -941,7 +945,9 @@ data; the patterns are generic.</p>
   definition in our target domains.</li>
 <li><strong>Performance ceiling.</strong> CUE's recursive struct references don't memoize.
   For graphs exceeding ~40 nodes, pre-compute transitive closure externally
-  (solved: 95s to 33ms for a 40-node project charter).</li>
+  and feed the result as a flat lookup. A 40-node project charter dropped
+  from 95s to 33ms with this approach (pre-computed ancestors via script,
+  consumed as a CUE value).</li>
 <li><strong>Not a general RDF toolkit.</strong> This approach targets constrained domains
   where schema control is a given.</li>
 </ul>
@@ -962,6 +968,15 @@ data; the patterns are generic.</p>
   Each knowledge base entry validates against typed schemas at
   evaluation time.</li>
 </ul>
+<h2 id="conformance-status">Conformance Status</h2>
+<p>Outputs have been validated as follows:</p>
+<ul>
+<li><strong>JSON-LD:</strong> Verified against the <a href="https://json-ld.org/playground/">JSON-LD Playground</a> (context expansion, compaction, framing).</li>
+<li><strong>SHACL:</strong> <code>sh:ValidationReport</code> structure validated manually against the SHACL spec. No pyshacl/Jena round-trip yet.</li>
+<li><strong>OWL:</strong> Ontology output loaded in Protege without errors.</li>
+<li><strong>All other projections:</strong> Structural conformance verified by inspection against the relevant W3C spec. Automated conformance testing against official W3C test suites is planned but not yet executed.</li>
+</ul>
+<p>CUE's type system catches structural violations (missing required fields, wrong types) at evaluation time. This provides compile-time structural conformance but does not replace spec-level validation suites.</p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a>

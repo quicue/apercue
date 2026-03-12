@@ -37,7 +37,7 @@
         }
     },
     "@type": "apercue:EcosystemVisualization",
-    "dct:conformsTo": {
+    "dcterms:conformsTo": {
         "@id": "https://apercue.ca/charter"
     },
     "nodes": [

@@ -140,7 +140,7 @@
         "url": "https://www.w3.org/TR/vocab-dcat-3/",
         "status": "Implemented",
         "depth": "full",
-        "coverage": "dcat:Catalog with dcat:Dataset, dcat:Distribution, dcat:DataService, and dcat:theme from @type",
+        "coverage": "dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured",
         "prefix": "dcat"
     }
 }
