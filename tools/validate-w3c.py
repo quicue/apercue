@@ -36,7 +36,8 @@ class Projection:
 
 
 # Projections available from examples that instantiate the standard pattern set.
-# Not all examples instantiate all patterns — missing exports are skipped.
+# Not every example instantiates every pattern. Those gaps are listed in
+# NOT_INSTANTIATED below; any other export failure is a FAIL.
 EXAMPLE_PROJECTIONS: list[Projection] = [
     Projection(
         name="SHACL ValidationReport",
@@ -210,7 +211,7 @@ W3C_EVIDENCE_PROJECTIONS: list[Projection] = [
     ),
     Projection(
         name="SKOS Evidence",
-        expression="evidence.skos_taxonomy",
+        expression="evidence.skos_taxonomy_scheme",
         expected_type="http://www.w3.org/2004/02/skos/core#ConceptScheme",
         min_triples=5,
         namespaces=["http://www.w3.org/2004/02/skos/core#"],
@@ -269,6 +270,14 @@ FEDERATION_PROJECTIONS: list[Projection] = [
         namespaces=["http://purl.org/dc/terms/"],
     ),
 ]
+
+
+# Projections an example deliberately does not define, keyed by directory
+# name. Only these may be skipped. A renamed or broken expression elsewhere
+# fails instead of disappearing into the skip count.
+NOT_INSTANTIATED: dict[str, set[str]] = {
+    "project-tracker": {"SHACL Compliance", "OWL-Time CPM"},
+}
 
 
 # ── Validation logic ─────────────────────────────────────────────────────
@@ -358,8 +367,10 @@ def validate_directory(directory: str, projections: list[Projection]) -> list[Re
     for proj in projections:
         data = cue_export(directory, proj.expression)
         if data is None:
-            # cue export failed — skip (expression may not exist in this example)
-            results.append(Result(proj.name, directory, False, "cue export failed (skipped)"))
+            if proj.name in NOT_INSTANTIATED.get(Path(directory).name, set()):
+                results.append(Result(proj.name, directory, False, "not instantiated here (skipped)"))
+            else:
+                results.append(Result(proj.name, directory, False, f"cue export -e {proj.expression} failed"))
             continue
 
         passed, detail = validate_jsonld(data, proj)

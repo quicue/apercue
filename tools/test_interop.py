@@ -38,7 +38,7 @@ from pyshacl import validate as shacl_validate
 
 REPO_ROOT = Path(__file__).parent.parent
 EXPRESSIONS = [
-    "shacl", "skos_taxonomy", "prov_report", "dcat_catalog",
+    "shacl", "skos_taxonomy_scheme", "prov_report", "dcat_catalog",
     "odrl_policy", "time_report", "earl_report", "void_description",
     "quality_report", "owl_ontology", "annotation_collection", "schema_graph",
     "org_report",
@@ -184,7 +184,7 @@ test("pySHACL: Rejects non-boolean sh:conforms", not neg2,
 # TEST 3: SKOS -- Vocabulary structure
 # ===============================================================
 print("\n=== SKOS Taxonomy ===")
-g = load_jsonld("skos_taxonomy.json")
+g = load_jsonld("skos_taxonomy_scheme.json")
 n = count_triples(g)
 test("SKOS: JSON-LD parses into RDF graph", n > 0, f"{n} triples")
 
