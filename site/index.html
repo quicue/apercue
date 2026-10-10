@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>apercue.ca — compile-time W3C linked data</title>
-<meta name="description" content="One typed dependency graph. 17 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
-<meta property="og:title" content="apercue.ca — compile-time W3C linked data">
-<meta property="og:description" content="One typed dependency graph. 17 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
+<title>apercue.ca: W3C linked data at build time</title>
+<meta name="description" content="CUE schemas for typed dependency graphs. Describe what exists and what depends on what, and export the result as W3C linked data (JSON-LD, SHACL, PROV-O and more) at build time, with no server.">
+<meta property="og:title" content="apercue.ca: W3C linked data at build time">
+<meta property="og:description" content="CUE schemas for typed dependency graphs. Describe what exists and what depends on what, and export the result as W3C linked data (JSON-LD, SHACL, PROV-O and more) at build time, with no server.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://apercue.ca">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="apercue.ca — compile-time W3C linked data">
-<meta name="twitter:description" content="Typed dependency graphs → W3C linked data at compile time. No SPARQL, no triplestore, no server runtime.">
+<meta name="twitter:title" content="apercue.ca: W3C linked data at build time">
+<meta name="twitter:description" content="Describe a dependency graph once in CUE and export it as W3C linked data at build time, with no triplestore or query server.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
@@ -687,12 +687,16 @@ code {
 <section class="hero">
   <div class="container">
     <div class="hero-eyebrow">apercue.ca@v0</div>
-    <h1>One typed graph.<br><span class="accent">17 W3C standards.</span><br>Zero servers.</h1>
+    <h1>Typed dependency graphs in CUE,<br><span class="accent">exported as W3C linked data.</span></h1>
     <p class="hero-sub">
-      CUE comprehensions precompute every query. CUE unification enforces every shape.
-      17 W3C specifications (9 full, 5 partial, 2 vocabulary, 1 structural) as
-      compile-time projections of the same typed dependency graph.
-      No triplestore. No SPARQL. Just&nbsp;<code>cue&nbsp;export</code>.
+      apercue is a set of schemas for typed dependency graphs, written in
+      <a href="https://cuelang.org">CUE</a>, a language that merges data and the rules
+      it must follow into a single checked result. You list the things in your domain,
+      what type each one is, and what it depends on. CUE checks the graph against your
+      rules and computes the views you ask for, such as build order, critical path,
+      compliance gaps and provenance. Each view comes out as a standard W3C format
+      (JSON-LD, SHACL, PROV-O and others) from one <code>cue&nbsp;export</code> command,
+      with no database or query server involved.
     </p>
     <div class="hero-links">
       <a href="playground.html" class="btn btn-primary">Playground</a>
@@ -700,10 +704,10 @@ code {
       <a href="https://github.com/quicue/apercue" class="btn btn-ghost">GitHub</a>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><strong>17</strong>W3C specs implemented</div>
+      <div class="hero-stat"><strong>17</strong>W3C specs covered, 9 in full</div>
       <div class="hero-stat"><strong>4</strong>domain examples</div>
-      <div class="hero-stat"><strong>0</strong>runtime dependencies</div>
-      <div class="hero-stat"><strong>1</strong>binary: cue</div>
+      <div class="hero-stat"><strong>0</strong>servers to run</div>
+      <div class="hero-stat"><strong>1</strong>tool needed: cue</div>
     </div>
   </div>
 </section>
@@ -711,11 +715,16 @@ code {
 <!-- ═══ COMPARISON ═════════════════════════════════════════ -->
 <section id="compare">
   <div class="container">
-    <div class="tag">The argument</div>
-    <h2>What it replaces for constrained domains</h2>
+    <div class="tag">Where it fits</div>
+    <h2>Moving the semantic web pipeline to build time</h2>
+    <p style="margin-bottom: 24px;">The usual linked data pipeline assumes you will query a graph while
+       it runs, often a graph someone else wrote. Many projects are narrower than that: you write
+       the graph yourself and know in advance which questions you need answered. In that case the
+       querying, checking and serializing can all happen once, when you build, and the answers can
+       be published as plain files.</p>
     <div class="compare reveal">
       <div class="compare-panel old">
-        <div class="compare-label">Traditional semantic web</div>
+        <div class="compare-label">Typical linked data stack</div>
         <ul class="pipeline">
           <li><span class="step-num">1</span><span class="step-text">Model data in RDF triples</span></li>
           <li><span class="step-num">2</span><span class="step-text">Load into a triplestore</span></li>
@@ -723,7 +732,7 @@ code {
           <li><span class="step-num">4</span><span class="step-text">Validate shapes with a SHACL engine</span></li>
           <li><span class="step-num">5</span><span class="step-text">Serialize to JSON-LD</span></li>
         </ul>
-        <div class="compare-verdict">5 runtime components. 5 failure points.</div>
+        <div class="compare-verdict">Several services to deploy, connect and keep running.</div>
       </div>
       <div class="compare-panel new">
         <div class="compare-label">apercue.ca</div>
@@ -731,11 +740,11 @@ code {
           <li><span class="step-num">1</span><span class="step-text">Define typed resources in CUE</span></li>
           <li><span class="step-num">2</span><span class="step-text"><code>cue export -e &lt;projection&gt;</code></span></li>
         </ul>
-        <div class="compare-verdict">1 binary. 0 servers. 17 projections.</div>
+        <div class="compare-verdict">One command at build time. The output is static JSON files.</div>
       </div>
     </div>
     <div class="code-block reveal" style="margin-top: 28px;">
-      <span class="comment"># Every spec is one export expression</span><br>
+      <span class="comment"># Each W3C format is one export expression over the same graph</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e compliance.shacl_report</span> <span class="flag">--out json</span>  <span class="comment"># SHACL</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e ontology</span> <span class="flag">--out json</span>               <span class="comment"># RDFS/OWL</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">-e cpm.time_report</span> <span class="flag">--out json</span>       <span class="comment"># OWL-Time</span><br>
@@ -755,21 +764,25 @@ code {
       <div class="how-step">
         <div class="how-step-num">1</div>
         <h3>Define a typed graph</h3>
-        <p>Resources are structs with <code>@type</code>, <code>depends_on</code>, and metadata.
-           <code>#Graph</code> computes topology, depth, and critical path at eval time.</p>
+        <p>Each resource is a CUE record with a type (<code>@type</code>), a list of what it
+           depends on (<code>depends_on</code>), and any other fields you need. The
+           <code>#Graph</code> schema works out dependency order, depth and critical path.</p>
       </div>
       <div class="how-step">
         <div class="how-step-num">2</div>
         <h3>Declare constraints</h3>
-        <p><code>#Charter</code> declares what must exist. <code>#ComplianceCheck</code> validates structural rules.
-           Both emit <code>sh:ValidationReport</code> automatically.</p>
+        <p><code>#Charter</code> states what the finished graph must contain.
+           <code>#ComplianceCheck</code> states structural rules it must follow. Both
+           report their results as a SHACL validation report, the standard W3C format
+           for "does this data meet these rules".</p>
       </div>
       <div class="how-step">
         <div class="how-step-num">3</div>
-        <h3>Export 17 projections</h3>
-        <p>JSON-LD, SHACL, SKOS, EARL, OWL-Time, Dublin Core, PROV-O, schema.org, ODRL,
-           Activity Streams, Verifiable Credentials, W3C Org, DCAT. Each is a
-           <code>cue export -e</code> expression. No transformation layer.</p>
+        <h3>Export the views you need</h3>
+        <p>Each W3C format is a view of the same graph, selected with
+           <code>cue export -e</code>. Formats include JSON-LD, SHACL, SKOS, OWL-Time,
+           PROV-O, DCAT, ODRL and Verifiable Credentials. There is no separate
+           conversion step.</p>
       </div>
     </div>
   </div>
@@ -785,26 +798,25 @@ code {
       <a href="playground.html" class="demo-card">
         <div class="demo-label">Playground</div>
         <h3>W3C Projection Playground</h3>
-        <p>Click nodes in a live graph. See 6 W3C projections computed instantly&mdash;SHACL,
-           SKOS, EARL, OWL-Time, PROV-O, and JSON-LD&mdash;from the same data.</p>
+        <p>Click nodes in a live graph and watch six W3C outputs update together:
+           SHACL, SKOS, EARL, OWL-Time, PROV-O and JSON-LD, all from the same data.</p>
       </a>
       <a href="explorer.html" class="demo-card">
         <div class="demo-label">Explorer</div>
         <h3>Ecosystem Graph</h3>
-        <p>D3 force-directed visualization of the apercue.ca project itself.
-           Modules, patterns, views, and their dependencies as a live graph.</p>
+        <p>apercue described as its own graph: modules, patterns, views and the
+           dependencies between them, drawn as an interactive diagram.</p>
       </a>
       <a href="charter.html" class="demo-card">
         <div class="demo-label">Charter</div>
         <h3>Build Progress</h3>
-        <p>Live gate-by-gate tracking of the apercue.ca build.
-           The project tracks its own progress using the system it defines.</p>
+        <p>apercue tracks its own build with the same <code>#Charter</code> schema it
+           provides. This page shows which milestones are met.</p>
       </a>
       <a href="projections.html" class="demo-card">
         <div class="demo-label">Matrix</div>
         <h3>Projection Coverage</h3>
-        <p>Which W3C specs cover which patterns. A coverage matrix
-           showing the full mapping from graph features to standard outputs.</p>
+        <p>A table showing which graph features each W3C output is built from.</p>
       </a>
     </div>
   </div>
@@ -813,16 +825,18 @@ code {
 <!-- ═══ EXAMPLES ═══════════════════════════════════════════ -->
 <section id="examples">
   <div class="container">
-    <div class="tag">Proof of generality</div>
-    <h2>Domain-agnostic by design</h2>
-    <p style="margin-bottom: 24px;">The same <code>#Graph</code>, <code>#Charter</code>, and W3C projection
-       patterns work across any domain. Not just infrastructure.</p>
+    <div class="tag">Examples</div>
+    <h2>Not tied to one domain</h2>
+    <p style="margin-bottom: 24px;">The schemas know nothing about servers or networks. Anything with
+       parts and dependencies between them can be described the same way. These examples use
+       the same <code>#Graph</code>, <code>#Charter</code> and export code without changes.</p>
     <div class="examples-grid reveal">
       <div class="example-card">
         <div class="example-domain">Education</div>
         <h3>Course Prerequisites</h3>
-        <p>University CS curriculum as a dependency graph.
-           Charter gates enforce degree requirements. CPM finds the optimal schedule.</p>
+        <p>A computer science curriculum where courses depend on prerequisites.
+           The charter checks degree requirements, and critical path analysis finds
+           the shortest route through the program.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>12</strong> courses</span>
           <span class="example-stat"><strong>3</strong> gates</span>
@@ -832,8 +846,8 @@ code {
       <div class="example-card">
         <div class="example-domain">Cooking</div>
         <h3>Recipe Ingredients</h3>
-        <p>Beef bourguignon as a prep dependency graph.
-           Critical path finds the minimum cooking timeline.</p>
+        <p>Beef bourguignon broken into prep steps and what each one waits on.
+           Critical path analysis gives the shortest total cooking time.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>17</strong> steps</span>
           <span class="example-stat"><strong>5</strong> types</span>
@@ -843,8 +857,8 @@ code {
       <div class="example-card">
         <div class="example-domain">Project Management</div>
         <h3>Release Tracker</h3>
-        <p>Software release pipeline with schema:actionStatus lifecycle.
-           Gap analysis surfaces what's blocking each milestone.</p>
+        <p>A software release as a set of tasks, each with a schema.org status.
+           Gap analysis shows what is still blocking each milestone.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>10</strong> tasks</span>
           <span class="example-stat"><strong>4</strong> gates</span>
@@ -854,8 +868,8 @@ code {
       <div class="example-card">
         <div class="example-domain">Supply Chain</div>
         <h3>Laptop Assembly</h3>
-        <p>Multi-tier supply chain from raw materials to product.
-           DCAT catalog, SHACL quality gates, CPM lead times.</p>
+        <p>A supply chain from raw materials to finished laptop, exported as a DCAT
+           catalogue with SHACL quality checks and lead times from critical path analysis.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>14</strong> parts</span>
           <span class="example-stat"><strong>5</strong> tiers</span>
@@ -871,8 +885,9 @@ code {
   <div class="container">
     <div class="tag">Standards</div>
     <h2>W3C spec coverage</h2>
-    <p style="margin-bottom: 24px;">Each spec is a CUE comprehension that projects the same underlying graph.
-       No adapters. No converters. The data <em>is</em> the standard.</p>
+    <p style="margin-bottom: 24px;">Each spec is implemented as one CUE file that reads the shared graph and
+       writes output in that spec's vocabulary. Several are only partly implemented, covering
+       what the examples need; the Depth column shows which.</p>
     <table class="spec-table reveal">
       <thead>
         <tr>
@@ -1002,39 +1017,48 @@ code {
 <!-- ═══ WHAT'S NOVEL ═══════════════════════════════════════ -->
 <section id="novel">
   <div class="container">
-    <div class="tag">What's new here</div>
-    <h2>Why this approach didn't exist before</h2>
+    <div class="tag">Design</div>
+    <h2>Design choices and limits</h2>
     <div class="novel-grid reveal">
       <div class="novel-item">
-        <h3>Comprehensions replace SPARQL</h3>
-        <p>Every query that would traditionally require a SPARQL endpoint is precomputed
-           as a CUE comprehension at eval time. No query language. No query engine.
-           The answers are structural.</p>
+        <h3>Known questions are answered at build time</h3>
+        <p>A comprehension is a CUE expression that loops over the graph and builds new data
+           from it. When the questions are known in advance, each can be written as one and
+           evaluated during export, so the answers ship as files. This covers fixed questions
+           over a graph you wrote. It does not replace SPARQL for ad hoc questions or for
+           data published by others.</p>
       </div>
       <div class="novel-item">
-        <h3>Unification replaces SHACL engines</h3>
-        <p>Shape validation isn't a separate runtime step. CUE's type system <em>is</em>
-           the SHACL engine. If a graph evaluates, its shapes are valid. Constraint
-           violations are evaluation errors, not runtime exceptions.</p>
+        <h3>Rules are checked as the graph is evaluated</h3>
+        <p>CUE combines your data with your rules, and any conflict stops evaluation, so a
+           graph that exports has already passed. That handles structural checks such as
+           required fields, value types and allowed values, and the SHACL report is written
+           from the results. It is not a full SHACL processor: it checks only graphs written
+           in CUE and does not run SPARQL-based constraints.</p>
       </div>
       <div class="novel-item">
         <h3>One file per standard</h3>
-        <p>Adding PROV-O support meant writing <code>provenance.cue</code>. Adding ODRL
-           meant writing <code>policy.cue</code>. Each W3C projection is a single file
-           that projects the same graph. No framework changes needed.</p>
+        <p>Adding PROV-O support meant writing <code>provenance.cue</code>, and adding ODRL
+           meant writing <code>policy.cue</code>. Each format reads the same graph, so a new
+           one does not require changes anywhere else.</p>
       </div>
       <div class="novel-item">
         <h3>Self-referential build tracking</h3>
-        <p>The project's own build charter is tracked using <code>#Charter</code> and
-           <code>#GapAnalysis</code>&mdash;the same patterns it defines.
-           The <a href="charter.html">charter page</a> shows live gate progress.</p>
+        <p>apercue tracks its own development with <code>#Charter</code> and
+           <code>#GapAnalysis</code>, the schemas it provides. The
+           <a href="charter.html">charter page</a> shows current progress.</p>
+      </div>
+      <div class="novel-item">
+        <h3>The same schemas across domains</h3>
+        <p>The schemas started in IT infrastructure and are now used, unchanged, for course
+           prerequisites, recipes, supply chains, housing retrofits and real estate
+           transactions. The export code has no knowledge of which domain it is handling.</p>
       </div>
       <div class="novel-item" style="grid-column: 1 / -1;">
-        <h3>Domain-agnostic, not infrastructure-specific</h3>
-        <p>The typed dependency graph pattern works for course prerequisites, cooking
-           recipes, supply chains, housing retrofits, real estate transactions, and
-           infrastructure. The W3C projections don't know or care what domain they're
-           projecting. That generality is the point.</p>
+        <h3>When to use something else</h3>
+        <p>apercue suits graphs you write yourself and rebuild when they change. Use a triplestore and a SHACL engine when the graph is
+           very large, changes continuously, comes from sources you do not control, needs
+           open-world reasoning, or must answer questions nobody planned for.</p>
       </div>
     </div>
   </div>
@@ -1045,14 +1069,14 @@ code {
   <div class="container">
     <div class="tag">Engagement</div>
     <h2>W3C Community Groups</h2>
-    <p style="margin-bottom: 24px;">apercue.ca has been submitted to four W3C Community Groups.
-       The evidence is reviewed by domain experts working on RDF mapping, data governance,
-       and multi-context identity.</p>
+    <p style="margin-bottom: 24px;">apercue.ca has been brought to four W3C Community Groups working on
+       knowledge graph construction, data governance, multi-context identity and asset
+       attestation. Current status of each:</p>
     <div class="examples-grid reveal">
       <div class="example-card">
         <div class="example-domain">KG-Construct</div>
         <h3>Knowledge Graph Construction</h3>
-        <p>CUE as a declarative KG construction language. Use cases PR merged.</p>
+        <p>CUE as a declarative language for building knowledge graphs. The use case pull request was merged.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>PR #21</strong> merged</span>
         </div>
@@ -1060,7 +1084,7 @@ code {
       <div class="example-card">
         <div class="example-domain">Dataspaces</div>
         <h3>Data Governance</h3>
-        <p>Compile-time governance as a lightweight dataspace primitive.</p>
+        <p>Build-time rule checking as a lightweight way to govern shared data.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>Issue #17</strong> open</span>
         </div>
@@ -1068,7 +1092,7 @@ code {
       <div class="example-card">
         <div class="example-domain">Context Graphs</div>
         <h3>Multi-Context Identity</h3>
-        <p>Struct-as-set types for resources participating in multiple contexts simultaneously.</p>
+        <p>Letting one resource hold several types at once, so it can belong to more than one context.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>Standards</strong> committee</span>
         </div>
@@ -1076,7 +1100,7 @@ code {
       <div class="example-card">
         <div class="example-domain">UORA</div>
         <h3>Asset Attestation</h3>
-        <p>Typed dependency graphs for physical asset lifecycle tracking.</p>
+        <p>Typed dependency graphs for tracking physical assets through their lifecycle.</p>
         <div class="example-stats">
           <span class="example-stat"><strong>Use case</strong> drafted</span>
         </div>
@@ -1110,7 +1134,7 @@ code {
 <footer class="footer">
   <div class="container">
     <div class="footer-inner">
-      <span>apercue.ca &mdash; Apache 2.0</span>
+      <span>apercue.ca, Apache 2.0</span>
       <div class="footer-links">
         <a href="playground.html">Playground</a>
         <a href="recipe.html">Recipe Demo</a>
