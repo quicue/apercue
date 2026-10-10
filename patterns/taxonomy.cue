@@ -64,8 +64,34 @@ import (
 		}
 	}
 
+	// Types declared in Hierarchy. A parent such as "Course" may group
+	// other types without any resource using it directly; it still has to
+	// be a concept, or its children point at nothing and the scheme has
+	// no top concept.
+	_hierarchy_types: {
+		if Hierarchy != _|_ {
+			for parent, children in Hierarchy {
+				(parent): true
+				for child in children {
+					(child): true
+				}
+			}
+		}
+	}
+
+	// Every type that becomes a skos:Concept: used by a resource, or
+	// named in Hierarchy, or both.
+	_all_types: {
+		for t, _ in _type_counts {
+			(t): true
+		}
+		for t, _ in _hierarchy_types {
+			(t): true
+		}
+	}
+
 	_type_usage: {
-		for tname, _ in _type_counts {
+		for tname, _ in _all_types {
 			(tname): len([
 				for _, res in Graph.resources
 				if res["@type"][tname] != _|_ {1},
@@ -108,7 +134,7 @@ import (
 
 	// Top concepts: types with no parent
 	_top_concepts: {
-		for tname, _ in _type_counts
+		for tname, _ in _all_types
 		if _child_types[tname] == _|_ {
 			(tname): true
 		}
@@ -116,12 +142,17 @@ import (
 
 	// Concepts
 	_concepts: [
-		for tname, _ in _type_counts {
+		for tname, _ in _all_types {
 			"@type":          "skos:Concept"
 			"@id":            BaseIRI + tname
 			"skos:prefLabel": tname
 			"skos:inScheme": {"@id": BaseIRI + "TypeTaxonomy"}
-			"skos:scopeNote": "\(tname) — used by \(_type_usage[tname]) resources"
+			if _type_usage[tname] > 0 {
+				"skos:scopeNote": "\(tname): used by \(_type_usage[tname]) resources"
+			}
+			if _type_usage[tname] == 0 {
+				"skos:scopeNote": "\(tname): grouping type from the hierarchy, not used directly by any resource"
+			}
 
 			// Top concept?
 			if _top_concepts[tname] != _|_ {
@@ -161,9 +192,9 @@ import (
 	]
 
 	taxonomy_scheme: {
-		"@context": vocab.context["@context"]
-		"@type":    "skos:ConceptScheme"
-		"@id":      BaseIRI + "TypeTaxonomy"
+		"@context":       vocab.context["@context"]
+		"@type":          "skos:ConceptScheme"
+		"@id":            BaseIRI + "TypeTaxonomy"
 		"skos:prefLabel": _scheme_title
 		"dcterms:title":  _scheme_title
 		"skos:hasTopConcept": [
@@ -171,21 +202,29 @@ import (
 				{"@id": BaseIRI + tname}
 			},
 		]
+
+		// Ship the concepts in the same document. @reverse states each
+		// concept skos:inScheme this scheme, which is the property SKOS
+		// defines for that link, so no member-of-scheme claim is made.
+		"@reverse": {
+			"skos:inScheme": _concepts
+		}
 	}
 
 	// skos:member belongs on skos:Collection, not ConceptScheme
 	taxonomy_collection: {
-		"@context": vocab.context["@context"]
-		"@type":    "skos:Collection"
-		"@id":      BaseIRI + "TypeTaxonomy/collection"
+		"@context":       vocab.context["@context"]
+		"@type":          "skos:Collection"
+		"@id":            BaseIRI + "TypeTaxonomy/collection"
 		"skos:prefLabel": _scheme_title + " — all concepts"
-		"skos:member": _concepts
+		"skos:member":    _concepts
 	}
 
 	summary: {
-		total_types:    len([for t, _ in _type_counts {t}])
-		top_concepts:   len([for t, _ in _top_concepts {t}])
-		cooccurrences:  len([for k, _ in _cooccurrence {k}])
-		has_hierarchy:  Hierarchy != _|_
+		total_types:   len([for t, _ in _all_types {t}])
+		used_types:    len([for t, _ in _type_counts {t}])
+		top_concepts:  len([for t, _ in _top_concepts {t}])
+		cooccurrences: len([for k, _ in _cooccurrence {k}])
+		has_hierarchy: Hierarchy != _|_
 	}
 }
