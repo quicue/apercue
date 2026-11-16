@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>W3C Projection Playground — apercue.ca</title>
-<meta name="description" content="Interactive playground: one typed dependency graph, six W3C projections computed client-side.">
+<meta name="description" content="Interactive playground: one typed dependency graph, six W3C projections reimplemented in JavaScript and computed in the browser.">
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -460,6 +460,7 @@ body::before {
 }
 
 .bottom-bar .note { max-width: 600px; }
+.computed-by { padding: 6px 12px; font-size: 11px; color: var(--warn, #f0c040); border-bottom: 1px solid var(--border); }
 
 .bottom-bar .graph-stats {
   display: flex;
@@ -562,6 +563,7 @@ body::before {
         </div>
         <button class="copy-btn" id="copy-btn" title="Copy JSON to clipboard">COPY</button>
       </div>
+      <div class="computed-by" data-computed-by="javascript">Computed by JavaScript in your browser, not by CUE. This output can differ from <code>cue export</code>.</div>
       <div class="json-scroll">
         <div class="json-output" id="json-output"></div>
       </div>
@@ -572,7 +574,7 @@ body::before {
 
 <!-- ═══ BOTTOM BAR ═════════════════════════════════════════ -->
 <div class="bottom-bar">
-  <div class="note">All projections are computed client-side from the same graph data. In production, use <code style="color:var(--accent)">cue export</code> for validated output.</div>
+  <div class="note">These projections are JavaScript reimplementations, not CUE output. For the real output, run <code style="color:var(--accent)">cue export</code>.</div>
   <div class="graph-stats">
     <span><span class="stat-value">12</span> nodes</span>
     <span><span class="stat-value">16</span> edges</span>

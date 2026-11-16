@@ -215,20 +215,20 @@ INDEX_TEMPLATE = """\
 """
 
 REPORT_DESCRIPTIONS = {
-    "core-report": "Full W3C evidence — 14 spec outputs from a single CUE value, computed live from a research pipeline graph.",
-    "context-graphs": "Implementation report for the W3C Context Graphs Community Group — named graph federation via CUE unification.",
-    "kg-construct": "Implementation report for the KG-Construct Community Group — typed DAG construction and W3C projection.",
-    "dataspaces": "Implementation report for the Dataspaces Community Group — ODRL policy enforcement and DCAT catalog generation.",
-    "pm-kr": "Implementation report for the PM-KR Community Group — critical path scheduling with OWL-Time and PROV-O.",
+    "core-report": "W3C evidence: spec outputs from a single CUE value, computed from a research pipeline graph.",
+    "context-graphs": "Use case drafted for the Context Graphs Community Group: multi-context identity via struct-as-set types.",
+    "kg-construct": "Use cases contributed to the KG-Construct CG (PR #21, merged 2026-02-27): typed DAG construction and W3C projection.",
+    "dataspaces": "Drafted report for the Dataspaces Community Group: ODRL policy and DCAT catalog generation.",
+    "pm-kr": "Drafted report for the PM-KR Community Group: critical path scheduling with OWL-Time and PROV-O.",
 }
 
 
-def render_report(slug: str, title: str) -> None:
-    """Render a single markdown report to HTML."""
+def render_report(slug: str, title: str) -> bool:
+    """Render a single markdown report to HTML. Returns False if the source is missing."""
     src = W3C_DIR / f"{slug}.md"
     if not src.exists():
         print(f"  SKIP: {src} not found", file=sys.stderr)
-        return
+        return False
 
     md_text = src.read_text()
     html_body = markdown.markdown(
@@ -241,12 +241,13 @@ def render_report(slug: str, title: str) -> None:
     out_path = OUT_DIR / f"{slug}.html"
     out_path.write_text(full_html)
     print(f"  {out_path.relative_to(REPO_ROOT)} ({len(md_text)} chars)")
+    return True
 
 
-def render_index() -> None:
-    """Render the report index page."""
+def render_index(rendered: dict) -> None:
+    """Render the report index page. Only reports that were rendered are linked."""
     items = []
-    for slug, title in REPORTS.items():
+    for slug, title in rendered.items():
         desc = REPORT_DESCRIPTIONS.get(slug, "")
         items.append(
             f'<li><a href="{slug}.html">{title}</a>'
@@ -267,11 +268,13 @@ def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     print("Rendering W3C CG reports to HTML...")
 
-    for slug, title in REPORTS.items():
-        render_report(slug, title)
+    rendered = {s: t for s, t in REPORTS.items() if render_report(s, t)}
+    for stale in OUT_DIR.glob("*.html"):
+        if stale.stem != "index" and stale.stem in REPORTS and stale.stem not in rendered:
+            stale.unlink()
 
-    render_index()
-    print(f"Done. {len(REPORTS)} reports + index in site/w3c/")
+    render_index(rendered)
+    print(f"Done. {len(rendered)} reports + index in site/w3c/")
 
 
 if __name__ == "__main__":

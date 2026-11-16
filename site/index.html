@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://apercue.ca">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="apercue.ca — compile-time W3C linked data">
-<meta name="twitter:description" content="Typed dependency graphs → W3C linked data at compile time. No SPARQL, no triplestore, no server runtime.">
+<meta name="twitter:description" content="Typed dependency graphs projected to W3C linked data with CUE. No triplestore, no server.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
@@ -689,10 +689,11 @@ code {
     <div class="hero-eyebrow">apercue.ca@v0</div>
     <h1>One typed graph.<br><span class="accent">17 W3C standards.</span><br>Zero servers.</h1>
     <p class="hero-sub">
-      CUE comprehensions precompute every query. CUE unification enforces every shape.
+      One typed CUE value, projected to
       17 W3C specifications (9 full, 5 partial, 2 vocabulary, 1 structural) as
       compile-time projections of the same typed dependency graph.
-      No triplestore. No SPARQL. Just&nbsp;<code>cue&nbsp;export</code>.
+      No triplestore. For large graphs the closure is precomputed by
+      <code>tools/toposort.py</code> and CUE projects it.
     </p>
     <div class="hero-links">
       <a href="playground.html" class="btn btn-primary">Playground</a>
@@ -702,8 +703,7 @@ code {
     <div class="hero-stats">
       <div class="hero-stat"><strong>17</strong>W3C specs implemented</div>
       <div class="hero-stat"><strong>4</strong>domain examples</div>
-      <div class="hero-stat"><strong>0</strong>runtime dependencies</div>
-      <div class="hero-stat"><strong>1</strong>binary: cue</div>
+      <div class="hero-stat"><strong>0</strong>servers</div>
     </div>
   </div>
 </section>
@@ -731,7 +731,7 @@ code {
           <li><span class="step-num">1</span><span class="step-text">Define typed resources in CUE</span></li>
           <li><span class="step-num">2</span><span class="step-text"><code>cue export -e &lt;projection&gt;</code></span></li>
         </ul>
-        <div class="compare-verdict">1 binary. 0 servers. 17 projections.</div>
+        <div class="compare-verdict">0 servers. 17 projections.</div>
       </div>
     </div>
     <div class="code-block reveal" style="margin-top: 28px;">
@@ -785,8 +785,9 @@ code {
       <a href="playground.html" class="demo-card">
         <div class="demo-label">Playground</div>
         <h3>W3C Projection Playground</h3>
-        <p>Click nodes in a live graph. See 6 W3C projections computed instantly&mdash;SHACL,
-           SKOS, EARL, OWL-Time, PROV-O, and JSON-LD&mdash;from the same data.</p>
+        <p>Click nodes in a live graph. See 6 W3C projections (PROV-O, ODRL, ORG,
+           schema.org, VC and Activity Streams) reimplemented in JavaScript and computed
+           in the browser from the same data.</p>
       </a>
       <a href="explorer.html" class="demo-card">
         <div class="demo-label">Explorer</div>
@@ -1045,16 +1046,15 @@ code {
   <div class="container">
     <div class="tag">Engagement</div>
     <h2>W3C Community Groups</h2>
-    <p style="margin-bottom: 24px;">apercue.ca has been submitted to four W3C Community Groups.
-       The evidence is reviewed by domain experts working on RDF mapping, data governance,
-       and multi-context identity.</p>
+    <p style="margin-bottom: 24px;">Two W3C Community Groups have a public artifact from
+       this project: KG-Construct and Dataspaces. The other two are drafted.</p>
     <div class="examples-grid reveal">
       <div class="example-card">
         <div class="example-domain">KG-Construct</div>
         <h3>Knowledge Graph Construction</h3>
-        <p>CUE as a declarative KG construction language. Use cases PR merged.</p>
+        <p>Use cases contributed to the KG-Construct CG.</p>
         <div class="example-stats">
-          <span class="example-stat"><strong>PR #21</strong> merged</span>
+          <span class="example-stat"><strong>PR #21</strong> merged 2026-02-27</span>
         </div>
       </div>
       <div class="example-card">
@@ -1070,7 +1070,7 @@ code {
         <h3>Multi-Context Identity</h3>
         <p>Struct-as-set types for resources participating in multiple contexts simultaneously.</p>
         <div class="example-stats">
-          <span class="example-stat"><strong>Standards</strong> committee</span>
+          <span class="example-stat"><strong>Drafted</strong>, sent to chair and list 2026-03, not in public archive</span>
         </div>
       </div>
       <div class="example-card">

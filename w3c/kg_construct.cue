@@ -17,8 +17,9 @@ kg_construct_report: """
 	[CUE](https://cuelang.org) — a constraint language with lattice-based type
 	semantics — to construct, validate, and serialize knowledge graphs entirely at
 	compile time. Graph building, SHACL validation, and JSON-LD output happen in a
-	single `cue export` invocation. No mapping language, no runtime pipeline, no
-	triplestore.
+	single `cue export` invocation, with no mapping language and no triplestore.
+	For graphs past a few dozen nodes the dependency closure is precomputed by
+	`tools/toposort.py` and CUE projects it.
 
 	This submission demonstrates CUE as a KG construction language and explains how
 	it relates to the KG-Construct CG's work on declarative KG construction.
@@ -121,7 +122,7 @@ kg_construct_report: """
 	## References
 
 	- [Core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md)
-	  — Full implementation evidence with \(evidence.spec_counts.total) W3C specs
+	  — Full implementation evidence with \(evidence.spec_counts.implemented) W3C specs
 	- [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
 	- [demo.quicue.ca](https://demo.quicue.ca) — Interactive D3 graph explorer
 	"""

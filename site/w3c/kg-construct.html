@@ -111,8 +111,9 @@
 <a href="https://cuelang.org">CUE</a> — a constraint language with lattice-based type
 semantics — to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
-single <code>cue export</code> invocation. No mapping language, no runtime pipeline, no
-triplestore.</p>
+single <code>cue export</code> invocation, with no mapping language and no triplestore.
+For graphs past a few dozen nodes the dependency closure is precomputed by
+<code>tools/toposort.py</code> and CUE projects it.</p>
 <p>This submission demonstrates CUE as a KG construction language and explains how
 it relates to the KG-Construct CG's work on declarative KG construction.</p>
 <h2 id="the-construction-pipeline-one-step">The Construction Pipeline (One Step)</h2>
@@ -165,6 +166,9 @@ constructed in an invalid state.</p>
     ],
     &quot;prov:wasGeneratedBy&quot;: {
         &quot;@id&quot;: &quot;urn:activity:graph-construction&quot;
+    },
+    &quot;prov:qualifiedGeneration&quot;: {
+        &quot;@id&quot;: &quot;urn:generation:analysis-code&quot;
     }
 }
 </code></pre>
@@ -265,7 +269,7 @@ entire KG construction pipeline reduces to a type-checked <code>cue export</code
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://github.com/quicue/apercue/blob/main/w3c/core-report.md">Core report</a>
-  — Full implementation evidence with 18 W3C specs</li>
+  — Full implementation evidence with 17 W3C specs</li>
 <li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a> — Source (Apache 2.0)</li>
 <li><a href="https://demo.quicue.ca">demo.quicue.ca</a> — Interactive D3 graph explorer</li>
 </ul>

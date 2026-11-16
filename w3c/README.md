@@ -66,10 +66,10 @@ serve these roles in a single evaluation step:
 Data → cue export -e <projection>
 ```
 
-CUE comprehensions handle pattern matching over the graph (analogous to
-SPARQL). CUE unification enforces shape constraints (analogous to SHACL
-validation). JSON-LD `@context` injection handles serialization. These happen
-during a single `cue export` invocation.
+CUE comprehensions select over the graph. JSON-LD `@context` injection handles
+serialization. For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE projects it.
+Structural errors (undeclared dependency, invalid identifier) fail `cue vet`;
+compliance rule violations are reported in the SHACL output and do not fail it.
 
 The trade-off is closed-world semantics: every resource must be declared,
 and there is no runtime discovery or open-world inference. This is
@@ -80,8 +80,10 @@ similar domains where completeness is a feature rather than a limitation.
 
 | CG | Status | Link |
 |----|--------|------|
-| **KG-Construct** | PR #21 merged (2 use cases) | [kg-construct/use-cases#21](https://github.com/kg-construct/use-cases/pull/21) |
-| **Context Graphs** | Use case submitted, Standards committee | [w3.org/community/context-graph](https://www.w3.org/community/context-graph/) |
+| **KG-Construct** | Use cases contributed to the KG-Construct CG (PR #21, merged 2026-02-27) | [kg-construct/use-cases#21](https://github.com/kg-construct/use-cases/pull/21) |
+| **Dataspaces** | Challenge filed, open | [w3c-cg/dataspaces#17](https://github.com/w3c-cg/dataspaces/issues/17) |
+| **Context Graphs** | Drafted. Use case submitted to the chair and mailing list, 2026-03; not in the public list archive | [w3.org/community/context-graph](https://www.w3.org/community/context-graph/) |
+| **PM-KR**, **UORA** | Drafted | none |
 
 ## References
 

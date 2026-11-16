@@ -6,8 +6,9 @@ The [apercue.ca](https://github.com/quicue/apercue) project uses
 [CUE](https://cuelang.org) — a constraint language with lattice-based type
 semantics — to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
-single `cue export` invocation with no mapping language, no runtime pipeline,
-and no triplestore.
+single `cue export` invocation with no mapping language and no triplestore.
+For graphs past a few dozen nodes the dependency closure is precomputed by
+`tools/toposort.py` and CUE projects it.
 
 Traditional KG construction requires a multi-stage pipeline:
 
@@ -53,11 +54,12 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
    separate mapping artifact.
 
 2. **Validation as a construction-time guarantee, not a post-hoc check.**
-   SHACL validation typically runs after KG construction. In CUE, constraints
-   are part of the type lattice — an invalid graph cannot be constructed
-   (unification produces bottom `_|_`). The `sh:ValidationReport` is a
-   projection of a graph that has already passed validation by existing at all.
-   This inverts the usual validate-after-construct pattern.
+   SHACL validation typically runs after KG construction. In CUE, structural
+   constraints are part of the type lattice: a graph with a dependency on an
+   undeclared resource or an invalid identifier cannot be constructed
+   (unification produces bottom `_|_`). Compliance rules are different. Their
+   violations are reported as `sh:ValidationResult` entries in a
+   `sh:ValidationReport`, and the build still succeeds.
 
 3. **Provenance without a provenance store.** The `#ProvenanceTrace` pattern
    computes PROV-O output from the dependency structure. `prov:wasDerivedFrom`

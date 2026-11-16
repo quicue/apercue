@@ -6,9 +6,10 @@ Submission files for active W3C Community Group engagements.
 
 | File | Target CG | Status | Link |
 |------|-----------|--------|------|
-| `quicue-compile-time-kg.md` | KG-Construct | **Merged** | [PR #21](https://github.com/kg-construct/use-cases/pull/21) |
-| `quicue-project-scheduling-kg.md` | KG-Construct | **Merged** | Same PR |
-| `context-graphs-use-case.md` | Context Graphs | **Submitted** | Email to chair + mailing list |
+| `quicue-compile-time-kg.md` | KG-Construct | Contributed (PR #21, merged 2026-02-27) | [PR #21](https://github.com/kg-construct/use-cases/pull/21) |
+| `quicue-project-scheduling-kg.md` | KG-Construct | Contributed (PR #21, merged 2026-02-27) | Same PR |
+| `context-graphs-use-case.md` | Context Graphs | Drafted. Submitted to the chair and mailing list, 2026-03; not in the public list archive | none public |
+| (filed directly) | Dataspaces | Challenge filed, open | [w3c-cg/dataspaces#17](https://github.com/w3c-cg/dataspaces/issues/17) |
 
 ## Submission Channels
 
@@ -21,7 +22,7 @@ Submission files for active W3C Community Group engagements.
 - **CG page:** [w3.org/community/context-graph](https://www.w3.org/community/context-graph/)
 - **Mailing list:** public-context-graph@w3.org
 - **Chair:** Ron Itelman
-- **Note:** CG established Feb 24, 2026 — charter and glossary in progress
+- **Note:** CG established Feb 24, 2026; charter and glossary in progress
 
 ## Prerequisites
 
