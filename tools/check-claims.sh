@@ -40,6 +40,12 @@ BANNED=(
     'SHACL validation becomes a type'
     'Six lines\.'
     'same mechanism as SPARQL property paths'
+    'in a W3C Verifiable Credential'
+    'conformant round-trip'
+    '~ ?3?5?-?40 nodes'
+    'constructed in an invalid state'
+    'valid W3C linked data'
+    '29 providers'
 )
 
 echo "=== Banned claims ==="
@@ -58,6 +64,18 @@ hits=$(grep -nIiE '(KG-Construct|Context Graphs?|Dataspaces|PM-KR|UORA|Community
 if [ -n "$hits" ]; then
     fail "CG status uses accepted/reviewed"
     echo "$hits" | sed 's/^/        /'
+fi
+
+echo "=== No em dashes in docs or site copy ==="
+# Code comments in .cue/.py are not copy; everything else is.
+hits=$(grep -nIE -- '—|&mdash;|\\u2014' README.md ARCHITECTURE.md CONTRIBUTING.md docs/*.md w3c/*.md \
+    w3c/submissions/*.md site/*.html site/w3c/*.html examples/*/README.md \
+    site/data/ecosystem.json site/data/charter.json site/data/projections.json 2>/dev/null || true)
+hits+=$(grep -nIE -- '—' w3c/*.cue patterns/*.cue views/*.cue charter/*.cue vocab/*.cue examples/*/*.cue self-charter/*.cue tools/render-w3c-reports.py 2>/dev/null \
+    | grep -vE '^[^:]+:[0-9]+:\s*(//|#)' || true)
+if [ -n "$hits" ]; then
+    fail "em dashes in copy ($(echo "$hits" | wc -l) lines)"
+    echo "$hits" | head -10 | sed 's/^/        /'
 fi
 
 echo "=== Generated reports match CUE source ==="

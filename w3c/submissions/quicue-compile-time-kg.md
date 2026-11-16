@@ -3,12 +3,12 @@
 ## Context
 
 The [apercue.ca](https://github.com/quicue/apercue) project uses
-[CUE](https://cuelang.org) — a constraint language with lattice-based type
-semantics — to construct, validate, and serialize knowledge graphs entirely at
+[CUE](https://cuelang.org) (a constraint language with lattice-based type
+semantics) to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 single `cue export` invocation with no mapping language and no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
-`tools/toposort.py` and CUE projects it.
+`tools/toposort.py` and CUE verifies and projects it.
 
 Traditional KG construction requires a multi-stage pipeline:
 
@@ -24,7 +24,7 @@ Source Data (CUE structs) → cue export -e <projection>
 
 The "mapping" is CUE type unification. The "validation" is CUE constraint
 resolution. The "serialization" is JSON-LD context injection. All three happen
-during evaluation — there is no separate step for any of them.
+during evaluation: there is no separate step for any of them.
 
 Each resource declares `@type` (a struct-as-set of semantic categories) and
 `depends_on` (typed dependency edges). A `#Graph` pattern computes topology,
@@ -39,10 +39,12 @@ declarations alone:
 }
 ```
 
-The same typed graph simultaneously produces output in 17 W3C specifications
-(SHACL, PROV-O, OWL-Time, DCAT, ODRL, EARL, SKOS, Dublin Core, JSON-LD,
-schema.org, org, Verifiable Credentials, Activity Streams, VoID, DQV, Web
-Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
+The same typed graph produces output in 13 W3C specifications (JSON-LD,
+SHACL, SKOS, OWL-Time, PROV-O, DCAT, ODRL, ORG, Activity Streams, VoID, DQV,
+Web Annotation and RDFS/OWL), plus the Dublin Core and schema.org
+vocabularies. EARL (test plan only) and Verifiable Credentials (unsigned
+shape) are emitted but not counted. A 14th W3C specification (Hydra) is
+implemented downstream.
 
 ## Challenges
 
@@ -63,7 +65,7 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
 
 3. **Provenance without a provenance store.** The `#ProvenanceTrace` pattern
    computes PROV-O output from the dependency structure. `prov:wasDerivedFrom`
-   edges are dependency edges. Provenance is not annotated — it is structurally
+   edges are dependency edges. Provenance is not annotated; it is structurally
    computed. This challenges the assumption that provenance requires separate
    recording infrastructure.
 
@@ -75,9 +77,10 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
 
 5. **Performance ceiling on transitive operations.** CUE does not memoize
    recursive struct references. Transitive closure (ancestors, dependents,
-   impact sets) becomes exponential on diamond DAGs beyond ~40 nodes,
-   requiring precomputation via external tools. This is a real constraint
-   on the approach.
+   impact sets) is exponential on diamond DAGs: 2.1s at 24 nodes, 24s at
+   28 (CUE v0.15.4, width-2 ladder). Larger graphs need a precompute from an
+   external tool, which CUE then certifies (0.5s at 200 nodes, 10s at
+   1,000). This is a real constraint on the approach.
 
 ## Resources
 
@@ -85,16 +88,16 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
 - **Data:** Five-node research publication pipeline (ethics approval → sensor
   data → analysis → paper → peer review); 41-node project charter
   (self-modeling)
-- **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages —
+- **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages; 
   78 pattern definitions across 22 files
 - **Ontology:** JSON-LD `@context` mapping CUE fields to Dublin Core, PROV-O,
   SHACL, SKOS, OWL-Time, DCAT, ODRL, EARL, schema.org, ORG, VoID, DQV,
   Web Annotation, RDFS/OWL, Verifiable Credentials, Activity Streams
 - **Tool(s):** [CUE](https://cuelang.org) v0.15.4, Python toposort for
   precomputation, D3.js for visualization
-- **Output:** JSON-LD 1.1 with 17 W3C vocabulary projections; SHACL validation
+- **Output:** JSON-LD 1.1 with 13 W3C vocabulary projections; SHACL validation
   reports; PROV-O provenance; OWL-Time scheduling; DCAT catalogs; ODRL policies;
   VoID self-descriptions; OWL ontologies; SKOS taxonomies; Activity Streams;
   Verifiable Credentials; Web Annotations; DQV quality metrics; EARL test plans
 - **Source code:** [github.com/quicue/apercue](https://github.com/quicue/apercue) (Apache 2.0)
-- **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 17 specs, computed JSON evidence
+- **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md): 13 specs, computed JSON evidence

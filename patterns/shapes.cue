@@ -13,7 +13,10 @@
 
 package patterns
 
-import "strings"
+import (
+	"list"
+	"strings"
+)
 
 import "apercue.ca/vocab"
 
@@ -40,7 +43,11 @@ import "apercue.ca/vocab"
 	Namespace: string | *"urn:shapes:"
 
 	// Vocabulary namespace — prefix for type class IRIs
-	VocabBase: string | *"urn:type:"
+	VocabBase: string | *vocab.TypeBase
+
+	// Optional rule shapes to publish alongside the structural shapes,
+	// e.g. RuleShapes: compliance.rule_shapes (#ComplianceCheck).
+	RuleShapes: [...{...}] | *[]
 
 	// Collect all types used across the graph
 	_all_types: {
@@ -172,7 +179,7 @@ import "apercue.ca/vocab"
 			"xsd":  "http://www.w3.org/2001/XMLSchema#"
 			"rdf":  "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 		}
-		"@graph": shapes
+		"@graph": list.Concat([shapes, RuleShapes])
 	}
 
 	// Summary
@@ -181,5 +188,26 @@ import "apercue.ca/vocab"
 		total_types:       len([for t, _ in _all_types {t}])
 		total_resources:   len([for r, _ in Graph.resources {r}])
 		shapes_namespace:  Namespace
+	}
+}
+
+// #DataGraph — the graph's resources as JSON-LD data: one node per resource
+// with its type IRIs (vocab.TypeBase), title and dcterms:requires edges.
+// Resource IRIs match the ones every other projection uses
+// ("urn:resource:" + name), so SHACL shapes and reports line up with it.
+#DataGraph: {
+	Graph: #AnalyzableGraph
+	jsonld: {
+		"@context": vocab.context["@context"]
+		"@graph": [
+			for name, res in Graph.resources {
+				"@id":           "urn:resource:" + name
+				"@type":         [for t, _ in res["@type"] {vocab.TypeBase + t}]
+				"dcterms:title": name
+				if res.depends_on != _|_ {
+					"dcterms:requires": [for dep, _ in res.depends_on {{"@id": "urn:resource:" + dep}}]
+				}
+			},
+		]
 	}
 }

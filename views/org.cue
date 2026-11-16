@@ -51,6 +51,8 @@ import "apercue.ca/vocab@v0"
 				"@type":          "org:OrganizationalUnit"
 				"@id":            BaseIRI + "unit/" + typeName
 				"skos:prefLabel": typeName
+				// The unit is not the type; it is about the type.
+				"dcterms:subject": {"@id": vocab.TypeBase + typeName}
 				"org:hasMember": [
 					for resName, res in Graph.resources if res["@type"][typeName] != _|_ {
 						"@id":           "urn:resource:" + resName

@@ -112,10 +112,10 @@ import (
 			[
 				for t, _ in _all_types {
 					"@type":       ["rdfs:Class", "owl:Class"]
-					"@id":         Spec.URI + t
+					"@id":         vocab.TypeBase + t
 					"rdfs:label":  t
 					if _parent_of[t] != _|_ {
-						"rdfs:subClassOf": {"@id": Spec.URI + _parent_of[t]}
+						"rdfs:subClassOf": {"@id": vocab.TypeBase + _parent_of[t]}
 					}
 				},
 			],
@@ -124,7 +124,7 @@ import (
 			[
 				for parent, _ in _hierarchy_only_parents {
 					"@type":       ["rdfs:Class", "owl:Class"]
-					"@id":         Spec.URI + parent
+					"@id":         vocab.TypeBase + parent
 					"rdfs:label":  parent
 				},
 			],
@@ -143,7 +143,7 @@ import (
 			if IncludeIndividuals {
 				[
 					for name, res in Graph.resources {
-						"@type":       list.Concat([["owl:NamedIndividual"], [for t, _ in res["@type"] {Spec.URI + t}]])
+						"@type":       list.Concat([["owl:NamedIndividual"], [for t, _ in res["@type"] {vocab.TypeBase + t}]])
 						"@id":         "urn:resource:" + name
 						"rdfs:label":  name
 						if res.description != _|_ {

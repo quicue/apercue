@@ -33,6 +33,7 @@ site_specs: {
 			status:    s.status
 			depth:     s.depth
 			coverage:  s.coverage
+			w3c:       s.w3c
 			if s.prefix != _|_ {
 				prefix: s.prefix
 			}
@@ -40,13 +41,4 @@ site_specs: {
 	}
 }
 
-site_spec_counts: {
-	implemented: len([for _, s in vocab.Specs if s.status == "Implemented" {s}])
-	downstream:  len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
-	total:       len(vocab.Specs)
-	// Depth breakdown, over implemented specs only (so it sums to implemented)
-	full:       len([for _, s in vocab.Specs if s.status == "Implemented" && s.depth == "full" {s}])
-	partial:    len([for _, s in vocab.Specs if s.status == "Implemented" && s.depth == "partial" {s}])
-	vocabulary: len([for _, s in vocab.Specs if s.status == "Implemented" && s.depth == "vocabulary" {s}])
-	structural: len([for _, s in vocab.Specs if s.status == "Implemented" && s.depth == "structural" {s}])
-}
+site_spec_counts: vocab.SpecCounts

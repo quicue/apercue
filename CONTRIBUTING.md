@@ -30,13 +30,13 @@ cue cmd vet-all
 # 3. W3C round-trip conformance
 python3 tools/validate-w3c.py -v
 
-# 4. README smoke test — every cue command in example READMEs exits 0
+# 4. README smoke test: every cue command in example READMEs exits 0
 #    (runs automatically in CI)
 
 # 5. No hardcoded absolute paths in markdown
-#    grep for absolute user-directory paths — must find nothing
+#    grep for absolute user-directory paths: must find nothing
 
-# 6. Unicode rejection tests — #SafeID/#SafeLabel constraints hold
+# 6. Unicode rejection tests: #SafeID/#SafeLabel constraints hold
 for f in tests/unicode-rejection/*.cue; do
     cue vet "$f" 2>/dev/null && echo "FAIL: $f" || echo "PASS: $f"
 done
@@ -62,7 +62,7 @@ cue vet ./... && python3 tools/validate-w3c.py
 4. Wire `graph: patterns.#Graph & {Input: _steps}` (or `#GraphLite` for >20 nodes)
 5. Add a `summary` export for the build system
 6. Write a README with `cue vet`, `cue eval`, and `cue export` commands in
-   ` ```bash ` blocks — CI will execute every command
+   ` ```bash ` blocks; CI will execute every command
 7. Run `cue vet ./examples/<name>/` locally before committing
 
 ## Adding a Pattern
@@ -70,7 +70,7 @@ cue vet ./... && python3 tools/validate-w3c.py
 Patterns live in `patterns/` and are imported as `apercue.ca/patterns@v0`.
 
 1. Add the pattern to an existing file or create a new `.cue` file
-2. Use `#AnalyzableGraph` as the graph interface (not `#Graph` directly) —
+2. Use `#AnalyzableGraph` as the graph interface (not `#Graph` directly); 
    this ensures your pattern works with both `#Graph` and `#GraphLite`
 3. If the pattern produces W3C output, add it to `vocab/specs-registry.cue`
 4. Run `cue vet ./patterns/` and verify downstream packages still validate
@@ -120,7 +120,7 @@ Tool specs live in `tools/` and are imported as `apercue.ca/tools@v0`.
 4. Run `cue vet ./...` to verify the spec catches bad values at eval time
 5. Test with intentionally bad values to confirm constraints fire
 
-Tool schemas are importable by downstream repos — they provide compile-time
+Tool schemas are importable by downstream repos; they provide compile-time
 validation for any project's workflow commands.
 
 ## Project Structure

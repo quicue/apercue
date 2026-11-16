@@ -32,7 +32,7 @@ Universal node type. Every resource in every graph satisfies this.
 | `description` | `string` | no | Human-readable description |
 | `tags` | `{[#SafeLabel]: true}` | no | Additional tags |
 
-Open struct — domain-specific fields (e.g., `time_min`, `credits`, `zone`) pass through.
+Open struct: domain-specific fields (e.g., `time_min`, `credits`, `zone`) pass through.
 
 ### #SafeID
 
@@ -256,6 +256,7 @@ Evaluate rules against a graph.
 | `results` | `[{name, severity, matching, violations, passed}, ...]` | Per-rule results |
 | `summary` | `{total, passed, failed, critical_failures}` | |
 | `shacl_report` | JSON-LD | `sh:ValidationReport` |
+| `rule_shapes` | JSON-LD list | One `sh:NodeShape` per rule (`apercue:rule/<name>`), compiled to SHACL Core. `max_depth` and `conditional_severity` have no SHACL Core equivalent |
 
 ---
 
@@ -268,35 +269,35 @@ All projections produce JSON-LD with the shared `@context` from `vocab/context.c
 PROV-O projection. Resources become `prov:Entity`, dependencies become `prov:wasDerivedFrom`.
 
 **Input:** `Graph: #AnalyzableGraph`, optional `Agent: string`
-**Output:** `prov_report` — JSON-LD with `prov:Entity`, `prov:Activity`, `prov:Agent`
+**Output:** `prov_report`; JSON-LD with `prov:Entity`, `prov:Activity`, `prov:Agent`
 
 ### #ActivityStream
 
 Activity Streams 2.0. Topological ordering as `as:OrderedCollection` of `Create` activities.
 
 **Input:** `Graph: #AnalyzableGraph`, optional `Actor: string`
-**Output:** `stream` — JSON-LD `as:OrderedCollection`
+**Output:** `stream`; JSON-LD `as:OrderedCollection`
 
 ### #DCATCatalog
 
 DCAT 3 data catalog. Resources become `dcat:Dataset`, types become `dcat:theme`.
 
 **Input:** `Graph: #AnalyzableGraph`, optional `Title`, `Description`, `Publisher`
-**Output:** `dcat_catalog` — JSON-LD `dcat:Catalog`
+**Output:** `dcat_catalog`; JSON-LD `dcat:Catalog`
 
 ### #ValidationCredential
 
 Verifiable Credentials 2.0. Wraps a SHACL report in `vc:VerifiableCredential`.
 
 **Input:** `Graph: #AnalyzableGraph`, SHACL report source
-**Output:** `vc` — JSON-LD `vc:VerifiableCredential`
+**Output:** `vc`; JSON-LD `vc:VerifiableCredential`
 
 ### #PolicyExpressionODRL
 
 ODRL permission/prohibition policies from graph constraints.
 
 **Input:** `Graph: #AnalyzableGraph`
-**Output:** `odrl_policy` — JSON-LD `odrl:Policy`
+**Output:** `odrl_policy`; JSON-LD `odrl:Policy`
 
 ### #LifecyclePhasesSKOS
 
@@ -310,14 +311,14 @@ Static SKOS OrderedCollection of lifecycle phases (package → bootstrap → bin
 Project a type registry as SKOS ConceptScheme.
 
 **Input:** `Registry: vocab.#TypeRegistry`, optional `BaseIRI: string`
-**Output:** `concept_scheme` — JSON-LD `skos:ConceptScheme` with `skos:Concept` per type
+**Output:** `concept_scheme`; JSON-LD `skos:ConceptScheme` with `skos:Concept` per type
 
 ### #OrgChart (views/)
 
 Org ontology projection for hierarchical resources.
 
 **Input:** `Graph: #AnalyzableGraph`
-**Output:** `org_structure` — JSON-LD `org:Organization`
+**Output:** `org_structure`; JSON-LD `org:Organization`
 
 ---
 
@@ -453,7 +454,7 @@ Compare declared state against observed state.
 Run checks and produce EARL test report.
 
 **Input:** `checks: [...#Check]`, optional `Subject`
-**Output:** `script: string`, `earl_report` — JSON-LD `earl:Assertion` per check
+**Output:** `script: string`, `earl_report`; JSON-LD `earl:Assertion` per check
 
 ---
 
@@ -541,11 +542,24 @@ Generate SHACL NodeShape and PropertyShape definitions from graph structure.
 
 **Input:**
 - `Graph: #AnalyzableGraph`
-- `Namespace: string` — shape IRI prefix (e.g., `"https://apercue.ca/shapes/recipe#"`)
+- `Namespace: string`: shape IRI prefix (e.g., `"https://apercue.ca/shapes/recipe#"`)
+- `RuleShapes: [...]` (optional): extra shapes to publish, normally `compliance.rule_shapes`
 
 **Output:**
-- `shapes_graph` — JSON-LD with `sh:NodeShape` per `@type`, `sh:PropertyShape` for name/description/depends_on
-- `summary` — `type_count`, `property_count`
+- `shapes_graph`: JSON-LD with `sh:NodeShape` per `@type` (`sh:targetClass` is `vocab.TypeBase + type`, the same IRI the data graph uses), `sh:PropertyShape` for name/description/depends_on, plus `RuleShapes`
+- `summary`: `type_count`, `property_count`
+
+### #DataGraph (`patterns/shapes.cue`)
+
+The graph's resources as JSON-LD data, for SHACL processors and RDF tools.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+
+**Output:**
+- `jsonld`: one node per resource: `@id` `urn:resource:<name>`, `@type` from `vocab.TypeBase`, `dcterms:title`, `dcterms:requires` edges
+
+Validate it with any SHACL processor against `#SHACLShapes.shapes_graph`; the rule shapes give the same verdict as `#ComplianceCheck.shacl_report` (checked in CI by `tests/rdf/test_rdf.py`).
 
 ### #SKOSTaxonomy (`patterns/taxonomy.cue`)
 
@@ -554,11 +568,11 @@ Hierarchical SKOS ConceptScheme from graph types with broader/narrower/related.
 **Input:**
 - `Graph: #AnalyzableGraph`
 - `SchemeTitle?: string`
-- `Hierarchy?: #TypeHierarchy` — `{parent: [children]}` for `skos:broader`
+- `Hierarchy?: #TypeHierarchy`: `{parent: [children]}` for `skos:broader`
 
 **Output:**
-- `taxonomy_scheme` — JSON-LD `skos:ConceptScheme` with `skos:Concept` per type, `skos:broader`/`narrower` from hierarchy, `skos:related` from co-occurrence
-- `summary` — `total_concepts`, `with_broader`, `related_pairs`
+- `taxonomy_scheme`: JSON-LD `skos:ConceptScheme` with `skos:Concept` per type, `skos:broader`/`narrower` from hierarchy, `skos:related` from co-occurrence
+- `summary`: `total_concepts`, `with_broader`, `related_pairs`
 
 ### #VoIDDataset (`patterns/void.cue`)
 
@@ -570,22 +584,22 @@ Graph self-description as a VoID dataset.
 - `Title?, Homepage?, SparqlEndpoint?, DataDump?: string`
 
 **Output:**
-- `void_description` — JSON-LD `void:Dataset` with entity/triple/class counts, `void:classPartition` per type, `void:propertyPartition`, `void:Linkset` for dependency edges
-- `summary` — `entities`, `triples`, `classes`, `links`, `properties`
+- `void_description`: JSON-LD `void:Dataset` with entity/triple/class counts, `void:classPartition` per type, `void:propertyPartition`, `void:Linkset` for dependency edges
+- `summary`: `entities`, `triples`, `classes`, `links`, `properties`
 
 ### #ProvenancePlan (`patterns/provenance_plan.cue`)
 
 Charter gates as PROV-O Plan with Activity per gate.
 
 **Input:**
-- `Charter` — with `gates` (from `charter.#Charter`)
+- `Charter`: with `gates` (from `charter.#Charter`)
 - `Graph: #AnalyzableGraph`
-- `GateStatus?: {[string]: {satisfied: bool, ...}}` — from gap analysis
+- `GateStatus?: {[string]: {satisfied: bool, ...}}`: from gap analysis
 - `Agent?: string`
 
 **Output:**
-- `plan_report` — JSON-LD with `prov:Plan`, `prov:Activity` per gate, `prov:Entity` for charter, `prov:Agent`
-- `summary` — `gates`, `satisfied`, `pending`
+- `plan_report`: JSON-LD with `prov:Plan`, `prov:Activity` per gate, `prov:Entity` for charter, `prov:Agent`
+- `summary`: `gates`, `satisfied`, `pending`
 
 ### #DataQualityReport (`patterns/quality.cue`)
 
@@ -594,12 +608,12 @@ DQV quality metrics from compliance/gap analysis.
 **Input:**
 - `Graph: #AnalyzableGraph`
 - `DatasetURI: string` | `*"urn:apercue:dataset"`
-- `ComplianceResults?: [...]` — from `#ComplianceCheck`
-- `GapComplete?: bool`, `MissingResources?: int`, `MissingTypes?: int` — from `#GapAnalysis`
+- `ComplianceResults?: [...]`: from `#ComplianceCheck`
+- `GapComplete?: bool`, `MissingResources?: int`, `MissingTypes?: int`; from `#GapAnalysis`
 
 **Output:**
-- `quality_report` — JSON-LD with `dqv:QualityMeasurement` per metric across 3 dimensions (Completeness, Consistency, Accessibility)
-- `summary` — `dimensions`, `measurements`, `overall_score`
+- `quality_report`: JSON-LD with `dqv:QualityMeasurement` per metric across 3 dimensions (Completeness, Consistency, Accessibility)
+- `summary`: `dimensions`, `measurements`, `overall_score`
 
 ### #AnnotationCollection (`patterns/annotation.cue`)
 
@@ -607,11 +621,11 @@ Web Annotation model for graph resource notes.
 
 **Input:**
 - `Graph: #AnalyzableGraph`
-- `Annotations: [...#ResourceAnnotation]` — target (resource name), body (text), motivation, optional creator/tags
+- `Annotations: [...#ResourceAnnotation]`: target (resource name), body (text), motivation, optional creator/tags
 
 **Output:**
-- `annotation_collection` — JSON-LD with `oa:Annotation` per entry, `oa:TextualBody`, W3C motivations (13 standard values)
-- `summary` — `total`, `by_motivation`, `distinct_targets`
+- `annotation_collection`: JSON-LD with `oa:Annotation` per entry, `oa:TextualBody`, W3C motivations (13 standard values)
+- `summary`: `total`, `by_motivation`, `distinct_targets`
 
 ### #OWLOntology (`patterns/ontology.cue`)
 
@@ -619,13 +633,13 @@ Formal OWL vocabulary from graph type hierarchy.
 
 **Input:**
 - `Graph: #AnalyzableGraph`
-- `Spec: #OntologySpec` — URI, Title, Description, Version
-- `Hierarchy?: {[string]: [...string]}` — parent→children for `rdfs:subClassOf`
+- `Spec: #OntologySpec`: URI, Title, Description, Version
+- `Hierarchy?: {[string]: [...string]}`: parent→children for `rdfs:subClassOf`
 - `IncludeIndividuals: bool` | `*false`
 
 **Output:**
-- `owl_ontology` — JSON-LD with `owl:Ontology` metadata, `rdfs:Class` per type, `owl:ObjectProperty` for depends_on, optional `owl:NamedIndividual` per resource
-- `summary` — `ontology_uri`, `classes`, `properties`, optionally `individuals`
+- `owl_ontology`: JSON-LD with `owl:Ontology` metadata, `rdfs:Class` per type, `owl:ObjectProperty` for depends_on, optional `owl:NamedIndividual` per resource
+- `summary`: `ontology_uri`, `classes`, `properties`, optionally `individuals`
 
 ### #DCATDistribution (`patterns/catalog.cue`)
 
@@ -638,7 +652,7 @@ Extended DCAT with Distribution and DataService entries.
 - `DataServices: [...{title, endpointURL, description?}]`
 
 **Output:**
-- `dcat_catalog` — JSON-LD `dcat:Catalog` with `dcat:Distribution` and `dcat:DataService` entries alongside `dcat:Dataset`
+- `dcat_catalog`: JSON-LD `dcat:Catalog` with `dcat:Distribution` and `dcat:DataService` entries alongside `dcat:Dataset`
 
 ### #ContextEventLog (`patterns/context_event.cue`)
 
@@ -694,11 +708,11 @@ Map graph resource types to schema.org vocabulary. Produces JSON-LD with
 
 **Input:**
 - `Graph: #AnalyzableGraph`
-- `TypeMap: {[string]: string}` — maps graph `@type` keys to schema.org types (e.g., `{Database: "schema:Dataset"}`)
-- `Fallback: string` | `*"schema:Thing"` — type for unmapped resources
+- `TypeMap: {[string]: string}`: maps graph `@type` keys to schema.org types (e.g., `{Database: "schema:Dataset"}`)
+- `Fallback: string` | `*"schema:Thing"`; type for unmapped resources
 
 **Output:**
-- `schema_graph` — JSON-LD `@graph` with `schema:additionalType` per resource, `schema:isPartOf` for dependencies
+- `schema_graph`: JSON-LD `@graph` with `schema:additionalType` per resource, `schema:isPartOf` for dependencies
 
 ---
 
@@ -712,25 +726,25 @@ actions are auto-derived, and structural dependencies are inferred.
 Validate a single resource against its declared types and derive fields.
 
 **Input:**
-- `Input` — a resource with `@type`, required fields for each type
+- `Input`: a resource with `@type`, required fields for each type
 
 **Output:**
-- `Output` — validated resource with auto-populated `depends_on` from `structural_deps` and merged explicit deps
-- `grants` — `{[string]: true}` — all actions granted by the resource's types
+- `Output`: validated resource with auto-populated `depends_on` from `structural_deps` and merged explicit deps
+- `grants` (`{[string]: true}`) all actions granted by the resource's types
 
-Validation is via CUE unification — if a required field is missing, `cue vet` fails.
+Validation is via CUE unification: if a required field is missing, `cue vet` fails.
 
 ### #ValidateTypes
 
 Apply type contracts to all resources in a graph input.
 
 **Input:**
-- `Input: {[string]: resource}` — resource map
+- `Input: {[string]: resource}`: resource map
 
 **Output:**
-- `Output: {[string]: resource}` — validated resources with derived dependencies
+- `Output: {[string]: resource}`: validated resources with derived dependencies
 - `resourceCount: int`
-- `validated: true` — if evaluation reaches this field, all contracts passed
+- `validated: true`: if evaluation reaches this field, all contracts passed
 
 ### #TypeRequirements
 
@@ -738,12 +752,12 @@ Extract merged requirements for a set of types. Useful for understanding
 what a multi-type resource needs.
 
 **Input:**
-- `Types: [...string]` — type names from `#TypeRegistry`
+- `Types: [...string]`: type names from `#TypeRegistry`
 
 **Output:**
-- `requires: {[string]: _}` — merged required fields from all types
-- `grants: {[string]: true}` — all granted actions
-- `structural_deps: {[string]: true}` — fields that auto-create `depends_on` edges
+- `requires: {[string]: _}`: merged required fields from all types
+- `grants: {[string]: true}`: all granted actions
+- `structural_deps: {[string]: true}`: fields that auto-create `depends_on` edges
 
 ---
 
@@ -755,14 +769,14 @@ Wrap a graph with a domain-specific `@base` namespace for multi-domain federatio
 Each resource gets a globally unique `@id` scoped to the domain's URN. See ADR-017.
 
 **Input:**
-- `Domain: _#SafeID` — domain identifier (e.g., `"apercue"`, `"quicue-kg"`)
-- `Namespace: string & !="urn:resource:"` — URI prefix (e.g., `"urn:apercue:"`)
-- `Graph: #AnalyzableGraph` — the underlying computed graph
+- `Domain: _#SafeID`: domain identifier (e.g., `"apercue"`, `"quicue-kg"`)
+- `Namespace: string & !="urn:resource:"`: URI prefix (e.g., `"urn:apercue:"`)
+- `Graph: #AnalyzableGraph`: the underlying computed graph
 
 **Output:**
-- `context` — `@context` with domain-specific `@base` and all W3C namespace prefixes
-- `ids: {[string]: string}` — fully-qualified `@id` per resource (e.g., `"urn:apercue:graph-engine"`)
-- `jsonld` — complete JSON-LD export with namespaced `@id` values and `dcterms:requires` edges
+- `context`: `@context` with domain-specific `@base` and all W3C namespace prefixes
+- `ids: {[string]: string}`: fully-qualified `@id` per resource (e.g., `"urn:apercue:graph-engine"`)
+- `jsonld`: complete JSON-LD export with namespaced `@id` values and `dcterms:requires` edges
 
 **Key constraint:** `Namespace` must not be `"urn:resource:"` (the default). This forces
 explicit namespace choice, preventing accidental `@id` collisions during federation.
@@ -770,21 +784,21 @@ explicit namespace choice, preventing accidental `@id` collisions during federat
 ### #FederatedMerge
 
 Validate and merge multiple `#FederatedContext` sources. Collision detection uses CUE
-unification — if two domains claim the same namespace or produce the same `@id`, evaluation
+unification: if two domains claim the same namespace or produce the same `@id`, evaluation
 fails at compile time. See ADR-018.
 
 **Input:**
-- `Sources: {[_#SafeID]: #FederatedContext}` — named federated contexts
-- `CrossEdges: [...{source_domain, source, target_domain, target}]` — optional inter-domain dependencies
+- `Sources: {[_#SafeID]: #FederatedContext}`: named federated contexts
+- `CrossEdges: [...{source_domain, source, target_domain, target}]`: optional inter-domain dependencies
 
 **Output:**
-- `merged_jsonld` — concatenated `@graph` arrays under the shared `@context`
-- `summary` — `source_count`, `total_resources`, `cross_edges`, `cross_edge_errors`, `namespaces`, `valid`
+- `merged_jsonld`: concatenated `@graph` arrays under the shared `@context`
+- `summary`: `source_count`, `total_resources`, `cross_edges`, `cross_edge_errors`, `namespaces`, `valid`
 
 **Collision detection (zero-cost):**
-- `_namespace_ownership` — maps `Namespace → domain`; duplicate namespaces cause CUE unification conflict
-- `_id_ownership` — maps `@id → domain`; duplicate `@id` values cause conflict
-- `_cross_edge_errors` — validates all cross-edge references resolve (uses comprehension-level `if` per ADR-003)
+- `_namespace_ownership`: maps `Namespace → domain`; duplicate namespaces cause CUE unification conflict
+- `_id_ownership`: maps `@id → domain`; duplicate `@id` values cause conflict
+- `_cross_edge_errors`: validates all cross-edge references resolve (uses comprehension-level `if` per ADR-003)
 
 ---
 
@@ -792,7 +806,7 @@ fails at compile time. See ADR-018.
 
 Schemas for `cue cmd` workflow commands. Import as `apercue.ca/tools@v0` in
 `_tool.cue` files. All fields with regex constraints are validated at `cue vet`
-time — bad paths, expressions, or output targets are caught before commands run.
+time: bad paths, expressions, or output targets are caught before commands run.
 
 ### #ExportSpec
 

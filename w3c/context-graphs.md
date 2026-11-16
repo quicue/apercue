@@ -9,8 +9,8 @@
 [apercue.ca](https://github.com/quicue/apercue) represents resource types
 as CUE structs (`{TypeA: true, TypeB: true}`) rather than arrays or class
 hierarchies. This "struct-as-set" pattern gives every resource simultaneous
-membership in multiple contexts — data governance, provenance, scheduling,
-semantic web — resolved through set intersection at evaluation time.
+membership in multiple contexts (data governance, provenance, scheduling,
+semantic web) resolved through set intersection at evaluation time.
 
 This submission demonstrates how CUE's type system naturally models the
 multi-context identity that the Context Graphs CG investigates.
@@ -55,13 +55,13 @@ simultaneously. The binding is set intersection, not registration.
 
 If two contexts place conflicting constraints on the same resource, CUE
 unification produces bottom (`_|_`). The graph cannot be constructed. This
-is not a runtime error — it is a type error caught before any output is
+is not a runtime error: it is a type error caught before any output is
 generated.
 
 ## Evidence: Multiple Projections From One Graph
 
 The same 5-node research publication graph (defined once) produces output in
-17 different W3C specifications. Each projection
+13 different W3C specifications. Each projection
 selects a different context:
 
 **Scheduling context** (OWL-Time):
@@ -162,12 +162,12 @@ source of truth.
 |----------------------|--------------|
 | Multi-context identity | `@type` struct-as-set: `{A: true, B: true}` |
 | Context binding | Set intersection between resource types and provider types |
-| Cross-context consistency | CUE unification — conflicts are type errors |
+| Cross-context consistency | CUE unification; conflicts are type errors |
 | Context-specific views | `cue export -e <projection>` per context |
 | Context composition | Struct merging: `{A: true} & {B: true}` = `{A: true, B: true}` |
 
 CUE's lattice semantics mean that context composition is not a graph
-operation — it is type unification. Adding a context to a resource is
+operation: it is type unification. Adding a context to a resource is
 adding a key to a struct. Merging contexts is struct unification. Testing
 context membership is field presence.
 
@@ -188,11 +188,11 @@ are domain-specific; the mechanism is universal.
 ## Limitations
 
 - Closed-world: contexts must be declared, not discovered
-- Flat namespace: no hierarchical context inheritance (by design — keeps dispatch simple)
+- Flat namespace: no hierarchical context inheritance (by design; keeps dispatch simple)
 - Boolean membership only: no weighted or probabilistic context participation
 
 ## References
 
 - [Core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md)
-  — Full implementation evidence
-- [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
+  Full implementation evidence
+- [github.com/quicue/apercue](https://github.com/quicue/apercue): Source (Apache 2.0)

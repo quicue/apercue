@@ -22,7 +22,7 @@ _ecosystem: {
 	"apercue": {
 		name: "apercue"
 		"@type": {Module: true, Reference: true}
-		description: "Generic reference repo — domain-agnostic typed graphs + W3C projections"
+		description: "Generic reference repo: domain-agnostic typed graphs + W3C projections"
 		status:      "active"
 		repo:        "github:quicue/apercue"
 		domain:      "apercue.ca"
@@ -32,7 +32,7 @@ _ecosystem: {
 	"quicue-patterns": {
 		name: "quicue-patterns"
 		"@type": {Module: true, Patterns: true}
-		description: "Infrastructure-specific patterns — 40+ types, 29 providers"
+		description: "Infrastructure-specific patterns: 40+ types, 33 provider templates"
 		depends_on: {apercue: true}
 		status: "active"
 		repo:   "github:quicue/quicue.ca"
@@ -41,7 +41,7 @@ _ecosystem: {
 	"quicue-kg": {
 		name: "quicue-kg"
 		"@type": {Module: true, Framework: true}
-		description: "Knowledge graph framework — core types, ext, aggregate, CLI"
+		description: "Knowledge graph framework: core types, ext, aggregate, CLI"
 		depends_on: {apercue: true}
 		status: "active"
 		repo:   "github:quicue/quicue-kg"
@@ -52,14 +52,14 @@ _ecosystem: {
 	"homelab": {
 		name: "homelab"
 		"@type": {Instance: true, Homelab: true}
-		description: "Infrastructure instance — datacenter-as-code deployment"
+		description: "Infrastructure instance: datacenter-as-code deployment"
 		depends_on: {"quicue-patterns": true, "quicue-kg": true}
 		status: "active"
 	}
 	"cmhc-retrofit": {
 		name: "cmhc-retrofit"
 		"@type": {Instance: true, Standalone: true}
-		description: "CMHC housing retrofit — NHCF + Greener Homes graphs"
+		description: "CMHC housing retrofit: NHCF + Greener Homes graphs"
 		depends_on: {"quicue-patterns": true}
 		status: "active"
 		repo:   "github:quicue/cmhc-retrofit"

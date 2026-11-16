@@ -4,7 +4,7 @@ Compile-time W3C linked data from typed dependency graphs.
 
 One typed CUE value, many W3C projections. JSON-LD, SHACL, SKOS, OWL-Time and
 the rest are all derived from the same graph, with no second copy of the schema.
-For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE projects it.
+For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE verifies and projects it.
 No triplestore or server is needed.
 
 **Live:** [apercue.ca](https://apercue.ca/projections.html) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
@@ -75,13 +75,13 @@ The input is 12 courses with `name`, `@type`, and `depends_on`. The same data pr
 ```
 apercue.ca@v0
 ├── vocab/                  # Core types
-│   ├── resource.cue        #   #Resource — generic typed node
-│   ├── types.cue           #   #TypeRegistry — extensible type system
+│   ├── resource.cue        #   #Resource: generic typed node
+│   ├── types.cue           #   #TypeRegistry: extensible type system
 │   ├── context.cue         #   JSON-LD @context (24 W3C namespaces)
-│   ├── context_event.cue   #   #ContextEvent — federation boundary crossing type
+│   ├── context_event.cue   #   #ContextEvent; federation boundary crossing type
 │   └── viz-contract.cue    #   #VizData for D3/visualization
-├── patterns/               # Graph analysis + W3C projections (22 files, 78 definitions)
-│   ├── graph.cue           #   #Graph — dependency graph engine
+├── patterns/               # Graph analysis + W3C projections (22 files, 79 definitions)
+│   ├── graph.cue           #   #Graph; dependency graph engine
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
 │   ├── lifecycle.cue       #   #BootstrapPlan, #DriftReport, #SmokeTest → SKOS, EARL
@@ -97,7 +97,7 @@ apercue.ca@v0
 │   ├── annotation.cue      #   #AnnotationCollection → oa:Annotation with motivations
 │   ├── quality.cue         #   #DataQualityReport → dqv:QualityMeasurement
 │   ├── shapes.cue          #   #SHACLShapes → sh:NodeShape descriptions
-│   ├── federation.cue      #   #FederatedContext, #FederatedMerge — multi-domain merge
+│   ├── federation.cue      #   #FederatedContext, #FederatedMerge; multi-domain merge
 │   ├── context_event.cue   #   #ContextEventLog → prov:Activity + time:Instant audit trail
 │   ├── form.cue            #   #FormProjection → UI form definitions from #TypeRegistry
 │   ├── schema_alignment.cue #  #SchemaOrgAlignment → schema:additionalType
@@ -119,7 +119,7 @@ apercue.ca@v0
 │   ├── recipe-ingredients/ # Beef bourguignon (17 steps, critical path)
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
 │   └── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
-├── self-charter/           # Ecosystem graph — models the project itself
+├── self-charter/           # Ecosystem graph; models the project itself
 │   ├── ecosystem.cue       #   Ecosystem graph: 10 nodes, 4 gates
 │   ├── charter.cue         #   Build charter: 41 tasks, 8 phases, all gates satisfied
 │   └── export.cue          #   D3 visualization export
@@ -132,8 +132,8 @@ apercue.ca@v0
 │   ├── federation/         #   Multi-domain merge tests (2 domains, 5 resources)
 │   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
-    ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
-    ├── pattern-api.md      # Field-level reference for all 78 pattern types
+    ├── getting-started.md  # Standalone walkthrough; empty project to W3C exports
+    ├── pattern-api.md      # Field-level reference for all 79 pattern types
     ├── api-stability.md    # Stable vs experimental classification
     ├── adapters.md         # Downstream module guide + creating adapters
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
@@ -146,7 +146,7 @@ apercue.ca@v0
 | JSON-LD 1.1 | `vocab/context.cue` --- @context, @type, @id, namespace federation | full | Implemented |
 | SHACL | `validation.cue`, `charter.cue` --- conformant sh:ValidationReport + sh:NodeShape | full | Implemented |
 | SKOS | `views/skos.cue`, `taxonomy.cue` --- skos:ConceptScheme with broader/narrower | full | Implemented |
-| EARL | `lifecycle.cue` --- earl:Assertion, earl:TestCase, earl:Software assertor | full | Implemented |
+| EARL | `lifecycle.cue` --- earl:Assertion structure; every outcome is earl:untested (a test plan, not results) | partial | Projection |
 | OWL-Time | `analysis.cue`, `context_event.cue` --- time:Interval from critical path; time:Instant on federation events | full | Implemented |
 | PROV-O | `provenance.cue`, `context_event.cue` --- prov:Entity, Activity, Agent, Generation, Plan; prov:Collection event log for federation | full | Implemented |
 | VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | full | Implemented |
@@ -157,12 +157,14 @@ apercue.ca@v0
 | Web Annotation | `annotation.cue` --- oa:Annotation with TextualBody and W3C motivations | partial | Implemented |
 | W3C Org | `views/org.cue` --- org:Organization with type-based OrganizationalUnits | partial | Implemented |
 | RDFS | `ontology.cue` --- rdfs:Class, rdfs:subClassOf, rdfs:domain/range | partial | Implemented |
-| Dublin Core | `vocab/context.cue` --- dcterms:title, dcterms:description, dcterms:requires | vocabulary | Implemented |
-| schema.org | `schema_alignment.cue` --- schema:additionalType mapping | vocabulary | Implemented |
-| VC 2.0 | `credentials.cue` --- VerifiableCredential structure wrapping SHACL reports | structural | Implemented |
+| Dublin Core (DCMI, not W3C) | `vocab/context.cue` --- dcterms:title, dcterms:description, dcterms:requires | vocabulary | Implemented |
+| schema.org (not W3C) | `schema_alignment.cue` --- schema:additionalType mapping | vocabulary | Implemented |
+| VC 2.0 | `credentials.cue` --- unsigned credential shape (v2 context) wrapping a SHACL report; no proof | structural | Projection |
 | Hydra Core | quicue.ca operator dashboard | partial | Downstream |
 
-**Depth key:** full = conformant round-trip output; partial = core terms, missing advanced features; vocabulary = namespace terms in @context; structural = spec-shaped JSON-LD, key features out of scope.
+**Depth key:** full = the spec's core classes and properties are emitted and the output parses in rdflib with the expected types (`tools/validate-w3c.py`; SHACL shapes and reports are also checked against pyshacl in `tests/rdf/`); partial = core terms, missing advanced features; vocabulary = namespace terms in @context; structural = spec-shaped JSON-LD, key features out of scope.
+
+**Status key:** Implemented = counted; Projection = emitted in the spec's shape but not claimed (EARL has no real outcomes, VC has no proof). Headline counts include W3C specifications only: Dublin Core and schema.org are listed but not counted.
 
 See [w3c/README.md](w3c/README.md) for full mapping details.
 
@@ -192,7 +194,7 @@ cue export ./examples/project-tracker/ -e gaps --out json
 cue export ./examples/supply-chain/ -e cpm.critical_sequence --out json
 ```
 
-All output is valid W3C linked data — feed it to any JSON-LD processor.
+All output is JSON-LD; feed it to any JSON-LD processor.
 
 ## Self-Charter
 
@@ -237,7 +239,7 @@ projection conforms.
 ## Documentation
 
 - [Getting Started](docs/getting-started.md) --- standalone walkthrough from empty project to W3C exports
-- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 78 pattern types
+- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 79 pattern types
 - [API Stability](docs/api-stability.md) --- stable vs experimental type classification
 - [Adapters](docs/adapters.md) --- downstream module guide + creating your own adapter
 - [ARCHITECTURE.md](ARCHITECTURE.md) --- design principles, data flow, module layers

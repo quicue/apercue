@@ -102,7 +102,7 @@ import (
 		"@context": context["@context"]
 		"@graph": [
 			for name, res in Graph.resources {
-				"@type": [for t, _ in res["@type"] {t}]
+				"@type": [for t, _ in res["@type"] {vocab.TypeBase + t}]
 				"@id": Namespace + name
 				"dcterms:title": name
 				if res.depends_on != _|_ {

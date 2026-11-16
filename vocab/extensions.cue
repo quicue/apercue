@@ -163,7 +163,7 @@ extensions_owl: {
 	"@type": "owl:Ontology"
 	"@id":   "https://apercue.ca/vocab"
 	"rdfs:label": "apercue Extension Vocabulary"
-	"rdfs:comment": "Formal definitions for terms in the apercue: namespace that extend W3C vocabularies. These terms cover critical path scheduling (CPM), graph topology, lifecycle management, compliance validation, and federation event logging — domains where no existing W3C property exists."
+	"rdfs:comment": "Formal definitions for terms in the apercue: namespace that extend W3C vocabularies. These terms cover critical path scheduling (CPM), graph topology, lifecycle management, compliance validation, and federation event logging; domains where no existing W3C property exists."
 	"owl:versionInfo": "0.1.0"
 	"owl:imports": [
 		{"@id": "http://www.w3.org/2006/time"},

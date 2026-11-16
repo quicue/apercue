@@ -14,12 +14,12 @@ kg_construct_report: """
 	## Summary
 
 	[apercue.ca](https://github.com/quicue/apercue) uses
-	[CUE](https://cuelang.org) — a constraint language with lattice-based type
-	semantics — to construct, validate, and serialize knowledge graphs entirely at
+	[CUE](https://cuelang.org) (a constraint language with lattice-based type
+	semantics) to construct, validate, and serialize knowledge graphs entirely at
 	compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 	single `cue export` invocation, with no mapping language and no triplestore.
 	For graphs past a few dozen nodes the dependency closure is precomputed by
-	`tools/toposort.py` and CUE projects it.
+	`tools/toposort.py` and CUE verifies and projects it.
 
 	This submission demonstrates CUE as a KG construction language and explains how
 	it relates to the KG-Construct CG's work on declarative KG construction.
@@ -40,7 +40,7 @@ kg_construct_report: """
 
 	The "mapping" is CUE type unification. The "validation" is CUE constraint
 	resolution. The "serialization" is JSON-LD context injection. All three happen
-	during evaluation — there is no separate step for any of them.
+	during evaluation: there is no separate step for any of them.
 
 	## Example: Research Publication Pipeline
 
@@ -68,9 +68,9 @@ kg_construct_report: """
 	```
 
 	This is produced during CUE evaluation. `sh:conforms: true` means the graph
-	satisfies all constraints. If any resource violates a rule, unification with
-	`true` produces bottom (`_|_`) and `cue vet` fails — the graph cannot be
-	constructed in an invalid state.
+	satisfies all rules. By default a violation is reported here and the build
+	still succeeds. With `Enforce: true` on the check, a critical violation
+	makes `cue vet` fail.
 
 	## Evidence: Provenance (computed)
 
@@ -81,7 +81,7 @@ kg_construct_report: """
 	```
 
 	Every resource becomes a `prov:Entity`. Dependency edges become
-	`prov:wasDerivedFrom` links. Provenance is not annotated after the fact — it
+	`prov:wasDerivedFrom` links. Provenance is not annotated after the fact; it
 	is structurally computed from the same graph that produces the KG.
 
 	## Evidence: JSON-LD Context (computed)
@@ -117,12 +117,12 @@ kg_construct_report: """
 	- Closed-world: all resources declared upfront
 	- DAGs only: no cyclic dependencies
 	- Not a general RDF toolkit: targets constrained dependency graphs
-	- Performance: pre-compute transitive closure for graphs exceeding ~40 nodes
+	- Performance: pure-CUE closure on a width-2 diamond ladder takes 2.1s at 24 nodes and 24s (2.5 GB) at 28 (CUE v0.15.4), roughly 10x per 4 more nodes; wide, shallow graphs go further; larger graphs use a precomputed closure that CUE certifies
 
 	## References
 
 	- [Core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md)
-	  — Full implementation evidence with \(evidence.spec_counts.implemented) W3C specs
-	- [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
-	- [demo.quicue.ca](https://demo.quicue.ca) — Interactive D3 graph explorer
+	  Full implementation evidence with \(evidence.spec_counts.implemented) W3C specs
+	- [github.com/quicue/apercue](https://github.com/quicue/apercue): Source (Apache 2.0)
+	- [demo.quicue.ca](https://demo.quicue.ca): Interactive D3 graph explorer
 	"""

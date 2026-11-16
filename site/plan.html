@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Project Plan — apercue.ca</title>
+<title>Project Plan; apercue.ca</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
@@ -741,7 +741,7 @@ code {
     <div class="hero-eyebrow">onboarding / project plan</div>
     <h1>apercue.ca + quicue.ca<br><span class="accent">the full stack</span></h1>
     <p class="hero-sub">
-      Two CUE modules. One generic graph engine with 17 W3C specs (apercue).
+      Two CUE modules. One generic graph engine with 13 W3C specs (apercue).
       One infrastructure platform with 35 providers and a static API (quicue).
       This page covers both: architecture, build plan, live demos, and how they fit together.
     </p>
@@ -784,7 +784,7 @@ code {
         <div class="elevator-label">apercue.ca</div>
         <p>
           Define typed resources in CUE. Run <code>cue export -e &lt;projection&gt;</code>.
-          One binary. Zero servers. 17 W3C projections.
+          One binary. Zero servers. 13 W3C projections.
           CUE's constraint lattice does both the querying (replaces SPARQL) and the validation
           (replaces SHACL) in a single evaluation pass.
         </p>
@@ -844,7 +844,7 @@ code {
       <div class="module-card">
         <h3>w3c/</h3>
         <p>Evidence package for W3C Community Group engagement. Generates conformance
-           evidence for all 17 specs. 64 validation tests pass.
+           evidence for all 13 specs. 64 validation tests pass.
            Export with <code>cue export ./w3c/ -e evidence.&lt;field&gt;</code>.</p>
         <div class="file-count"><strong>64</strong> tests passing</div>
       </div>
@@ -1117,10 +1117,10 @@ graph: patterns.#Graph & {Input: _tasks}</div>
 <section id="w3c">
   <div class="container">
     <div class="tag">Standards</div>
-    <h2>17 W3C specs, one graph</h2>
+    <h2>13 W3C specs, one graph</h2>
     <p style="margin-bottom: 16px;">
       Each spec is a CUE projection. The <code>-e</code> flag selects which one.
-      "Full" means conformant round-trip output. "Partial" means core terms are covered.
+      "Full" means the spec's core terms are emitted and the output parses in rdflib with the expected types; it is not a conformance claim. "Partial" means core terms are covered.
     </p>
     <table class="spec-mini reveal">
       <thead>
@@ -1173,7 +1173,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
       <div class="layer-row">
         <div class="layer-label" style="color: var(--accent); background: var(--accent-dim);">Definition</div>
         <div class="layer-desc">
-          <strong>vocab/ + patterns/</strong> &mdash; Core schemas (<code>#Resource</code> with identity, network, hosting, dependencies)
+          <strong>vocab/ + patterns/</strong>; Core schemas (<code>#Resource</code> with identity, network, hosting, dependencies)
           and graph algorithms (<code>#InfraGraph</code>, <code>#ImpactQuery</code>, <code>#BlastRadius</code>,
           <code>#SinglePointsOfFailure</code>, <code>#DeploymentPlan</code>).
         </div>
@@ -1181,7 +1181,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
       <div class="layer-row">
         <div class="layer-label" style="color: var(--blue); background: rgba(91,156,246,0.12);">Template</div>
         <div class="layer-desc">
-          <strong>template/*/</strong> &mdash; 35 provider-specific action registries. Each provider maps resource types
+          <strong>template/*/</strong>; 35 provider-specific action registries. Each provider maps resource types
           to executable commands. Proxmox, Docker, VyOS, Vault, GitLab, Caddy, etc. Commands have
           <code>{host}</code> and <code>{container_id}</code> placeholders filled at compile time.
         </div>
@@ -1189,7 +1189,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
       <div class="layer-row">
         <div class="layer-label" style="color: var(--purple); background: rgba(192,132,252,0.12);">Value</div>
         <div class="layer-desc">
-          <strong>examples/*/</strong> &mdash; 19 concrete infrastructure graphs. The datacenter example has 30 resources
+          <strong>examples/*/</strong>; 19 concrete infrastructure graphs. The datacenter example has 30 resources
           with 654 resolved commands. Each example is a complete, working graph with impact queries,
           SPOF detection, and deployment plans.
         </div>
@@ -1197,7 +1197,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
       <div class="layer-row">
         <div class="layer-label" style="color: var(--amber); background: rgba(240,192,64,0.12);">Interaction</div>
         <div class="layer-desc">
-          <strong>ou/</strong> &mdash; Role-scoped views (ops/dev/readonly) with W3C Hydra JSON-LD API.
+          <strong>ou/</strong>; Role-scoped views (ops/dev/readonly) with W3C Hydra JSON-LD API.
           <strong>server/</strong> builds a static API: CUE pre-computes all 654 responses, served from Cloudflare Pages.
           Zero runtime graph traversal.
         </div>
@@ -1405,7 +1405,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
       <span class="prompt">$ </span><span class="cmd">bash</span> <span class="flag">tools/deploy-local.sh serve</span>
     </div>
 
-    <h3>W3C evidence (all 17 specs)</h3>
+    <h3>W3C evidence (all 13 specs)</h3>
     <div class="code-block reveal">
       <span class="comment"># export any spec evidence (from project root)</span><br>
       <span class="prompt">$ </span><span class="cmd">cue export</span> <span class="flag">./w3c/</span> <span class="flag">-e evidence.dcat_catalog</span> <span class="flag">--out json</span><br>
@@ -1429,7 +1429,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
         <div class="elevator-label">apercue.ca (generic)</div>
         <p>
           Graph engine, W3C projections, charter planning.
-          78 pattern definitions. 17 W3C specs. Domain-agnostic.
+          78 pattern definitions. 13 W3C specs. Domain-agnostic.
           <code>import "apercue.ca/patterns@v0"</code>
         </p>
       </div>
@@ -1469,7 +1469,7 @@ graph: patterns.#Graph & {Input: _tasks}</div>
 <footer class="footer">
   <div class="container">
     <div class="footer-inner">
-      <span>apercue.ca &mdash; Apache 2.0</span>
+      <span>apercue.ca; Apache 2.0</span>
       <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="playground.html">Playground</a>

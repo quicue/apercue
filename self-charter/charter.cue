@@ -55,7 +55,7 @@ _tasks: {
 	"graph-engine": {
 		name: "graph-engine"
 		"@type": {Pattern: true}
-		description: "#Graph (renamed from #InfraGraph) — universal dependency graph"
+		description: "#Graph (renamed from #InfraGraph): universal dependency graph"
 		depends_on: {"resource-schema": true}
 	}
 	"analysis-patterns": {
@@ -366,7 +366,7 @@ _charter: charter.#Charter & {
 		}
 		"ship": {
 			phase:       5
-			description: "Docs, .kb, GitHub, CF Pages — ready to share"
+			description: "Docs, .kb, GitHub, CF Pages; ready to share"
 			requires: {
 				"docs-readme":    true
 				"docs-w3c-index": true
@@ -379,7 +379,7 @@ _charter: charter.#Charter & {
 		}
 		"projections-complete": {
 			phase:       6
-			description: "All artifacts are CUE projections — spec, site data, CI validation"
+			description: "All artifacts are CUE projections: spec, site data, CI validation"
 			requires: {
 				"safeid-constraints": true
 				"ci-workflow":        true

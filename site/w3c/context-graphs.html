@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Context Graphs CG Report — apercue.ca</title>
+<title>Context Graphs CG Report; apercue.ca</title>
 <style>
   :root {
     --bg: #fafafa;
@@ -110,8 +110,8 @@
 <p><a href="https://github.com/quicue/apercue">apercue.ca</a> represents resource types
 as CUE structs (<code>{TypeA: true, TypeB: true}</code>) rather than arrays or class
 hierarchies. This "struct-as-set" pattern gives every resource simultaneous
-membership in multiple contexts — data governance, provenance, scheduling,
-semantic web — resolved through set intersection at evaluation time.</p>
+membership in multiple contexts (data governance, provenance, scheduling,
+semantic web) resolved through set intersection at evaluation time.</p>
 <p>This submission demonstrates how CUE's type system naturally models the
 multi-context identity that the Context Graphs CG investigates.</p>
 <h2 id="the-pattern-type-as-a-set">The Pattern: @type as a Set</h2>
@@ -141,11 +141,11 @@ simultaneously. The binding is set intersection, not registration.</p>
 <h3 id="unification-guarantees-consistency">Unification Guarantees Consistency</h3>
 <p>If two contexts place conflicting constraints on the same resource, CUE
 unification produces bottom (<code>_|_</code>). The graph cannot be constructed. This
-is not a runtime error — it is a type error caught before any output is
+is not a runtime error: it is a type error caught before any output is
 generated.</p>
 <h2 id="evidence-multiple-projections-from-one-graph">Evidence: Multiple Projections From One Graph</h2>
 <p>The same 5-node research publication graph (defined once) produces output in
-17 different W3C specifications. Each projection
+13 different W3C specifications. Each projection
 selects a different context:</p>
 <p><strong>Scheduling context</strong> (OWL-Time):</p>
 <pre><code class="language-json">{
@@ -245,7 +245,7 @@ source of truth.</p>
 </tr>
 <tr>
 <td>Cross-context consistency</td>
-<td>CUE unification — conflicts are type errors</td>
+<td>CUE unification; conflicts are type errors</td>
 </tr>
 <tr>
 <td>Context-specific views</td>
@@ -258,7 +258,7 @@ source of truth.</p>
 </tbody>
 </table>
 <p>CUE's lattice semantics mean that context composition is not a graph
-operation — it is type unification. Adding a context to a resource is
+operation: it is type unification. Adding a context to a resource is
 adding a key to a struct. Merging contexts is struct unification. Testing
 context membership is field presence.</p>
 <h2 id="multi-domain-evidence">Multi-Domain Evidence</h2>
@@ -299,14 +299,14 @@ are domain-specific; the mechanism is universal.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>Closed-world: contexts must be declared, not discovered</li>
-<li>Flat namespace: no hierarchical context inheritance (by design — keeps dispatch simple)</li>
+<li>Flat namespace: no hierarchical context inheritance (by design; keeps dispatch simple)</li>
 <li>Boolean membership only: no weighted or probabilistic context participation</li>
 </ul>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://github.com/quicue/apercue/blob/main/w3c/core-report.md">Core report</a>
-  — Full implementation evidence</li>
-<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a> — Source (Apache 2.0)</li>
+  Full implementation evidence</li>
+<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a>: Source (Apache 2.0)</li>
 </ul>
 <div class="meta">
   <p>Source: <a href="https://github.com/quicue/apercue/tree/main/w3c">github.com/quicue/apercue/tree/main/w3c</a></p>

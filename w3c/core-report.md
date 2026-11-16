@@ -7,10 +7,10 @@
 ## Abstract
 
 A single typed dependency graph, authored once in [CUE](https://cuelang.org),
-is projected into 17 W3C specification outputs,
+is projected into 13 W3C specification outputs,
 including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O and ODRL, with no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
-`tools/toposort.py` and CUE projects it. An 18th
+`tools/toposort.py` and CUE verifies and projects it. A 14th
 (Hydra) is implemented downstream.
 
 This report documents the implementation, provides computed evidence from a live
@@ -27,8 +27,8 @@ an RDF store, a SPARQL query engine, a SHACL processor, a serializer, and a
 query planner. Each introduces its own execution model, failure modes, and
 infrastructure requirements. Schema drift between layers is common.
 
-For constrained domains — research data management, project plans, infrastructure
-topology, academic curricula — this operational complexity is disproportionate
+For constrained domains (research data management, project plans, infrastructure
+topology, academic curricula) this operational complexity is disproportionate
 to the problem. These domains share a common structure: typed resources with directed
 acyclic dependency edges. They need standards-compliant output, not the full
 semantic web runtime.
@@ -48,8 +48,8 @@ struct-as-set) and what they need (`depends_on`, also a struct-as-set):
 }
 ```
 
-Everything else — topology, impact analysis, compliance, scheduling, and every
-W3C output — is a projection of this single value.
+Everything else (topology, impact analysis, compliance, scheduling, and every
+W3C output) is a projection of this single value.
 `cue export -e <expression>` produces the target format.
 
 ## Implementation Evidence
@@ -108,7 +108,7 @@ standard W3C vocabularies:
 }
 ```
 
-This context is not a configuration file — it is a CUE value computed from
+This context is not a configuration file; it is a CUE value computed from
 the vocabulary registry. Every resource exported through this context produces
 valid JSON-LD 1.1.
 
@@ -126,7 +126,7 @@ produces a standard `sh:ValidationReport`:
 }
 ```
 
-`sh:conforms: true` — all compliance rules pass. This is produced at CUE
+`sh:conforms: true`: all compliance rules pass. This is produced at CUE
 evaluation time. No separate SHACL processor runs.
 
 ### Critical Path / OWL-Time (computed)
@@ -268,7 +268,7 @@ generating `prov:Activity` and `prov:Agent`.
 
 ### Graph Self-Description / VoID (computed)
 
-The `#VoIDDataset` pattern produces a VoID dataset description — the graph's
+The `#VoIDDataset` pattern produces a VoID dataset description; the graph's
 machine-readable "about" page:
 
 ```json
@@ -283,35 +283,35 @@ machine-readable "about" page:
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Governance"
+                "@id": "https://apercue.ca/vocab#Governance"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Dataset"
+                "@id": "https://apercue.ca/vocab#Dataset"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Process"
+                "@id": "https://apercue.ca/vocab#Process"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Publication"
+                "@id": "https://apercue.ca/vocab#Publication"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Review"
+                "@id": "https://apercue.ca/vocab#Review"
             },
             "void:entities": 1
         }
@@ -320,7 +320,7 @@ machine-readable "about" page:
 ```
 
 5 entities, 24 triples, 5 classes. Class partitions show
-how many resources belong to each `@type`. This is standard VoID — any LOD
+how many resources belong to each `@type`. This is standard VoID; any LOD
 catalog or SPARQL endpoint description consumer can read it.
 
 ### Type Ontology / RDFS+OWL (computed)
@@ -343,7 +343,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Governance",
+            "@id": "https://apercue.ca/vocab#Governance",
             "rdfs:label": "Governance"
         },
         {
@@ -351,7 +351,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Dataset",
+            "@id": "https://apercue.ca/vocab#Dataset",
             "rdfs:label": "Dataset"
         },
         {
@@ -359,7 +359,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Process",
+            "@id": "https://apercue.ca/vocab#Process",
             "rdfs:label": "Process"
         },
         {
@@ -367,7 +367,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Publication",
+            "@id": "https://apercue.ca/vocab#Publication",
             "rdfs:label": "Publication"
         },
         {
@@ -375,7 +375,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Review",
+            "@id": "https://apercue.ca/vocab#Review",
             "rdfs:label": "Review"
         },
         {
@@ -394,7 +394,7 @@ an `owl:ObjectProperty`:
 }
 ```
 
-W3C Evidence Ontology — the graph's type vocabulary as a formal
+W3C Evidence Ontology; the graph's type vocabulary as a formal
 OWL ontology. Loadable in Protégé, validatable by OWL reasoners.
 
 ### Type Vocabulary / SKOS (computed)
@@ -406,7 +406,7 @@ with broader/narrower hierarchy:
 {
     "@type": "skos:Collection",
     "@id": "https://apercue.ca/vocab#TypeTaxonomy/collection",
-    "skos:prefLabel": "Research Pipeline Type Taxonomy — all concepts",
+    "skos:prefLabel": "Research Pipeline Type Taxonomy all concepts",
     "skos:member": [
         {
             "@type": "skos:Concept",
@@ -505,16 +505,17 @@ Each resource creation is a `Create` activity ordered by topological
 depth. Layer 0 resources (no dependencies) are created first. Dependency
 edges appear as `context` links.
 
-### Validation Credential / VC 2.0 (computed)
+### Validation Credential shape (computed, not counted)
 
-The `#ValidationCredential` pattern wraps the SHACL validation result
-in a W3C Verifiable Credential:
+The `#ValidationCredential` pattern wraps the SHACL validation result in
+the VC 2.0 data model shape. It has no proof, so it is an unsigned
+credential shape, not a verifiable credential:
 
 ```json
 {
     "type": [
         "VerifiableCredential",
-        "ValidationCredential"
+        "apercue:ValidationCredential"
     ],
     "issuer": "urn:agent:graph-engine",
     "validFrom": "2026-02-27T00:00:00Z",
@@ -529,7 +530,7 @@ in a W3C Verifiable Credential:
 
 The credential attests that the graph passed compliance validation.
 The `credentialSubject` embeds the full `sh:ValidationReport`. This
-is the VC data model only — cryptographic proof requires an external
+is the VC data model only; cryptographic proof requires an external
 issuer.
 
 ### Data Catalog / DCAT 3 (computed)
@@ -554,6 +555,7 @@ The `#DCATCatalog` pattern projects the graph as a DCAT catalog with one
             "dcterms:title": "sensor-dataset",
             "dcat:theme": [
                 {
+                    "@id": "https://apercue.ca/vocab#Dataset",
                     "@type": "skos:Concept",
                     "skos:prefLabel": "Dataset"
                 }
@@ -566,7 +568,7 @@ The `#DCATCatalog` pattern projects the graph as a DCAT catalog with one
 Each resource becomes a dataset entry with Dublin Core metadata. The catalog
 is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).
 
-### Test Plan / EARL (computed)
+### Test Plan / EARL (computed, not counted: every outcome is earl:untested)
 
 The `#SmokeTest` pattern produces EARL assertions describing the test plan for
 graph validation:
@@ -608,7 +610,7 @@ graph validation:
 ```
 
 Each check becomes an `earl:Assertion` with an `earl:TestCriterion` and
-`earl:TestResult`. Outcomes are `earl:untested` at compile time — the plan
+`earl:TestResult`. Outcomes are `earl:untested` at compile time; the plan
 is linked data; execution happens at runtime.
 
 ### Schema.org Alignment (computed)
@@ -669,6 +671,9 @@ The `#OrgStructure` pattern groups resources by `@type` into
             "@type": "org:OrganizationalUnit",
             "@id": "https://apercue.ca/org#unit/Governance",
             "skos:prefLabel": "Governance",
+            "dcterms:subject": {
+                "@id": "https://apercue.ca/vocab#Governance"
+            },
             "org:hasMember": [
                 {
                     "@id": "urn:resource:ethics-approval",
@@ -726,7 +731,7 @@ resources using the W3C Web Annotation model:
 ```
 
 Each annotation carries a `motivation` from the W3C vocabulary (assessing,
-commenting, classifying). Targets are validated against the graph — an
+commenting, classifying). Targets are validated against the graph; an
 annotation referencing a nonexistent resource fails at CUE evaluation time.
 
 ### Data Quality / DQV (computed)
@@ -769,31 +774,41 @@ its metric, dimension, and the dataset under evaluation.
 
 ### Spec Coverage
 
-17 specifications implemented,
+13 W3C specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 
-**Implemented** (17):
+**Implemented W3C specifications** (13):
 
 | Specification | CUE Produces |
 |---------------|--------------|
 | JSON-LD 1.1 | @context, @type, @id on all resources; namespace collision detection via federation |
 | SHACL | Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
 | SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower |
-| EARL | earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode |
 | OWL-Time | time:Interval from critical path scheduling; time:Instant timestamps on federation context events |
-| Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
 | PROV-O | prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings |
-| schema.org | schema:additionalType annotations via configurable type mapping |
 | ODRL 2.2 | odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling |
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers; no actor model or delivery |
-| Verifiable Credentials 2.0 | VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope |
 | W3C Org | org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role |
 | VoID | void:Dataset with class/property partitions, linkset statistics, and vocabulary usage |
 | Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states |
 | RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning |
 | DQV | dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions |
 | DCAT 3 | dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured |
+
+**Non-W3C vocabularies used** (2):
+
+| Vocabulary | CUE Produces |
+|------------|--------------|
+| Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
+| schema.org | schema:additionalType annotations via configurable type mapping |
+
+**Emitted but not counted** (2):
+
+| Specification | What is emitted, and why it is not counted |
+|---------------|---------------------------------------------|
+| EARL | earl:Assertion structure with earl:TestCase and earl:Software assertor; every outcome is earl:untested, so this is a test plan, not test results |
+| Verifiable Credentials 2.0 | Unsigned credential shape (v2 context) wrapping a SHACL report; no proof, so not a verifiable credential |
 
 **Downstream** (1):
 
@@ -857,7 +872,7 @@ The same patterns have been validated across four independent domains:
 | Domain | Resources | Patterns Used |
 |--------|-----------|---------------|
 | Research data mgmt | 5 resources, 5 types | Provenance, embargo, scheduling |
-| IT infrastructure | 30 nodes, 29 providers | Full stack (654 CLI commands) |
+| IT infrastructure | 30 resources, 28 providers (of 33 quicue.ca templates) | Full stack (654 CLI commands) |
 | University curricula | 12 CS courses | Critical path, compliance, charter |
 | Construction PM | 18 work packages | 5 DAG gates, phased construction PM |
 
@@ -871,23 +886,22 @@ data; the patterns are generic.
 - **DAGs only.** No cycles. Dependency graphs are directed acyclic by
   definition in our target domains.
 - **Performance ceiling.** CUE's recursive struct references don't memoize.
-  For graphs exceeding ~40 nodes, pre-compute transitive closure externally
-  and feed the result as a flat lookup. A 40-node project charter dropped
-  from 95s to 33ms with this approach (pre-computed ancestors via script,
-  consumed as a CUE value).
+  The limit depends on graph shape: pure-CUE closure on a width-2 diamond ladder takes 2.1s at 24 nodes and 24s (2.5 GB) at 28 (CUE v0.15.4), roughly 10x per 4 more nodes; wide, shallow graphs go further. Past that, `tools/toposort.py`
+  precomputes the closure and `#GraphLite` certifies it before use (0.5s at
+  200 nodes, 10s at 1,000).
 - **Not a general RDF toolkit.** This approach targets constrained domains
   where schema control is a given.
 
 ## Relevance to W3C Community Groups
 
-- **KG-Construct:** CUE as a declarative KG construction language —
+- **KG-Construct:** CUE as a declarative KG construction language; 
   graph building, SHACL validation, and RDF serialization in one
   compile-time evaluation. No mapping language or runtime pipeline.
 - **Context Graphs:** Struct-as-set `@type` as multi-context resource
-  identity — one resource participates in data governance, provenance,
+  identity: one resource participates in data governance, provenance,
   scheduling, and semantic web contexts simultaneously via set
   intersection.
-- **PM-KR:** Charter pattern as compile-time project completion —
+- **PM-KR:** Charter pattern as compile-time project completion; 
   gap analysis, critical path, and EARL test plans from constraint
   satisfaction. Project management as type checking.
 - **Dataspaces:** `.kb/` convention and ODRL/DCAT projections as
@@ -909,9 +923,9 @@ CUE's type system catches structural violations (missing required fields, wrong 
 ## References
 
 - [github.com/quicue/apercue](https://github.com/quicue/apercue)
-  — Generic reference implementation (Apache 2.0)
+  Generic reference implementation (Apache 2.0)
 - [github.com/quicue/quicue.ca](https://github.com/quicue/quicue.ca)
-  — Infrastructure-specific extension
-- [demo.quicue.ca](https://demo.quicue.ca) — Interactive D3 explorer
-- [api.quicue.ca](https://api.quicue.ca) — Static API (727 pre-computed JSON files)
-- [docs.quicue.ca](https://docs.quicue.ca) — Module documentation
+  Infrastructure-specific extension
+- [demo.quicue.ca](https://demo.quicue.ca): Interactive D3 explorer
+- [api.quicue.ca](https://api.quicue.ca): Static API (727 pre-computed JSON files)
+- [docs.quicue.ca](https://docs.quicue.ca): Module documentation

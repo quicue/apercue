@@ -11,10 +11,16 @@
 package vocab
 
 // #SpecStatus — Implementation lifecycle.
+//   Implemented: output uses the spec and is checked by the test suite
+//   Projection:  output is emitted in the spec's shape but is not
+//                conformant or not meaningful yet (see coverage)
+//   Namespace:   prefix in @context only
+//   Downstream:  implemented in a downstream module (quicue.ca)
 #SpecStatus: "Implemented" | "Projection" | "Namespace" | "Downstream"
 
 // #SpecDepth — How deep is the coverage?
-//   full:       Produces conformant output that round-trips through spec-aware tools
+//   full:       Emits the spec's core terms; output parses in rdflib with the
+//               expected types (tools/validate-w3c.py). Not a conformance claim.
 //   partial:    Produces recognizable output using core spec terms; missing advanced features
 //   vocabulary: Uses namespace prefixes and terms in @context; no standalone spec artifact
 //   structural: Produces spec-shaped JSON-LD structure; key spec features out of scope
@@ -25,6 +31,10 @@ package vocab
 	name:    string
 	url:     string
 	status:  #SpecStatus
+	// w3c: false for vocabularies that are not W3C specifications
+	// (Dublin Core is DCMI, schema.org is schema.org). They are listed but
+	// never counted as W3C specifications.
+	w3c: *true | false
 	prefix?: string // Namespace prefix in @context (e.g. "sh", "skos")
 
 	// What apercue provides for this spec
@@ -104,13 +114,13 @@ Specs: {[string]: #SpecEntry} & {
 	"EARL": {
 		name:   "EARL"
 		url:    "https://www.w3.org/TR/EARL10-Schema/"
-		status: "Implemented"
-		depth:  "full"
+		status: "Projection"
+		depth:  "partial"
 		prefix: "earl"
 		patterns: {"#SmokeTest": true}
 		files: {"patterns/lifecycle.cue": true}
 		exports: {"smoke.earl_report": true}
-		coverage: "earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode"
+		coverage: "earl:Assertion structure with earl:TestCase and earl:Software assertor; every outcome is earl:untested, so this is a test plan, not test results"
 	}
 
 	"OWL-Time": {
@@ -138,6 +148,7 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "Dublin Core"
 		url:    "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
 		status: "Implemented"
+		w3c:    false
 		depth:  "vocabulary"
 		prefix: "dcterms"
 		patterns: {"context": true}
@@ -174,6 +185,7 @@ Specs: {[string]: #SpecEntry} & {
 		name:   "schema.org"
 		url:    "https://schema.org/"
 		status: "Implemented"
+		w3c:    false
 		depth:  "vocabulary"
 		prefix: "schema"
 		patterns: {"#SchemaOrgAlignment": true}
@@ -209,13 +221,13 @@ Specs: {[string]: #SpecEntry} & {
 	"Verifiable Credentials 2.0": {
 		name:   "Verifiable Credentials 2.0"
 		url:    "https://www.w3.org/TR/vc-data-model-2.0/"
-		status: "Implemented"
+		status: "Projection"
 		depth:  "structural"
 		prefix: "cred"
 		patterns: {"#ValidationCredential": true}
 		files: {"patterns/credentials.cue": true}
 		exports: {"validation_credential.vc": true}
-		coverage: "VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope"
+		coverage: "Unsigned credential shape (v2 context) wrapping a SHACL report; no proof, so not a verifiable credential"
 	}
 
 	"W3C Org": {
@@ -306,4 +318,22 @@ Specs: {[string]: #SpecEntry} & {
 		exports: {"catalog.dcat_catalog": true}
 		coverage: "dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured"
 	}
+}
+
+// SpecCounts: the only place spec numbers are computed. Every count on the
+// site and in the reports comes from here (checked by validate-counts.sh).
+//   implemented: W3C specifications with status Implemented (the headline)
+//   vocabularies: implemented non-W3C vocabularies (Dublin Core, schema.org)
+//   projection:   emitted in a spec's shape but not claimed (VC, EARL)
+//   depth counts: over the headline set, so they sum to implemented
+SpecCounts: {
+	implemented:  len([for _, s in Specs if s.status == "Implemented" && s.w3c {s}])
+	vocabularies: len([for _, s in Specs if s.status == "Implemented" && !s.w3c {s}])
+	projection:   len([for _, s in Specs if s.status == "Projection" {s}])
+	downstream:   len([for _, s in Specs if s.status == "Downstream" {s}])
+	total:        implemented + downstream
+	full:         len([for _, s in Specs if s.status == "Implemented" && s.w3c && s.depth == "full" {s}])
+	partial:      len([for _, s in Specs if s.status == "Implemented" && s.w3c && s.depth == "partial" {s}])
+	vocabulary:   len([for _, s in Specs if s.status == "Implemented" && s.w3c && s.depth == "vocabulary" {s}])
+	structural:   len([for _, s in Specs if s.status == "Implemented" && s.w3c && s.depth == "structural" {s}])
 }

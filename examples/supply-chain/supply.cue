@@ -302,19 +302,19 @@ annotations: patterns.#AnnotationCollection & {
 	Annotations: [
 		{
 			target:     "silicon-wafer"
-			body:       "Single source supplier — explore secondary wafer sources"
+			body:       "Single source supplier: explore secondary wafer sources"
 			motivation: "oa:assessing"
 			tags: ["risk", "single-source"]
 		},
 		{
 			target:     "laptop-assy"
-			body:       "Final assembly depends on 4 inputs — bottleneck risk"
+			body:       "Final assembly depends on 4 inputs; bottleneck risk"
 			motivation: "oa:assessing"
 			tags: ["bottleneck", "critical-path"]
 		},
 		{
 			target:     "lithium-cells"
-			body:       "Longest raw material lead time (21 days) — drives critical path"
+			body:       "Longest raw material lead time (21 days): drives critical path"
 			motivation: "oa:highlighting"
 			tags: ["critical-path", "lead-time"]
 		},

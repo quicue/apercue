@@ -17,7 +17,7 @@ Year 1-2:           intro-programming ─────┤                  ├─
 
 Each course has:
 - **name**: unique identifier (e.g., `data-structures`)
-- **@type**: semantic type set — `CoreCourse`, `Elective`, `LabCourse`, `Seminar`
+- **@type**: semantic type set; `CoreCourse`, `Elective`, `LabCourse`, `Seminar`
 - **depends_on**: prerequisite courses (set membership)
 - **credits**: credit hours (used as CPM weight)
 - **description**: human-readable course title
@@ -76,27 +76,27 @@ compliance: {
 
 ## What It Demonstrates
 
-- **Charter gates as degree requirements** — 3 phases enforce prerequisite ordering
-- **SHACL gap analysis** — which courses are missing for each gate
-- **OWL-Time scheduling** — critical path through the prerequisite chain (4 courses, 14 credits)
-- **Compliance rules** — seminars and labs must have prerequisites (2 rules, both pass)
-- **Domain-agnostic proof** — courses are just resources with `depends_on`; same patterns work for infrastructure, recipes, supply chains
+- **Charter gates as degree requirements**: 3 phases enforce prerequisite ordering
+- **SHACL gap analysis**: which courses are missing for each gate
+- **OWL-Time scheduling**: critical path through the prerequisite chain (4 courses, 14 credits)
+- **Compliance rules**: seminars and labs must have prerequisites (2 rules, both pass)
+- **Domain-agnostic proof**: courses are just resources with `depends_on`; same patterns work for infrastructure, recipes, supply chains
 
 ## Patterns Used
 
-- `patterns.#Graph` — core dependency graph (12 nodes, prerequisite edges)
-- `patterns.#CriticalPath` — CPM scheduling (weighted by credit hours)
-- `patterns.#ComplianceCheck` — structural validation rules
-- `charter.#Charter` — degree requirement phase gates
-- `charter.#GapAnalysis` — charter satisfaction (produces `sh:ValidationReport`)
+- `patterns.#Graph`: core dependency graph (12 nodes, prerequisite edges)
+- `patterns.#CriticalPath`: CPM scheduling (weighted by credit hours)
+- `patterns.#ComplianceCheck`: structural validation rules
+- `charter.#Charter`: degree requirement phase gates
+- `charter.#GapAnalysis`: charter satisfaction (produces `sh:ValidationReport`)
 
 ## File Structure
 
-- `courses.cue` — main example (package main)
-  - `_courses` — 12 course definitions with types and prerequisites
-  - `graph` — typed dependency graph
-  - `cpm` — critical path analysis (weight = credits)
-  - `_charter` — degree requirement gates
-  - `gaps` — gap analysis (what courses remain)
-  - `compliance` — structural rules (seminars/labs need prereqs)
-  - `summary` — executive summary
+- `courses.cue`: main example (package main)
+  - `_courses`: 12 course definitions with types and prerequisites
+  - `graph`: typed dependency graph
+  - `cpm`: critical path analysis (weight = credits)
+  - `_charter`: degree requirement gates
+  - `gaps`: gap analysis (what courses remain)
+  - `compliance`: structural rules (seminars/labs need prereqs)
+  - `summary`: executive summary

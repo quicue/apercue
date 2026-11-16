@@ -96,6 +96,20 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 		depth: [_#SafeID]: int
 		ancestors?: [_#SafeID]: {[_#SafeID]: true}
 		dependents?: [_#SafeID]: {[_#SafeID]: true}
+		cpm?: _
+	}
+
+	// A supplied depth map is untrusted: it must be exactly 1 + max(dep
+	// depth) for every node (ancestors are always computed in CUE here).
+	if Precomputed != _|_ {
+		_certBadDepth: [
+			for n, r in Input
+			let deps = *r.depends_on | {}
+			let want = [if len(deps) > 0 {list.Max([for d, _ in deps {*Precomputed.depth[d] | -1}]) + 1}, 0][0]
+			if (*Precomputed.depth[n] | -1) != want {n},
+		]
+		_certExtraDepth: [for n, _ in Precomputed.depth if Input[n] == _|_ {n}]
+		depthCertified: true & (len(_certBadDepth) == 0 && len(_certExtraDepth) == 0)
 	}
 
 	// Validation: all dependency references must exist in Input
@@ -209,7 +223,66 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 		depth: [_#SafeID]: int
 		ancestors: [_#SafeID]: {[_#SafeID]: true}
 		dependents: [_#SafeID]: {[_#SafeID]: true}
+		// toposort.py's JSON output also carries scheduling data; it is
+		// consumed by #CriticalPathPrecomputed, not here.
+		cpm?: _
 	}
+
+	// ── Certification of the untrusted precompute ──────────────────
+	// certified fails the build unless Precomputed is exactly the closure
+	// of Input. No recursion: each node's claimed ancestors must equal its
+	// direct deps plus the claimed ancestors of those deps, and its depth
+	// must be 1 + max(dep depth). On a DAG these local equations have one
+	// solution, and strictly increasing depth along every edge rules out
+	// cycles. dependents must be the exact inverse of ancestors.
+	// (Inlined: passing Precomputed into a helper definition copies it
+	// and costs ~30x at 1,000 nodes.)
+	_certBadDepth: [
+		for n, r in Input
+		let deps = *r.depends_on | {}
+		let want = [if len(deps) > 0 {list.Max([for d, _ in deps {*Precomputed.depth[d] | -1}]) + 1}, 0][0]
+		if (*Precomputed.depth[n] | -1) != want {n},
+	]
+	_certBadAncestors: [
+		for n, r in Input
+		let deps = *r.depends_on | {}
+		// Missing entries are reported by _certMissing; skip them here.
+		// (No `*x | {}` defaults: a disjunction over a large struct per
+		// node or edge costs ~20x.)
+		if Precomputed.ancestors[n] != _|_
+		let want = {for d, _ in deps {(d): true, if Precomputed.ancestors[d] != _|_ {Precomputed.ancestors[d]}}}
+		let got = Precomputed.ancestors[n]
+		if len(want) != len(got) || len([for k, _ in got if want[k] == _|_ {k}]) > 0 {n},
+	]
+	// dependents is the exact inverse of ancestors: every dependent edge has
+	// the matching ancestor edge, and every ancestor edge the matching
+	// dependent edge. (Checked edge by edge; counting edges with a list
+	// comprehension costs >10x more at 1,000 nodes.)
+	_certBadDependents: [
+		for n, ds in Precomputed.dependents
+		for m, _ in ds
+		if Precomputed.ancestors[m][n] == _|_ {n + "<-" + m},
+	]
+	_certMissingDependents: [
+		for m, as in Precomputed.ancestors
+		for n, _ in as
+		if Precomputed.dependents[n][m] == _|_ {n + "<-" + m},
+	]
+	_certExtra: [
+		for k in ["depth", "ancestors", "dependents"]
+		for n, _ in Precomputed[k] if Input[n] == _|_ {k + ":" + n},
+	]
+	_certMissing: [
+		for n, _ in Input
+		for k in ["depth", "ancestors", "dependents"]
+		if Precomputed[k][n] == _|_ {k + ":" + n},
+	]
+	certified: true & (len(_certBadDepth) == 0 &&
+		len(_certBadAncestors) == 0 &&
+		len(_certBadDependents) == 0 &&
+		len(_certMissingDependents) == 0 &&
+		len(_certExtra) == 0 &&
+		len(_certMissing) == 0)
 
 	// Validation: all dependency references must exist
 	_inputNames: {for n, _ in Input {(n): true}}

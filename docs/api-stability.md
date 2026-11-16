@@ -110,5 +110,5 @@ cue mod get apercue.ca@v0
 ```
 
 OCI registry publishing requires CUE v0.16+ and a registry endpoint.
-The module structure is already compatible — no changes needed when
+The module structure is already compatible; no changes needed when
 the registry becomes available.

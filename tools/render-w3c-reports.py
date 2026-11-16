@@ -38,7 +38,7 @@ HTML_TEMPLATE = """\
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} — apercue.ca</title>
+<title>{title}; apercue.ca</title>
 <style>
   :root {{
     --bg: #fafafa;
@@ -153,7 +153,7 @@ INDEX_TEMPLATE = """\
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>W3C Community Group Reports — apercue.ca</title>
+<title>W3C Community Group Reports; apercue.ca</title>
 <style>
   :root {{
     --bg: #fafafa;
