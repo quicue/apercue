@@ -817,10 +817,12 @@ _ancestors: {
 }
 ```
 
-Six lines. CUE resolves the fixpoint — the struct expands until merging
-produces no new keys, then stops. No explicit loop, no recursion depth
-tracking. This is the same mechanism as SPARQL property paths, but
-resolved statically.
+CUE resolves the fixpoint: the struct expands until merging produces no
+new keys, then stops. No explicit loop, no recursion depth tracking. It
+answers the same question as a SPARQL property path over the dependency
+edge. In pure CUE this is practical only for small graphs (see
+Limitations); larger graphs use a closure precomputed by
+`tools/toposort.py`.
 
 ### Type Overlap as Dispatch
 
@@ -836,16 +838,16 @@ equivalent of SPARQL `?resource a ?type` pattern matching.
 
 ### Constraints as Values
 
-CUE constraints live in the same package as the computation:
+CUE constraints live in the same package as the computation. A consumer
+can opt in to a failing build by adding one line:
 
 ```cue
-sh:conforms: true   // unification — false is ⊥
+compliance: shacl_report: "sh:conforms": true   // false is bottom
 ```
 
-If a compliance check produces `sh:conforms: false`, unification with
-`true` is bottom (`_|_`). `cue vet` fails. No assertion framework —
-the language IS the constraint solver. SHACL validation becomes a type
-error.
+With that line, a report with `sh:conforms: false` fails `cue vet`. The
+patterns do not add it by default: without it, rule violations are
+reported and the build passes.
 
 ## Multi-Domain Validation
 
@@ -853,7 +855,7 @@ The same patterns have been validated across four independent domains:
 
 | Domain | Resources | Patterns Used |
 |--------|-----------|---------------|
-| Research data mgmt | 5 resources, 3 types | Provenance, embargo, scheduling |
+| Research data mgmt | 5 resources, 5 types | Provenance, embargo, scheduling |
 | IT infrastructure | 30 nodes, 29 providers | Full stack (654 CLI commands) |
 | University curricula | 12 CS courses | Critical path, compliance, charter |
 | Construction PM | 18 work packages | 5 DAG gates, phased construction PM |

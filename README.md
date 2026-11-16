@@ -120,8 +120,8 @@ apercue.ca@v0
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
 │   └── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
 ├── self-charter/           # Ecosystem graph — models the project itself
-│   ├── ecosystem.cue       #   10 nodes across 10 ecosystem components
-│   ├── charter.cue         #   8-phase charter, all gates satisfied
+│   ├── ecosystem.cue       #   Ecosystem graph: 10 nodes, 4 gates
+│   ├── charter.cue         #   Build charter: 41 tasks, 8 phases, all gates satisfied
 │   └── export.cue          #   D3 visualization export
 ├── site/                   # Static site (deployed to apercue.ca via CF Pages)
 │   ├── index.html          #   Landing page
@@ -176,7 +176,7 @@ Each example is a complete, working graph. Run any of them with `cue export`.
 | [recipe-ingredients](examples/recipe-ingredients/) | Cooking | 17 steps | Critical path analysis, topological layering |
 | [project-tracker](examples/project-tracker/) | Software release | 10 tasks | Status tracking, milestone evaluation |
 | [supply-chain](examples/supply-chain/) | Manufacturing | 14 parts | 5-tier dependency depth, compliance checks |
-| [self-charter](self-charter/) | Meta — apercue itself | 41 nodes | The project models its own development: 8 phases, all gates satisfied, federation event log, [live visualization](https://apercue.ca/projections.html) |
+| [self-charter](self-charter/) | Meta: apercue itself | 41 tasks (build charter) + 10 nodes (ecosystem) | The project models its own development: 8 phases, all gates satisfied, federation event log, [live visualization](https://apercue.ca/projections.html) |
 
 ```bash
 # SHACL validation report

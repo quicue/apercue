@@ -123,6 +123,33 @@ if command -v cue &>/dev/null; then
     if [ "$SELF_CHARTER_NODES" != "?" ]; then
         check "README self-charter nodes" "$SELF_CHARTER_NODES" "README.md" "${SELF_CHARTER_NODES} nodes"
     fi
+    # self-charter holds two graphs: the build charter (tasks) and the ecosystem (nodes).
+    # Any line that mentions self-charter must use "N tasks" for the charter and
+    # "N nodes" for the ecosystem, with the real numbers.
+    SELF_CHARTER_TASKS=$(cue eval ./self-charter/ -e 'len(graph.resources)' 2>/dev/null || echo "?")
+    echo "Self-charter build tasks: $SELF_CHARTER_TASKS"
+    SC_FAILS=$(NODES="$SELF_CHARTER_NODES" TASKS="$SELF_CHARTER_TASKS" python3 - <<'PY'
+import glob, os, re
+nodes, tasks = os.environ["NODES"], os.environ["TASKS"]
+files = ["README.md", "ARCHITECTURE.md", "CONTRIBUTING.md"] + glob.glob("docs/*.md") + glob.glob("site/*.html")
+bad = []
+for f in files:
+    for i, line in enumerate(open(f, encoding="utf-8"), 1):
+        if not re.search(r"self-charter|ecosystem\.cue|charter\.cue\s+#", line):
+            continue
+        for n in re.findall(r"\b(\d+)[ -]nodes?\b", line):
+            if n != nodes:
+                bad.append(f"{f}:{i}: '{n} nodes' but the ecosystem graph has {nodes}")
+        for n in re.findall(r"\b(\d+)[ -]tasks?\b", line):
+            if n != tasks:
+                bad.append(f"{f}:{i}: '{n} tasks' but the build charter has {tasks}")
+print("\n".join(bad))
+PY
+)
+    if [ -n "$SC_FAILS" ]; then
+        echo "$SC_FAILS" | sed 's/^/  FAIL: /'
+        FAIL=$((FAIL + $(echo "$SC_FAILS" | wc -l)))
+    fi
 else
     echo "  SKIP: cue not available, skipping self-charter node count"
 fi

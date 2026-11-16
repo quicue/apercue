@@ -37,6 +37,9 @@ BANNED=(
     'Standards committee'
     'submitted to four W3C'
     'reviewed by domain experts'
+    'SHACL validation becomes a type'
+    'Six lines\.'
+    'same mechanism as SPARQL property paths'
 )
 
 echo "=== Banned claims ==="

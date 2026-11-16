@@ -882,10 +882,12 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
     }
 }
 </code></pre>
-<p>Six lines. CUE resolves the fixpoint — the struct expands until merging
-produces no new keys, then stops. No explicit loop, no recursion depth
-tracking. This is the same mechanism as SPARQL property paths, but
-resolved statically.</p>
+<p>CUE resolves the fixpoint: the struct expands until merging produces no
+new keys, then stops. No explicit loop, no recursion depth tracking. It
+answers the same question as a SPARQL property path over the dependency
+edge. In pure CUE this is practical only for small graphs (see
+Limitations); larger graphs use a closure precomputed by
+<code>tools/toposort.py</code>.</p>
 <h3 id="type-overlap-as-dispatch">Type Overlap as Dispatch</h3>
 <pre><code class="language-cue">for tname, _ in provider.types
 if resource[&quot;@type&quot;][tname] != _|_ {tname}
@@ -895,13 +897,13 @@ repository (serves Dataset) AND an ethics board (serves Governance)
 simultaneously. Set intersection, not registration. This is the CUE
 equivalent of SPARQL <code>?resource a ?type</code> pattern matching.</p>
 <h3 id="constraints-as-values">Constraints as Values</h3>
-<p>CUE constraints live in the same package as the computation:</p>
-<pre><code class="language-cue">sh:conforms: true   // unification — false is ⊥
+<p>CUE constraints live in the same package as the computation. A consumer
+can opt in to a failing build by adding one line:</p>
+<pre><code class="language-cue">compliance: shacl_report: &quot;sh:conforms&quot;: true   // false is bottom
 </code></pre>
-<p>If a compliance check produces <code>sh:conforms: false</code>, unification with
-<code>true</code> is bottom (<code>_|_</code>). <code>cue vet</code> fails. No assertion framework —
-the language IS the constraint solver. SHACL validation becomes a type
-error.</p>
+<p>With that line, a report with <code>sh:conforms: false</code> fails <code>cue vet</code>. The
+patterns do not add it by default: without it, rule violations are
+reported and the build passes.</p>
 <h2 id="multi-domain-validation">Multi-Domain Validation</h2>
 <p>The same patterns have been validated across four independent domains:</p>
 <table>
@@ -915,7 +917,7 @@ error.</p>
 <tbody>
 <tr>
 <td>Research data mgmt</td>
-<td>5 resources, 3 types</td>
+<td>5 resources, 5 types</td>
 <td>Provenance, embargo, scheduling</td>
 </tr>
 <tr>

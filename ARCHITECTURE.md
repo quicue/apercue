@@ -59,7 +59,7 @@ tools/        Workflow command schemas (#BuildSpec, #DeploySpec, #ValidateSpec)
 examples/     Domain applications (5 examples)
   │           Imports: patterns, charter
   │
-self-charter/ Project models itself (10 nodes, 8 phases)
+self-charter/ Project models itself (41-task build charter, 8 phases; 10-node ecosystem graph)
   │           Imports: patterns, charter, vocab
   │
 site/         Static site data projections
@@ -135,7 +135,7 @@ lattice is materialized.
 
 `#Graph` computes transitive closure via recursive struct references. CUE does
 not memoize these — diamond DAGs cause exponential re-evaluation. For the
-self-charter (10 nodes), Python precomputes depth/ancestors/dependents and
+self-charter build charter (41 tasks), Python precomputes depth/ancestors/dependents and
 `#GraphLite` consumes the result. See ADR-007.
 
 ### Scheduling
