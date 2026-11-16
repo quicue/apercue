@@ -158,4 +158,17 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        continue-on-error: true
+
+      - name: Verify the live site serves this build
+        run: |
+          # The deploy step once failed silently for months (continue-on-error)
+          # and apercue.ca kept serving a March 2026 build. Compare the live
+          # homepage with the one just built; fail if they never match.
+          want=$(sha256sum _public/index.html | cut -d' ' -f1)
+          for i in $(seq 1 20); do
+            got=$(curl -fsSL "https://apercue.ca/?v=${GITHUB_SHA}" | sha256sum | cut -d' ' -f1 || true)
+            if [ "$got" = "$want" ]; then echo "live site matches build"; exit 0; fi
+            sleep 15
+          done
+          echo "ERROR: https://apercue.ca/ does not serve the index.html built from ${GITHUB_SHA}"
+          exit 1
