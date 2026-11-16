@@ -872,7 +872,7 @@ The same patterns have been validated across four independent domains:
 | Domain | Resources | Patterns Used |
 |--------|-----------|---------------|
 | Research data mgmt | 5 resources, 5 types | Provenance, embargo, scheduling |
-| IT infrastructure | 30 nodes, 29 providers | Full stack (654 CLI commands) |
+| IT infrastructure | 30 resources, 28 providers (of 33 quicue.ca templates) | Full stack (654 CLI commands) |
 | University curricula | 12 CS courses | Critical path, compliance, charter |
 | Construction PM | 18 work packages | 5 DAG gates, phased construction PM |
 

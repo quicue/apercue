@@ -45,6 +45,7 @@ BANNED=(
     '~ ?3?5?-?40 nodes'
     'constructed in an invalid state'
     'valid W3C linked data'
+    '29 providers'
 )
 
 echo "=== Banned claims ==="
