@@ -638,7 +638,7 @@ function renderGraph(data) {
       .attr('class', 'phase-label')
       .attr('x', 32).attr('y', y1 + 14)
       .attr('fill', color)
-      .text(`Phase ${phase} \u2014 ${PHASE_NAMES[phase] || ''}`);
+      .text(`Phase ${phase}: ${PHASE_NAMES[phase] || ''}`);
   });
 
   // Deterministic layout

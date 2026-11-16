@@ -68,7 +68,7 @@ fi
 
 echo "=== No em dashes in docs or site copy ==="
 # Code comments in .cue/.py are not copy; everything else is.
-hits=$(grep -nIE -- '—|&mdash;' README.md ARCHITECTURE.md CONTRIBUTING.md docs/*.md w3c/*.md \
+hits=$(grep -nIE -- '—|&mdash;|\\u2014' README.md ARCHITECTURE.md CONTRIBUTING.md docs/*.md w3c/*.md \
     w3c/submissions/*.md site/*.html site/w3c/*.html examples/*/README.md \
     site/data/ecosystem.json site/data/charter.json site/data/projections.json 2>/dev/null || true)
 hits+=$(grep -nIE -- '—' w3c/*.cue patterns/*.cue views/*.cue charter/*.cue vocab/*.cue examples/*/*.cue self-charter/*.cue tools/render-w3c-reports.py 2>/dev/null \

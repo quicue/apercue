@@ -32,7 +32,7 @@ _ecosystem: {
 	"quicue-patterns": {
 		name: "quicue-patterns"
 		"@type": {Module: true, Patterns: true}
-		description: "Infrastructure-specific patterns: 40+ types, 29 providers"
+		description: "Infrastructure-specific patterns: 40+ types, 33 provider templates"
 		depends_on: {apercue: true}
 		status: "active"
 		repo:   "github:quicue/quicue.ca"
