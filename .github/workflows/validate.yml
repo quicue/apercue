@@ -23,7 +23,7 @@ jobs:
           # Vet all real packages. tests/unicode-rejection/ is excluded
           # because those files contain intentional violations (tested below).
           for pkg in vocab patterns views charter self-charter w3c site \
-                     tests/federation \
+                     tests/federation tests/rule-kinds \
                      examples/course-prereqs \
                      examples/project-tracker examples/recipe-ingredients \
                      examples/supply-chain; do

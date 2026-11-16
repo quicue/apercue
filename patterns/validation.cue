@@ -492,8 +492,10 @@ import (
 					"sh:path":     {"sh:inversePath": {"@id": "dcterms:requires"}}
 					"sh:minCount": 1
 				}],
+				// Graph.dependents is transitive (inverse of ancestors), so
+				// dependents are reached by one or more inverse requires steps.
 				[if r.min_dependents != _|_ {
-					"sh:path":     {"sh:inversePath": {"@id": "dcterms:requires"}}
+					"sh:path":     {"sh:oneOrMorePath": {"sh:inversePath": {"@id": "dcterms:requires"}}}
 					"sh:minCount": r.min_dependents
 				}],
 				[if r.requires_dependency_type != _|_ {
@@ -502,7 +504,7 @@ import (
 					"sh:qualifiedMinCount":   1
 				}],
 				[if r.requires_dependent_type != _|_ {
-					"sh:path":                {"sh:inversePath": {"@id": "dcterms:requires"}}
+					"sh:path":                {"sh:oneOrMorePath": {"sh:inversePath": {"@id": "dcterms:requires"}}}
 					"sh:qualifiedValueShape": (_qual & {_in: r.requires_dependent_type}).out
 					"sh:qualifiedMinCount":   1
 				}],

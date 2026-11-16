@@ -4,3 +4,4 @@ __pycache__/
 _public/
 .claude/
 todo.txt
+tests/.mutations/

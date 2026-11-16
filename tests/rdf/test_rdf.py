@@ -139,6 +139,74 @@ def test_shapes_and_report(label, data_doc, shapes_doc, report_doc):
     check(ours == rule_focus, f"same (shape, focus node) pairs: apercue={sorted(ours)} pyshacl={sorted(rule_focus)}")
 
 
+# cue needs ./-relative package paths; the tests run from the repo root.
+RULE_KINDS = "./tests/rule-kinds"
+
+
+def mutations(inp):
+    """Yield (label, mutated Input): drop each edge, retype each node,
+    remove each node (and the edges that pointed at it)."""
+    import copy
+    types = sorted({t for r in inp.values() for t in r["@type"]})
+    for name, r in sorted(inp.items()):
+        for dep in sorted(r.get("depends_on", {})):
+            m = copy.deepcopy(inp)
+            del m[name]["depends_on"][dep]
+            if not m[name]["depends_on"]:
+                del m[name]["depends_on"]
+            yield f"drop edge {name}->{dep}", m
+    for name, r in sorted(inp.items()):
+        for t in types:
+            if t not in r["@type"]:
+                m = copy.deepcopy(inp)
+                m[name]["@type"] = {t: True}
+                yield f"retype {name} as {t}", m
+                break
+    for name in sorted(inp):
+        m = copy.deepcopy(inp)
+        del m[name]
+        for r in m.values():
+            r.get("depends_on", {}).pop(name, None)
+            if "depends_on" in r and not r["depends_on"]:
+                del r["depends_on"]
+        yield f"remove {name}", m
+
+
+def test_rule_kinds_with_mutations():
+    """P2.2: every rule kind, compiled to SHACL, agrees with apercue on the
+    base graph and on every single-step mutation of it."""
+    import shutil
+    import tempfile
+    print("P2.2 every rule kind vs pyshacl, base graph + mutations")
+    base = export(RULE_KINDS, "Input")
+    tmp_root = "./tests/.mutations"
+    os.makedirs(tmp_root, exist_ok=True)
+    try:
+        cases = [("base", base)] + list(mutations(base))
+        global FAILS
+        before = len(FAILS)
+        for label, inp in cases:
+            d = "./" + os.path.relpath(tempfile.mkdtemp(dir=tmp_root))
+            shutil.copy(os.path.join(RULE_KINDS, "test.cue"), d)
+            with open(os.path.join(d, "input.cue"), "w") as f:
+                f.write("package test\n\nInput: " + json.dumps(inp, indent=1) + "\n")
+            # Keys must not shadow the package fields they reference.
+            out = export(d, "{r: cc.shacl_report, d: data.jsonld, s: shapes.shapes_graph}")
+            quiet_fails = []
+            saved = FAILS
+            FAILS = quiet_fails
+            import io
+            import contextlib
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                test_shapes_and_report(label, out["d"], out["s"], out["r"])
+            FAILS = saved
+            check(not quiet_fails, f"{label}: {quiet_fails[:2] if quiet_fails else 'agree'}")
+        print(f"  {len(cases)} graphs, {len(FAILS) - before} disagreement(s)")
+    finally:
+        shutil.rmtree(tmp_root, ignore_errors=True)
+
+
 def main():
     graphs = load()
     graph_doc = export("./w3c", "evidence.graph_jsonld")
@@ -160,6 +228,8 @@ def main():
         export(pkg, "shapes.shapes_graph"),
         export(pkg, "cc.shacl_report"),
     )
+
+    test_rule_kinds_with_mutations()
 
     print()
     if FAILS:
