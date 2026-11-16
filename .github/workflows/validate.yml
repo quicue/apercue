@@ -206,3 +206,11 @@ jobs:
           done
           echo "ERROR: https://apercue.ca/ does not serve the index.html built from ${GITHUB_SHA}"
           exit 1
+
+      - name: Verify missing pages return 404 and linked pages are deployed
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' "https://apercue.ca/no-such-page-${GITHUB_SHA}")
+          [ "$code" = 404 ] || { echo "ERROR: unknown path returned $code, expected 404"; exit 1; }
+          curl -fsSL "https://apercue.ca/projections.html?v=${GITHUB_SHA}" | grep -q '<title>Projection Matrix' \
+            || { echo "ERROR: projections.html is not deployed"; exit 1; }
+          echo "404 and projections.html ok"
