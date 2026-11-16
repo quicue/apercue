@@ -122,7 +122,7 @@ kg_construct_report: """
 	## References
 
 	- [Core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md)
-	  — Full implementation evidence with \(evidence.spec_counts.total) W3C specs
+	  — Full implementation evidence with \(evidence.spec_counts.implemented) W3C specs
 	- [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
 	- [demo.quicue.ca](https://demo.quicue.ca) — Interactive D3 graph explorer
 	"""

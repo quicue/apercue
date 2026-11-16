@@ -45,9 +45,71 @@ echo "Pattern definitions: $PATTERN_DEFS"
 check "README pattern defs" "$PATTERN_DEFS" "README.md" "${PATTERN_DEFS} definitions"
 check "ARCHITECTURE pattern defs" "$PATTERN_DEFS" "ARCHITECTURE.md" "${PATTERN_DEFS} pattern definitions"
 
-# 3. W3C spec count (from README table)
-SPEC_COUNT=$(grep -c '| Implemented |' README.md)
-echo "W3C specs (Implemented): $SPEC_COUNT"
+# 3. W3C spec count. Source of truth: vocab/specs-registry.cue via site_spec_counts.
+#    Every spec count in README, docs, w3c/*.md and site HTML must agree with it.
+if command -v cue &>/dev/null; then
+    SPEC_JSON=$(cue export ./site/ -e site_spec_counts --out json)
+    echo "W3C specs (registry): $(echo "$SPEC_JSON" | tr -d ' \n')"
+    if ! diff -q <(echo "$SPEC_JSON") site/data/spec-counts.json >/dev/null; then
+        echo "  FAIL: site/data/spec-counts.json is stale (cue export ./site/ -e site_spec_counts)"
+        FAIL=$((FAIL + 1))
+    fi
+    SPEC_FAILS=$(SPEC_JSON="$SPEC_JSON" python3 - <<'PY'
+import glob, json, os, re
+c = json.loads(os.environ["SPEC_JSON"])
+impl, total = c["implemented"], c["total"]
+files = (["README.md", "ARCHITECTURE.md", "CONTRIBUTING.md"] + glob.glob("docs/*.md")
+         + glob.glob("w3c/*.md") + glob.glob("w3c/submissions/*.md")
+         + glob.glob("site/*.html") + glob.glob("site/w3c/*.html"))
+# "N W3C specs", "N specifications", "N W3C standards", "N W3C projections",
+# "N W3C vocabulary projections", "N W3C specification outputs", "Export N projections",
+# "Six of N", "N projections." (verdict lines). "N different W3C specifications".
+count_re = re.compile(
+    r"\b(\d+)\s+(?:different\s+)?(?:W3C\s+)?(?:vocabulary\s+)?"
+    r"(?:spec(?:ification)?s\b|standards\b|specification outputs\b|projections\.)"
+    r"|\b(\d+)\s+W3C\s+(?:vocabulary\s+)?projections\b"
+    r"|Export\s+(\d+)\s+projections\b|\bof\s+(\d+)\s+W3C\b"
+    r"|<strong>(\d+)</strong>\s*W3C specs")
+nth_re = re.compile(r"\b(\d+)th\s+\(Hydra\)")
+depth_re = re.compile(r"(\d+) full, (\d+) partial, (\d+) vocabulary, (\d+) structural")
+# Counts that describe the playground's six tabs, not the registry.
+playground_re = re.compile(r"(?:See|Six of)?\s*\b6 W3C projections\b")
+bad = []
+for f in sorted(set(files)):
+    for i, line in enumerate(open(f, encoding="utf-8"), 1):
+        for m in count_re.finditer(line):
+            n = int(next(g for g in m.groups() if g))
+            if n == 6 and playground_re.search(line):
+                continue
+            if n != impl:
+                bad.append(f"{f}:{i}: '{m.group(0)}' != {impl} implemented")
+        for m in nth_re.finditer(line):
+            if int(m.group(1)) != total:
+                bad.append(f"{f}:{i}: '{m.group(0)}' != {total} total")
+        for m in depth_re.finditer(line):
+            got = tuple(int(x) for x in m.groups())
+            want = (c["full"], c["partial"], c["vocabulary"], c["structural"])
+            if got != want:
+                bad.append(f"{f}:{i}: depth breakdown {got} != {want}")
+# Table rows must agree too.
+rows = open("site/index.html").read().count('spec-status impl"')
+if rows != impl:
+    bad.append(f"site/index.html: {rows} Implemented table rows != {impl}")
+rows = open("README.md").read().count("| Implemented |")
+if rows != impl:
+    bad.append(f"README.md: {rows} Implemented table rows != {impl}")
+print("\n".join(bad))
+PY
+)
+    if [ -n "$SPEC_FAILS" ]; then
+        echo "$SPEC_FAILS" | sed 's/^/  FAIL: /'
+        FAIL=$((FAIL + $(echo "$SPEC_FAILS" | wc -l)))
+    else
+        echo "  PASS: every spec count matches the registry"
+    fi
+else
+    echo "  SKIP: cue not available, skipping spec count"
+fi
 
 # 4. Example count
 EXAMPLE_COUNT=$(ls -d examples/*/ | wc -l)
