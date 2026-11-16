@@ -3,8 +3,8 @@
 ## Context
 
 The [apercue.ca](https://github.com/quicue/apercue) project uses
-[CUE](https://cuelang.org) — a constraint language with lattice-based type
-semantics — to construct, validate, and serialize knowledge graphs entirely at
+[CUE](https://cuelang.org) (a constraint language with lattice-based type
+semantics) to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 single `cue export` invocation with no mapping language and no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
@@ -24,7 +24,7 @@ Source Data (CUE structs) → cue export -e <projection>
 
 The "mapping" is CUE type unification. The "validation" is CUE constraint
 resolution. The "serialization" is JSON-LD context injection. All three happen
-during evaluation — there is no separate step for any of them.
+during evaluation: there is no separate step for any of them.
 
 Each resource declares `@type` (a struct-as-set of semantic categories) and
 `depends_on` (typed dependency edges). A `#Graph` pattern computes topology,
@@ -65,7 +65,7 @@ implemented downstream.
 
 3. **Provenance without a provenance store.** The `#ProvenanceTrace` pattern
    computes PROV-O output from the dependency structure. `prov:wasDerivedFrom`
-   edges are dependency edges. Provenance is not annotated — it is structurally
+   edges are dependency edges. Provenance is not annotated; it is structurally
    computed. This challenges the assumption that provenance requires separate
    recording infrastructure.
 
@@ -88,7 +88,7 @@ implemented downstream.
 - **Data:** Five-node research publication pipeline (ethics approval → sensor
   data → analysis → paper → peer review); 41-node project charter
   (self-modeling)
-- **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages —
+- **Mappings:** CUE type definitions in `vocab/` and `patterns/` packages; 
   78 pattern definitions across 22 files
 - **Ontology:** JSON-LD `@context` mapping CUE fields to Dublin Core, PROV-O,
   SHACL, SKOS, OWL-Time, DCAT, ODRL, EARL, schema.org, ORG, VoID, DQV,

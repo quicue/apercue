@@ -1,7 +1,7 @@
 # Getting Started
 
 Build a typed dependency graph, validate it against a charter, and export
-W3C-standard JSON-LD — all from CUE, no runtime.
+W3C-standard JSON-LD: all from CUE, no runtime.
 
 ## Prerequisites
 
@@ -9,9 +9,9 @@ W3C-standard JSON-LD — all from CUE, no runtime.
 
 > **CUE commands quick reference:**
 >
-> - `cue vet` — validate constraints (no output means pass)
-> - `cue eval` — evaluate and print human-readable CUE output
-> - `cue export` — evaluate and produce strict JSON/YAML
+> - `cue vet`: validate constraints (no output means pass)
+> - `cue eval`: evaluate and print human-readable CUE output
+> - `cue export`: evaluate and produce strict JSON/YAML
 
 ## 1. Create a project
 
@@ -74,20 +74,20 @@ _tasks: {
 Every resource needs `name` (ASCII-safe) and `@type` (struct-as-set).
 Dependencies are `depends_on: {"other-resource": true}`.
 
-`@type` and `depends_on` use **struct-as-set** — `{Key: true}` instead of arrays.
+`@type` and `depends_on` use **struct-as-set**; `{Key: true}` instead of arrays.
 This gives O(1) membership testing, clean merging via CUE unification, and no
 duplicates. When you see `resource["@type"]["Planning"] != _|_` in pattern code,
-that's a field existence check — CUE's `_|_` ("bottom") means undefined.
+that's a field existence check; CUE's `_|_` ("bottom") means undefined.
 
 ## 3. Build the graph
 
 Add graph construction below your resources:
 
 ```cue
-// Build the graph — computes depth, topology, roots, leaves
+// Build the graph: computes depth, topology, roots, leaves
 graph: patterns.#Graph & {Input: _tasks}
 
-// Critical path — what's the minimum time through the dependency chain?
+// Critical path: what's the minimum time through the dependency chain?
 cpm: patterns.#CriticalPath & {
     Graph: graph
     Weights: {for name, t in _tasks {(name): t.time_days}}
@@ -238,7 +238,7 @@ command: build: {
 
 The `#BuildSpec` constraint validates all paths and expressions at `cue vet`
 time. A typo like `package_path: "no-dot-slash"` fails immediately with a
-clear error — before the command ever runs.
+clear error: before the command ever runs.
 
 ```bash
 cue cmd build
@@ -265,7 +265,7 @@ diamond-shaped DAGs above ~35 nodes, evaluation time grows exponentially.
 # Generate precomputed depth/ancestors/dependents
 python3 tools/toposort.py your-file.cue
 
-# This creates precomputed.cue — feed it to #GraphLite instead of #Graph
+# This creates precomputed.cue: feed it to #GraphLite instead of #Graph
 ```
 
 ```cue
@@ -280,6 +280,6 @@ graph: patterns.#GraphLite & {
 ```
 
 `#GraphLite` accepts the same interface as `#Graph` (both satisfy `#AnalyzableGraph`)
-so all downstream patterns — `#CriticalPath`, `#GapAnalysis`, `#ComplianceCheck` —
+so all downstream patterns (`#CriticalPath`, `#GapAnalysis`, `#ComplianceCheck`) 
 work with either. The self-charter in this repo uses `#GraphLite` with 40+ nodes and
 evaluates in ~33ms.

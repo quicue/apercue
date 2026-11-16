@@ -3,8 +3,8 @@
 How apercue.ca CUE patterns map to W3C specifications.
 
 Every entry below is a **projection** of the same typed dependency graph.
-For domains with bounded, known resource sets — project plans, infrastructure,
-curricula, supply chains — CUE evaluation produces standards-compliant output
+For domains with bounded, known resource sets (project plans, infrastructure,
+curricula, supply chains) CUE evaluation produces standards-compliant output
 directly, without a runtime triplestore or query engine.
 
 This is not a replacement for the semantic web stack. RDF stores, SPARQL
@@ -28,7 +28,7 @@ constraint consistency) are more valuable than runtime flexibility.
 | **EARL** (projection, not counted: every outcome is earl:untested) | earl:Assertion, earl:TestCase, earl:Software | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
 | **OWL-Time** | time:Interval | `#CriticalPath.time_report` | `patterns/analysis.cue` | `cue export -e cpm.time_report` |
 | **OWL-Time** | time:Instant | `#ContextEventLog.event_report` | `patterns/context_event.cue` | `cue export -e event_log.event_report` |
-| **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural — present in all JSON-LD output |
+| **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural; present in all JSON-LD output |
 | **PROV-O** | prov:Entity, prov:Generation, prov:SoftwareAgent | `#ProvenanceTrace.prov_report` | `patterns/provenance.cue` | `cue export -e provenance.prov_report` |
 | **PROV-O** | prov:Plan, prov:Activity | `#ProvenancePlan.plan_report` | `patterns/provenance_plan.cue` | `cue export -e _prov_plan.plan_report` |
 | **PROV-O** | prov:Activity, prov:Collection | `#ContextEventLog.event_report` | `patterns/context_event.cue` | `cue export -e event_log.event_report` |
@@ -87,19 +87,19 @@ similar domains where completeness is a feature rather than a limitation.
 
 ## References
 
-- [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/) — W3C Recommendation
-- [SHACL](https://www.w3.org/TR/shacl/) — W3C Recommendation
-- [SKOS](https://www.w3.org/TR/skos-reference/) — W3C Recommendation
-- [EARL](https://www.w3.org/TR/EARL10-Schema/) — W3C Note
-- [OWL-Time](https://www.w3.org/TR/owl-time/) — W3C Recommendation
-- [DCAT 3](https://www.w3.org/TR/vocab-dcat-3/) — W3C Recommendation
-- [ODRL 2.2](https://www.w3.org/TR/odrl-model/) — W3C Recommendation
-- [W3C ORG](https://www.w3.org/TR/vocab-org/) — W3C Recommendation
-- [Verifiable Credentials 2.0](https://www.w3.org/TR/vc-data-model-2.0/) — W3C Recommendation
-- [Activity Streams 2.0](https://www.w3.org/TR/activitystreams-core/) — W3C Recommendation
-- [VoID](https://www.w3.org/TR/void/) — W3C Interest Group Note
-- [DQV](https://www.w3.org/TR/vocab-dqv/) — W3C Note
-- [Web Annotation](https://www.w3.org/TR/annotation-model/) — W3C Recommendation
-- [RDF Schema](https://www.w3.org/TR/rdf-schema/) — W3C Recommendation
-- [OWL 2](https://www.w3.org/TR/owl2-overview/) — W3C Recommendation
-- [Hydra Core](https://www.hydra-cg.com/spec/latest/core/) — W3C Community Group
+- [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/): W3C Recommendation
+- [SHACL](https://www.w3.org/TR/shacl/): W3C Recommendation
+- [SKOS](https://www.w3.org/TR/skos-reference/): W3C Recommendation
+- [EARL](https://www.w3.org/TR/EARL10-Schema/): W3C Note
+- [OWL-Time](https://www.w3.org/TR/owl-time/): W3C Recommendation
+- [DCAT 3](https://www.w3.org/TR/vocab-dcat-3/): W3C Recommendation
+- [ODRL 2.2](https://www.w3.org/TR/odrl-model/): W3C Recommendation
+- [W3C ORG](https://www.w3.org/TR/vocab-org/): W3C Recommendation
+- [Verifiable Credentials 2.0](https://www.w3.org/TR/vc-data-model-2.0/): W3C Recommendation
+- [Activity Streams 2.0](https://www.w3.org/TR/activitystreams-core/): W3C Recommendation
+- [VoID](https://www.w3.org/TR/void/): W3C Interest Group Note
+- [DQV](https://www.w3.org/TR/vocab-dqv/): W3C Note
+- [Web Annotation](https://www.w3.org/TR/annotation-model/): W3C Recommendation
+- [RDF Schema](https://www.w3.org/TR/rdf-schema/): W3C Recommendation
+- [OWL 2](https://www.w3.org/TR/owl2-overview/): W3C Recommendation
+- [Hydra Core](https://www.hydra-cg.com/spec/latest/core/): W3C Community Group

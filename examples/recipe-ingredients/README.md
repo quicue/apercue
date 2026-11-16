@@ -1,6 +1,6 @@
 # Recipe Ingredients: Cooking as a Dependency Graph
 
-This example demonstrates how **recipes are dependency graphs**. A beef bourguignon models 17 steps — from raw ingredients through prep and cooking stages — where dependencies encode what must happen before what.
+This example demonstrates how **recipes are dependency graphs**. A beef bourguignon models 17 steps (from raw ingredients through prep and cooking stages) where dependencies encode what must happen before what.
 
 ## The Model
 
@@ -24,7 +24,7 @@ Cook Steps:          brown-beef       └────────┴────
 
 Each step has:
 - **name**: unique identifier (e.g., `brown-beef`)
-- **@type**: semantic type set — `Protein`, `Produce`, `Seasoning`, `Liquid`, `PrepStep`, `CookStep`
+- **@type**: semantic type set; `Protein`, `Produce`, `Seasoning`, `Liquid`, `PrepStep`, `CookStep`
 - **depends_on**: what must be done first (set membership)
 - **time_min**: time in minutes (used as CPM weight; 0 for ingredients)
 - **description**: what to do
@@ -85,31 +85,31 @@ The critical path determines the fastest possible cooking time: **205 minutes** 
 beef-chuck (0 min) → brown-beef (15 min) → deglaze (10 min) → braise (150 min) → finish (30 min)
 ```
 
-5 steps on the critical path. Any delay on these delays the entire meal. The parallel prep work (dice onions, slice carrots, mince garlic, quarter mushrooms) has up to **172 minutes of slack** — it can be done anytime before the deglaze step.
+5 steps on the critical path. Any delay on these delays the entire meal. The parallel prep work (dice onions, slice carrots, mince garlic, quarter mushrooms) has up to **172 minutes of slack**; it can be done anytime before the deglaze step.
 
 ## What It Demonstrates
 
-- **Critical path analysis** — which steps determine total cooking time (205 min)
-- **Topological layering** — parallel prep steps vs sequential cooking
-- **Slack analysis** — 172 minutes of slack on vegetable prep means flexible scheduling
-- **Domain-agnostic proof** — the same `#CriticalPath` pattern used for infrastructure scheduling works for recipe execution order
+- **Critical path analysis**: which steps determine total cooking time (205 min)
+- **Topological layering**: parallel prep steps vs sequential cooking
+- **Slack analysis**: 172 minutes of slack on vegetable prep means flexible scheduling
+- **Domain-agnostic proof**: the same `#CriticalPath` pattern used for infrastructure scheduling works for recipe execution order
 
 ## Patterns Used
 
-- `patterns.#Graph` — core dependency graph (17 nodes, prep/cook edges)
-- `patterns.#CriticalPath` — CPM scheduling (weighted by time_min)
-- `patterns.#ComplianceCheck` — cook steps must have dependencies
-- `charter.#Charter` — recipe completeness gates
-- `charter.#GapAnalysis` — charter satisfaction
+- `patterns.#Graph`: core dependency graph (17 nodes, prep/cook edges)
+- `patterns.#CriticalPath`: CPM scheduling (weighted by time_min)
+- `patterns.#ComplianceCheck`: cook steps must have dependencies
+- `charter.#Charter`: recipe completeness gates
+- `charter.#GapAnalysis`: charter satisfaction
 
 ## File Structure
 
-- `recipe.cue` — main example (package main)
-  - `_steps` — 17 step definitions (8 ingredients + 4 prep + 5 cook)
-  - `graph` — typed dependency graph
-  - `cpm` — critical path analysis (weight = time_min)
-  - `_charter` — recipe completeness gates
-  - `gaps` — gap analysis
-  - `compliance` — structural rules (cook steps need deps)
-  - `gap_summary`, `scheduling_summary`, `graph_metrics` — intermediate projections
-  - `summary` — executive summary
+- `recipe.cue`: main example (package main)
+  - `_steps`: 17 step definitions (8 ingredients + 4 prep + 5 cook)
+  - `graph`: typed dependency graph
+  - `cpm`: critical path analysis (weight = time_min)
+  - `_charter`: recipe completeness gates
+  - `gaps`: gap analysis
+  - `compliance`: structural rules (cook steps need deps)
+  - `gap_summary`, `scheduling_summary`, `graph_metrics`; intermediate projections
+  - `summary`: executive summary

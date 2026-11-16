@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ecosystem Explorer — apercue.ca</title>
+<title>Ecosystem Explorer; apercue.ca</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -240,7 +240,7 @@ svg defs marker path {
 }
 
 
-/* Critical path — compact inline */
+/* Critical path; compact inline */
 .crit-inline {
   font-family: var(--mono);
   font-size: 11px;
@@ -373,7 +373,7 @@ svg defs marker path {
 
 <div class="header">
   <h1>apercue ecosystem</h1>
-  <span class="header-desc">This graph IS an apercue graph &mdash; typed resources with dcterms:requires edges, modeled in CUE</span>
+  <span class="header-desc">This graph IS an apercue graph; typed resources with dcterms:requires edges, modeled in CUE</span>
   <span class="status-pill complete" id="header-status"></span>
 </div>
 
@@ -489,7 +489,7 @@ function renderSidebar(data) {
     `<div class="metric"><div class="metric-value">${v}</div><div class="metric-label">${l}</div></div>`
   ).join('');
 
-  // Critical path — compact inline
+  // Critical path: compact inline
   const cp = document.getElementById('crit-path');
   cp.innerHTML = data.critical_path.map((step, i) => {
     const sep = i < data.critical_path.length - 1 ? '<span class="crit-sep">→</span>' : '';

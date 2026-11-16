@@ -50,7 +50,7 @@
             ],
             "depth": 0,
             "status": "active",
-            "description": "Generic reference repo — domain-agnostic typed graphs + W3C projections",
+            "description": "Generic reference repo: domain-agnostic typed graphs + W3C projections",
             "domain": "apercue.ca"
         },
         {
@@ -62,7 +62,7 @@
             ],
             "depth": 1,
             "status": "active",
-            "description": "Infrastructure-specific patterns — 40+ types, 29 providers",
+            "description": "Infrastructure-specific patterns: 40+ types, 29 providers",
             "domain": "quicue.ca"
         },
         {
@@ -74,7 +74,7 @@
             ],
             "depth": 1,
             "status": "active",
-            "description": "Knowledge graph framework — core types, ext, aggregate, CLI",
+            "description": "Knowledge graph framework: core types, ext, aggregate, CLI",
             "domain": "kg.quicue.ca"
         },
         {
@@ -86,7 +86,7 @@
             ],
             "depth": 2,
             "status": "active",
-            "description": "Infrastructure instance — datacenter-as-code deployment",
+            "description": "Infrastructure instance: datacenter-as-code deployment",
             "domain": ""
         },
         {
@@ -98,7 +98,7 @@
             ],
             "depth": 2,
             "status": "active",
-            "description": "CMHC housing retrofit — NHCF + Greener Homes graphs",
+            "description": "CMHC housing retrofit: NHCF + Greener Homes graphs",
             "domain": "cmhc-retrofit.quicue.ca"
         },
         {

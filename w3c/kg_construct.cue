@@ -14,8 +14,8 @@ kg_construct_report: """
 	## Summary
 
 	[apercue.ca](https://github.com/quicue/apercue) uses
-	[CUE](https://cuelang.org) — a constraint language with lattice-based type
-	semantics — to construct, validate, and serialize knowledge graphs entirely at
+	[CUE](https://cuelang.org) (a constraint language with lattice-based type
+	semantics) to construct, validate, and serialize knowledge graphs entirely at
 	compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 	single `cue export` invocation, with no mapping language and no triplestore.
 	For graphs past a few dozen nodes the dependency closure is precomputed by
@@ -40,7 +40,7 @@ kg_construct_report: """
 
 	The "mapping" is CUE type unification. The "validation" is CUE constraint
 	resolution. The "serialization" is JSON-LD context injection. All three happen
-	during evaluation — there is no separate step for any of them.
+	during evaluation: there is no separate step for any of them.
 
 	## Example: Research Publication Pipeline
 
@@ -68,9 +68,9 @@ kg_construct_report: """
 	```
 
 	This is produced during CUE evaluation. `sh:conforms: true` means the graph
-	satisfies all constraints. If any resource violates a rule, unification with
-	`true` produces bottom (`_|_`) and `cue vet` fails — the graph cannot be
-	constructed in an invalid state.
+	satisfies all rules. By default a violation is reported here and the build
+	still succeeds. With `Enforce: true` on the check, a critical violation
+	makes `cue vet` fail.
 
 	## Evidence: Provenance (computed)
 
@@ -81,7 +81,7 @@ kg_construct_report: """
 	```
 
 	Every resource becomes a `prov:Entity`. Dependency edges become
-	`prov:wasDerivedFrom` links. Provenance is not annotated after the fact — it
+	`prov:wasDerivedFrom` links. Provenance is not annotated after the fact; it
 	is structurally computed from the same graph that produces the KG.
 
 	## Evidence: JSON-LD Context (computed)
@@ -122,7 +122,7 @@ kg_construct_report: """
 	## References
 
 	- [Core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md)
-	  — Full implementation evidence with \(evidence.spec_counts.implemented) W3C specs
-	- [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
-	- [demo.quicue.ca](https://demo.quicue.ca) — Interactive D3 graph explorer
+	  Full implementation evidence with \(evidence.spec_counts.implemented) W3C specs
+	- [github.com/quicue/apercue](https://github.com/quicue/apercue): Source (Apache 2.0)
+	- [demo.quicue.ca](https://demo.quicue.ca): Interactive D3 graph explorer
 	"""

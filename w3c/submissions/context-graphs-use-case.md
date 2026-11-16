@@ -9,7 +9,7 @@
 A resource in a knowledge graph often participates in multiple contexts
 simultaneously. A dataset might be subject to provenance tracking (PROV-O
 context), access governance (ODRL context), scheduling (OWL-Time context), and
-quality validation (SHACL context) — all at the same time. How should a resource
+quality validation (SHACL context): all at the same time. How should a resource
 express simultaneous membership in multiple contexts, and how should those
 contexts compose without conflicts?
 
@@ -57,7 +57,7 @@ A resource with `{Dataset: true, Governed: true}` matches a data repository
 
 If two contexts place conflicting constraints on the same resource, CUE
 unification produces bottom (`_|_`). The graph cannot be constructed. This is
-a type error caught before any output is generated — not a runtime conflict.
+a type error caught before any output is generated; not a runtime conflict.
 
 ### Context Composition
 
@@ -69,7 +69,7 @@ is struct unification:
 ```
 
 This uses CUE's lattice semantics. Context composition is not a graph
-operation — it is type unification.
+operation: it is type unification.
 
 ## Evidence: Multiple W3C Projections From One Graph
 
@@ -145,7 +145,7 @@ is the single source of truth.
 }
 ```
 
-Same resource (`analysis-code`), same `@id`, three different contexts — each
+Same resource (`analysis-code`), same `@id`, three different contexts; each
 a standard W3C vocabulary.
 
 ## Multi-Domain Validation
@@ -166,14 +166,14 @@ domains. The contexts are domain-specific; the mechanism is universal.
 |----------------------|--------------|
 | Multi-context identity | `@type` struct-as-set: `{A: true, B: true}` |
 | Context binding | Set intersection between resource types and provider types |
-| Cross-context consistency | CUE unification — conflicts are type errors |
+| Cross-context consistency | CUE unification; conflicts are type errors |
 | Context-specific views | `cue export -e <projection>` per context |
 | Context composition | Struct merging: `{A: true} & {B: true}` |
 
 ## Limitations
 
 - **Closed-world:** contexts must be declared, not discovered at runtime
-- **Flat namespace:** no hierarchical context inheritance (by design — keeps dispatch simple)
+- **Flat namespace:** no hierarchical context inheritance (by design; keeps dispatch simple)
 - **Boolean membership only:** no weighted or probabilistic context participation
 - **Static:** context assignment is compile-time, not dynamic
 
@@ -191,6 +191,6 @@ consistency guarantees.
 
 ## References
 
-- [github.com/quicue/apercue](https://github.com/quicue/apercue) — Source (Apache 2.0)
-- [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — Full evidence with 13 W3C specs
-- [apercue.ca](https://apercue.ca) — Project website
+- [github.com/quicue/apercue](https://github.com/quicue/apercue): Source (Apache 2.0)
+- [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md): Full evidence with 13 W3C specs
+- [apercue.ca](https://apercue.ca): Project website

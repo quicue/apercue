@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KG-Construct CG Report — apercue.ca</title>
+<title>KG-Construct CG Report; apercue.ca</title>
 <style>
   :root {
     --bg: #fafafa;
@@ -108,8 +108,8 @@
 <hr>
 <h2 id="summary">Summary</h2>
 <p><a href="https://github.com/quicue/apercue">apercue.ca</a> uses
-<a href="https://cuelang.org">CUE</a> — a constraint language with lattice-based type
-semantics — to construct, validate, and serialize knowledge graphs entirely at
+<a href="https://cuelang.org">CUE</a> (a constraint language with lattice-based type
+semantics) to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 single <code>cue export</code> invocation, with no mapping language and no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
@@ -125,7 +125,7 @@ it relates to the KG-Construct CG's work on declarative KG construction.</p>
 </code></pre>
 <p>The "mapping" is CUE type unification. The "validation" is CUE constraint
 resolution. The "serialization" is JSON-LD context injection. All three happen
-during evaluation — there is no separate step for any of them.</p>
+during evaluation: there is no separate step for any of them.</p>
 <h2 id="example-research-publication-pipeline">Example: Research Publication Pipeline</h2>
 <p>Five nodes define a publication pipeline. Each declares <code>@type</code> (what it is)
 and <code>depends_on</code> (what it needs):</p>
@@ -147,9 +147,9 @@ dependents, and impact sets from this declaration alone.</p>
 }
 </code></pre>
 <p>This is produced during CUE evaluation. <code>sh:conforms: true</code> means the graph
-satisfies all constraints. If any resource violates a rule, unification with
-<code>true</code> produces bottom (<code>_|_</code>) and <code>cue vet</code> fails — the graph cannot be
-constructed in an invalid state.</p>
+satisfies all rules. By default a violation is reported here and the build
+still succeeds. With <code>Enforce: true</code> on the check, a critical violation
+makes <code>cue vet</code> fail.</p>
 <h2 id="evidence-provenance-computed">Evidence: Provenance (computed)</h2>
 <p>The <code>#ProvenanceTrace</code> pattern maps dependency edges to PROV-O:</p>
 <pre><code class="language-json">{
@@ -173,7 +173,7 @@ constructed in an invalid state.</p>
 }
 </code></pre>
 <p>Every resource becomes a <code>prov:Entity</code>. Dependency edges become
-<code>prov:wasDerivedFrom</code> links. Provenance is not annotated after the fact — it
+<code>prov:wasDerivedFrom</code> links. Provenance is not annotated after the fact; it
 is structurally computed from the same graph that produces the KG.</p>
 <h2 id="evidence-json-ld-context-computed">Evidence: JSON-LD Context (computed)</h2>
 <p>The vocabulary registry produces a JSON-LD 1.1 <code>@context</code>:</p>
@@ -269,9 +269,9 @@ entire KG construction pipeline reduces to a type-checked <code>cue export</code
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://github.com/quicue/apercue/blob/main/w3c/core-report.md">Core report</a>
-  — Full implementation evidence with 13 W3C specs</li>
-<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a> — Source (Apache 2.0)</li>
-<li><a href="https://demo.quicue.ca">demo.quicue.ca</a> — Interactive D3 graph explorer</li>
+  Full implementation evidence with 13 W3C specs</li>
+<li><a href="https://github.com/quicue/apercue">github.com/quicue/apercue</a>: Source (Apache 2.0)</li>
+<li><a href="https://demo.quicue.ca">demo.quicue.ca</a>: Interactive D3 graph explorer</li>
 </ul>
 <div class="meta">
   <p>Source: <a href="https://github.com/quicue/apercue/tree/main/w3c">github.com/quicue/apercue/tree/main/w3c</a></p>

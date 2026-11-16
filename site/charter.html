@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Build Charter — apercue.ca</title>
+<title>Build Charter; apercue.ca</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -20,15 +20,15 @@
   --accent: #3ddc84;
   --accent-dim: rgba(61, 220, 132, 0.15);
 
-  /* Phase palette — semantic web blue tones + warm progression */
-  --phase-1: #5b9cf6;  /* Scaffold — foundation blue */
-  --phase-2: #7b6cf6;  /* Patterns — structural purple */
-  --phase-3: #c084fc;  /* Projections — output violet */
-  --phase-4: #34d1bf;  /* Examples — proof teal */
-  --phase-5: #f0c040;  /* Ship — deployment gold */
-  --phase-6: #3ddc84;  /* Completeness — the accent green */
-  --phase-7: #f09070;  /* Semantic integrity — warm coral */
-  --phase-8: #e8b84d;  /* Local hardening — electric amber */
+  /* Phase palette; semantic web blue tones + warm progression */
+  --phase-1: #5b9cf6;  /* Scaffold; foundation blue */
+  --phase-2: #7b6cf6;  /* Patterns; structural purple */
+  --phase-3: #c084fc;  /* Projections; output violet */
+  --phase-4: #34d1bf;  /* Examples; proof teal */
+  --phase-5: #f0c040;  /* Ship; deployment gold */
+  --phase-6: #3ddc84;  /* Completeness; the accent green */
+  --phase-7: #f09070;  /* Semantic integrity; warm coral */
+  --phase-8: #e8b84d;  /* Local hardening; electric amber */
 
   --body: 'Atkinson Hyperlegible Next', sans-serif;
   --mono: 'Atkinson Hyperlegible Mono', monospace;
@@ -670,7 +670,7 @@ function renderGraph(data) {
     .on('zoom', e => g.attr('transform', e.transform));
   svg.call(zoom);
 
-  // Deterministic layered layout — depth on Y axis, siblings spread on X
+  // Deterministic layered layout: depth on Y axis, siblings spread on X
   const maxDepth = Math.max(...data.nodes.map(n => n.depth));
   const marginY = 80;
   const layerH = (height - marginY * 2) / Math.max(maxDepth, 1);
@@ -705,10 +705,10 @@ function renderGraph(data) {
       .attr('class', 'phase-label')
       .attr('x', 32).attr('y', y1 + 14)
       .attr('fill', color)
-      .text(`Phase ${phase} — ${PHASE_NAMES[phase] || ''}`);
+      .text(`Phase ${phase}; ${PHASE_NAMES[phase] || ''}`);
   });
 
-  // Deterministic layout — fixed positions, no simulation jitter
+  // Deterministic layout: fixed positions, no simulation jitter
   data.nodes.forEach(n => {
     const group = depthGroups[n.depth];
     const idx = group.indexOf(n);
@@ -727,7 +727,7 @@ function renderGraph(data) {
     if (typeof e.target === 'string') e.target = nodeById[e.target];
   });
 
-  // Edges — Bezier curves following dependency flow
+  // Edges: Bezier curves following dependency flow
   edgeElements = g.append('g')
     .selectAll('path')
     .data(data.edges)
@@ -814,7 +814,7 @@ function renderGraph(data) {
     clearHighlight();
   });
 
-  // Position nodes directly (deterministic — no simulation)
+  // Position nodes directly (deterministic: no simulation)
   nodeElements.attr('transform', d => `translate(${d.x},${d.y})`);
 }
 

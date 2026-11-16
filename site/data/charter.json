@@ -134,7 +134,7 @@
                 "Pattern"
             ],
             "depth": 2,
-            "description": "#Graph (renamed from #InfraGraph) — universal dependency graph",
+            "description": "#Graph (renamed from #InfraGraph): universal dependency graph",
             "planned": false,
             "kb": [
                 {
@@ -1185,7 +1185,7 @@
         },
         "ship": {
             "phase": 5,
-            "description": "Docs, .kb, GitHub, CF Pages — ready to share",
+            "description": "Docs, .kb, GitHub, CF Pages; ready to share",
             "satisfied": true,
             "resources": [
                 "docs-readme",
@@ -1198,7 +1198,7 @@
         },
         "projections-complete": {
             "phase": 6,
-            "description": "All artifacts are CUE projections — spec, site data, CI validation",
+            "description": "All artifacts are CUE projections: spec, site data, CI validation",
             "satisfied": true,
             "resources": [
                 "safeid-constraints",

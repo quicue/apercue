@@ -13,7 +13,7 @@ For usage, see [README.md](README.md). For individual decisions, see
 ## Design Principles
 
 **Constraints over generators.** A CUE definition like `#Resource` doesn't
-generate data — it constrains it. You write `graph: patterns.#Graph & {Input: _steps}`
+generate data: it constrains it. You write `graph: patterns.#Graph & {Input: _steps}`
 and CUE unifies your data against the constraint lattice. If your graph has a
 cycle, a dangling reference, or a missing type, evaluation fails. This is the
 semantic web's "open world assumption" inverted: everything not proven valid is
@@ -21,7 +21,7 @@ rejected at compile time.
 
 **Projections over serializers.** `cue export -e gaps.shacl_report` doesn't
 "convert" your data to SHACL. The SHACL report already exists as a CUE
-expression — the export just selects it. One graph produces SHACL, SKOS, EARL,
+expression: the export just selects it. One graph produces SHACL, SKOS, EARL,
 PROV-O, OWL-Time, DCAT, and Activity Streams projections simultaneously. Adding
 a projection costs one comprehension, zero runtime overhead.
 
@@ -32,7 +32,7 @@ iteration. This also enables CUE's unification: `{A: true} & {B: true}` =
 
 **ASCII-safe identifiers.** All resource names match `^[a-zA-Z][a-zA-Z0-9_.-]*$`
 (enforced by `#SafeID`). This prevents zero-width characters, homoglyphs, and
-RTL overrides from appearing in dependency references — critical for graphs that
+RTL overrides from appearing in dependency references; critical for graphs that
 cross trust boundaries during federation. See ADR-004.
 
 ## Module Layers
@@ -53,7 +53,7 @@ views/        Vocabulary projections (SKOS, org)
   │
 tools/        Workflow command schemas (#BuildSpec, #DeploySpec, #ValidateSpec)
   │           No imports. Importable by downstream repos.
-  │           Validated at `cue vet` time — catches bad paths, expressions,
+  │           Validated at `cue vet` time; catches bad paths, expressions,
   │           and output targets before any command runs.
   │
 examples/     Domain applications (5 examples)
@@ -70,13 +70,13 @@ w3c/          W3C Community Group evidence
 ```
 
 Dependencies flow strictly downward. No circular imports. `vocab/` is the root.
-`tools/` is a peer of `vocab/` — no CUE imports, importable by any downstream
+`tools/` is a peer of `vocab/`; no CUE imports, importable by any downstream
 module for compile-time validation of workflow command configuration.
 
 ## Data Flow
 
 A resource enters the system as a CUE struct. It flows through graph
-construction, constraint checking, and projection — all at `cue eval` time.
+construction, constraint checking, and projection; all at `cue eval` time.
 
 ```
 Raw Resources            Graph Construction         Analysis
@@ -109,13 +109,13 @@ time_min: 30            · depth per node             · critical path (zero-sla
 # 1. Validate structure (constraints catch errors at eval time)
 cue vet ./examples/recipe-ingredients/
 
-# 2. Gap analysis — are all charter gates satisfied?
+# 2. Gap analysis: are all charter gates satisfied?
 cue eval ./examples/recipe-ingredients/ -e gap_summary
 
-# 3. Critical path — minimum cook time through dependency chain
+# 3. Critical path: minimum cook time through dependency chain
 cue export ./examples/recipe-ingredients/ -e cpm.critical_sequence --out json
 
-# 4. SHACL report — W3C-standard validation output
+# 4. SHACL report: W3C-standard validation output
 cue export ./examples/recipe-ingredients/ -e gaps.shacl_report --out json
 ```
 
@@ -134,7 +134,7 @@ lattice is materialized.
 | `#AnalyzableGraph` | graph.cue | Interface satisfied by both `#Graph` and `#GraphLite`. |
 
 `#Graph` computes transitive closure via recursive struct references. CUE does
-not memoize these — diamond DAGs cause exponential re-evaluation. For the
+not memoize these: diamond DAGs cause exponential re-evaluation. For the
 self-charter build charter (41 tasks), Python precomputes depth/ancestors/dependents and
 `#GraphLite` consumes the result. See ADR-007.
 
@@ -183,7 +183,7 @@ Both produce `slack`, `critical`, `critical_sequence`, `summary`, and
 | `#OWLOntology` | ontology.cue | RDFS/OWL | `rdfs:Class`, `owl:ObjectProperty` |
 
 All projections share the same `@context` (defined in `vocab/context.cue`),
-so their JSON-LD outputs merge cleanly — different graphs can be combined
+so their JSON-LD outputs merge cleanly; different graphs can be combined
 by concatenating their `@graph` arrays under a shared context.
 
 ### Operational Analysis
@@ -236,12 +236,12 @@ know:
 
 2. **Comprehension-level vs. body-level `if`.** A comprehension-level `if`
    filters elements out entirely. A body-level `if` produces an empty struct
-   `{}` that unifies with everything — it doesn't filter, it just becomes
+   `{}` that unifies with everything; it doesn't filter, it just becomes
    invisible. This matters for correct `#ComplianceCheck` and `#GapAnalysis`
    implementations. See ADR-003.
 
 3. **Projection cost is zero.** A CUE expression like `gaps.shacl_report`
-   is lazy — it only evaluates when selected with `-e`. You can define 12
+   is lazy: it only evaluates when selected with `-e`. You can define 12
    projections and only pay for the one you export. This is why "zero-cost
    projections" is accurate, not marketing.
 
@@ -262,7 +262,7 @@ even though both are named `graph-engine`. See ADR-017.
 
 `#FederatedContext` enforces non-default `@base` at the CUE type level
 (`Namespace: string & !="urn:resource:"`). `#FederatedMerge` validates
-multiple contexts can merge safely — namespace and `@id` collision detection
+multiple contexts can merge safely: namespace and `@id` collision detection
 uses CUE unification (if two domains claim the same namespace, the struct
 produces conflicting values and evaluation fails). See ADR-018 and
 `patterns/federation.cue`.
@@ -285,7 +285,7 @@ cue cmd critical-path  # Export CPM critical path summary as JSON
 
 ### Tool Architecture (Two Layers)
 
-CUE's `tool/*` packages can only be imported in `_tool.cue` files — they are
+CUE's `tool/*` packages can only be imported in `_tool.cue` files; they are
 invisible to `cue vet` and `cue export`. This creates a two-layer architecture:
 
 ```
@@ -347,10 +347,10 @@ private network. See ADR-008.
 
 The CI workflow (`validate.yml`) runs:
 
-1. `cue vet ./...` — all packages must validate
-2. `python3 tools/validate-w3c.py` — JSON-LD round-trip conformance (72 tests)
-3. README smoke test — every `cue` command in example READMEs must exit 0
-4. Hardcoded path check — no absolute paths to user directories in markdown
-5. Unicode rejection tests — `#SafeID` / `#SafeLabel` constraints hold
+1. `cue vet ./...`: all packages must validate
+2. `python3 tools/validate-w3c.py`: JSON-LD round-trip conformance (72 tests)
+3. README smoke test: every `cue` command in example READMEs must exit 0
+4. Hardcoded path check: no absolute paths to user directories in markdown
+5. Unicode rejection tests: `#SafeID` / `#SafeLabel` constraints hold
 
 All five must pass before merge.

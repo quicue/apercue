@@ -107,11 +107,11 @@ compliance: {
 
 This example shows why apercue patterns matter for enterprise IT:
 
-1. **Universality**: Supply chains, infrastructure, software architecture—all are dependency graphs. Same patterns work everywhere.
+1. **Universality**: Supply chains, infrastructure, software architecture; all are dependency graphs. Same patterns work everywhere.
 
 2. **Completeness as a Constraint**: The charter forces you to declare "done" upfront. Building incrementally means fewer surprises.
 
-3. **Automated Risk Detection**: SPOF detection, blast radius, compliance rules—no manual review needed.
+3. **Automated Risk Detection**: SPOF detection, blast radius, compliance rules; no manual review needed.
 
 4. **Reproducible Governance**: Gates enforce phase ordering; compliance rules are declarative, not tribal knowledge.
 

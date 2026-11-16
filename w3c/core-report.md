@@ -27,8 +27,8 @@ an RDF store, a SPARQL query engine, a SHACL processor, a serializer, and a
 query planner. Each introduces its own execution model, failure modes, and
 infrastructure requirements. Schema drift between layers is common.
 
-For constrained domains — research data management, project plans, infrastructure
-topology, academic curricula — this operational complexity is disproportionate
+For constrained domains (research data management, project plans, infrastructure
+topology, academic curricula) this operational complexity is disproportionate
 to the problem. These domains share a common structure: typed resources with directed
 acyclic dependency edges. They need standards-compliant output, not the full
 semantic web runtime.
@@ -48,8 +48,8 @@ struct-as-set) and what they need (`depends_on`, also a struct-as-set):
 }
 ```
 
-Everything else — topology, impact analysis, compliance, scheduling, and every
-W3C output — is a projection of this single value.
+Everything else (topology, impact analysis, compliance, scheduling, and every
+W3C output) is a projection of this single value.
 `cue export -e <expression>` produces the target format.
 
 ## Implementation Evidence
@@ -108,7 +108,7 @@ standard W3C vocabularies:
 }
 ```
 
-This context is not a configuration file — it is a CUE value computed from
+This context is not a configuration file; it is a CUE value computed from
 the vocabulary registry. Every resource exported through this context produces
 valid JSON-LD 1.1.
 
@@ -126,7 +126,7 @@ produces a standard `sh:ValidationReport`:
 }
 ```
 
-`sh:conforms: true` — all compliance rules pass. This is produced at CUE
+`sh:conforms: true`: all compliance rules pass. This is produced at CUE
 evaluation time. No separate SHACL processor runs.
 
 ### Critical Path / OWL-Time (computed)
@@ -268,7 +268,7 @@ generating `prov:Activity` and `prov:Agent`.
 
 ### Graph Self-Description / VoID (computed)
 
-The `#VoIDDataset` pattern produces a VoID dataset description — the graph's
+The `#VoIDDataset` pattern produces a VoID dataset description; the graph's
 machine-readable "about" page:
 
 ```json
@@ -320,7 +320,7 @@ machine-readable "about" page:
 ```
 
 5 entities, 24 triples, 5 classes. Class partitions show
-how many resources belong to each `@type`. This is standard VoID — any LOD
+how many resources belong to each `@type`. This is standard VoID; any LOD
 catalog or SPARQL endpoint description consumer can read it.
 
 ### Type Ontology / RDFS+OWL (computed)
@@ -394,7 +394,7 @@ an `owl:ObjectProperty`:
 }
 ```
 
-W3C Evidence Ontology — the graph's type vocabulary as a formal
+W3C Evidence Ontology; the graph's type vocabulary as a formal
 OWL ontology. Loadable in Protégé, validatable by OWL reasoners.
 
 ### Type Vocabulary / SKOS (computed)
@@ -406,7 +406,7 @@ with broader/narrower hierarchy:
 {
     "@type": "skos:Collection",
     "@id": "https://apercue.ca/vocab#TypeTaxonomy/collection",
-    "skos:prefLabel": "Research Pipeline Type Taxonomy — all concepts",
+    "skos:prefLabel": "Research Pipeline Type Taxonomy all concepts",
     "skos:member": [
         {
             "@type": "skos:Concept",
@@ -530,7 +530,7 @@ credential shape, not a verifiable credential:
 
 The credential attests that the graph passed compliance validation.
 The `credentialSubject` embeds the full `sh:ValidationReport`. This
-is the VC data model only — cryptographic proof requires an external
+is the VC data model only; cryptographic proof requires an external
 issuer.
 
 ### Data Catalog / DCAT 3 (computed)
@@ -610,7 +610,7 @@ graph validation:
 ```
 
 Each check becomes an `earl:Assertion` with an `earl:TestCriterion` and
-`earl:TestResult`. Outcomes are `earl:untested` at compile time — the plan
+`earl:TestResult`. Outcomes are `earl:untested` at compile time; the plan
 is linked data; execution happens at runtime.
 
 ### Schema.org Alignment (computed)
@@ -731,7 +731,7 @@ resources using the W3C Web Annotation model:
 ```
 
 Each annotation carries a `motivation` from the W3C vocabulary (assessing,
-commenting, classifying). Targets are validated against the graph — an
+commenting, classifying). Targets are validated against the graph; an
 annotation referencing a nonexistent resource fails at CUE evaluation time.
 
 ### Data Quality / DQV (computed)
@@ -894,14 +894,14 @@ data; the patterns are generic.
 
 ## Relevance to W3C Community Groups
 
-- **KG-Construct:** CUE as a declarative KG construction language —
+- **KG-Construct:** CUE as a declarative KG construction language; 
   graph building, SHACL validation, and RDF serialization in one
   compile-time evaluation. No mapping language or runtime pipeline.
 - **Context Graphs:** Struct-as-set `@type` as multi-context resource
-  identity — one resource participates in data governance, provenance,
+  identity: one resource participates in data governance, provenance,
   scheduling, and semantic web contexts simultaneously via set
   intersection.
-- **PM-KR:** Charter pattern as compile-time project completion —
+- **PM-KR:** Charter pattern as compile-time project completion; 
   gap analysis, critical path, and EARL test plans from constraint
   satisfaction. Project management as type checking.
 - **Dataspaces:** `.kb/` convention and ODRL/DCAT projections as
@@ -923,9 +923,9 @@ CUE's type system catches structural violations (missing required fields, wrong 
 ## References
 
 - [github.com/quicue/apercue](https://github.com/quicue/apercue)
-  — Generic reference implementation (Apache 2.0)
+  Generic reference implementation (Apache 2.0)
 - [github.com/quicue/quicue.ca](https://github.com/quicue/quicue.ca)
-  — Infrastructure-specific extension
-- [demo.quicue.ca](https://demo.quicue.ca) — Interactive D3 explorer
-- [api.quicue.ca](https://api.quicue.ca) — Static API (727 pre-computed JSON files)
-- [docs.quicue.ca](https://docs.quicue.ca) — Module documentation
+  Infrastructure-specific extension
+- [demo.quicue.ca](https://demo.quicue.ca): Interactive D3 explorer
+- [api.quicue.ca](https://api.quicue.ca): Static API (727 pre-computed JSON files)
+- [docs.quicue.ca](https://docs.quicue.ca): Module documentation

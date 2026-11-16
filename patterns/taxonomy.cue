@@ -216,7 +216,7 @@ import (
 		"@context":       vocab.context["@context"]
 		"@type":          "skos:Collection"
 		"@id":            BaseIRI + "TypeTaxonomy/collection"
-		"skos:prefLabel": _scheme_title + " — all concepts"
+		"skos:prefLabel": _scheme_title + " all concepts"
 		"skos:member":    _concepts
 	}
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beef Bourguignon — Recipe Graph — apercue.ca</title>
+<title>Beef Bourguignon (Recipe Graph) apercue.ca</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -532,7 +532,7 @@ function renderSidebar(data) {
   gl.innerHTML = sortedGates.map(([name, gate]) => {
     const color = PHASE_COLORS[gate.phase] || '#5bbd6b';
     return `<li class="gate-item ${gate.satisfied ? 'satisfied' : ''}" data-gate="${name}">
-      <div class="gate-phase" style="color: ${color}">Phase ${gate.phase} &mdash; ${PHASE_NAMES[gate.phase] || ''}</div>
+      <div class="gate-phase" style="color: ${color}">Phase ${gate.phase}; ${PHASE_NAMES[gate.phase] || ''}</div>
       <div class="gate-name">${name}</div>
       <div class="gate-desc">${gate.description}</div>
       <div class="gate-count">${gate.resources.length} steps</div>

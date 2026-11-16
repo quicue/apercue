@@ -155,7 +155,7 @@ cp -r /path/to/apercue cue.mod/pkg/apercue.ca@v0/
 ```
 
 The `tools/` package must be included in the vendor copy. CI environments
-also need the CUE module cache populated — see `.github/populate-cue-cache.sh`.
+also need the CUE module cache populated; see `.github/populate-cue-cache.sh`.
 
 See [docs/getting-started.md](getting-started.md) for the full walkthrough and
 [docs/pattern-api.md](pattern-api.md) for all available patterns.

@@ -75,13 +75,13 @@ The input is 12 courses with `name`, `@type`, and `depends_on`. The same data pr
 ```
 apercue.ca@v0
 ├── vocab/                  # Core types
-│   ├── resource.cue        #   #Resource — generic typed node
-│   ├── types.cue           #   #TypeRegistry — extensible type system
+│   ├── resource.cue        #   #Resource: generic typed node
+│   ├── types.cue           #   #TypeRegistry: extensible type system
 │   ├── context.cue         #   JSON-LD @context (24 W3C namespaces)
-│   ├── context_event.cue   #   #ContextEvent — federation boundary crossing type
+│   ├── context_event.cue   #   #ContextEvent; federation boundary crossing type
 │   └── viz-contract.cue    #   #VizData for D3/visualization
 ├── patterns/               # Graph analysis + W3C projections (22 files, 79 definitions)
-│   ├── graph.cue           #   #Graph — dependency graph engine
+│   ├── graph.cue           #   #Graph; dependency graph engine
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
 │   ├── lifecycle.cue       #   #BootstrapPlan, #DriftReport, #SmokeTest → SKOS, EARL
@@ -97,7 +97,7 @@ apercue.ca@v0
 │   ├── annotation.cue      #   #AnnotationCollection → oa:Annotation with motivations
 │   ├── quality.cue         #   #DataQualityReport → dqv:QualityMeasurement
 │   ├── shapes.cue          #   #SHACLShapes → sh:NodeShape descriptions
-│   ├── federation.cue      #   #FederatedContext, #FederatedMerge — multi-domain merge
+│   ├── federation.cue      #   #FederatedContext, #FederatedMerge; multi-domain merge
 │   ├── context_event.cue   #   #ContextEventLog → prov:Activity + time:Instant audit trail
 │   ├── form.cue            #   #FormProjection → UI form definitions from #TypeRegistry
 │   ├── schema_alignment.cue #  #SchemaOrgAlignment → schema:additionalType
@@ -119,7 +119,7 @@ apercue.ca@v0
 │   ├── recipe-ingredients/ # Beef bourguignon (17 steps, critical path)
 │   ├── project-tracker/    # Software release (10 tasks, status tracking)
 │   └── supply-chain/       # Laptop assembly (14 parts, 5 tiers)
-├── self-charter/           # Ecosystem graph — models the project itself
+├── self-charter/           # Ecosystem graph; models the project itself
 │   ├── ecosystem.cue       #   Ecosystem graph: 10 nodes, 4 gates
 │   ├── charter.cue         #   Build charter: 41 tasks, 8 phases, all gates satisfied
 │   └── export.cue          #   D3 visualization export
@@ -132,7 +132,7 @@ apercue.ca@v0
 │   ├── federation/         #   Multi-domain merge tests (2 domains, 5 resources)
 │   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
-    ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
+    ├── getting-started.md  # Standalone walkthrough; empty project to W3C exports
     ├── pattern-api.md      # Field-level reference for all 79 pattern types
     ├── api-stability.md    # Stable vs experimental classification
     ├── adapters.md         # Downstream module guide + creating adapters
@@ -194,7 +194,7 @@ cue export ./examples/project-tracker/ -e gaps --out json
 cue export ./examples/supply-chain/ -e cpm.critical_sequence --out json
 ```
 
-All output is valid W3C linked data — feed it to any JSON-LD processor.
+All output is JSON-LD; feed it to any JSON-LD processor.
 
 ## Self-Charter
 
