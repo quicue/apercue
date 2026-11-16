@@ -340,35 +340,35 @@ machine-readable "about" page:</p>
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;urn:type:Governance&quot;
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#Governance&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;urn:type:Dataset&quot;
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#Dataset&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;urn:type:Process&quot;
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#Process&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;urn:type:Publication&quot;
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#Publication&quot;
             },
             &quot;void:entities&quot;: 1
         },
         {
             &quot;@type&quot;: &quot;void:Dataset&quot;,
             &quot;void:class&quot;: {
-                &quot;@id&quot;: &quot;urn:type:Review&quot;
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#Review&quot;
             },
             &quot;void:entities&quot;: 1
         }
@@ -395,7 +395,7 @@ an <code>owl:ObjectProperty</code>:</p>
                 &quot;rdfs:Class&quot;,
                 &quot;owl:Class&quot;
             ],
-            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Governance&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Governance&quot;,
             &quot;rdfs:label&quot;: &quot;Governance&quot;
         },
         {
@@ -403,7 +403,7 @@ an <code>owl:ObjectProperty</code>:</p>
                 &quot;rdfs:Class&quot;,
                 &quot;owl:Class&quot;
             ],
-            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Dataset&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Dataset&quot;,
             &quot;rdfs:label&quot;: &quot;Dataset&quot;
         },
         {
@@ -411,7 +411,7 @@ an <code>owl:ObjectProperty</code>:</p>
                 &quot;rdfs:Class&quot;,
                 &quot;owl:Class&quot;
             ],
-            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Process&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Process&quot;,
             &quot;rdfs:label&quot;: &quot;Process&quot;
         },
         {
@@ -419,7 +419,7 @@ an <code>owl:ObjectProperty</code>:</p>
                 &quot;rdfs:Class&quot;,
                 &quot;owl:Class&quot;
             ],
-            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Publication&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Publication&quot;,
             &quot;rdfs:label&quot;: &quot;Publication&quot;
         },
         {
@@ -427,7 +427,7 @@ an <code>owl:ObjectProperty</code>:</p>
                 &quot;rdfs:Class&quot;,
                 &quot;owl:Class&quot;
             ],
-            &quot;@id&quot;: &quot;https://apercue.ca/ontology/w3c-evidence#Review&quot;,
+            &quot;@id&quot;: &quot;https://apercue.ca/vocab#Review&quot;,
             &quot;rdfs:label&quot;: &quot;Review&quot;
         },
         {
@@ -551,7 +551,7 @@ in a W3C Verifiable Credential:</p>
 <pre><code class="language-json">{
     &quot;type&quot;: [
         &quot;VerifiableCredential&quot;,
-        &quot;ValidationCredential&quot;
+        &quot;apercue:ValidationCredential&quot;
     ],
     &quot;issuer&quot;: &quot;urn:agent:graph-engine&quot;,
     &quot;validFrom&quot;: &quot;2026-02-27T00:00:00Z&quot;,
@@ -586,6 +586,7 @@ issuer.</p>
             &quot;dcterms:title&quot;: &quot;sensor-dataset&quot;,
             &quot;dcat:theme&quot;: [
                 {
+                    &quot;@id&quot;: &quot;https://apercue.ca/vocab#Dataset&quot;,
                     &quot;@type&quot;: &quot;skos:Concept&quot;,
                     &quot;skos:prefLabel&quot;: &quot;Dataset&quot;
                 }
@@ -686,6 +687,9 @@ discoverable by Google Rich Results and other schema.org consumers.</p>
             &quot;@type&quot;: &quot;org:OrganizationalUnit&quot;,
             &quot;@id&quot;: &quot;https://apercue.ca/org#unit/Governance&quot;,
             &quot;skos:prefLabel&quot;: &quot;Governance&quot;,
+            &quot;dcterms:subject&quot;: {
+                &quot;@id&quot;: &quot;https://apercue.ca/vocab#Governance&quot;
+            },
             &quot;org:hasMember&quot;: [
                 {
                     &quot;@id&quot;: &quot;urn:resource:ethics-approval&quot;,

@@ -27,7 +27,7 @@ import "apercue.ca/vocab"
 
 	// Dataset metadata
 	DatasetURI: string | *"urn:dataset:default"
-	VocabBase:  string | *"urn:type:"
+	VocabBase:  string | *vocab.TypeBase
 	Title?:     string
 	Homepage?:  string
 

@@ -38,7 +38,7 @@ import "apercue.ca/vocab"
 			"https://www.w3.org/ns/credentials/v2",
 			vocab.context["@context"],
 		]
-		"type": ["VerifiableCredential", "ValidationCredential"]
+		"type": ["VerifiableCredential", "apercue:ValidationCredential"]
 		"issuer":    Issuer
 		"validFrom": ValidFrom
 

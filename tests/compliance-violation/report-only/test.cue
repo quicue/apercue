@@ -25,3 +25,7 @@ cc: patterns.#ComplianceCheck & {
 cc: summary: critical_failures: 1
 cc: shacl_report: "sh:conforms": false
 check: n_results: len(cc.shacl_report["sh:result"]) & 1
+
+// RDF exports for tests/rdf: the data graph and the shapes (structural + rules).
+data:   patterns.#DataGraph & {Graph: _g}
+shapes: patterns.#SHACLShapes & {Graph: _g, RuleShapes: cc.rule_shapes}

@@ -449,6 +449,72 @@ import (
 		"info":     "sh:Info"
 	}
 
+	// SHACL Core constraint component for each check. max_depth has no
+	// SHACL Core equivalent (it needs path length), so it stays apercue:*.
+	_component: {
+		must_not_be_root:                    "sh:MinCountConstraintComponent"
+		must_not_be_leaf:                    "sh:MinCountConstraintComponent"
+		min_dependents:                      "sh:MinCountConstraintComponent"
+		requires_dependency_type:            "sh:QualifiedMinCountConstraintComponent"
+		requires_dependent_type:             "sh:QualifiedMinCountConstraintComponent"
+		requires_transitive_dependency_type: "sh:QualifiedMinCountConstraintComponent"
+		max_depth:                           "apercue:max_depth"
+	}
+
+	// ── Rules compiled to SHACL Core shapes ────────────────────────
+	// One sh:NodeShape per rule, IRI apercue:rule/<name>, so every
+	// sh:sourceShape in shacl_report names a shape that exists. Run these
+	// with a SHACL processor over the data graph (#DataGraph) to get the
+	// same verdict independently. Not expressible in SHACL Core:
+	//   max_depth             (path length); omitted from the shape
+	//   conditional_severity  (per-tag severity); the shape uses severity
+	rule_shapes: [
+		for r in Rules {
+			let _sev = _severity_iri[r.severity]
+			let _qual = {
+				// Value node is an instance of any of the given types.
+				_in: {[string]: true}
+				out: [
+					if len(_in) == 1 for t, _ in _in {"sh:class": {"@id": vocab.TypeBase + t}},
+					if len(_in) > 1 {"sh:or": {"@list": [for t, _ in _in {"sh:class": {"@id": vocab.TypeBase + t}}]}},
+				][0]
+			}
+			"@id":   "apercue:rule/" + r.name
+			"@type": "sh:NodeShape"
+			"sh:targetClass": [for t, _ in r.match_types {"@id": vocab.TypeBase + t}]
+			"sh:severity": {"@id": _sev}
+			"sh:property": list.Concat([
+				[if r.must_not_be_root != _|_ {
+					"sh:path":     {"@id": "dcterms:requires"}
+					"sh:minCount": 1
+				}],
+				[if r.must_not_be_leaf != _|_ {
+					"sh:path":     {"sh:inversePath": {"@id": "dcterms:requires"}}
+					"sh:minCount": 1
+				}],
+				[if r.min_dependents != _|_ {
+					"sh:path":     {"sh:inversePath": {"@id": "dcterms:requires"}}
+					"sh:minCount": r.min_dependents
+				}],
+				[if r.requires_dependency_type != _|_ {
+					"sh:path":                {"@id": "dcterms:requires"}
+					"sh:qualifiedValueShape": (_qual & {_in: r.requires_dependency_type}).out
+					"sh:qualifiedMinCount":   1
+				}],
+				[if r.requires_dependent_type != _|_ {
+					"sh:path":                {"sh:inversePath": {"@id": "dcterms:requires"}}
+					"sh:qualifiedValueShape": (_qual & {_in: r.requires_dependent_type}).out
+					"sh:qualifiedMinCount":   1
+				}],
+				[if r.requires_transitive_dependency_type != _|_ {
+					"sh:path":                {"sh:oneOrMorePath": {"@id": "dcterms:requires"}}
+					"sh:qualifiedValueShape": (_qual & {_in: r.requires_transitive_dependency_type}).out
+					"sh:qualifiedMinCount":   1
+				}],
+			])
+		},
+	]
+
 	shacl_report: {
 		"@context":    vocab.context["@context"]
 		"@type":       "sh:ValidationReport"
@@ -457,10 +523,11 @@ import (
 			for r in results if !r.passed
 			for v in r.violations {
 				"@type": "sh:ValidationResult"
-				"sh:focusNode": {"@id": v.resource}
-				"sh:sourceConstraintComponent": {"@id": "apercue:" + v.check}
+				"sh:focusNode": {"@id": "urn:resource:" + v.resource}
+				"sh:sourceConstraintComponent": {"@id": _component[v.check]}
 				"sh:resultSeverity": {"@id": _severity_iri[r.severity]}
 				"sh:resultMessage": r.name + ": " + v.check + " on " + v.resource
+				// The rule's compiled shape, published in rule_shapes.
 				"sh:sourceShape": {"@id": "apercue:rule/" + r.name}
 
 				// SHACL 1.2 §4.7: attach rule metadata as annotation

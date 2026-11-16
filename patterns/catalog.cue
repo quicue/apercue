@@ -97,6 +97,7 @@ import "apercue.ca/vocab"
 				"dcat:theme": [
 					for t, _ in res["@type"] {
 						{
+							"@id":            vocab.TypeBase + t
 							"@type":          "skos:Concept"
 							"skos:prefLabel": t
 						}

@@ -7,6 +7,12 @@
 
 package vocab
 
+// TypeBase: the single namespace for resource type IRIs. A resource type
+// named Dataset is <TypeBase>Dataset in every projection: data graphs, SHACL
+// shapes, OWL classes, SKOS concepts, VoID classes and DCAT themes. Projections
+// build type IRIs as TypeBase + name and nowhere else.
+TypeBase: "https://apercue.ca/vocab#"
+
 // context — JSON-LD @context template with W3C namespace prefixes.
 context: {
 	"@context": {

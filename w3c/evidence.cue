@@ -78,6 +78,12 @@ _compliance: patterns.#ComplianceCheck & {
 	}]
 }
 
+// ── SHACL shapes and the data graph they target ──────────────────
+
+_shapes: patterns.#SHACLShapes & {Graph: _graph, RuleShapes: _compliance.rule_shapes}
+
+_data: patterns.#DataGraph & {Graph: _graph}
+
 // ── Critical path ───────────────────────────────────────────────
 
 _cpm: patterns.#CriticalPath & {
@@ -295,6 +301,10 @@ evidence: {
 
 	// W3C Org
 	org_report: _org.org_report
+
+	// SHACL shapes graph and the JSON-LD data graph (resource IRIs, types, edges)
+	shapes_graph: _shapes.shapes_graph
+	graph_jsonld: _data.jsonld
 
 	// Web Annotation
 	annotation_collection: _annotations.annotation_collection

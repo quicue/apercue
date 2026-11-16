@@ -144,7 +144,7 @@ import (
 	_concepts: [
 		for tname, _ in _all_types {
 			"@type":          "skos:Concept"
-			"@id":            BaseIRI + tname
+			"@id":            vocab.TypeBase + tname
 			"skos:prefLabel": tname
 			"skos:inScheme": {"@id": BaseIRI + "TypeTaxonomy"}
 			if _type_usage[tname] > 0 {
@@ -161,14 +161,14 @@ import (
 
 			// broader (parent)
 			if _parent_of[tname] != _|_ {
-				"skos:broader": {"@id": BaseIRI + _parent_of[tname]}
+				"skos:broader": {"@id": vocab.TypeBase + _parent_of[tname]}
 			}
 
 			// narrower (children)
 			if Hierarchy != _|_ if Hierarchy[tname] != _|_ {
 				"skos:narrower": [
 					for child in Hierarchy[tname] {
-						{"@id": BaseIRI + child}
+						{"@id": vocab.TypeBase + child}
 					},
 				]
 			}
@@ -184,7 +184,7 @@ import (
 			if len(_related) > 0 {
 				"skos:related": [
 					for r in _related {
-						{"@id": BaseIRI + r}
+						{"@id": vocab.TypeBase + r}
 					},
 				]
 			}
@@ -199,7 +199,7 @@ import (
 		"dcterms:title":  _scheme_title
 		"skos:hasTopConcept": [
 			for tname, _ in _top_concepts {
-				{"@id": BaseIRI + tname}
+				{"@id": vocab.TypeBase + tname}
 			},
 		]
 

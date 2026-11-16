@@ -80,7 +80,7 @@ apercue.ca@v0
 │   ├── context.cue         #   JSON-LD @context (24 W3C namespaces)
 │   ├── context_event.cue   #   #ContextEvent — federation boundary crossing type
 │   └── viz-contract.cue    #   #VizData for D3/visualization
-├── patterns/               # Graph analysis + W3C projections (22 files, 78 definitions)
+├── patterns/               # Graph analysis + W3C projections (22 files, 79 definitions)
 │   ├── graph.cue           #   #Graph — dependency graph engine
 │   ├── analysis.cue        #   #CriticalPath, #CycleDetector, #ConnectedComponents, #GraphDiff
 │   ├── validation.cue      #   #ComplianceCheck → sh:ValidationReport
@@ -133,7 +133,7 @@ apercue.ca@v0
 │   └── unicode-rejection/  #   SafeID / SafeLabel constraint tests
 └── docs/
     ├── getting-started.md  # Standalone walkthrough — empty project to W3C exports
-    ├── pattern-api.md      # Field-level reference for all 78 pattern types
+    ├── pattern-api.md      # Field-level reference for all 79 pattern types
     ├── api-stability.md    # Stable vs experimental classification
     ├── adapters.md         # Downstream module guide + creating adapters
     └── novelty.md          # What is novel (academic, practitioner, executive tones)
@@ -237,7 +237,7 @@ projection conforms.
 ## Documentation
 
 - [Getting Started](docs/getting-started.md) --- standalone walkthrough from empty project to W3C exports
-- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 78 pattern types
+- [Pattern API Reference](docs/pattern-api.md) --- field-level reference for all 79 pattern types
 - [API Stability](docs/api-stability.md) --- stable vs experimental type classification
 - [Adapters](docs/adapters.md) --- downstream module guide + creating your own adapter
 - [ARCHITECTURE.md](ARCHITECTURE.md) --- design principles, data flow, module layers

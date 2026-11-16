@@ -256,6 +256,7 @@ Evaluate rules against a graph.
 | `results` | `[{name, severity, matching, violations, passed}, ...]` | Per-rule results |
 | `summary` | `{total, passed, failed, critical_failures}` | |
 | `shacl_report` | JSON-LD | `sh:ValidationReport` |
+| `rule_shapes` | JSON-LD list | One `sh:NodeShape` per rule (`apercue:rule/<name>`), compiled to SHACL Core. `max_depth` and `conditional_severity` have no SHACL Core equivalent |
 
 ---
 
@@ -542,10 +543,23 @@ Generate SHACL NodeShape and PropertyShape definitions from graph structure.
 **Input:**
 - `Graph: #AnalyzableGraph`
 - `Namespace: string` — shape IRI prefix (e.g., `"https://apercue.ca/shapes/recipe#"`)
+- `RuleShapes: [...]` (optional) — extra shapes to publish, normally `compliance.rule_shapes`
 
 **Output:**
-- `shapes_graph` — JSON-LD with `sh:NodeShape` per `@type`, `sh:PropertyShape` for name/description/depends_on
+- `shapes_graph` — JSON-LD with `sh:NodeShape` per `@type` (`sh:targetClass` is `vocab.TypeBase + type`, the same IRI the data graph uses), `sh:PropertyShape` for name/description/depends_on, plus `RuleShapes`
 - `summary` — `type_count`, `property_count`
+
+### #DataGraph (`patterns/shapes.cue`)
+
+The graph's resources as JSON-LD data, for SHACL processors and RDF tools.
+
+**Input:**
+- `Graph: #AnalyzableGraph`
+
+**Output:**
+- `jsonld` — one node per resource: `@id` `urn:resource:<name>`, `@type` from `vocab.TypeBase`, `dcterms:title`, `dcterms:requires` edges
+
+Validate it with any SHACL processor against `#SHACLShapes.shapes_graph`; the rule shapes give the same verdict as `#ComplianceCheck.shacl_report` (checked in CI by `tests/rdf/test_rdf.py`).
 
 ### #SKOSTaxonomy (`patterns/taxonomy.cue`)
 

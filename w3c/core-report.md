@@ -283,35 +283,35 @@ machine-readable "about" page:
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Governance"
+                "@id": "https://apercue.ca/vocab#Governance"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Dataset"
+                "@id": "https://apercue.ca/vocab#Dataset"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Process"
+                "@id": "https://apercue.ca/vocab#Process"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Publication"
+                "@id": "https://apercue.ca/vocab#Publication"
             },
             "void:entities": 1
         },
         {
             "@type": "void:Dataset",
             "void:class": {
-                "@id": "urn:type:Review"
+                "@id": "https://apercue.ca/vocab#Review"
             },
             "void:entities": 1
         }
@@ -343,7 +343,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Governance",
+            "@id": "https://apercue.ca/vocab#Governance",
             "rdfs:label": "Governance"
         },
         {
@@ -351,7 +351,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Dataset",
+            "@id": "https://apercue.ca/vocab#Dataset",
             "rdfs:label": "Dataset"
         },
         {
@@ -359,7 +359,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Process",
+            "@id": "https://apercue.ca/vocab#Process",
             "rdfs:label": "Process"
         },
         {
@@ -367,7 +367,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Publication",
+            "@id": "https://apercue.ca/vocab#Publication",
             "rdfs:label": "Publication"
         },
         {
@@ -375,7 +375,7 @@ an `owl:ObjectProperty`:
                 "rdfs:Class",
                 "owl:Class"
             ],
-            "@id": "https://apercue.ca/ontology/w3c-evidence#Review",
+            "@id": "https://apercue.ca/vocab#Review",
             "rdfs:label": "Review"
         },
         {
@@ -514,7 +514,7 @@ in a W3C Verifiable Credential:
 {
     "type": [
         "VerifiableCredential",
-        "ValidationCredential"
+        "apercue:ValidationCredential"
     ],
     "issuer": "urn:agent:graph-engine",
     "validFrom": "2026-02-27T00:00:00Z",
@@ -554,6 +554,7 @@ The `#DCATCatalog` pattern projects the graph as a DCAT catalog with one
             "dcterms:title": "sensor-dataset",
             "dcat:theme": [
                 {
+                    "@id": "https://apercue.ca/vocab#Dataset",
                     "@type": "skos:Concept",
                     "skos:prefLabel": "Dataset"
                 }
@@ -669,6 +670,9 @@ The `#OrgStructure` pattern groups resources by `@type` into
             "@type": "org:OrganizationalUnit",
             "@id": "https://apercue.ca/org#unit/Governance",
             "skos:prefLabel": "Governance",
+            "dcterms:subject": {
+                "@id": "https://apercue.ca/vocab#Governance"
+            },
             "org:hasMember": [
                 {
                     "@id": "urn:resource:ethics-approval",

@@ -28,7 +28,7 @@ import "apercue.ca/vocab@v0"
 		"skos:hasTopConcept": [
 			for name, entry in Registry {
 				"@type":           "skos:Concept"
-				"@id":             BaseIRI + name
+				"@id":             vocab.TypeBase + name
 				"skos:prefLabel":  name
 				"skos:definition": entry.description
 				"skos:inScheme": {"@id": BaseIRI + "TypeVocabulary"}

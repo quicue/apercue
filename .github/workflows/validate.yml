@@ -78,6 +78,9 @@ jobs:
       - name: Install W3C validation dependencies
         run: pip install rdflib pyshacl
 
+      - name: RDF checks (IRIs, shapes vs data, agreement with pyshacl)
+        run: python3 tests/rdf/test_rdf.py
+
       - name: W3C round-trip conformance
         run: python3 tools/validate-w3c.py -v
 
