@@ -839,15 +839,16 @@ equivalent of SPARQL `?resource a ?type` pattern matching.
 ### Constraints as Values
 
 CUE constraints live in the same package as the computation. A consumer
-can opt in to a failing build by adding one line:
+opts in to a failing build with one field:
 
 ```cue
-compliance: shacl_report: "sh:conforms": true   // false is bottom
+compliance: patterns.#ComplianceCheck & {Enforce: true, ...}  // critical failure is bottom
+gaps:       charter.#GapAnalysis & {Enforce: true, ...}       // incomplete charter is bottom
 ```
 
-With that line, a report with `sh:conforms: false` fails `cue vet`. The
-patterns do not add it by default: without it, rule violations are
-reported and the build passes.
+With `Enforce: true`, a critical rule failure or an incomplete charter
+fails `cue vet`. The default is report-only: violations appear in the
+SHACL report and the build passes.
 
 ## Multi-Domain Validation
 

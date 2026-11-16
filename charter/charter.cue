@@ -84,6 +84,14 @@ import (
 // Works with both #Graph (small) and #GraphLite (large, precomputed).
 #GapAnalysis: {
 	Charter: #Charter
+
+	// Enforce: opt in to failing the build. When true, an incomplete
+	// charter makes cue vet fail (complete must unify with true). When
+	// false (default), gaps are reported and the build still succeeds.
+	Enforce: *false | bool
+	if Enforce {
+		complete: true
+	}
 	Graph: {
 		resources: {[string]: {name: string, "@type": {[string]: true}, ...}}
 		roots: {[string]: true}
@@ -241,6 +249,44 @@ import (
 				"sh:resultSeverity": {"@id": "sh:Violation"}
 				"sh:resultMessage": "Required type '" + t + "' not represented in graph"
 				"sh:sourceConstraintComponent": {"@id": "apercue:RequiredType"}
+				"sh:sourceShape": {"@id": "charter:" + Charter.name}
+			},
+		], [
+			// One result per resource a gate requires that is not in the graph.
+			for gname, gs in gate_status if !gs.satisfied
+			for rname, _ in gs.missing {
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": rname}
+				"sh:resultSeverity": {"@id": "sh:Violation"}
+				"sh:resultMessage": "Gate '" + gname + "' requires resource '" + rname + "', not present in graph"
+				"sh:sourceConstraintComponent": {"@id": "apercue:GateRequirement"}
+				"sh:sourceShape": {"@id": "charter:" + Charter.name + "/gate/" + gname}
+			},
+		], [
+			if !count_satisfied {
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": "charter:" + Charter.name}
+				"sh:resultSeverity": {"@id": "sh:Violation"}
+				"sh:resultMessage": "Graph has \(resource_count) resources, charter requires at least \(Charter.scope.total_resources)"
+				"sh:sourceConstraintComponent": {"@id": "sh:MinCountConstraintComponent"}
+				"sh:sourceShape": {"@id": "charter:" + Charter.name}
+			},
+		], [
+			if !_root_satisfied {
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": "charter:" + Charter.name}
+				"sh:resultSeverity": {"@id": "sh:Violation"}
+				"sh:resultMessage": "Charter root is not a root of the graph"
+				"sh:sourceConstraintComponent": {"@id": "apercue:RootRequirement"}
+				"sh:sourceShape": {"@id": "charter:" + Charter.name}
+			},
+		], [
+			if !depth_satisfied {
+				"@type": "sh:ValidationResult"
+				"sh:focusNode": {"@id": "charter:" + Charter.name}
+				"sh:resultSeverity": {"@id": "sh:Violation"}
+				"sh:resultMessage": "Graph depth is below the charter's min_depth \(Charter.scope.min_depth)"
+				"sh:sourceConstraintComponent": {"@id": "apercue:MinDepth"}
 				"sh:sourceShape": {"@id": "charter:" + Charter.name}
 			},
 		]])

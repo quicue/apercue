@@ -898,12 +898,13 @@ simultaneously. Set intersection, not registration. This is the CUE
 equivalent of SPARQL <code>?resource a ?type</code> pattern matching.</p>
 <h3 id="constraints-as-values">Constraints as Values</h3>
 <p>CUE constraints live in the same package as the computation. A consumer
-can opt in to a failing build by adding one line:</p>
-<pre><code class="language-cue">compliance: shacl_report: &quot;sh:conforms&quot;: true   // false is bottom
+opts in to a failing build with one field:</p>
+<pre><code class="language-cue">compliance: patterns.#ComplianceCheck &amp; {Enforce: true, ...}  // critical failure is bottom
+gaps:       charter.#GapAnalysis &amp; {Enforce: true, ...}       // incomplete charter is bottom
 </code></pre>
-<p>With that line, a report with <code>sh:conforms: false</code> fails <code>cue vet</code>. The
-patterns do not add it by default: without it, rule violations are
-reported and the build passes.</p>
+<p>With <code>Enforce: true</code>, a critical rule failure or an incomplete charter
+fails <code>cue vet</code>. The default is report-only: violations appear in the
+SHACL report and the build passes.</p>
 <h2 id="multi-domain-validation">Multi-Domain Validation</h2>
 <p>The same patterns have been validated across four independent domains:</p>
 <table>

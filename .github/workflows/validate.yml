@@ -53,10 +53,27 @@ jobs:
             exit 1
           fi
 
+      - name: Rule violations - report-only passes, Enforce fails
+        run: |
+          # Without Enforce, violations are reported and cue vet passes
+          # (each report-only test also asserts the report contents).
+          # With Enforce: true, cue vet must fail.
+          for t in compliance-violation charter-incomplete; do
+            cue vet -c "./tests/$t/report-only/"
+            if cue vet -c "./tests/$t/enforce/" 2>/dev/null; then
+              echo "ERROR: tests/$t/enforce passed cue vet; Enforce did not fail the build"
+              exit 1
+            fi
+            echo "ok $t"
+          done
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: SHACL reports are consistent (sh:conforms iff no results)
+        run: python3 tools/check-shacl-reports.py
 
       - name: Install W3C validation dependencies
         run: pip install rdflib pyshacl

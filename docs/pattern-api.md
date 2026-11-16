@@ -204,6 +204,7 @@ Compare charter constraints to actual graph.
 |-------|------|----------|
 | `Charter` | `#Charter` | yes |
 | `Graph` | `{resources, roots, topology, ...}` | yes |
+| `Enforce` | `bool` (default `false`) | no. When `true`, an incomplete charter fails `cue vet` |
 
 **Output:**
 
@@ -246,6 +247,7 @@ Evaluate rules against a graph.
 |-------|------|----------|
 | `Graph` | `#AnalyzableGraph` | yes |
 | `Rules` | `[...#ComplianceRule]` | yes |
+| `Enforce` | `bool` (default `false`) | no. When `true`, any failed critical rule fails `cue vet` |
 
 **Output:**
 

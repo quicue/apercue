@@ -288,6 +288,15 @@ import (
 	Graph: #AnalyzableGraph
 	Rules: [...#ComplianceRule]
 
+	// Enforce: opt in to failing the build. When true, any failed rule with
+	// severity "critical" makes cue vet fail (summary.critical_failures
+	// must unify with 0). When false (default), violations are reported in
+	// results and shacl_report and the build still succeeds.
+	Enforce: *false | bool
+	if Enforce {
+		summary: critical_failures: 0
+	}
+
 	results: [
 		for i, rule in Rules {
 			// Find resources matching this rule's type selector

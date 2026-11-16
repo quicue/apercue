@@ -228,9 +228,11 @@ cue (plus tools/toposort.py for large graphs), 0 servers
 
 There are two failure regimes. Structural errors in the input (a dependency on
 an undeclared resource, an invalid identifier) make `cue vet` fail. Compliance
-rule violations and charter gaps do not: they appear in the SHACL report as
-`sh:conforms: false` while `cue vet` still passes. A passing `cue vet` does not
-mean every projection conforms.
+rule violations and charter gaps do not by default: they appear in the SHACL
+report as `sh:conforms: false` while `cue vet` still passes. Set `Enforce: true`
+on `#ComplianceCheck` (critical failures) or `#GapAnalysis` (incomplete charter)
+to make them fail the build. Without it, a passing `cue vet` does not mean every
+projection conforms.
 
 ## Documentation
 
