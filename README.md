@@ -4,7 +4,7 @@ Compile-time W3C linked data from typed dependency graphs.
 
 One typed CUE value, many W3C projections. JSON-LD, SHACL, SKOS, OWL-Time and
 the rest are all derived from the same graph, with no second copy of the schema.
-For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE projects it.
+For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE verifies and projects it.
 No triplestore or server is needed.
 
 **Live:** [apercue.ca](https://apercue.ca/projections.html) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)

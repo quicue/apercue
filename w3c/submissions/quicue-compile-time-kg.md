@@ -8,7 +8,7 @@ semantics — to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 single `cue export` invocation with no mapping language and no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
-`tools/toposort.py` and CUE projects it.
+`tools/toposort.py` and CUE verifies and projects it.
 
 Traditional KG construction requires a multi-stage pipeline:
 
@@ -77,9 +77,10 @@ implemented downstream.
 
 5. **Performance ceiling on transitive operations.** CUE does not memoize
    recursive struct references. Transitive closure (ancestors, dependents,
-   impact sets) becomes exponential on diamond DAGs beyond ~40 nodes,
-   requiring precomputation via external tools. This is a real constraint
-   on the approach.
+   impact sets) is exponential on diamond DAGs: 2.1s at 24 nodes, 24s at
+   28 (CUE v0.15.4, width-2 ladder). Larger graphs need a precompute from an
+   external tool, which CUE then certifies (0.5s at 200 nodes, 10s at
+   1,000). This is a real constraint on the approach.
 
 ## Resources
 

@@ -42,6 +42,7 @@ BANNED=(
     'same mechanism as SPARQL property paths'
     'in a W3C Verifiable Credential'
     'conformant round-trip'
+    '~ ?3?5?-?40 nodes'
 )
 
 echo "=== Banned claims ==="

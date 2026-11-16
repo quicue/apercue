@@ -54,7 +54,7 @@ core_report: """
 	is projected into \(evidence.spec_counts.implemented) W3C specification outputs,
 	including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O and ODRL, with no triplestore.
 	For graphs past a few dozen nodes the dependency closure is precomputed by
-	`tools/toposort.py` and CUE projects it. An \(evidence.spec_counts.total)th
+	`tools/toposort.py` and CUE verifies and projects it. A \(evidence.spec_counts.total)th
 	(Hydra) is implemented downstream.
 
 	This report documents the implementation, provides computed evidence from a live
@@ -422,10 +422,9 @@ core_report: """
 	- **DAGs only.** No cycles. Dependency graphs are directed acyclic by
 	  definition in our target domains.
 	- **Performance ceiling.** CUE's recursive struct references don't memoize.
-	  For graphs exceeding ~40 nodes, pre-compute transitive closure externally
-	  and feed the result as a flat lookup. A 40-node project charter dropped
-	  from 95s to 33ms with this approach (pre-computed ancestors via script,
-	  consumed as a CUE value).
+	  The limit depends on graph shape: pure-CUE closure on a width-2 diamond ladder takes 2.1s at 24 nodes and 24s (2.5 GB) at 28 (CUE v0.15.4), roughly 10x per 4 more nodes; wide, shallow graphs go further. Past that, `tools/toposort.py`
+	  precomputes the closure and `#GraphLite` certifies it before use (0.5s at
+	  200 nodes, 10s at 1,000).
 	- **Not a general RDF toolkit.** This approach targets constrained domains
 	  where schema control is a given.
 

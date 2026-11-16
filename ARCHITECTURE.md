@@ -4,7 +4,7 @@ apercue is a compile-time semantic web framework. Resources with typed
 dependencies form a graph; CUE constraints enforce structural invariants;
 projections emit standard W3C vocabularies. No triplestore and no server.
 For small graphs CUE computes the dependency closure itself; for larger ones the
-closure is precomputed by `tools/toposort.py` and CUE projects it.
+closure is precomputed by `tools/toposort.py` and CUE verifies and projects it.
 
 This document covers design principles, data flow, and the pattern catalog.
 For usage, see [README.md](README.md). For individual decisions, see
@@ -224,9 +224,15 @@ CUE is a constraint language, not a general-purpose runtime. Three things to
 know:
 
 1. **No memoization.** Recursive struct references re-evaluate on every access.
-   Wide topologies handle 60+ nodes natively. Dense diamond DAGs hit limits at
-   ~35-40 nodes for full transitive closure. Solution: Python precomputes
-   topology, CUE validates the precomputed result. See `tools/toposort.py`.
+   The limit is shape-dependent. Measured (CUE v0.15.4, width-2 diamond
+   ladder, `#Graph`): 0.5s at 20 nodes, 2.1s at 24, 24s and 2.5 GB at 28,
+   roughly 10x per 4 more nodes. Wide, shallow graphs go further. Solution:
+   `tools/toposort.py` precomputes the closure and `#GraphLite` certifies it
+   (each node's ancestors must equal its dependencies plus their ancestors,
+   depth must be 1 + max dependency depth, dependents must be the exact
+   inverse), so a stale or wrong precompute fails the build. Measured cost
+   of `#GraphLite` with certification: 0.5s at 200 nodes, 10s and 2.2 GB at
+   1,000 (3.3s without certification).
 
 2. **Comprehension-level vs. body-level `if`.** A comprehension-level `if`
    filters elements out entirely. A body-level `if` produces an empty struct

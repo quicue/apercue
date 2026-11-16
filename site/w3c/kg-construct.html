@@ -113,7 +113,7 @@ semantics — to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
 single <code>cue export</code> invocation, with no mapping language and no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
-<code>tools/toposort.py</code> and CUE projects it.</p>
+<code>tools/toposort.py</code> and CUE verifies and projects it.</p>
 <p>This submission demonstrates CUE as a KG construction language and explains how
 it relates to the KG-Construct CG's work on declarative KG construction.</p>
 <h2 id="the-construction-pipeline-one-step">The Construction Pipeline (One Step)</h2>
@@ -264,7 +264,7 @@ entire KG construction pipeline reduces to a type-checked <code>cue export</code
 <li>Closed-world: all resources declared upfront</li>
 <li>DAGs only: no cyclic dependencies</li>
 <li>Not a general RDF toolkit: targets constrained dependency graphs</li>
-<li>Performance: pre-compute transitive closure for graphs exceeding ~40 nodes</li>
+<li>Performance: pure-CUE closure on a width-2 diamond ladder takes 2.1s at 24 nodes and 24s (2.5 GB) at 28 (CUE v0.15.4), roughly 10x per 4 more nodes; wide, shallow graphs go further; larger graphs use a precomputed closure that CUE certifies</li>
 </ul>
 <h2 id="references">References</h2>
 <ul>

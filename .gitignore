@@ -5,3 +5,4 @@ _public/
 .claude/
 todo.txt
 tests/.mutations/
+tests/.perf*/

@@ -67,7 +67,7 @@ Data → cue export -e <projection>
 ```
 
 CUE comprehensions select over the graph. JSON-LD `@context` injection handles
-serialization. For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE projects it.
+serialization. For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE verifies and projects it.
 Structural errors (undeclared dependency, invalid identifier) fail `cue vet`;
 compliance rule violations are reported in the SHACL output and do not fail it.
 
