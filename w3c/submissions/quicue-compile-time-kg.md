@@ -39,10 +39,12 @@ declarations alone:
 }
 ```
 
-The same typed graph simultaneously produces output in 17 W3C specifications
-(SHACL, PROV-O, OWL-Time, DCAT, ODRL, EARL, SKOS, Dublin Core, JSON-LD,
-schema.org, org, Verifiable Credentials, Activity Streams, VoID, DQV, Web
-Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
+The same typed graph produces output in 13 W3C specifications (JSON-LD,
+SHACL, SKOS, OWL-Time, PROV-O, DCAT, ODRL, ORG, Activity Streams, VoID, DQV,
+Web Annotation and RDFS/OWL), plus the Dublin Core and schema.org
+vocabularies. EARL (test plan only) and Verifiable Credentials (unsigned
+shape) are emitted but not counted. A 14th W3C specification (Hydra) is
+implemented downstream.
 
 ## Challenges
 
@@ -92,9 +94,9 @@ Annotation, and RDFS/OWL). An 18th (Hydra) is implemented downstream.
   Web Annotation, RDFS/OWL, Verifiable Credentials, Activity Streams
 - **Tool(s):** [CUE](https://cuelang.org) v0.15.4, Python toposort for
   precomputation, D3.js for visualization
-- **Output:** JSON-LD 1.1 with 17 W3C vocabulary projections; SHACL validation
+- **Output:** JSON-LD 1.1 with 13 W3C vocabulary projections; SHACL validation
   reports; PROV-O provenance; OWL-Time scheduling; DCAT catalogs; ODRL policies;
   VoID self-descriptions; OWL ontologies; SKOS taxonomies; Activity Streams;
   Verifiable Credentials; Web Annotations; DQV quality metrics; EARL test plans
 - **Source code:** [github.com/quicue/apercue](https://github.com/quicue/apercue) (Apache 2.0)
-- **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md) — 17 specs, computed JSON evidence
+- **Full evidence:** [W3C core report](https://github.com/quicue/apercue/blob/main/w3c/core-report.md): 13 specs, computed JSON evidence

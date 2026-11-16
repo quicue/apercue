@@ -25,7 +25,7 @@ constraint consistency) are more valuable than runtime flexibility.
 | **SKOS** | skos:ConceptScheme | `#LifecyclePhasesSKOS` | `patterns/lifecycle.cue` | `cue export -e lifecycle_skos` |
 | **SKOS** | skos:ConceptScheme | `#TypeVocabulary` | `views/skos.cue` | `cue export -e type_vocab` |
 | **SKOS** | skos:broader, skos:narrower | `#SKOSTaxonomy.taxonomy_scheme` | `patterns/taxonomy.cue` | `cue export -e _taxonomy.taxonomy_scheme` |
-| **EARL** | earl:Assertion, earl:TestCase, earl:Software | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
+| **EARL** (projection, not counted: every outcome is earl:untested) | earl:Assertion, earl:TestCase, earl:Software | `#SmokeTest.earl_report` | `patterns/lifecycle.cue` | `cue export -e smoke.earl_report` |
 | **OWL-Time** | time:Interval | `#CriticalPath.time_report` | `patterns/analysis.cue` | `cue export -e cpm.time_report` |
 | **OWL-Time** | time:Instant | `#ContextEventLog.event_report` | `patterns/context_event.cue` | `cue export -e event_log.event_report` |
 | **Dublin Core** | dcterms:requires, dcterms:title, dcterms:conformsTo | Every depends_on edge, resource name, and conformance link in SHACL/EARL reports | `vocab/context.cue` | Structural — present in all JSON-LD output |
@@ -35,7 +35,7 @@ constraint consistency) are more valuable than runtime flexibility.
 | **ODRL 2.2** | odrl:Set, odrl:Permission | `#ODRLPolicy.odrl_policy` | `patterns/policy.cue` | `cue export -e access_policy.odrl_policy` |
 | **W3C ORG** | org:Organization, org:OrganizationalUnit | `#OrgStructure.org_report` | `views/org.cue` | `cue export -e structure.org_report` |
 | **schema.org** | schema:additionalType | `#SchemaOrgAlignment.schema_graph` | `patterns/schema_alignment.cue` | `cue export -e schema_view.schema_graph` |
-| **VC 2.0** | VerifiableCredential | `#ValidationCredential.vc` | `patterns/credentials.cue` | `cue export -e validation_credential.vc` |
+| **VC 2.0** (projection, not counted: unsigned, no proof) | VerifiableCredential | `#ValidationCredential.vc` | `patterns/credentials.cue` | `cue export -e validation_credential.vc` |
 | **Activity Streams 2.0** | as:OrderedCollection | `#ActivityStream.stream` | `patterns/activity.cue` | `cue export -e activity_stream.stream` |
 | **DCAT 3** | dcat:Catalog, dcat:Dataset | `#DCATCatalog.dcat_catalog` | `patterns/catalog.cue` | `cue export -e catalog.dcat_catalog` |
 | **VoID** | void:Dataset, void:Linkset | `#VoIDDataset.void_description` | `patterns/void.cue` | `cue export -e void_dataset.void_description` |

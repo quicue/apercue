@@ -40,6 +40,8 @@ BANNED=(
     'SHACL validation becomes a type'
     'Six lines\.'
     'same mechanism as SPARQL property paths'
+    'in a W3C Verifiable Credential'
+    'conformant round-trip'
 )
 
 echo "=== Banned claims ==="

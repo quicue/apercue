@@ -92,12 +92,20 @@ for f in sorted(set(files)):
             if got != want:
                 bad.append(f"{f}:{i}: depth breakdown {got} != {want}")
 # Table rows must agree too.
+# Implemented rows = W3C implemented + non-W3C vocabularies; Projection rows separate.
+want_rows = impl + c["vocabularies"]
 rows = open("site/index.html").read().count('spec-status impl"')
-if rows != impl:
-    bad.append(f"site/index.html: {rows} Implemented table rows != {impl}")
+if rows != want_rows:
+    bad.append(f"site/index.html: {rows} Implemented table rows != {want_rows}")
+rows = open("site/index.html").read().count('spec-status projection"')
+if rows != c["projection"]:
+    bad.append(f"site/index.html: {rows} Projection table rows != {c['projection']}")
 rows = open("README.md").read().count("| Implemented |")
-if rows != impl:
-    bad.append(f"README.md: {rows} Implemented table rows != {impl}")
+if rows != want_rows:
+    bad.append(f"README.md: {rows} Implemented table rows != {want_rows}")
+rows = open("README.md").read().count("| Projection |")
+if rows != c["projection"]:
+    bad.append(f"README.md: {rows} Projection table rows != {c['projection']}")
 print("\n".join(bad))
 PY
 )

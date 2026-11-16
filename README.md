@@ -146,7 +146,7 @@ apercue.ca@v0
 | JSON-LD 1.1 | `vocab/context.cue` --- @context, @type, @id, namespace federation | full | Implemented |
 | SHACL | `validation.cue`, `charter.cue` --- conformant sh:ValidationReport + sh:NodeShape | full | Implemented |
 | SKOS | `views/skos.cue`, `taxonomy.cue` --- skos:ConceptScheme with broader/narrower | full | Implemented |
-| EARL | `lifecycle.cue` --- earl:Assertion, earl:TestCase, earl:Software assertor | full | Implemented |
+| EARL | `lifecycle.cue` --- earl:Assertion structure; every outcome is earl:untested (a test plan, not results) | partial | Projection |
 | OWL-Time | `analysis.cue`, `context_event.cue` --- time:Interval from critical path; time:Instant on federation events | full | Implemented |
 | PROV-O | `provenance.cue`, `context_event.cue` --- prov:Entity, Activity, Agent, Generation, Plan; prov:Collection event log for federation | full | Implemented |
 | VoID | `void.cue` --- void:Dataset with class/property partitions, linkset statistics | full | Implemented |
@@ -157,12 +157,14 @@ apercue.ca@v0
 | Web Annotation | `annotation.cue` --- oa:Annotation with TextualBody and W3C motivations | partial | Implemented |
 | W3C Org | `views/org.cue` --- org:Organization with type-based OrganizationalUnits | partial | Implemented |
 | RDFS | `ontology.cue` --- rdfs:Class, rdfs:subClassOf, rdfs:domain/range | partial | Implemented |
-| Dublin Core | `vocab/context.cue` --- dcterms:title, dcterms:description, dcterms:requires | vocabulary | Implemented |
-| schema.org | `schema_alignment.cue` --- schema:additionalType mapping | vocabulary | Implemented |
-| VC 2.0 | `credentials.cue` --- VerifiableCredential structure wrapping SHACL reports | structural | Implemented |
+| Dublin Core (DCMI, not W3C) | `vocab/context.cue` --- dcterms:title, dcterms:description, dcterms:requires | vocabulary | Implemented |
+| schema.org (not W3C) | `schema_alignment.cue` --- schema:additionalType mapping | vocabulary | Implemented |
+| VC 2.0 | `credentials.cue` --- unsigned credential shape (v2 context) wrapping a SHACL report; no proof | structural | Projection |
 | Hydra Core | quicue.ca operator dashboard | partial | Downstream |
 
-**Depth key:** full = conformant round-trip output; partial = core terms, missing advanced features; vocabulary = namespace terms in @context; structural = spec-shaped JSON-LD, key features out of scope.
+**Depth key:** full = the spec's core classes and properties are emitted and the output parses in rdflib with the expected types (`tools/validate-w3c.py`; SHACL shapes and reports are also checked against pyshacl in `tests/rdf/`); partial = core terms, missing advanced features; vocabulary = namespace terms in @context; structural = spec-shaped JSON-LD, key features out of scope.
+
+**Status key:** Implemented = counted; Projection = emitted in the spec's shape but not claimed (EARL has no real outcomes, VC has no proof). Headline counts include W3C specifications only: Dublin Core and schema.org are listed but not counted.
 
 See [w3c/README.md](w3c/README.md) for full mapping details.
 

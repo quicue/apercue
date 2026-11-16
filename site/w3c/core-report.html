@@ -108,10 +108,10 @@
 <hr>
 <h2 id="abstract">Abstract</h2>
 <p>A single typed dependency graph, authored once in <a href="https://cuelang.org">CUE</a>,
-is projected into 17 W3C specification outputs,
+is projected into 13 W3C specification outputs,
 including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O and ODRL, with no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
-<code>tools/toposort.py</code> and CUE projects it. An 18th
+<code>tools/toposort.py</code> and CUE projects it. An 14th
 (Hydra) is implemented downstream.</p>
 <p>This report documents the implementation, provides computed evidence from a live
 example graph, and lists the W3C Community Groups it relates to.</p>
@@ -545,9 +545,10 @@ Streams 2.0 <code>OrderedCollection</code>:</p>
 <p>Each resource creation is a <code>Create</code> activity ordered by topological
 depth. Layer 0 resources (no dependencies) are created first. Dependency
 edges appear as <code>context</code> links.</p>
-<h3 id="validation-credential-vc-20-computed">Validation Credential / VC 2.0 (computed)</h3>
-<p>The <code>#ValidationCredential</code> pattern wraps the SHACL validation result
-in a W3C Verifiable Credential:</p>
+<h3 id="validation-credential-shape-computed-not-counted">Validation Credential shape (computed, not counted)</h3>
+<p>The <code>#ValidationCredential</code> pattern wraps the SHACL validation result in
+the VC 2.0 data model shape. It has no proof, so it is an unsigned
+credential shape, not a verifiable credential:</p>
 <pre><code class="language-json">{
     &quot;type&quot;: [
         &quot;VerifiableCredential&quot;,
@@ -597,7 +598,7 @@ issuer.</p>
 </code></pre>
 <p>Each resource becomes a dataset entry with Dublin Core metadata. The catalog
 is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).</p>
-<h3 id="test-plan-earl-computed">Test Plan / EARL (computed)</h3>
+<h3 id="test-plan-earl-computed-not-counted-every-outcome-is-earluntested">Test Plan / EARL (computed, not counted: every outcome is earl:untested)</h3>
 <p>The <code>#SmokeTest</code> pattern produces EARL assertions describing the test plan for
 graph validation:</p>
 <pre><code class="language-json">{
@@ -777,10 +778,10 @@ as DQV quality measurements:</p>
 metrics computed from the graph. Each <code>dqv:QualityMeasurement</code> links to
 its metric, dimension, and the dataset under evaluation.</p>
 <h3 id="spec-coverage">Spec Coverage</h3>
-<p>17 specifications implemented,
+<p>13 W3C specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.</p>
-<p><strong>Implemented</strong> (17):</p>
+<p><strong>Implemented W3C specifications</strong> (13):</p>
 <table>
 <thead>
 <tr>
@@ -802,24 +803,12 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <td>skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower</td>
 </tr>
 <tr>
-<td>EARL</td>
-<td>earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode</td>
-</tr>
-<tr>
 <td>OWL-Time</td>
 <td>time:Interval from critical path scheduling; time:Instant timestamps on federation context events</td>
 </tr>
 <tr>
-<td>Dublin Core</td>
-<td>dcterms:title, dcterms:description, dcterms:requires on all resources</td>
-</tr>
-<tr>
 <td>PROV-O</td>
 <td>prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings</td>
-</tr>
-<tr>
-<td>schema.org</td>
-<td>schema:additionalType annotations via configurable type mapping</td>
 </tr>
 <tr>
 <td>ODRL 2.2</td>
@@ -828,10 +817,6 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <tr>
 <td>Activity Streams 2.0</td>
 <td>as:OrderedCollection of Create activities from topology layers; no actor model or delivery</td>
-</tr>
-<tr>
-<td>Verifiable Credentials 2.0</td>
-<td>VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope</td>
 </tr>
 <tr>
 <td>W3C Org</td>
@@ -856,6 +841,44 @@ extension). Adding a projection is adding a file, not modifying a framework.</p>
 <tr>
 <td>DCAT 3</td>
 <td>dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Non-W3C vocabularies used</strong> (2):</p>
+<table>
+<thead>
+<tr>
+<th>Vocabulary</th>
+<th>CUE Produces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dublin Core</td>
+<td>dcterms:title, dcterms:description, dcterms:requires on all resources</td>
+</tr>
+<tr>
+<td>schema.org</td>
+<td>schema:additionalType annotations via configurable type mapping</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Emitted but not counted</strong> (2):</p>
+<table>
+<thead>
+<tr>
+<th>Specification</th>
+<th>What is emitted, and why it is not counted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EARL</td>
+<td>earl:Assertion structure with earl:TestCase and earl:Software assertor; every outcome is earl:untested, so this is a test plan, not test results</td>
+</tr>
+<tr>
+<td>Verifiable Credentials 2.0</td>
+<td>Unsigned credential shape (v2 context) wrapping a SHACL report; no proof, so not a verifiable credential</td>
 </tr>
 </tbody>
 </table>

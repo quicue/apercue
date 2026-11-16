@@ -5,6 +5,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "@context, @type, @id on all resources; namespace collision detection via federation",
+        "w3c": true,
         "prefix": "jsonld"
     },
     "SHACL": {
@@ -13,6 +14,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types",
+        "w3c": true,
         "prefix": "sh"
     },
     "SKOS": {
@@ -21,14 +23,16 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower",
+        "w3c": true,
         "prefix": "skos"
     },
     "EARL": {
         "spec_name": "EARL",
         "url": "https://www.w3.org/TR/EARL10-Schema/",
-        "status": "Implemented",
-        "depth": "full",
-        "coverage": "earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode",
+        "status": "Projection",
+        "depth": "partial",
+        "coverage": "earl:Assertion structure with earl:TestCase and earl:Software assertor; every outcome is earl:untested, so this is a test plan, not test results",
+        "w3c": true,
         "prefix": "earl"
     },
     "OWL-Time": {
@@ -37,6 +41,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "time:Interval from critical path scheduling; time:Instant timestamps on federation context events",
+        "w3c": true,
         "prefix": "time"
     },
     "Dublin Core": {
@@ -45,6 +50,7 @@
         "status": "Implemented",
         "depth": "vocabulary",
         "coverage": "dcterms:title, dcterms:description, dcterms:requires on all resources",
+        "w3c": false,
         "prefix": "dcterms"
     },
     "PROV-O": {
@@ -53,6 +59,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings",
+        "w3c": true,
         "prefix": "prov"
     },
     "schema.org": {
@@ -61,6 +68,7 @@
         "status": "Implemented",
         "depth": "vocabulary",
         "coverage": "schema:additionalType annotations via configurable type mapping",
+        "w3c": false,
         "prefix": "schema"
     },
     "ODRL 2.2": {
@@ -69,6 +77,7 @@
         "status": "Implemented",
         "depth": "partial",
         "coverage": "odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling",
+        "w3c": true,
         "prefix": "odrl"
     },
     "Activity Streams 2.0": {
@@ -77,14 +86,16 @@
         "status": "Implemented",
         "depth": "partial",
         "coverage": "as:OrderedCollection of Create activities from topology layers; no actor model or delivery",
+        "w3c": true,
         "prefix": "as"
     },
     "Verifiable Credentials 2.0": {
         "spec_name": "Verifiable Credentials 2.0",
         "url": "https://www.w3.org/TR/vc-data-model-2.0/",
-        "status": "Implemented",
+        "status": "Projection",
         "depth": "structural",
-        "coverage": "VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope",
+        "coverage": "Unsigned credential shape (v2 context) wrapping a SHACL report; no proof, so not a verifiable credential",
+        "w3c": true,
         "prefix": "cred"
     },
     "W3C Org": {
@@ -93,6 +104,7 @@
         "status": "Implemented",
         "depth": "partial",
         "coverage": "org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role",
+        "w3c": true,
         "prefix": "org"
     },
     "VoID": {
@@ -101,6 +113,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "void:Dataset with class/property partitions, linkset statistics, and vocabulary usage",
+        "w3c": true,
         "prefix": "void"
     },
     "Web Annotation": {
@@ -109,6 +122,7 @@
         "status": "Implemented",
         "depth": "partial",
         "coverage": "oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states",
+        "w3c": true,
         "prefix": "oa"
     },
     "RDFS": {
@@ -117,6 +131,7 @@
         "status": "Implemented",
         "depth": "partial",
         "coverage": "rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning",
+        "w3c": true,
         "prefix": "rdfs"
     },
     "DQV": {
@@ -125,6 +140,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions",
+        "w3c": true,
         "prefix": "dqv"
     },
     "Hydra Core": {
@@ -133,6 +149,7 @@
         "status": "Downstream",
         "depth": "partial",
         "coverage": "hydra:ApiDocumentation in quicue.ca operator dashboard",
+        "w3c": true,
         "prefix": "hydra"
     },
     "DCAT 3": {
@@ -141,6 +158,7 @@
         "status": "Implemented",
         "depth": "full",
         "coverage": "dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured",
+        "w3c": true,
         "prefix": "dcat"
     }
 }

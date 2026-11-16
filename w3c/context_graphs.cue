@@ -68,7 +68,7 @@ context_graphs_report: """
 	## Evidence: Multiple Projections From One Graph
 
 	The same 5-node research publication graph (defined once) produces output in
-	\(evidence.spec_counts.implemented) different W3C specifications. Each projection
+	\(_spec_counts.implemented) different W3C specifications. Each projection
 	selects a different context:
 
 	**Scheduling context** (OWL-Time):

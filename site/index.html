@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>apercue.ca — compile-time W3C linked data</title>
-<meta name="description" content="One typed dependency graph. 17 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
+<meta name="description" content="One typed dependency graph. 13 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
 <meta property="og:title" content="apercue.ca — compile-time W3C linked data">
-<meta property="og:description" content="One typed dependency graph. 17 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
+<meta property="og:description" content="One typed dependency graph. 13 W3C standards at compile time. Zero servers. CUE comprehensions produce standards-compliant output for constrained domains without the traditional semantic web stack.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://apercue.ca">
 <meta name="twitter:card" content="summary">
@@ -543,6 +543,11 @@ code {
   background: var(--accent-dim);
 }
 
+.spec-status.projection {
+  color: var(--warn, #f0c040);
+  background: rgba(240, 192, 64, 0.12);
+}
+
 .spec-status.downstream {
   color: var(--blue);
   background: rgba(91, 156, 246, 0.12);
@@ -687,10 +692,10 @@ code {
 <section class="hero">
   <div class="container">
     <div class="hero-eyebrow">apercue.ca@v0</div>
-    <h1>One typed graph.<br><span class="accent">17 W3C standards.</span><br>Zero servers.</h1>
+    <h1>One typed graph.<br><span class="accent">13 W3C standards.</span><br>Zero servers.</h1>
     <p class="hero-sub">
       One typed CUE value, projected to
-      17 W3C specifications (9 full, 5 partial, 2 vocabulary, 1 structural) as
+      13 W3C specifications (8 full, 5 partial), plus Dublin Core and schema.org, as
       compile-time projections of the same typed dependency graph.
       No triplestore. For large graphs the closure is precomputed by
       <code>tools/toposort.py</code> and CUE projects it.
@@ -701,7 +706,7 @@ code {
       <a href="https://github.com/quicue/apercue" class="btn btn-ghost">GitHub</a>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><strong>17</strong>W3C specs implemented</div>
+      <div class="hero-stat"><strong>13</strong>W3C specs implemented</div>
       <div class="hero-stat"><strong>4</strong>domain examples</div>
       <div class="hero-stat"><strong>0</strong>servers</div>
     </div>
@@ -731,7 +736,7 @@ code {
           <li><span class="step-num">1</span><span class="step-text">Define typed resources in CUE</span></li>
           <li><span class="step-num">2</span><span class="step-text"><code>cue export -e &lt;projection&gt;</code></span></li>
         </ul>
-        <div class="compare-verdict">0 servers. 17 projections.</div>
+        <div class="compare-verdict">0 servers. 13 W3C projections.</div>
       </div>
     </div>
     <div class="code-block reveal" style="margin-top: 28px;">
@@ -766,9 +771,9 @@ code {
       </div>
       <div class="how-step">
         <div class="how-step-num">3</div>
-        <h3>Export 17 projections</h3>
-        <p>JSON-LD, SHACL, SKOS, EARL, OWL-Time, Dublin Core, PROV-O, schema.org, ODRL,
-           Activity Streams, Verifiable Credentials, W3C Org, DCAT. Each is a
+        <h3>Export 13 W3C projections</h3>
+        <p>JSON-LD, SHACL, SKOS, OWL-Time, PROV-O, ODRL, Activity Streams, W3C Org,
+           DCAT and more, plus Dublin Core and schema.org terms. Each is a
            <code>cue export -e</code> expression. No transformation layer.</p>
       </div>
     </div>
@@ -905,9 +910,9 @@ code {
         </tr>
         <tr>
           <td class="spec-name">EARL</td>
-          <td class="spec-pattern">lifecycle.cue</td>
-          <td><span class="spec-depth full">Full</span></td>
-          <td><span class="spec-status impl">Implemented</span></td>
+          <td class="spec-pattern">lifecycle.cue (test plan only: every outcome is earl:untested)</td>
+          <td><span class="spec-depth partial">Partial</span></td>
+          <td><span class="spec-status projection">Projection</span></td>
         </tr>
         <tr>
           <td class="spec-name">OWL-Time</td>
@@ -916,7 +921,7 @@ code {
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
-          <td class="spec-name">Dublin Core</td>
+          <td class="spec-name">Dublin Core (DCMI, not W3C)</td>
           <td class="spec-pattern">vocab/context.cue</td>
           <td><span class="spec-depth vocabulary">Vocabulary</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
@@ -929,7 +934,7 @@ code {
           <td><span class="spec-status impl">Implemented</span></td>
         </tr>
         <tr>
-          <td class="spec-name">schema.org</td>
+          <td class="spec-name">schema.org (not W3C)</td>
           <td class="spec-pattern">schema_alignment.cue</td>
           <td><span class="spec-depth vocabulary">Vocabulary</span></td>
           <td><span class="spec-status impl">Implemented</span></td>
@@ -948,9 +953,9 @@ code {
         </tr>
         <tr>
           <td class="spec-name">Verifiable Credentials 2.0</td>
-          <td class="spec-pattern">credentials.cue</td>
+          <td class="spec-pattern">credentials.cue (unsigned credential shape, no proof)</td>
           <td><span class="spec-depth structural">Structural</span></td>
-          <td><span class="spec-status impl">Implemented</span></td>
+          <td><span class="spec-status projection">Projection</span></td>
         </tr>
         <tr>
           <td class="spec-name">W3C Org</td>

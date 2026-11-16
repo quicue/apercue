@@ -7,10 +7,10 @@
 ## Abstract
 
 A single typed dependency graph, authored once in [CUE](https://cuelang.org),
-is projected into 17 W3C specification outputs,
+is projected into 13 W3C specification outputs,
 including JSON-LD, SHACL, SKOS, OWL-Time, PROV-O and ODRL, with no triplestore.
 For graphs past a few dozen nodes the dependency closure is precomputed by
-`tools/toposort.py` and CUE projects it. An 18th
+`tools/toposort.py` and CUE projects it. An 14th
 (Hydra) is implemented downstream.
 
 This report documents the implementation, provides computed evidence from a live
@@ -505,10 +505,11 @@ Each resource creation is a `Create` activity ordered by topological
 depth. Layer 0 resources (no dependencies) are created first. Dependency
 edges appear as `context` links.
 
-### Validation Credential / VC 2.0 (computed)
+### Validation Credential shape (computed, not counted)
 
-The `#ValidationCredential` pattern wraps the SHACL validation result
-in a W3C Verifiable Credential:
+The `#ValidationCredential` pattern wraps the SHACL validation result in
+the VC 2.0 data model shape. It has no proof, so it is an unsigned
+credential shape, not a verifiable credential:
 
 ```json
 {
@@ -567,7 +568,7 @@ The `#DCATCatalog` pattern projects the graph as a DCAT catalog with one
 Each resource becomes a dataset entry with Dublin Core metadata. The catalog
 is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).
 
-### Test Plan / EARL (computed)
+### Test Plan / EARL (computed, not counted: every outcome is earl:untested)
 
 The `#SmokeTest` pattern produces EARL assertions describing the test plan for
 graph validation:
@@ -773,31 +774,41 @@ its metric, dimension, and the dataset under evaluation.
 
 ### Spec Coverage
 
-17 specifications implemented,
+13 W3C specifications implemented,
 1 downstream (in the infrastructure-specific
 extension). Adding a projection is adding a file, not modifying a framework.
 
-**Implemented** (17):
+**Implemented W3C specifications** (13):
 
 | Specification | CUE Produces |
 |---------------|--------------|
 | JSON-LD 1.1 | @context, @type, @id on all resources; namespace collision detection via federation |
 | SHACL | Produces conformant sh:ValidationReport from compliance/gap analysis + sh:NodeShape generation from graph types |
 | SKOS | skos:ConceptScheme from type vocabularies, lifecycle phases, and hierarchical taxonomies with broader/narrower |
-| EARL | earl:Assertion with earl:TestCase, earl:Software assertor, earl:automatic mode |
 | OWL-Time | time:Interval from critical path scheduling; time:Instant timestamps on federation context events |
-| Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
 | PROV-O | prov:Entity, prov:Activity, prov:Agent with wasDerivedFrom chains; prov:Plan from charter gates with qualifiedAssociation; prov:Generation timestamps on gate completion; prov:Collection event log for federation boundary crossings |
-| schema.org | schema:additionalType annotations via configurable type mapping |
 | ODRL 2.2 | odrl:Set permission/prohibition matrix by resource type; no asset/party/constraint modeling |
 | Activity Streams 2.0 | as:OrderedCollection of Create activities from topology layers; no actor model or delivery |
-| Verifiable Credentials 2.0 | VerifiableCredential structure wrapping SHACL reports; cryptographic proof out of scope |
 | W3C Org | org:Organization with type-based OrganizationalUnits; no org:Membership or org:Role |
 | VoID | void:Dataset with class/property partitions, linkset statistics, and vocabulary usage |
 | Web Annotation | oa:Annotation with TextualBody, SpecificResource targets, and W3C motivations; no selectors or states |
 | RDFS | rdfs:Class, rdfs:subClassOf, rdfs:domain/range from type hierarchy; no OWL restrictions or reasoning |
 | DQV | dqv:QualityMeasurement for completeness, consistency, and accessibility dimensions |
 | DCAT 3 | dcat:Catalog with dcat:Dataset and dcat:theme from @type; dcat:Distribution and dcat:DataService supported when configured |
+
+**Non-W3C vocabularies used** (2):
+
+| Vocabulary | CUE Produces |
+|------------|--------------|
+| Dublin Core | dcterms:title, dcterms:description, dcterms:requires on all resources |
+| schema.org | schema:additionalType annotations via configurable type mapping |
+
+**Emitted but not counted** (2):
+
+| Specification | What is emitted, and why it is not counted |
+|---------------|---------------------------------------------|
+| EARL | earl:Assertion structure with earl:TestCase and earl:Software assertor; every outcome is earl:untested, so this is a test plan, not test results |
+| Verifiable Credentials 2.0 | Unsigned credential shape (v2 context) wrapping a SHACL report; no proof, so not a verifiable credential |
 
 **Downstream** (1):
 

@@ -1,9 +1,11 @@
 {
-    "implemented": 17,
+    "implemented": 13,
+    "vocabularies": 2,
+    "projection": 2,
     "downstream": 1,
-    "total": 18,
-    "full": 9,
+    "total": 14,
+    "full": 8,
     "partial": 5,
-    "vocabulary": 2,
-    "structural": 1
+    "vocabulary": 0,
+    "structural": 0
 }

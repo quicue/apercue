@@ -16,7 +16,19 @@ import (
 // ── Spec table rows (computed from registry) ────────────────────
 
 _spec_rows: [
-	for name, s in vocab.Specs if s.status == "Implemented" {
+	for name, s in vocab.Specs if s.status == "Implemented" && s.w3c {
+		"| \(name) | \(s.coverage) |"
+	},
+]
+
+_vocab_rows: [
+	for name, s in vocab.Specs if s.status == "Implemented" && !s.w3c {
+		"| \(name) | \(s.coverage) |"
+	},
+]
+
+_projection_rows: [
+	for name, s in vocab.Specs if s.status == "Projection" {
 		"| \(name) | \(s.coverage) |"
 	},
 ]
@@ -218,10 +230,11 @@ core_report: """
 	depth. Layer 0 resources (no dependencies) are created first. Dependency
 	edges appear as `context` links.
 
-	### Validation Credential / VC 2.0 (computed)
+	### Validation Credential shape (computed, not counted)
 
-	The `#ValidationCredential` pattern wraps the SHACL validation result
-	in a W3C Verifiable Credential:
+	The `#ValidationCredential` pattern wraps the SHACL validation result in
+	the VC 2.0 data model shape. It has no proof, so it is an unsigned
+	credential shape, not a verifiable credential:
 
 	```json
 	\(_json.verifiable_credential)
@@ -244,7 +257,7 @@ core_report: """
 	Each resource becomes a dataset entry with Dublin Core metadata. The catalog
 	is consumable by any DCAT-aware data portal (CKAN, data.gov, EU Open Data Portal).
 
-	### Test Plan / EARL (computed)
+	### Test Plan / EARL (computed, not counted: every outcome is earl:untested)
 
 	The `#SmokeTest` pattern produces EARL assertions describing the test plan for
 	graph validation:
@@ -311,15 +324,27 @@ core_report: """
 
 	### Spec Coverage
 
-	\(evidence.spec_counts.implemented) specifications implemented,
+	\(evidence.spec_counts.implemented) W3C specifications implemented,
 	\(evidence.spec_counts.downstream) downstream (in the infrastructure-specific
 	extension). Adding a projection is adding a file, not modifying a framework.
 
-	**Implemented** (\(evidence.spec_counts.implemented)):
+	**Implemented W3C specifications** (\(evidence.spec_counts.implemented)):
 
 	| Specification | CUE Produces |
 	|---------------|--------------|
 	\(strings.Join(_spec_rows, "\n"))
+
+	**Non-W3C vocabularies used** (\(evidence.spec_counts.vocabularies)):
+
+	| Vocabulary | CUE Produces |
+	|------------|--------------|
+	\(strings.Join(_vocab_rows, "\n"))
+
+	**Emitted but not counted** (\(evidence.spec_counts.projection)):
+
+	| Specification | What is emitted, and why it is not counted |
+	|---------------|---------------------------------------------|
+	\(strings.Join(_projection_rows, "\n"))
 
 	**Downstream** (\(evidence.spec_counts.downstream)):
 

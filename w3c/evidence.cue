@@ -232,13 +232,7 @@ _quality: patterns.#DataQualityReport & {
 
 // ── Spec counts from registry ───────────────────────────────────
 
-_spec_counts: {
-	_implemented: len([for _, s in vocab.Specs if s.status == "Implemented" {s}])
-	_downstream:  len([for _, s in vocab.Specs if s.status == "Downstream" {s}])
-	implemented:  _implemented
-	downstream:   _downstream
-	total:        _implemented + _downstream
-}
+_spec_counts: vocab.SpecCounts
 
 // ── Evidence export ─────────────────────────────────────────────
 
