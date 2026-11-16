@@ -74,6 +74,18 @@ for href in $(grep -oE 'href="[^"#:]+\.html"' site/w3c/index.html | sed -E 's/hr
     [ -f "site/w3c/$href" ] || fail "site/w3c/index.html links missing file $href"
 done
 
+echo "=== Playground discloses JavaScript computation ==="
+# The label must sit inside the output panel, before the JSON output element.
+if ! python3 - <<'PY'
+import re, sys
+s = open("site/playground.html").read()
+panel = re.search(r'<div class="json-panel">(.*?)id="json-output"', s, re.S)
+sys.exit(0 if panel and 'data-computed-by="javascript"' in panel.group(1) else 1)
+PY
+then
+    fail "site/playground.html: no data-computed-by=\"javascript\" label next to the output"
+fi
+
 echo ""
 if [ "$FAIL" -gt 0 ]; then
     echo "check-claims: $FAIL failure(s)"
