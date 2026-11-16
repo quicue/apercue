@@ -78,6 +78,23 @@ if [ -n "$hits" ]; then
     echo "$hits" | head -10 | sed 's/^/        /'
 fi
 
+echo "=== Page titles use a clear separator ==="
+# The em dash sweep once turned "Page — apercue.ca" into "Page; apercue.ca".
+hits=$(grep -nHE '<title>[^<]*;|(og|twitter):title" content="[^"]*;' site/*.html site/w3c/*.html tools/render-w3c-reports.py || true)
+if [ -n "$hits" ]; then
+    fail "semicolon in a page title"
+    echo "$hits" | sed 's/^/        /'
+fi
+
+echo "=== Linked pages are staged for deploy ==="
+# Every local page the homepage links to, plus 404.html, must be in both
+# staging lists; otherwise Cloudflare Pages serves the homepage instead.
+for page in $( (grep -oE 'href="[a-z0-9-]+\.html"' site/index.html | sed -E 's/href="([^"]+)"/\1/'; echo 404.html) | sort -u); do
+    [ -f "site/$page" ] || { fail "site/index.html links $page, which does not exist"; continue; }
+    grep -q "\"$page\"" build_tool.cue || fail "$page is not in build_tool.cue html_files"
+    grep -qE "for html in .*\b$page\b" tools/build-site.sh || [ "$page" = index.html ] || fail "$page is not staged by tools/build-site.sh"
+done
+
 echo "=== Generated reports match CUE source ==="
 if command -v cue &>/dev/null; then
     for pair in core_report:core-report kg_construct_report:kg-construct context_graphs_report:context-graphs; do
