@@ -118,6 +118,9 @@ selects a different context:
     ],
     "prov:wasGeneratedBy": {
         "@id": "urn:activity:graph-construction"
+    },
+    "prov:qualifiedGeneration": {
+        "@id": "urn:generation:analysis-code"
     }
 }
 ```

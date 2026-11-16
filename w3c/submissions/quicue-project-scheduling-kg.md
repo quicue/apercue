@@ -8,7 +8,8 @@ test planning — as CUE type constraints that produce a knowledge graph.
 
 A `#Charter` declares required resources, types, and completion gates. A
 `#GapAnalysis` pattern unifies the charter against a `#Graph` and computes what
-is missing. `cue vet` fails if the project is incomplete. The result is a
+is missing. An incomplete project yields `complete: false` and a SHACL report
+with `sh:conforms: false`; `cue vet` still passes. The result is a
 scheduling KG where project management concerns (milestones, dependencies,
 slack, critical path) are W3C vocabulary terms, not proprietary fields.
 

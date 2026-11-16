@@ -2,8 +2,9 @@
 
 apercue is a compile-time semantic web framework. Resources with typed
 dependencies form a graph; CUE constraints enforce structural invariants;
-projections emit standard W3C vocabularies. No runtime engine, no triplestore,
-no SPARQL — the constraint lattice IS the query engine.
+projections emit standard W3C vocabularies. No triplestore and no server.
+For small graphs CUE computes the dependency closure itself; for larger ones the
+closure is precomputed by `tools/toposort.py` and CUE projects it.
 
 This document covers design principles, data flow, and the pattern catalog.
 For usage, see [README.md](README.md). For individual decisions, see

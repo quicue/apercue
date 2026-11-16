@@ -67,6 +67,9 @@ jobs:
       - name: Validate documentation counts
         run: bash tools/validate-counts.sh
 
+      - name: Check public claims and W3C status wording
+        run: bash tools/check-claims.sh
+
       - name: No hardcoded absolute paths in markdown
         run: |
           # Catch /home/*, /Users/*, /tmp/* paths that sneak into docs.

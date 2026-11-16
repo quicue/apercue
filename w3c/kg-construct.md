@@ -10,8 +10,9 @@
 [CUE](https://cuelang.org) — a constraint language with lattice-based type
 semantics — to construct, validate, and serialize knowledge graphs entirely at
 compile time. Graph building, SHACL validation, and JSON-LD output happen in a
-single `cue export` invocation. No mapping language, no runtime pipeline, no
-triplestore.
+single `cue export` invocation, with no mapping language and no triplestore.
+For graphs past a few dozen nodes the dependency closure is precomputed by
+`tools/toposort.py` and CUE projects it.
 
 This submission demonstrates CUE as a KG construction language and explains how
 it relates to the KG-Construct CG's work on declarative KG construction.
@@ -87,6 +88,9 @@ The `#ProvenanceTrace` pattern maps dependency edges to PROV-O:
     ],
     "prov:wasGeneratedBy": {
         "@id": "urn:activity:graph-construction"
+    },
+    "prov:qualifiedGeneration": {
+        "@id": "urn:generation:analysis-code"
     }
 }
 ```

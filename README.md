@@ -2,10 +2,10 @@
 
 Compile-time W3C linked data from typed dependency graphs.
 
-CUE comprehensions precompute all queries. CUE unification enforces all shapes.
-Every W3C artifact --- JSON-LD, SHACL, SKOS, OWL-Time --- is a zero-cost
-projection of the same typed graph. No triplestore. No SPARQL. No runtime validators.
-Just `cue export`.
+One typed CUE value, many W3C projections. JSON-LD, SHACL, SKOS, OWL-Time and
+the rest are all derived from the same graph, with no second copy of the schema.
+For graphs past a few dozen nodes the dependency closure is precomputed by `tools/toposort.py` and CUE projects it.
+No triplestore or server is needed.
 
 **Live:** [apercue.ca](https://apercue.ca/projections.html) | [Recipe Demo](https://apercue.ca/recipe.html) | [GitHub](https://github.com/quicue/apercue)
 
@@ -223,12 +223,14 @@ Data → RDF Triplestore → SPARQL Queries → SHACL Validator → JSON-LD Seri
 **apercue.ca:**
 ```
 Data → cue export -e <projection>
-1 binary, 0 servers, compile-time guarantees
+cue (plus tools/toposort.py for large graphs), 0 servers
 ```
 
-CUE's constraint lattice subsumes both graph query (SPARQL) and shape validation
-(SHACL) into a single evaluation model. If `cue vet` passes, the data is valid
-and every W3C projection will conform.
+There are two failure regimes. Structural errors in the input (a dependency on
+an undeclared resource, an invalid identifier) make `cue vet` fail. Compliance
+rule violations and charter gaps do not: they appear in the SHACL report as
+`sh:conforms: false` while `cue vet` still passes. A passing `cue vet` does not
+mean every projection conforms.
 
 ## Documentation
 
@@ -241,10 +243,15 @@ and every W3C projection will conform.
 
 ## W3C Community Group Engagement
 
-The graph output is valid JSON-LD conforming to W3C specifications. Use cases have been submitted to two W3C Community Groups:
+Two W3C Community Groups have a public artifact from this project:
 
-- **[KG-Construct](https://www.w3.org/community/kg-construct/)** — CUE as a declarative KG construction language ([use cases — merged](https://github.com/kg-construct/use-cases/pull/21))
-- **[Context Graphs](https://www.w3.org/community/context-graph/)** — Multi-context resource identity via struct-as-set types (Standards committee)
+- **[KG-Construct](https://www.w3.org/community/kg-construct/)**: use cases contributed to the KG-Construct CG ([PR #21](https://github.com/kg-construct/use-cases/pull/21), merged 2026-02-27).
+- **[Dataspaces](https://www.w3.org/community/dataspaces/)**: challenge filed as [w3c-cg/dataspaces#17](https://github.com/w3c-cg/dataspaces/issues/17) (open).
+
+Drafted, with no public artifact:
+
+- **[Context Graphs](https://www.w3.org/community/context-graph/)**: use case submitted to the chair and mailing list, 2026-03. It does not appear in the public list archive.
+- **PM-KR** and **UORA**: drafted, not submitted.
 
 Submission-ready files: [w3c/submissions/](w3c/submissions/)
 
