@@ -41,7 +41,7 @@ import "apercue.ca/vocab"
 	}
 
 	// The associated graph (for resource metadata)
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Optional gap analysis results (to mark completion status)
 	GateStatus?: {[string]: {satisfied: bool, ...}}

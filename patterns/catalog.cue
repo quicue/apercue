@@ -33,7 +33,7 @@ import "apercue.ca/vocab"
 // Optional: Distributions specify how each dataset can be accessed.
 // Optional: DataService describes the export API.
 #DCATCatalog: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Optional catalog metadata
 	Title?:       string

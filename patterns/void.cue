@@ -23,7 +23,7 @@ import "apercue.ca/vocab"
 // entries for each @type, void:propertyPartition for dependency edges,
 // and void:vocabulary for each W3C namespace in use.
 #VoIDDataset: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Dataset metadata
 	DatasetURI: string | *"urn:dataset:default"

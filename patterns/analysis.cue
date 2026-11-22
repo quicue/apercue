@@ -97,7 +97,7 @@ import (
 //   // cc.components — {canonical_label: {member: true, ...}, ...}
 //
 #ConnectedComponents: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Directed reach: self ∪ ancestors ∪ dependents
 	_reach: {
@@ -172,7 +172,7 @@ import (
 //   sub: #Subgraph & {Graph: g, Target: "web-app", Radius: 2, Mode: "both"}
 //
 #Subgraph: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Selection criteria (provide at least one)
 	Roots?: {[string]: true}
@@ -349,7 +349,7 @@ import (
 //   // cpm.slack — per-resource float time
 //
 #CriticalPath: {
-	Graph: #AnalyzableGraph
+	Graph: _
 	Weights?: [string]: number
 	UnitType: string | *"time:unitDay" // OWL-Time unit (e.g. time:unitDay, time:unitHour)
 
@@ -509,7 +509,7 @@ import (
 //   }
 //
 #CriticalPathPrecomputed: {
-	Graph:    #AnalyzableGraph
+	Graph: _
 	UnitType: string | *"time:unitDay"
 
 	Precomputed: {

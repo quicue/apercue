@@ -52,7 +52,7 @@ import "apercue.ca/vocab"
 // Each annotation validates that its target exists in the graph (CUE
 // constraint: if the target resource doesn't exist, eval fails).
 #AnnotationCollection: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Annotations to project
 	Annotations: [...#ResourceAnnotation]

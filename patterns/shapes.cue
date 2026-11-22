@@ -37,7 +37,7 @@ import "apercue.ca/vocab"
 //   // shape_export.shapes — list of individual shapes
 //
 #SHACLShapes: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Shape namespace — prefix for shape IRIs
 	Namespace: string | *"urn:shapes:"
@@ -196,7 +196,7 @@ import "apercue.ca/vocab"
 // Resource IRIs match the ones every other projection uses
 // ("urn:resource:" + name), so SHACL shapes and reports line up with it.
 #DataGraph: {
-	Graph: #AnalyzableGraph
+	Graph: _
 	jsonld: {
 		"@context": vocab.context["@context"]
 		"@graph": [

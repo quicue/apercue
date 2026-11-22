@@ -25,7 +25,7 @@ import "apercue.ca/vocab"
 //   - Consistency: compliance rules (structural invariants)
 //   - Accessibility: graph connectivity (roots, leaves, components)
 #DataQualityReport: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Dataset identifier for the quality measurements
 	DatasetURI: string | *"urn:dataset:default"

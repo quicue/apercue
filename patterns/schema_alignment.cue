@@ -17,7 +17,7 @@ import "apercue.ca/vocab"
 // Provide a TypeMap of {graphType: "schema:SchemaOrgType"} to control the mapping.
 // Resources without a mapped type get schema:Thing as fallback.
 #SchemaOrgAlignment: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// User-provided mapping: graph @type key → schema.org type IRI
 	TypeMap: {[string]: string}
