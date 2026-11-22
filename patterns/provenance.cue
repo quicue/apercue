@@ -17,7 +17,7 @@ import "apercue.ca/vocab"
 // Each depends_on edge → prov:wasDerivedFrom.
 // The graph → prov:Activity that generated all entities.
 #ProvenanceTrace: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Optional: who/what constructed the graph
 	Agent?: string

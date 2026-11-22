@@ -285,7 +285,7 @@ import (
 //   // compliance.results[0].violations — list of offending resources
 //
 #ComplianceCheck: {
-	Graph: #AnalyzableGraph
+	Graph: _
 	Rules: [...#ComplianceRule]
 
 	// Enforce: opt in to failing the build. When true, any failed rule with

@@ -41,7 +41,7 @@ import (
 	Namespace: string & !="urn:resource:"
 
 	// The underlying graph (already computed)
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Context with domain-specific @base.
 	// Cannot unify with vocab.context (its @base is concrete "urn:resource:"),

@@ -42,7 +42,7 @@ import (
 //   }
 //
 #SKOSTaxonomy: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Optional type hierarchy
 	Hierarchy?: #TypeHierarchy

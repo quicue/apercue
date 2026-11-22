@@ -18,7 +18,7 @@ import "apercue.ca/vocab"
 // Resources at layer 0 are created first; each subsequent layer depends on
 // the previous one being complete.
 #ActivityStream: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Optional: the actor performing the activities
 	Actor?: string

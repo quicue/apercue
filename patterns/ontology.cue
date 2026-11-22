@@ -37,7 +37,7 @@ import (
 // - Class hierarchy: from optional Hierarchy input (parent → children list)
 // - Individuals: optionally include resources as owl:NamedIndividual
 #OWLOntology: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Ontology metadata
 	Spec: #OntologySpec | *{URI: "https://apercue.ca/ontology#"}

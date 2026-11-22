@@ -20,13 +20,21 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 
 // #AnalyzableGraph — Minimal interface for patterns that analyze a graph.
 //
-// Both #Graph and #GraphLite satisfy this. Use it as the Graph type
-// in analysis patterns (CPM, compliance, etc.) to avoid forcing the
+// Both #Graph and #GraphLite satisfy this. It describes what analysis
+// patterns (CPM, compliance, etc.) read from Graph, without the
 // expensive _path computation that #Graph requires.
 //
 // The key insight: once you have the transitive closure (precomputed
 // or computed), all projections are just cheap struct comprehensions
 // over the same data. One graph, many lenses.
+//
+// Patterns declare `Graph: _` rather than `Graph: #AnalyzableGraph`. Any
+// constraint on Graph, even {...}, stops CUE from sharing the already
+// computed graph and re-evaluates it once per pattern instance. With `_`,
+// recipe-ingredients exports in 0.21 s instead of 0.72 s, and quicue.ca's
+// datacenter example drops from 3.1 GB to 2.0 GB peak, with identical
+// output. A value that is not a graph still fails on its first
+// Graph.resources lookup.
 #AnalyzableGraph: {
 	resources: [_#SafeID]: {
 		name: _#SafeID
@@ -331,7 +339,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // impact.affected = {"web-app": true, "api": true, ...}
 //
 #ImpactQuery: {
-	Graph:  #AnalyzableGraph
+	Graph: _
 	Target: string
 
 	affected: {
@@ -350,7 +358,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // chain.path = ["frontend", "web-app", "db", "storage"]
 //
 #DependencyChain: {
-	Graph:  #Graph
+	Graph: _
 	Target: string
 
 	path:      Graph.resources[Target]._path
@@ -365,7 +373,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // byType.groups.Database = ["postgres": true, "mongo": true]
 //
 #GroupByType: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Build groups using struct accumulation (avoids empty entries from nested for)
 	groups: {
@@ -390,7 +398,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // crit.ranked = [{name: "auth", dependents: 8}, ...]
 //
 #CriticalityRank: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	ranked: [
 		for rname, _ in Graph.resources {
@@ -413,7 +421,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // risk.ranked = [{name: "auth", score: 150, direct: 5, transitive: 29}, ...]
 //
 #RiskScore: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// For each resource, compute risk score using O(1) dependents lookup
 	// direct = number of immediate dependents (from Graph.dependents)
@@ -440,7 +448,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // deps.dependents = {api: true, web: true} (only direct, not transitive)
 //
 #ImmediateDependents: {
-	Graph:  #AnalyzableGraph
+	Graph: _
 	Target: string
 
 	dependents: {
@@ -459,7 +467,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // metrics.total_resources, metrics.max_depth, etc.
 //
 #GraphMetrics: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	total_resources: len(Graph.resources)
 	root_count:      len(Graph.roots)
@@ -485,7 +493,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // export.resources = [{name: "auth", depends_on: {"db": true}, ...}, ...]
 //
 #ExportGraph: {
-	Graph: #Graph
+	Graph: _
 
 	// Export resources as flat list with string references (no CUE refs)
 	resources: [
@@ -575,7 +583,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // Export: cue export -e viz.data --out json
 //
 #VizData: {
-	Graph: #Graph
+	Graph: _
 	Resources: [string]: {...}
 
 	// Compute helper patterns
@@ -696,7 +704,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // health.propagated.web = "degraded" (depends on auth)
 //
 #HealthStatus: {
-	Graph: #AnalyzableGraph
+	Graph: _
 	Status: [string]: "healthy" | "degraded" | "down"
 
 	// Resources explicitly marked as down
@@ -739,7 +747,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // blast.safe_peers = {logging: true}  // same layer, not affected
 //
 #BlastRadius: {
-	Graph:  #AnalyzableGraph
+	Graph: _
 	Target: string
 
 	// All resources that depend on target (transitively)
@@ -791,7 +799,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   }
 //
 #ZoneAwareBlastRadius: {
-	Graph:  #AnalyzableGraph
+	Graph: _
 	Target: string
 	Zones: [string]: string // resource name → zone name
 
@@ -843,7 +851,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   }
 //
 #CompoundRiskAnalysis: {
-	Graph: #AnalyzableGraph
+	Graph: _
 	Targets: [...string]
 
 	// Compute blast radius per target
@@ -902,7 +910,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // ]
 //
 #DeploymentPlan: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	_metrics: #GraphMetrics & {"Graph": Graph}
 	_maxDepth: _metrics.max_depth
@@ -941,7 +949,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // rollback.sequence = ["web", "api", "proxy"]  // layer 2+ in reverse
 //
 #RollbackPlan: {
-	Graph:    #AnalyzableGraph
+	Graph: _
 	FailedAt: int // Layer number where failure occurred
 
 	_metrics: #GraphMetrics & {"Graph": Graph}
@@ -984,7 +992,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   // spof.risks = [{name: "auth", dependents: 5, type: "AuthService"}, ...]
 //
 #SinglePointsOfFailure: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	_crit: #CriticalityRank & {"Graph": Graph}
 	_byType: #GroupByType & {"Graph": Graph}
@@ -1035,7 +1043,7 @@ _#SafeLabel: =~"^[a-zA-Z][a-zA-Z0-9_-]*$"
 //   }
 //
 #SPOFWithRedundancy: {
-	Graph: #AnalyzableGraph
+	Graph: _
 	// Overlap threshold as percentage (0-100).
 	// 50 = resource is redundant if peer shares >=50% of its dependents.
 	OverlapThreshold: *50 | int

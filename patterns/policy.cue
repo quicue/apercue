@@ -26,7 +26,7 @@ import "apercue.ca/vocab"
 // Declare permissions and prohibitions by resource type or name.
 // The projection maps each rule to the matching resources in the graph.
 #ODRLPolicy: {
-	Graph: #AnalyzableGraph
+	Graph: _
 
 	// Policy metadata
 	PolicyID: string | *"urn:policy:graph-policy"
